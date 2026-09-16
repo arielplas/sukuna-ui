@@ -1,0 +1,137 @@
+# Component: Button
+
+> Template note: every `docs/component-<name>.md` follows these exact sections.
+
+## 1. Purpose
+
+Triggers an action. Crimson is reserved for the one primary action on a surface; everything else is quiet.
+
+## 2. Files
+
+```
+src/components/button/
+├── button.styles.tsx   # tv() variant map → Tailwind utilities. Pure. Server-safe.
+├── button.logic.tsx    # 'use client' — loading state, forwardRef, a11y wiring.
+├── button.test.tsx
+├── button.stories.tsx
+└── index.tsx           # export { Button } from './button.logic'; export type { ButtonProps }
+```
+
+## 3. API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
+  variant?: 'primary' | 'secondary' | 'ghost'   // default 'primary'
+  size?: 'sm' | 'md' | 'lg'                                            // default 'md'
+  loading?: boolean        // shows spinner, sets aria-busy, blocks clicks; keeps width
+  fullWidth?: boolean
+  leadingIcon?: ReactNode
+  trailingIcon?: ReactNode
+}
+```
+
+Deliberately **not** in v1: `as` / `asChild` polymorphism (a button that navigates is a `Link`; solve later), `color` prop (variants own color), `href`, a `premium` variant (premium is a surface treatment, not a button), a `danger` variant (Sukuna has one red; destructive actions are out of scope for v1).
+
+## 4. Variants → tokens
+
+| Variant | Background | Text | Border | Hover |
+|---|---|---|---|---|
+| primary | `--sk-gradient-accent` | `--sk-text` | none | brighten + `--sk-accent-glow` shadow |
+| secondary | `--sk-surface-2` | `--sk-text` | `--sk-line` | bg `--sk-well` |
+| ghost | transparent | `--sk-text-dim` | none | text `--sk-text`, bg `--sk-line-soft` |
+
+| Size | Height | Padding-x | Font | Radius |
+|---|---|---|---|---|
+| sm | 32px | `--sk-space-3` | `--sk-text-sm` | `--sk-radius-sm` |
+| md | 40px | `--sk-space-5` | `--sk-text-md` | `--sk-radius-md` |
+| lg | 48px | `--sk-space-6` | `--sk-text-lg` | `--sk-radius-lg` |
+
+Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
+
+## 5. States
+
+| State | Behavior |
+|---|---|
+| default | as above |
+| hover | per table; `--sk-duration-fast` transition |
+| focus-visible | 2px ring `--sk-accent-glow`, offset 2px. Never remove outline without replacing it. |
+| active | `transform: scale(.98)` |
+| disabled | `opacity: .45`, `cursor: not-allowed`, `pointer-events` NOT removed (tooltips must still work) |
+| loading | spinner replaces `leadingIcon`, label stays (visually dimmed) to preserve width, `aria-busy="true"`, `disabled` |
+
+## 6. Logic (`button.logic.tsx`)
+
+- `'use client'` (has `loading` handling and event guard).
+- `forwardRef<HTMLButtonElement, ButtonProps>`.
+- Default `type="button"` (native default is `submit`, which surprises people inside forms).
+- If `loading`, set `disabled` and `aria-busy`; swallow `onClick`.
+- Class name: `buttonStyles({ variant, size, fullWidth, className })` — `tv()` runs `tailwind-merge` internally so a consumer `className` overrides ours.
+- No `useEffect`, no DOM access.
+
+## 7. Styles (`button.styles.tsx`)
+
+```ts
+import { tv, type VariantProps } from '../../utils/tv'
+
+export const buttonStyles = tv({
+  base: [
+    'inline-flex items-center justify-center gap-2 select-none',
+    'font-display font-bold tracking-tight',
+    'transition-[background-color,box-shadow,transform] duration-fast ease-sukuna',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+    'active:scale-[.98]',
+    'disabled:opacity-45 disabled:cursor-not-allowed',
+    'aria-busy:cursor-progress',
+  ],
+  variants: {
+    variant: {
+      primary:   'bg-gradient-accent text-text hover:brightness-110 hover:shadow-[0_0_22px_4px_var(--sk-accent-glow)]',
+      secondary: 'bg-surface-2 text-text border border-line hover:bg-well',
+      ghost:     'bg-transparent text-text-dim hover:text-text hover:bg-line-soft',
+    },
+    size: {
+      sm: 'h-8 px-3 text-sm rounded-sm',
+      md: 'h-10 px-5 text-md rounded-md',
+      lg: 'h-12 px-6 text-lg rounded-lg',
+    },
+    fullWidth: { true: 'w-full' },
+  },
+  defaultVariants: { variant: 'primary', size: 'md' },
+})
+export type ButtonStyleProps = VariantProps<typeof buttonStyles>
+```
+
+All color/radius/duration names above resolve through `@theme` in `src/styles/theme.css`; `bg-gradient-accent` is a `@utility` defined there.
+
+## 8. Accessibility checklist
+
+- [ ] Native `<button>`; never a `div` with `role="button"`.
+- [ ] Icon-only usage requires `aria-label` (enforce via TS: if no children, `aria-label` becomes required — overload type).
+- [ ] Focus ring visible in both themes at ≥ 3:1 contrast against surface.
+- [ ] Text contrast ≥ 4.5:1 for all variants in both themes.
+- [ ] `aria-busy` while loading; spinner has `aria-hidden`.
+- [ ] Space and Enter activate (native).
+
+## 9. Tests
+
+Harness and full example in `docs/testing.md`. Required cases:
+
+- Renders each variant × size without throwing (`renderToString`, server).
+- `loading` blocks `onClick` and sets `aria-busy`.
+- `disabled` blocks `onClick`.
+- Forwards `ref` to the `<button>` element.
+- `type` defaults to `button`, can be overridden to `submit`.
+- Consumer `className` is appended last.
+- axe: zero violations for every story.
+
+## 10. Stories
+
+`Playground` (controls), `Variants`, `Sizes`, `WithIcons`, `Loading`, `Disabled`, `FullWidth`, `IconOnly`. All rendered under both `data-theme` values via the global toolbar.
+
+## 11. Decisions
+
+- `premium` variant: **no** (owner, 2026-09-16). Premium is a surface treatment.
+- `danger` variant: **dropped from v1** (owner, 2026-09-16).
+- `lg` at 48px: matches the "Start 7-day free trial" CTA; confirmed by the above.
