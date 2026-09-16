@@ -21,7 +21,7 @@ await page.goto(url, { waitUntil: 'networkidle' })
 // Give React a beat to hydrate and surface any mismatch.
 await page.waitForTimeout(1000)
 // Sanity: the SSR'd heading is present.
-await page.getByRole('heading', { name: /sukuna\/ui in next\.js/i }).waitFor({ timeout: 5000 })
+await page.getByRole('heading', { name: /sukuna-ui in next\.js/i }).waitFor({ timeout: 5000 })
 
 await browser.close()
 
