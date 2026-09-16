@@ -1,0 +1,16 @@
+/*
+ * Minimal reset — intentionally NOT global. Scoped to a Sukuna theme root
+ * (`[data-theme]`) and written with :where() so it carries zero specificity and
+ * never fights a consumer's own styles. The Tailwind path gets Preflight from the
+ * consumer's build; this exists mainly for the precompiled fallback CSS.
+ */
+
+[data-theme] :where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+[data-theme] :where(button, input, select, textarea) {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}

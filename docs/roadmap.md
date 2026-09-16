@@ -4,8 +4,8 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phase 0 (Repo bootstrap) complete.
-Current phase: **Phase 1 — Tokens** (next). Phase 0 done; 2–9 pending.
+Last updated: 2026-09-16 — Phase 0 done; Phase 1 token pipeline built (Storybook swatch page pending Phase 2).
+Current phase: **Phase 1 — Tokens** (in progress). Phase 0 done; 2–9 pending.
 Current version: none published. Target for first publish: `0.1.0`.
 
 ---
@@ -15,7 +15,7 @@ Current version: none published. Target for first publish: `0.1.0`.
 | # | Phase | Status | Gate | Evidence (link/commit) |
 |---|---|---|---|---|
 | 0 | Repo bootstrap | [x] | `bun run build` + `check:pkg` pass on empty entry; `CLAUDE.md`, PR template exist | local: `build`→ESM/CJS/d.ts/d.cts; `check:pkg` (publint --strict + attw) exit 0; `check` (biome+tsc) exit 0 |
-| 1 | Tokens | [ ] | `tokens:build` deterministic; Tokens story shows both themes | |
+| 1 | Tokens | [~] | `tokens:build` deterministic; Tokens story shows both themes | `tokens:build` byte-identical on re-run ✓; `src/tokens.ts` → `src/styles/tokens.css` (+ reset.css, index.css). **Tokens story deferred to Phase 2** (needs Storybook). Light shadow proposed — Q12 |
 | 2 | Storybook + test harness | [ ] | Storybook opens with theme toolbar; `bun test` runs; 90% threshold proven to fail | |
 | 3 | Styling primitives | [ ] | `theme.css`, `cn`, `tv` wrappers; `docs/styling.md`; `css:build` emits fallback CSS | |
 | 4 | Static components | [ ] | Text, Badge, Card all `[x]` in section B | |
@@ -122,3 +122,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 
 - 2026-09-16 · File created during design; Button doc approved · (design session)
 - 2026-09-16 · Phase 0 bootstrap: package.json (@sukuna/ui, exports, peer react>=18), tsconfig strict, Biome, tsup (esm/cjs/dts + preserveDirectives), Changesets, CLAUDE.md/AGENTS.md, PR template; build + check:pkg green · (bootstrap commit)
+- 2026-09-16 · Phase 1 tokens: src/tokens.ts (typed source of truth) → scripts/build-tokens.ts → src/styles/tokens.css (deterministic), + reset.css, index.css; tokens:build script. Light shadow proposed pending Q12. Storybook Tokens page deferred to Phase 2 · (tokens commit)

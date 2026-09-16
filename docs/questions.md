@@ -119,6 +119,21 @@ Monorepo pays off when someone wants tokens without React, or icons get heavy. F
 
 ---
 
+## Q12. (Agent → owner) Light-mode `--sk-shadow-card` value?
+
+**Context.** `docs/tokens.md` gives the dark card shadow exactly
+(`0 30px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06)`) but describes light only
+as "softer" — no value. Phase 1 needs a concrete light value.
+
+**Proposed (in use, pending approval).** `0 20px 40px -24px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.06)`
+— same geometry, shallower spread, a dark hairline instead of a white one. Implemented in
+`src/tokens.ts` (`shadows.card.light`) and generated into `src/styles/tokens.css`; a
+`// see Q12` marker points here. Tune or replace on review; changing it pre-1.0 is a patch.
+
+**Status:** waiting on owner.
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |
@@ -142,4 +157,6 @@ Monorepo pays off when someone wants tokens without React, or icons get heavy. F
 
 ## Questions still waiting on the owner
 
-None.
+| # | Question | Status |
+|---|---|---|
+| Q12 | Light-mode `--sk-shadow-card` value — approve the proposed softer shadow or supply one? | Proposed value in use; awaiting approval. Non-blocking (patch to change pre-1.0). |

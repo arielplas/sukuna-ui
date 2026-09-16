@@ -6,7 +6,14 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!dist", "!coverage", "!storybook-static", "!.changeset"]
+    "includes": [
+      "**",
+      "!dist",
+      "!coverage",
+      "!storybook-static",
+      "!.changeset",
+      "!src/styles/tokens.css"
+    ]
   },
   "formatter": {
     "enabled": true,

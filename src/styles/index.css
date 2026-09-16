@@ -1,0 +1,10 @@
+/*
+ * Aggregate stylesheet: raw tokens + the minimal reset.
+ *
+ * Components are styled with Tailwind utilities mapped to these `--sk-*` tokens
+ * (see docs/plan-agentic.md §1), so there are no per-component CSS files to append.
+ * Phase 3 adds `theme.css` (the `@theme` mapping) on top of these tokens.
+ */
+
+@import "./tokens.css";
+@import "./reset.css";
