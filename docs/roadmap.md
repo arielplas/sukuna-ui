@@ -61,7 +61,7 @@ owner's visual pass._
 
 | Component | Doc | Styles | Logic | Index | Tests | Stories | Browser | Export | ≥90% | Review |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Button | [x] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
+| Button | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
 | Input | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
 | Checkbox | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
 | Switch | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
@@ -132,3 +132,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 4 Text: docs/component-text.md + styles/logic/index/test/stories, exported; 100% cov, axe both themes. Fixed happy-dom preload ordering (D12) + added bun:test matcher types · (text commit)
 - 2026-09-16 · Phase 4 Badge: docs/component-badge.md + full set, exported; tones/sizes/dot; 100% cov, axe both themes · (badge commit)
 - 2026-09-16 · Phase 4 Card + gate: docs/component-card.md + full set, exported; elevation/padding/radius; 100% cov, axe both themes. Phase 4 gate closed (Text+Badge+Card). Static APIs logged D13 · (card commit)
+- 2026-09-16 · Phase 5 Button: implemented per approved doc ('use client', loading/spinner, TS-enforced icon-only label); 100% cov, 12 tests incl keyboard. Build reworked to per-file output + fix-directives so 'use client' is preserved for RSC (D14) · (button commit)

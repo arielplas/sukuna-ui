@@ -30,7 +30,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "bun run tokens:build && tsup && bun run css:build",
+    "build": "bun run tokens:build && tsup && bun run scripts/fix-directives.ts && bun run css:build",
     "tokens:build": "bun run scripts/build-tokens.ts",
     "css:build": "bun run scripts/build-css.ts",
     "typecheck": "tsc --noEmit",

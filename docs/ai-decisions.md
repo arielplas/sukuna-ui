@@ -9,6 +9,23 @@ agent's own calls. Newest first.
 
 ---
 
+## D14 — Build emits per-file output (`bundle: false`) + `fix-directives` for `'use client'`
+
+- **Decision:** tsup runs with `bundle: false`, transpiling each `src/` file to its own `dist/`
+  output (mirroring structure), then `scripts/fix-directives.ts` re-adds `'use client'`/`'use server'`
+  banners to the exact outputs whose source declared one. `build` = tokens → tsup → fix-directives → css.
+- **Why:** RSC support requires each client component's `'use client'` to sit atop ITS OWN output
+  file. Bundling everything into one `index.js` (the original single-entry config) merged client +
+  server code and dropped the directive, which would force every consumer client-side and break RSC.
+  `esbuild-plugin-preserve-directives` did not preserve directives in this tsup/esbuild version
+  (verified: dropped in both bundled and unbundled modes), so it was removed. Per-file output also
+  gives natural tree-shaking (Phase 7). esbuild keeps the directive in ESM output on its own; the
+  script covers the CJS output and fails loudly if a client source produces no output.
+- **Trade-off:** `dist/` has many small files and internal relative imports are **extensionless**.
+  `check:pkg` (publint + attw, all resolution modes) passes, and the target consumers are bundlers
+  (Vite/Next/Remix) that resolve extensionless fine. Revisit if native-Node-ESM consumers appear.
+- **Reverse:** Return to a bundled single entry only if RSC support is dropped.
+
 ## D13 — Static component APIs (Text, Badge, Card) designed by the agent
 
 The plan only named these three as "static"; the agent designed each API (self-approved per D7).
