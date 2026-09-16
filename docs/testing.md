@@ -39,8 +39,12 @@ coverage = true
 coverageReporter = ["text", "lcov"]
 coverageDir = "coverage"
 coverageSkipTestFiles = true
-# Fail the run below 90% on every metric. Not a target, a floor.
-coverageThreshold = { line = 0.9, function = 0.9, statement = 0.9 }
+# Fail the run below 90%. Not a target, a floor.
+# NOTE: the per-metric object form `{ line = 0.9, function = 0.9, statement = 0.9 }` is
+# SILENTLY IGNORED by Bun 1.3.12 (parses, never fails). The scalar form IS enforced and
+# checks every metric Bun tracks (functions + lines; "statement" folds into lines), so a
+# file below 90% on either fails. Verified with a probe. Revisit if Bun fixes the object form.
+coverageThreshold = 0.9
 # Files that carry no logic worth measuring
 coveragePathIgnorePatterns = [
   "src/**/*.stories.tsx",
@@ -62,7 +66,9 @@ import { cleanup } from '@testing-library/react'
 
 GlobalRegistrator.register()
 ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
-expect.extend({ ...jestDom, toHaveNoViolations })
+// jest-axe exports `toHaveNoViolations` as `{ toHaveNoViolations: fn }` — spread it,
+// don't nest it, or expect.extend rejects it as "not a valid matcher".
+expect.extend({ ...jestDom, ...toHaveNoViolations })
 afterEach(cleanup)
 ```
 
@@ -114,7 +120,7 @@ Scripts:
 
 ## Coverage policy
 
-- **Floor: 90% lines, functions, and statements**, enforced by `coverageThreshold` in `bunfig.toml`. `bun test` exits non-zero below it, locally and in CI.
+- **Floor: 90% lines and functions**, enforced by `coverageThreshold = 0.9` (scalar) in `bunfig.toml`. `bun test` exits non-zero below it, locally and in CI. Bun tracks functions + lines (statements fold into lines). **Gotcha:** the per-metric object form is silently ignored by Bun 1.3.12 — use the scalar form, which was verified to fail on either metric.
 - Measured on `src/components/**/*.logic.tsx`, `src/components/**/*.styles.tsx`, `src/hooks/**`, `src/utils/**`. Stories, barrel `index` files, the token table, and test helpers are excluded because they contain no branches worth measuring; excluding them keeps the number honest instead of inflating it.
 - Per-component rule: a new component may not merge below 90% on its own files, regardless of the repo total. Check with `bun test src/components/<name> --coverage`.
 - Coverage counts the unit suite only (`bun test src`). The browser suite runs against a built bundle and is not instrumented. Branches that only a real browser exercises must still be reachable from a unit test where possible (e.g. call the hook directly with `renderHook`, or drive the logic with a fake portal target).
