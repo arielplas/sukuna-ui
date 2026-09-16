@@ -4,8 +4,8 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phases 0–6 done (all 10 components ship). Next: Phase 7 (tree-shaking + size).
-Current phase: **Phase 7 — Tree-shaking + size** (next). Phases 0–6 done; 8–9 pending.
+Last updated: 2026-09-16 — Phases 0–7 done. Next: Phase 8 (consumer matrix).
+Current phase: **Phase 8 — Consumer matrix** (next). Phases 0–7 done; 9 pending.
 Current version: none published. Target for first publish: `0.1.0`.
 
 ---
@@ -21,7 +21,7 @@ Current version: none published. Target for first publish: `0.1.0`.
 | 4 | Static components | [x] | Text, Badge, Card all `[x]` in section B | All three shipped, exported, 100% cov each, axe both themes, stories build |
 | 5 | Native interactive | [x] | Button, Input, Checkbox, Switch all `[x]` in section B | All four shipped, exported, 100% cov each; keyboard + a11y in tests; React 18 matrix green (68 tests) |
 | 6 | Headless-backed | [x] | Tooltip, Dialog, Select all `[x]` in section B | All three on Base UI rc.0; unit 100% cov each; 5 Playwright browser tests stable (hover/focus-trap/Escape/outside-click/select) |
-| 7 | Tree-shaking + size | [ ] | `Button` alone < 3 kB gz; `size-limit` in CI | |
+| 7 | Tree-shaking + size | [x] | `Button` alone < 3 kB gz; `size-limit` in CI | `bun run size`: Button (deps external) **804 B** < 3 kB; Button+deps 11.9 kB < 14 kB proves no Base UI leak. `.size-limit.json` + `size` script. (agadoo skipped — bare rollup can't resolve extensionless imports, unlike real bundlers; D14) |
 | 8 | Consumer matrix | [ ] | vite-react18, vite-react19, next-app-router, remix all build with zero hydration warnings | |
 | 9 | Release | [ ] | CI green incl. enforcement jobs; Version Packages PR reviewed; owner said "publish" | |
 
@@ -139,3 +139,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 6 Tooltip: Base UI wrapper (rc.0), styled popup; unit (trigger+SSR) + Playwright browser test (hover shows / Escape hides). Browser suite moved to @playwright/test/Node — Bun hangs Playwright (D16). Base UI installed, Chromium installed · (tooltip commit)
 - 2026-09-16 · Phase 6 Dialog: compound Dialog.* (Trigger/Content/Title/Description/Close) over Base UI; unit 100% cov (defaultOpen renders portal content) + Playwright (focus trap / Escape / outside-click). Compound API logged D17 · (dialog commit)
 - 2026-09-16 · Phase 6 Select + gate: prop-driven items (string values), open/defaultOpen; unit 100% cov (open list click) + Playwright (choose/keyboard). Phase 6 closed — all 10 v1 components ship. Logged D18 · (select commit)
+- 2026-09-16 · Phase 7 size: size-limit — Button tree-shaken 804 B < 3 kB (deps external); Button+deps 11.9 kB < 14 kB (no Base UI leak). `size` script + .size-limit.json · (size commit)
