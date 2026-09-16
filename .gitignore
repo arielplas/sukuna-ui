@@ -14,3 +14,7 @@ bun.lockb.bak
 !.vscode/extensions.json
 test-results/
 playwright-report/
+
+# Next.js
+.next/
+next-env.d.ts
