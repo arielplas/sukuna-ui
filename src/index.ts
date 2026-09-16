@@ -1,8 +1,12 @@
 // sukuna-ui public entry.
 // Components are re-exported here per phase (see docs/roadmap.md section B).
 
+export type { AccordionItemData, AccordionProps } from './components/accordion'
+export { Accordion } from './components/accordion'
 export type { AlertProps } from './components/alert'
 export { Alert } from './components/alert'
+export type { AvatarProps } from './components/avatar'
+export { Avatar } from './components/avatar'
 export type { BadgeProps } from './components/badge'
 export { Badge } from './components/badge'
 export type { ButtonProps } from './components/button'
@@ -19,6 +23,8 @@ export type { DividerProps } from './components/divider'
 export { Divider } from './components/divider'
 export type { InputProps } from './components/input'
 export { Input } from './components/input'
+export type { RadioGroupProps, RadioOption } from './components/radio-group'
+export { RadioGroup } from './components/radio-group'
 export type { SelectOption, SelectProps } from './components/select'
 export { Select } from './components/select'
 export type { SpinnerProps } from './components/spinner'

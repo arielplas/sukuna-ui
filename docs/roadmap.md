@@ -125,11 +125,11 @@ export → ≥90% → review.
 | Divider | static | — | [x] 100% cov |
 | Alert | static | — | [x] 100% cov |
 | Chip | static (+ optional dismiss) | — | [x] 100% cov |
-| Avatar | static/img fallback | Base UI `avatar` | [ ] |
+| Avatar | static/img fallback | Base UI `avatar` | [x] 100% cov |
 | Spinner | static (CSS) | — | [x] 100% cov |
-| RadioGroup | interactive | Base UI `radio-group` | [ ] |
-| Tabs | interactive | Base UI `tabs` | [ ] |
-| Accordion | interactive | Base UI `accordion` | [ ] |
+| RadioGroup | interactive | Base UI `radio-group` | [x] 100% cov + browser |
+| Tabs | interactive | Base UI `tabs` | [x] 100% cov + browser |
+| Accordion | interactive | Base UI `accordion` | [x] 100% cov + browser |
 
 ### Tier 2 — common, a bit heavier
 
@@ -185,3 +185,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Enabled repo setting "Actions can create PRs"; Version Packages PR #1 opened + merged (0.1.0). First publish 404'd: `@sukuna/ui` needs an npm org that isn't owned. Renamed package → `sukuna-ui` (unscoped, D20); re-publishing on next push · (rename commit)
 - 2026-09-16 · Published `sukuna-ui@0.1.0` to npm with provenance (Automation token + repository field). CI + CD green · (publish)
 - 2026-09-16 · v1.1 gap analysis vs MUI added to roadmap §D. Built Tier-1 static components: Divider, Alert, Chip, Spinner (100% cov each, axe both themes) · (v1.1 static wave)
+- 2026-09-16 · Tier-1 complete: Avatar, RadioGroup, Tabs, Accordion (Base UI). 100% cov each; RadioGroup/Tabs/Accordion have Playwright browser tests (arrow-key/manual-activation/expand). 131 unit tests, 8 browser tests green · (v1.1 interactive wave)
