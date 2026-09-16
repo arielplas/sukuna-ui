@@ -7,3 +7,8 @@ storybook-static
 .turbo
 .react-scratch
 bun.lockb.bak
+
+# Editor / IDE
+.idea
+.vscode/*
+!.vscode/extensions.json
