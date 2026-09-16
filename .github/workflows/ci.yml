@@ -67,10 +67,21 @@ jobs:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - run: bun run build
-      - name: Link and build vite-react19
+      - run: bun link
+      - name: Build Vite examples (React 18 + 19)
         run: |
-          bun link
-          cd examples/vite-react19
+          for app in vite-react19 vite-react18; do
+            (cd "examples/$app" && bun install && bun link @sukuna/ui && bun run build)
+          done
+      - name: Build Next.js App Router example
+        run: |
+          cd examples/next-app-router
           bun install
           bun link @sukuna/ui
           bun run build
+      - name: Hydration smoke (Next SSR, zero hydration warnings)
+        run: |
+          bunx playwright install --with-deps chromium
+          (cd examples/next-app-router && PORT=3111 bun run start &)
+          npx --yes wait-on http://localhost:3111 -t 60000
+          node scripts/hydration-smoke.mjs http://localhost:3111
