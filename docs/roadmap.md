@@ -48,9 +48,12 @@ One row block per component. A component is done only when every box is `[x]`. O
 
 ### Static
 
+_`*` in Review = self-approved during the non-stop build (see `docs/ai-decisions.md` D7); awaiting
+owner's visual pass._
+
 | Component | Doc | Styles | Logic | Index | Tests | Stories | Browser | Export | ≥90% | Review |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Text | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
+| Text | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
 | Badge | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
 | Card | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
 
@@ -126,3 +129,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 2 harness: bunfig.toml (90% scalar floor — object form is a Bun no-op), test/setup.ts+ssr.ts+axe.ts, smoke test (3 pass); fixed two testing.md spec bugs · (harness commit)
 - 2026-09-16 · Phase 2 Storybook: SB10 react-vite, .storybook/{main,preview,manager,theme}, theme toolbar + SideBySide, Design/Tokens MDX (both themes), telemetry off. Closes Phase 1 Tokens-story gate · (storybook commit)
 - 2026-09-16 · Phase 3 styling: Tailwind v4 + tailwind-variants; generator emits theme.css; cn/tv/tw-merge-config utils (100% cov); css:build → dist CSS; theme.css/styles.css/tokens.css exports (attw excludes CSS); Storybook on Tailwind; docs/styling.md + ai-decisions.md · (styling commit)
+- 2026-09-16 · Phase 4 Text: docs/component-text.md + styles/logic/index/test/stories, exported; 100% cov, axe both themes. Fixed happy-dom preload ordering (D12) + added bun:test matcher types · (text commit)

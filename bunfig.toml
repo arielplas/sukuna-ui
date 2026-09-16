@@ -1,5 +1,7 @@
 [test]
-preload = ["./test/setup.ts"]
+# register-dom.ts MUST come first: it registers happy-dom before setup.ts imports Testing Library
+# (which binds `screen` to `document.body` at import time). See test/register-dom.ts.
+preload = ["./test/register-dom.ts", "./test/setup.ts"]
 coverage = true
 coverageReporter = ["text", "lcov"]
 coverageDir = "coverage"

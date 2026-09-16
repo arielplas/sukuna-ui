@@ -31,10 +31,13 @@ bun add -d @happy-dom/global-registrator @testing-library/react @testing-library
 
 ## Harness
 
-`bunfig.toml`
+`bunfig.toml` — **two** preloads, in order. `register-dom.ts` registers happy-dom BEFORE
+`setup.ts` imports Testing Library, which binds `screen` to `document.body` at import time; a
+single file would bind `screen` before `document` existed (ES imports hoist) and every `screen.*`
+query would throw "a global document has to be available".
 ```toml
 [test]
-preload = ["./test/setup.ts"]
+preload = ["./test/register-dom.ts", "./test/setup.ts"]
 coverage = true
 coverageReporter = ["text", "lcov"]
 coverageDir = "coverage"

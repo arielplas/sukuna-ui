@@ -9,6 +9,17 @@ agent's own calls. Newest first.
 
 ---
 
+## D12 — happy-dom registration split into its own preload
+
+- **Decision:** Two preloads in `bunfig.toml`: `test/register-dom.ts` (registers happy-dom) then
+  `test/setup.ts` (imports Testing Library, registers matchers). Was one `setup.ts`.
+- **Why:** `@testing-library/dom` binds `screen` to `document.body` at import/eval time. ES imports
+  hoist above the module body, so `GlobalRegistrator.register()` in the same file ran *after* the
+  Testing Library import — `screen` bound before `document` existed and every `screen.*` query threw
+  "a global document has to be available". `render` (attaches at call time) hid the bug until the
+  first `screen` test. Separate preloads evaluate fully in order, so registration completes first.
+- **Reverse:** n/a (correctness fix).
+
 ## D11 — `attw` excludes the CSS entrypoints
 
 - **Decision:** `check:pkg` runs `attw --pack . --exclude-entrypoints theme.css styles.css tokens.css`.
