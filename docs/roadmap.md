@@ -145,3 +145,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Pushed main to github.com/arielplas/sukuna-components (owner instruction) · (push)
 - 2026-09-16 · Phase 8: added vite-react18 + next-app-router examples; both build via bun link. Next build prerenders — validates RSC 'use client' boundary. Remix + hydration smoke remain · (examples commit)
 - 2026-09-16 · Phase 8: runtime hydration smoke (scripts/hydration-smoke.mjs) on the Next SSR app — zero hydration warnings; wired into CI examples job. Remix example remains · (hydration commit)
+- 2026-09-16 · Phase 9 CD: .github/workflows/release.yml — Changesets action opens Version Packages PR on push to main; publishes to npm (provenance) only after owner merges it. Needs NPM_TOKEN secret. docs/releasing.md updated · (release-workflow commit)

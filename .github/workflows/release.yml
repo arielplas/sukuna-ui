@@ -1,0 +1,50 @@
+name: Release
+
+# CD — npm publish via Changesets. Publishing stays owner-gated: on a push to main with pending
+# changesets, this opens/updates a "Version Packages" PR (no publish). When the OWNER merges that
+# PR, the next run has bumped versions and no changesets, so `changeset publish` runs — nothing
+# reaches npm until a human merges the Version Packages PR. See docs/releasing.md.
+on:
+  push:
+    branches: [main]
+
+# One release at a time.
+concurrency: release-${{ github.ref }}
+
+permissions:
+  contents: write # push the version-bump commit / tags
+  pull-requests: write # open the Version Packages PR
+  id-token: write # npm provenance (OIDC)
+
+jobs:
+  release:
+    name: Version or publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      # Gate publish on a green build. (Full CI runs in ci.yml on the same push.)
+      - run: bun run build
+      - run: bun run check:pkg
+
+      - name: Authenticate npm
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Version Packages PR or publish
+        uses: changesets/action@v1
+        with:
+          version: bun run version-packages
+          publish: bunx changeset publish
+          commit: "chore: version packages"
+          title: "Version Packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"

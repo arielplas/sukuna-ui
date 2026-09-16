@@ -49,11 +49,30 @@ Runs on every PR: `check` (Biome + tsc), `test:coverage` (fails < 90%), `build`,
 > the workflow is tracked as remaining Phase 9 work (see `docs/roadmap.md`). The base CI (check,
 > test, build, check:pkg, size, storybook, browser) is live.
 
-## Publish (owner only)
+## CD pipeline (`.github/workflows/release.yml`)
 
-1. Ensure the release checklist in `docs/roadmap.md` § C is all `[x]`.
-2. Merge the Version Packages PR.
-3. On an owner-created tag, CI runs `bunx changeset publish` → `npm publish --provenance --access public`.
-4. Deploy `storybook-static` to GitHub Pages.
+Publishing is automated with the **Changesets GitHub Action**, and stays owner-gated:
 
-**Nothing publishes without an explicit human "publish" and an owner-created tag.**
+1. **Push to `main` with pending changesets** → the action opens/updates a **Version Packages** PR
+   that bumps `package.json` and writes `CHANGELOG.md`. **Nothing is published.**
+2. **The owner reviews and merges that PR.** That merge is the human publish gate.
+3. The next run on `main` has bumped versions and no changesets, so the action runs
+   `bunx changeset publish` → `npm publish` with provenance (`NPM_CONFIG_PROVENANCE`,
+   `publishConfig.access: public`). Only `dist/` ships (`files`), freshly built in the job.
+
+### One-time setup (owner)
+
+- Create the `@sukuna` npm scope/org and grant publish rights.
+- Add repo secret **`NPM_TOKEN`** — an npm **Automation** token with publish access to `@sukuna/*`.
+- The workflow has `id-token: write` for npm provenance; the repo must be public for provenance.
+
+### First release (0.1.0)
+
+The initial changeset (`.changeset/initial-v1-components.md`, minor → `0.1.0`) is committed. On the
+first push to `main`, the action opens the Version Packages PR; merging it publishes `0.1.0`.
+
+**Nothing reaches npm until the owner merges the Version Packages PR.** Agents never merge it.
+
+## GitHub Pages
+
+Deploy `storybook-static` on release (separate workflow, not yet wired) — doubles as the docs site.
