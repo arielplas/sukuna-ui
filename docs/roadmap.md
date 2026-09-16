@@ -4,8 +4,8 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phases 0–4 done. Next: Phase 5 (native interactive: Button, Input, Checkbox, Switch).
-Current phase: **Phase 5 — Native interactive** (next). Phases 0–4 done; 6–9 pending.
+Last updated: 2026-09-16 — Phases 0–5 done. Next: Phase 6 (headless-backed: Tooltip, Dialog, Select).
+Current phase: **Phase 6 — Headless-backed** (next). Phases 0–5 done; 7–9 pending.
 Current version: none published. Target for first publish: `0.1.0`.
 
 ---
@@ -19,7 +19,7 @@ Current version: none published. Target for first publish: `0.1.0`.
 | 2 | Storybook + test harness | [x] | Storybook opens with theme toolbar; `bun test` runs; 90% threshold proven to fail | SB10 react-vite builds; theme toolbar + SideBySide decorators; a11y+docs addons; Sukuna manager theme. `bun test` 3 pass; scalar 90% floor proven to fail (object form silently ignored by Bun — testing.md). Tailwind/theme.css deferred to Phase 3 per plan; Intro.mdx deferred to README (Phase 9) |
 | 3 | Styling primitives | [x] | `theme.css`, `cn`, `tv` wrappers; `docs/styling.md`; `css:build` emits fallback CSS | Tailwind v4 + tv installed; generator emits `theme.css` (@theme inline + gradient utility); `cn`/`tv`/`tw-merge-config` (utils 100% cov); `css:build` → `dist/{styles,theme,tokens}.css`; Storybook on Tailwind; `docs/styling.md`. RSC-safe styling test passes. Spacing kept default — D10 |
 | 4 | Static components | [x] | Text, Badge, Card all `[x]` in section B | All three shipped, exported, 100% cov each, axe both themes, stories build |
-| 5 | Native interactive | [ ] | Button, Input, Checkbox, Switch all `[x]` in section B | |
+| 5 | Native interactive | [x] | Button, Input, Checkbox, Switch all `[x]` in section B | All four shipped, exported, 100% cov each; keyboard + a11y in tests; React 18 matrix green (68 tests) |
 | 6 | Headless-backed | [ ] | Tooltip, Dialog, Select all `[x]` in section B | |
 | 7 | Tree-shaking + size | [ ] | `Button` alone < 3 kB gz; `size-limit` in CI | |
 | 8 | Consumer matrix | [ ] | vite-react18, vite-react19, next-app-router, remix all build with zero hydration warnings | |
@@ -62,9 +62,9 @@ owner's visual pass._
 | Component | Doc | Styles | Logic | Index | Tests | Stories | Browser | Export | ≥90% | Review |
 |---|---|---|---|---|---|---|---|---|---|---|
 | Button | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
-| Input | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
-| Checkbox | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
-| Switch | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
+| Input | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
+| Checkbox | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
+| Switch | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
 
 ### Headless-backed
 
@@ -78,14 +78,14 @@ owner's visual pass._
 
 | Item | Status | Notes |
 |---|---|---|
-| `src/hooks/useControllableState` | [ ] | Needed by Checkbox, Switch, Select |
+| `src/hooks/useControllableState` | [x] | `src/hooks/use-controllable-state.ts`, 100% cov (Phase 5) |
 | `src/utils/cn.ts` | [x] | `extendTailwindMerge` via shared `tw-merge-config` (Phase 3) |
 | `src/utils/tv.ts` | [x] | `createTV` with same merge config (Phase 3) |
 | `src/styles/theme.css` | [x] | Generated `@theme inline` + `[data-theme]` palettes + gradient utility (Phase 3) |
 | `src/styles/fallback.css` → `dist/styles.css` | [x] | `css:build` compiles it; also copies theme.css/tokens.css (Phase 3) |
 | `test/setup.ts`, `test/ssr.ts`, `test/axe.ts` | [x] | Phase 2; happy-dom + jest-dom/axe + SSR/hydration helpers |
 | `test/browser/setup.ts` | [ ] | Playwright inside `bun test` — Phase 6 |
-| `scripts/with-react.ts` | [ ] | React 18 matrix — Phase 5 |
+| `scripts/with-react.ts` | [x] | `test:react18` swaps React, runs tests, restores (Phase 5) |
 | `CLAUDE.md` / `AGENTS.md` | [x] | Rules §3 + breaking-change table + docs map (Phase 0) |
 | `.github/PULL_REQUEST_TEMPLATE.md` | [x] | Changeset/bump/docs/roadmap checklist (Phase 0) |
 
@@ -133,3 +133,6 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 4 Badge: docs/component-badge.md + full set, exported; tones/sizes/dot; 100% cov, axe both themes · (badge commit)
 - 2026-09-16 · Phase 4 Card + gate: docs/component-card.md + full set, exported; elevation/padding/radius; 100% cov, axe both themes. Phase 4 gate closed (Text+Badge+Card). Static APIs logged D13 · (card commit)
 - 2026-09-16 · Phase 5 Button: implemented per approved doc ('use client', loading/spinner, TS-enforced icon-only label); 100% cov, 12 tests incl keyboard. Build reworked to per-file output + fix-directives so 'use client' is preserved for RSC (D14) · (button commit)
+- 2026-09-16 · Phase 5 Input (static, native size dropped, invalid) · (input commit)
+- 2026-09-16 · Phase 5 Checkbox + useControllableState hook (native accent-color, indeterminate, onCheckedChange); 100% cov · (checkbox commit)
+- 2026-09-16 · Phase 5 Switch + gate: role=switch button, tv slots track/thumb; scripts/with-react.ts + test:react18 (68 tests pass on React 18). Phase 5 gate closed. APIs logged D15 · (switch commit)

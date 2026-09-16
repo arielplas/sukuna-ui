@@ -1,0 +1,83 @@
+import { describe, expect, it } from 'bun:test'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { createRef, useState } from 'react'
+import { expectAccessible } from '../../../test/axe'
+import { expectHydrates, renderServer } from '../../../test/ssr'
+import { Input } from './index'
+
+const sizes = ['sm', 'md', 'lg'] as const
+
+describe('Input', () => {
+  it('renders every size on the server', () => {
+    for (const size of sizes)
+      expect(renderServer(<Input size={size} aria-label="field" />)).toContain('<input')
+  })
+
+  it('sets aria-invalid only when invalid', () => {
+    const { rerender } = render(<Input aria-label="f" data-testid="i" />)
+    expect(screen.getByTestId('i')).not.toHaveAttribute('aria-invalid')
+    rerender(<Input aria-label="f" data-testid="i" invalid />)
+    expect(screen.getByTestId('i')).toHaveAttribute('aria-invalid', 'true')
+  })
+
+  it('supports controlled value + onChange', async () => {
+    function Controlled() {
+      const [v, setV] = useState('')
+      return <Input aria-label="name" value={v} onChange={(e) => setV(e.target.value)} />
+    }
+    render(<Controlled />)
+    const el = screen.getByLabelText<HTMLInputElement>('name')
+    await userEvent.type(el, 'Sukuna')
+    expect(el.value).toBe('Sukuna')
+  })
+
+  it('disabled blocks typing', async () => {
+    render(<Input aria-label="d" disabled />)
+    const el = screen.getByLabelText<HTMLInputElement>('d')
+    await userEvent.type(el, 'x')
+    expect(el.value).toBe('')
+  })
+
+  it('forwards ref and passes native props through', () => {
+    const ref = createRef<HTMLInputElement>()
+    render(<Input ref={ref} aria-label="e" type="email" name="email" placeholder="you@x.com" />)
+    expect(ref.current).toBeInstanceOf(HTMLInputElement)
+    const el = screen.getByLabelText('e')
+    expect(el).toHaveAttribute('type', 'email')
+    expect(el).toHaveAttribute('name', 'email')
+    expect(el).toHaveAttribute('placeholder', 'you@x.com')
+  })
+
+  it('does not leak variant props to the DOM', () => {
+    render(<Input aria-label="n" size="lg" invalid data-testid="i" />)
+    const el = screen.getByTestId('i')
+    expect(el.hasAttribute('size')).toBe(false)
+    expect(el.hasAttribute('invalid')).toBe(false)
+  })
+
+  it('lets a consumer className override a conflicting utility', () => {
+    render(<Input aria-label="c" size="md" className="h-20" data-testid="i" />)
+    const cls = screen.getByTestId('i').classList
+    expect(cls.contains('h-20')).toBe(true)
+    expect(cls.contains('h-10')).toBe(false)
+  })
+
+  it('hydrates without warnings', async () => {
+    await expectHydrates(<Input aria-label="h" defaultValue="x" />)
+  })
+
+  it('is accessible in both themes', async () => {
+    for (const theme of ['dark', 'light'] as const) {
+      const { container, unmount } = render(
+        <div data-theme={theme}>
+          <label htmlFor="email">Email</label>
+          <Input id="email" type="email" />
+          <Input aria-label="invalid field" invalid />
+        </div>,
+      )
+      await expectAccessible(container)
+      unmount()
+    }
+  })
+})

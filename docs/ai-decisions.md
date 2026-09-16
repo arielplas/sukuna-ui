@@ -9,6 +9,23 @@ agent's own calls. Newest first.
 
 ---
 
+## D15 — Native interactive component APIs (Input, Checkbox, Switch)
+
+- **Input:** variant `size` (sm/md/lg) shadows and drops the native numeric `size` attribute
+  (`Omit<…, 'size'>`); `invalid` sets `aria-invalid` + crimson border (Sukuna's one red, Q10); full
+  width by default; no icon slots in v1 (plain `<input>`).
+- **Checkbox:** native `<input type="checkbox">` tinted with `accent-color: var(--sk-accent)`
+  (`accent-accent`) rather than fully custom `appearance-none` art — accessible, keyboard +
+  indeterminate come from the platform, minimal CSS. Boolean API `onCheckedChange(checked)` +
+  `indeterminate` (set as the DOM property via a merged ref callback, no `useEffect`).
+- **Switch:** a `<button role="switch" aria-checked>` with a `tv()`-slots track + sliding thumb
+  (thumb moves via `group-aria-checked:translate-x-*`), NOT a checkbox — so the thumb is fully
+  custom while switch semantics/keyboard stay native to the button.
+- Controlled/uncontrolled for Checkbox and Switch go through the shared `useControllableState`.
+- **Why:** accessible-by-default, smallest CSS, consistent with the "extend native, add what's
+  missing" rule. Custom checkbox art can come post-1.0.
+- **Reverse:** custom `appearance-none` checkbox art, icon slots, etc. are additive (minor).
+
 ## D14 — Build emits per-file output (`bundle: false`) + `fix-directives` for `'use client'`
 
 - **Decision:** tsup runs with `bundle: false`, transpiling each `src/` file to its own `dist/`
