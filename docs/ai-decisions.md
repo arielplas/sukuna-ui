@@ -9,6 +9,22 @@ agent's own calls. Newest first.
 
 ---
 
+## D13 — Static component APIs (Text, Badge, Card) designed by the agent
+
+The plan only named these three as "static"; the agent designed each API (self-approved per D7).
+
+- **Text:** polymorphic over a fixed `as` allowlist of intrinsic tags (default `p`) rather than
+  `asChild`; variants font/size/weight/tone/align/leading/tracking/truncate/numeric; native `color`
+  omitted in favor of `tone`.
+- **Badge:** `tone` (neutral/accent/success/premium) × `size` (sm/md), fixed pill radius, optional
+  decorative `dot` in `currentColor`. No `count` helper.
+- **Card:** `elevation` (flat/raised/sunken) × `padding` (none/sm/md/lg) × `radius` (md/lg). **No**
+  clickable/`interactive` Card and **no** `Card.Header/Body/Footer` sub-components in v1 — wrap in a
+  Button/Link for clicks; compose content with Text + layout utilities.
+- **Why:** Smallest APIs that cover real use, consistent with the Button doc's "extend the native
+  element, add only what's missing" and "a clickable X is a Link" rules.
+- **Reverse:** Adding props/variants/sub-components later is a minor bump; changing defaults is major.
+
 ## D12 — happy-dom registration split into its own preload
 
 - **Decision:** Two preloads in `bunfig.toml`: `test/register-dom.ts` (registers happy-dom) then

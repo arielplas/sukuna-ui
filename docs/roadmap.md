@@ -4,8 +4,8 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phases 0–3 done. Next: Phase 4 (static components: Text, Badge, Card).
-Current phase: **Phase 4 — Static components** (next). Phases 0–3 done; 5–9 pending.
+Last updated: 2026-09-16 — Phases 0–4 done. Next: Phase 5 (native interactive: Button, Input, Checkbox, Switch).
+Current phase: **Phase 5 — Native interactive** (next). Phases 0–4 done; 6–9 pending.
 Current version: none published. Target for first publish: `0.1.0`.
 
 ---
@@ -18,7 +18,7 @@ Current version: none published. Target for first publish: `0.1.0`.
 | 1 | Tokens | [x] | `tokens:build` deterministic; Tokens story shows both themes | `tokens:build` byte-identical on re-run ✓; `src/tokens.ts` → `src/styles/tokens.css` (+ reset.css, index.css); `Design/Tokens` MDX renders every `--sk-*` dark+light. Light shadow proposed — Q12 |
 | 2 | Storybook + test harness | [x] | Storybook opens with theme toolbar; `bun test` runs; 90% threshold proven to fail | SB10 react-vite builds; theme toolbar + SideBySide decorators; a11y+docs addons; Sukuna manager theme. `bun test` 3 pass; scalar 90% floor proven to fail (object form silently ignored by Bun — testing.md). Tailwind/theme.css deferred to Phase 3 per plan; Intro.mdx deferred to README (Phase 9) |
 | 3 | Styling primitives | [x] | `theme.css`, `cn`, `tv` wrappers; `docs/styling.md`; `css:build` emits fallback CSS | Tailwind v4 + tv installed; generator emits `theme.css` (@theme inline + gradient utility); `cn`/`tv`/`tw-merge-config` (utils 100% cov); `css:build` → `dist/{styles,theme,tokens}.css`; Storybook on Tailwind; `docs/styling.md`. RSC-safe styling test passes. Spacing kept default — D10 |
-| 4 | Static components | [ ] | Text, Badge, Card all `[x]` in section B | |
+| 4 | Static components | [x] | Text, Badge, Card all `[x]` in section B | All three shipped, exported, 100% cov each, axe both themes, stories build |
 | 5 | Native interactive | [ ] | Button, Input, Checkbox, Switch all `[x]` in section B | |
 | 6 | Headless-backed | [ ] | Tooltip, Dialog, Select all `[x]` in section B | |
 | 7 | Tree-shaking + size | [ ] | `Button` alone < 3 kB gz; `size-limit` in CI | |
@@ -55,7 +55,7 @@ owner's visual pass._
 |---|---|---|---|---|---|---|---|---|---|---|
 | Text | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
 | Badge | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
-| Card | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | n/a | [ ] | [ ] | [ ] |
+| Card | [x] | [x] | [x] | [x] | [x] | [x] | n/a | [x] | [x] | [x]* |
 
 ### Native interactive
 
@@ -131,3 +131,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 3 styling: Tailwind v4 + tailwind-variants; generator emits theme.css; cn/tv/tw-merge-config utils (100% cov); css:build → dist CSS; theme.css/styles.css/tokens.css exports (attw excludes CSS); Storybook on Tailwind; docs/styling.md + ai-decisions.md · (styling commit)
 - 2026-09-16 · Phase 4 Text: docs/component-text.md + styles/logic/index/test/stories, exported; 100% cov, axe both themes. Fixed happy-dom preload ordering (D12) + added bun:test matcher types · (text commit)
 - 2026-09-16 · Phase 4 Badge: docs/component-badge.md + full set, exported; tones/sizes/dot; 100% cov, axe both themes · (badge commit)
+- 2026-09-16 · Phase 4 Card + gate: docs/component-card.md + full set, exported; elevation/padding/radius; 100% cov, axe both themes. Phase 4 gate closed (Text+Badge+Card). Static APIs logged D13 · (card commit)

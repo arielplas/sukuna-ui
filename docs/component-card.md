@@ -1,0 +1,91 @@
+# Component: Card
+
+> Follows the `docs/component-button.md` section template. Static component — no `'use client'`.
+
+## 1. Purpose
+
+A surface container that groups related content on an elevation. Pure layout/skin — not
+interactive. A clickable card is a Button or Link wrapping a Card, not a Card with an `onClick`.
+
+## 2. Files
+
+```
+src/components/card/
+├── card.styles.tsx
+├── card.logic.tsx   # forwardRef; NO 'use client'.
+├── card.test.tsx
+├── card.stories.tsx
+└── index.tsx
+```
+
+## 3. API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface CardProps extends ComponentPropsWithoutRef<'div'> {
+  elevation?: 'flat' | 'raised' | 'sunken'   // default 'flat'
+  padding?: 'none' | 'sm' | 'md' | 'lg'       // default 'md'
+  radius?: 'md' | 'lg'                         // default 'lg'
+}
+```
+
+Extends `<div>`; adds only `elevation`, `padding`, `radius`.
+
+## 4. Variants → tokens
+
+| elevation | utilities |
+|---|---|
+| flat | `bg-surface border border-line` |
+| raised | `bg-surface border border-line shadow-card` |
+| sunken | `bg-well border border-line` |
+
+| padding | utility | | radius | utility |
+|---|---|---|---|---|
+| none | — | | md | `rounded-md` |
+| sm | `p-4` | | lg | `rounded-lg` |
+| md | `p-6` | | | |
+| lg | `p-8` | | | |
+
+Base: `block text-text`.
+
+## 5. States
+
+Static; no interactive states. (`raised` is a resting elevation, not a hover effect.)
+
+## 6. Logic (`card.logic.tsx`)
+
+- No `'use client'`.
+- `forwardRef<HTMLDivElement, CardProps>`.
+- Destructure `elevation`, `padding`, `radius`, `className` out; spread the rest onto `<div>`.
+
+## 7. Styles (`card.styles.tsx`)
+
+`tv()` with the variants above; `defaultVariants: { elevation: 'flat', padding: 'md', radius: 'lg' }`.
+
+## 8. Accessibility checklist
+
+- [ ] A Card is a generic container — no implicit role. Give it a landmark/role only when its
+      content warrants one (`role="group"` + `aria-label`, `<section>` via wrapping, etc.).
+- [ ] Not focusable and has no click handler; clickable surfaces wrap a Button/Link.
+- [ ] `sunken`/`flat` surfaces keep text contrast ≥ 4.5:1 in both themes.
+
+## 9. Tests
+
+- Renders every `elevation` × `padding` on the server without throwing.
+- Applies `radius`; `raised` includes `shadow-card`.
+- Variant props never leak to the DOM.
+- Forwards `ref` to the `<div>`.
+- Native props pass through; renders children.
+- Consumer `className` wins over a conflicting utility.
+- Hydrates cleanly; axe passes in both themes.
+
+## 10. Stories
+
+`Playground`, `Elevations`, `Padding`, `Radius`, `Composed` (Text + Badge inside). Both themes.
+
+## 11. Decisions
+
+- No `interactive`/clickable Card and no `onClick` affordance in v1 (wrap in Button/Link) — see
+  `docs/ai-decisions.md`.
+- No `Card.Header`/`Body`/`Footer` sub-components in v1; compose with `Text` and layout utilities.
