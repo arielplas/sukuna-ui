@@ -9,6 +9,16 @@ agent's own calls. Newest first.
 
 ---
 
+## D19 — Examples consume the library via `bun link`, not `file:`
+
+- **Decision:** `examples/*` depend on `@sukuna/ui` via `bun link` (`"@sukuna/ui": "link:@sukuna/ui"`),
+  matching the plan.
+- **Why:** a `file:../..` dependency copies the package honoring `.gitignore`, which **excludes the
+  gitignored `dist/`** — so `@sukuna/ui/styles.css` (and the JS) won't resolve. `bun link` symlinks
+  the real repo directory, exposing the freshly built `dist/`. CI must `bun run build` then
+  `bun link` before building examples.
+- **Reverse:** publish a real version and depend on it once released.
+
 ## D18 — Select is prop-driven with string values (v1)
 
 - **Decision:** Select takes an `items: {value: string; label; disabled?}[]` array with **string**

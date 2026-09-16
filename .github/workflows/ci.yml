@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# No publish here — releasing is gated on an owner-created tag (see docs/releasing.md).
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: check · test · build · pkg · size
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run test:coverage
+      - run: bun run build
+      - run: bun run check:pkg
+      - run: bun run size
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/lcov.info
+          if-no-files-found: ignore
+
+  react18:
+    name: React 18 matrix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run test:react18
+
+  browser:
+    name: Storybook + browser tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - name: Install Playwright Chromium
+        run: bunx playwright install --with-deps chromium
+      - run: bun run test:browser
+
+  examples:
+    name: Consumer examples build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - name: Link and build vite-react19
+        run: |
+          bun link
+          cd examples/vite-react19
+          bun install
+          bun link @sukuna/ui
+          bun run build

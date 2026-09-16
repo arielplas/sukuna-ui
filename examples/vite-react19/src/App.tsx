@@ -55,12 +55,12 @@ function Demo() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 12 }}>
           <Input aria-label="Email" type="email" placeholder="you@example.com" />
           <Input aria-label="Password" type="password" placeholder="••••••••" invalid />
-          <label style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
-            <Checkbox checked={checked} onCheckedChange={setChecked} />
-            <Text as="span" size="sm">
+          <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
+            <Checkbox id="remember" checked={checked} onCheckedChange={setChecked} />
+            <label htmlFor="remember" style={{ fontSize: 'var(--sk-text-sm)' }}>
               Remember me
-            </Text>
-          </label>
+            </label>
+          </div>
           <div style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
             <Switch checked={on} onCheckedChange={setOn} aria-label="Notifications" />
             <Text as="span" size="sm">
