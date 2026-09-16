@@ -71,13 +71,13 @@ jobs:
       - name: Build Vite examples (React 18 + 19)
         run: |
           for app in vite-react19 vite-react18; do
-            (cd "examples/$app" && bun install && bun link @sukuna/ui && bun run build)
+            (cd "examples/$app" && bun install && bun link sukuna-ui && bun run build)
           done
       - name: Build Next.js App Router example
         run: |
           cd examples/next-app-router
           bun install
-          bun link @sukuna/ui
+          bun link sukuna-ui
           bun run build
       - name: Hydration smoke (Next SSR, zero hydration warnings)
         run: |

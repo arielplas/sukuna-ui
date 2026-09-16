@@ -47,7 +47,7 @@ Source: Pomo Design System (Sukuna language). Dark is the default theme. Light p
 
 ## Theme wiring (Tailwind v4)
 
-`src/styles/theme.css`, shipped as `@sukuna/ui/theme.css`:
+`src/styles/theme.css`, shipped as `sukuna-ui/theme.css`:
 
 ```css
 :root, [data-theme="dark"]  { --sk-bg: #0A0A0B; --sk-surface: #141416; /* ... */ }

@@ -1,4 +1,4 @@
-# @sukuna/ui
+# sukuna-ui
 
 A React component library in the Sukuna design language: near-black surfaces, crimson for action,
 bone for premium, Archivo headlines. **Dark is the identity; light is a mode.**
@@ -17,7 +17,7 @@ bone for premium, Archivo headlines. **Dark is the identity; light is a mode.**
 ## Install
 
 ```bash
-bun add @sukuna/ui react react-dom
+bun add sukuna-ui react react-dom
 ```
 
 ## Setup
@@ -28,8 +28,8 @@ Add two lines to your global CSS — your Tailwind build then emits exactly the 
 
 ```css
 @import "tailwindcss";
-@import "@sukuna/ui/theme.css";              /* @theme tokens + data-theme palettes */
-@source "../node_modules/@sukuna/ui/dist";   /* so your build sees our classes */
+@import "sukuna-ui/theme.css";              /* @theme tokens + data-theme palettes */
+@source "../node_modules/sukuna-ui/dist";   /* so your build sees our classes */
 ```
 
 ### Non-Tailwind consumers (fallback path)
@@ -37,7 +37,7 @@ Add two lines to your global CSS — your Tailwind build then emits exactly the 
 Import the precompiled stylesheet:
 
 ```ts
-import "@sukuna/ui/styles.css"
+import "sukuna-ui/styles.css"
 ```
 
 Second-class: not purged, tokens overridable only via `--sk-*` vars.
@@ -55,7 +55,7 @@ Override any token by redefining `--sk-*` under your own selector.
 ## Usage
 
 ```tsx
-import { Button, Card, Text, Dialog } from "@sukuna/ui"
+import { Button, Card, Text, Dialog } from "sukuna-ui"
 
 export function Example() {
   return (

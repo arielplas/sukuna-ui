@@ -1,4 +1,4 @@
-// @sukuna/ui public entry.
+// sukuna-ui public entry.
 // Components are re-exported here per phase (see docs/roadmap.md section B).
 
 export type { BadgeProps } from './components/badge'

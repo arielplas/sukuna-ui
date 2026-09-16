@@ -1,4 +1,4 @@
-# @sukuna/ui
+# sukuna-ui
 
 ## 0.1.0
 

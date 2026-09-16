@@ -1,7 +1,7 @@
 'use client'
 
-import { Button, Checkbox, Dialog, Input, Select, Switch, Tooltip } from '@sukuna/ui'
 import { useState } from 'react'
+import { Button, Checkbox, Dialog, Input, Select, Switch, Tooltip } from 'sukuna-ui'
 
 const frameworks = [
   { value: 'react', label: 'React' },

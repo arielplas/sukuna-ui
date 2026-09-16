@@ -1,4 +1,4 @@
-# Styling — `@sukuna/ui`
+# Styling — `sukuna-ui`
 
 Zero-runtime styling with **Tailwind v4 + `tailwind-variants`**, mapped to `--sk-*` tokens.
 No CSS-in-JS, no per-component `.css` files. Themes switch with `data-theme`, not `dark:`.
@@ -24,8 +24,8 @@ tokens overridable via CSS vars, and RSC-safe (static components carry no `'use 
 
 ```css
 @import "tailwindcss";
-@import "@sukuna/ui/theme.css";                 /* @theme tokens + data-theme palettes */
-@source "../node_modules/@sukuna/ui/dist";      /* so their build emits our utilities */
+@import "sukuna-ui/theme.css";                 /* @theme tokens + data-theme palettes */
+@source "../node_modules/sukuna-ui/dist";      /* so their build emits our utilities */
 ```
 
 We ship no compiled component CSS on this path; their Tailwind generates exactly the classes used.
@@ -33,12 +33,12 @@ We ship no compiled component CSS on this path; their Tailwind generates exactly
 **Non-Tailwind consumers (fallback path)** — import the precompiled sheet:
 
 ```css
-@import "@sukuna/ui/styles.css";
+@import "sukuna-ui/styles.css";
 ```
 
 Second-class: not purged, tokens overridable only via `--sk-*` vars.
 
-**Raw tokens only** — `@import "@sukuna/ui/tokens.css";` for the plain `--sk-*` custom properties.
+**Raw tokens only** — `@import "sukuna-ui/tokens.css";` for the plain `--sk-*` custom properties.
 
 Switch theme at runtime by setting `data-theme="dark"` (default) or `"light"` on any ancestor.
 Override any token by redefining `--sk-*` under your own selector.
@@ -49,7 +49,7 @@ Override any token by redefining `--sk-*` under your own selector.
 |---|---|
 | `src/tokens.ts` | Source of truth (typed). |
 | `src/styles/tokens.css` | **Generated.** Raw `--sk-*` palettes (dark + light). Plain CSS. |
-| `src/styles/theme.css` | **Generated.** Palettes + `@theme inline` mapping + `bg-gradient-accent` utility. Ships as `@sukuna/ui/theme.css`. |
+| `src/styles/theme.css` | **Generated.** Palettes + `@theme inline` mapping + `bg-gradient-accent` utility. Ships as `sukuna-ui/theme.css`. |
 | `src/styles/reset.css` | Minimal, `:where()`-scoped under `[data-theme]`. |
 | `src/styles/index.css` | Raw path aggregate: tokens + reset. |
 | `src/styles/fallback.css` | Compiled by `css:build` → `dist/styles.css`. |

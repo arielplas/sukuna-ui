@@ -1,4 +1,4 @@
-# @sukuna/ui — operating rules
+# sukuna-ui — operating rules
 
 Read this every session, then `docs/plan-human.md`, `docs/plan-agentic.md`, and
 `docs/roadmap.md`. **Start from the first unchecked box in `docs/roadmap.md`**, not the top

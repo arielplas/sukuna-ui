@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Badge,
   Button,
@@ -9,8 +10,7 @@ import {
   Switch,
   Text,
   Tooltip,
-} from '@sukuna/ui'
-import { useState } from 'react'
+} from 'sukuna-ui'
 
 const frameworks = [
   { value: 'react', label: 'React' },
@@ -26,7 +26,7 @@ function Demo() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 640 }}>
       <Text as="h1" font="display" size="3xl" weight="black" tracking="tight">
-        @sukuna/ui in Vite + React 19
+        sukuna-ui in Vite + React 19
       </Text>
 
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>

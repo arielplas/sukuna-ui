@@ -1,4 +1,4 @@
-# Releasing — `@sukuna/ui`
+# Releasing — `sukuna-ui`
 
 Changesets + semver, with the extra rules a UI library needs. **Agents never push to `main`,
 never publish; a human merges the Version Packages PR and creates the release tag.**

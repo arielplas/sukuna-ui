@@ -1,4 +1,4 @@
-# Testing — `@sukuna/ui`
+# Testing — `sukuna-ui`
 
 **One runner: `bun test`.** No Jest, no Vitest, no Storybook test addon.
 

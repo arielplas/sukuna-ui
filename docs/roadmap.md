@@ -1,4 +1,4 @@
-# Roadmap — `@sukuna/ui` from first commit to npm
+# Roadmap — `sukuna-ui` from first commit to npm
 
 > **This file is a living status board.** Agents update it in the same commit as the work it describes: flip a box when a gate passes, never before. If this file and the code disagree, the code is the truth and this file is a bug to fix immediately.
 >
@@ -124,7 +124,7 @@ owner's visual pass._
 Agents append one line per meaningful status change: `YYYY-MM-DD · <what flipped> · <commit or PR>`.
 
 - 2026-09-16 · File created during design; Button doc approved · (design session)
-- 2026-09-16 · Phase 0 bootstrap: package.json (@sukuna/ui, exports, peer react>=18), tsconfig strict, Biome, tsup (esm/cjs/dts + preserveDirectives), Changesets, CLAUDE.md/AGENTS.md, PR template; build + check:pkg green · (bootstrap commit)
+- 2026-09-16 · Phase 0 bootstrap: package.json (sukuna-ui, exports, peer react>=18), tsconfig strict, Biome, tsup (esm/cjs/dts + preserveDirectives), Changesets, CLAUDE.md/AGENTS.md, PR template; build + check:pkg green · (bootstrap commit)
 - 2026-09-16 · Phase 1 tokens: src/tokens.ts (typed source of truth) → scripts/build-tokens.ts → src/styles/tokens.css (deterministic), + reset.css, index.css; tokens:build script. Light shadow proposed pending Q12. Storybook Tokens page deferred to Phase 2 · (tokens commit)
 - 2026-09-16 · Phase 2 harness: bunfig.toml (90% scalar floor — object form is a Bun no-op), test/setup.ts+ssr.ts+axe.ts, smoke test (3 pass); fixed two testing.md spec bugs · (harness commit)
 - 2026-09-16 · Phase 2 Storybook: SB10 react-vite, .storybook/{main,preview,manager,theme}, theme toolbar + SideBySide, Design/Tokens MDX (both themes), telemetry off. Closes Phase 1 Tokens-story gate · (storybook commit)
@@ -140,9 +140,10 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 6 Dialog: compound Dialog.* (Trigger/Content/Title/Description/Close) over Base UI; unit 100% cov (defaultOpen renders portal content) + Playwright (focus trap / Escape / outside-click). Compound API logged D17 · (dialog commit)
 - 2026-09-16 · Phase 6 Select + gate: prop-driven items (string values), open/defaultOpen; unit 100% cov (open list click) + Playwright (choose/keyboard). Phase 6 closed — all 10 v1 components ship. Logged D18 · (select commit)
 - 2026-09-16 · Phase 7 size: size-limit — Button tree-shaken 804 B < 3 kB (deps external); Button+deps 11.9 kB < 14 kB (no Base UI leak). `size` script + .size-limit.json · (size commit)
-- 2026-09-16 · Phase 8 (partial): examples/vite-react19 builds & consumes @sukuna/ui via bun link (all 10 components + styles.css). file: dep skipped gitignored dist → use bun link (D19). 3 more frameworks + hydration smoke remain · (example commit)
+- 2026-09-16 · Phase 8 (partial): examples/vite-react19 builds & consumes sukuna-ui via bun link (all 10 components + styles.css). file: dep skipped gitignored dist → use bun link (D19). 3 more frameworks + hydration smoke remain · (example commit)
 - 2026-09-16 · Phase 9 (docs/CI, no publish): README.md, docs/releasing.md (breaking-change table), .github/workflows/ci.yml (check/test/build/pkg/size/react18/browser/examples), initial changeset (minor→0.1.0). Publish gated on owner · (release-prep commit)
 - 2026-09-16 · Pushed main to github.com/arielplas/sukuna-components (owner instruction) · (push)
 - 2026-09-16 · Phase 8: added vite-react18 + next-app-router examples; both build via bun link. Next build prerenders — validates RSC 'use client' boundary. Remix + hydration smoke remain · (examples commit)
 - 2026-09-16 · Phase 8: runtime hydration smoke (scripts/hydration-smoke.mjs) on the Next SSR app — zero hydration warnings; wired into CI examples job. Remix example remains · (hydration commit)
 - 2026-09-16 · Phase 9 CD: .github/workflows/release.yml — Changesets action opens Version Packages PR on push to main; publishes to npm (provenance) only after owner merges it. Needs NPM_TOKEN secret. docs/releasing.md updated · (release-workflow commit)
+- 2026-09-16 · Enabled repo setting "Actions can create PRs"; Version Packages PR #1 opened + merged (0.1.0). First publish 404'd: `@sukuna/ui` needs an npm org that isn't owned. Renamed package → `sukuna-ui` (unscoped, D20); re-publishing on next push · (rename commit)

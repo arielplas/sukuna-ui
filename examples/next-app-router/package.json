@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@sukuna/ui": "link:@sukuna/ui",
+    "sukuna-ui": "link:sukuna-ui",
     "next": "^15.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

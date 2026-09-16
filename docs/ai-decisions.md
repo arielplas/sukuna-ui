@@ -1,6 +1,6 @@
 # AI decisions log
 
-Decisions the AI agent made on its own while building `@sukuna/ui`, because the plan left
+Decisions the AI agent made on its own while building `sukuna-ui`, because the plan left
 them open, a spec was wrong, or a value was missing. Each entry: what was decided, why, and
 how to reverse it. Owner-made decisions live in `docs/questions.md`; this file is only the
 agent's own calls. Newest first.
@@ -9,12 +9,25 @@ agent's own calls. Newest first.
 
 ---
 
+## D20 — Package renamed `@sukuna/ui` → `sukuna-ui` (unscoped)
+
+- **Decision:** The npm package is **`sukuna-ui`** (unscoped), not `@sukuna/ui`. Owner's choice
+  (2026-09-16) after the first publish 404'd.
+- **Why:** Publishing `@sukuna/ui` needs an npm **org `sukuna`** that the account owns; it doesn't
+  exist, so npm returned `E404 PUT @sukuna/ui`. The unscoped name `sukuna-ui` was free and needs no
+  org. The design language stays "Sukuna" and tokens stay `--sk-*` — only the package specifier
+  changed (all imports/docs updated).
+- **Token note:** an unscoped publish needs `NPM_TOKEN` to allow it — a granular token must have
+  **read/write on _all packages_** (a token restricted to the `@sukuna` scope will NOT publish an
+  unscoped package), or use a classic **Automation** token.
+- **Reverse:** to use a scope later, create the npm org and rename back (major-ish, pre-1.0 fine).
+
 ## D19 — Examples consume the library via `bun link`, not `file:`
 
-- **Decision:** `examples/*` depend on `@sukuna/ui` via `bun link` (`"@sukuna/ui": "link:@sukuna/ui"`),
+- **Decision:** `examples/*` depend on `sukuna-ui` via `bun link` (`"sukuna-ui": "link:sukuna-ui"`),
   matching the plan.
 - **Why:** a `file:../..` dependency copies the package honoring `.gitignore`, which **excludes the
-  gitignored `dist/`** — so `@sukuna/ui/styles.css` (and the JS) won't resolve. `bun link` symlinks
+  gitignored `dist/`** — so `sukuna-ui/styles.css` (and the JS) won't resolve. `bun link` symlinks
   the real repo directory, exposing the freshly built `dist/`. CI must `bun run build` then
   `bun link` before building examples.
 - **Reverse:** publish a real version and depend on it once released.
@@ -119,7 +132,7 @@ The plan only named these three as "static"; the agent designed each API (self-a
 ## D11 — `attw` excludes the CSS entrypoints
 
 - **Decision:** `check:pkg` runs `attw --pack . --exclude-entrypoints theme.css styles.css tokens.css`.
-- **Why:** `@sukuna/ui/theme.css` / `styles.css` / `tokens.css` are stylesheets with no type
+- **Why:** `sukuna-ui/theme.css` / `styles.css` / `tokens.css` are stylesheets with no type
   declarations, so attw's "resolves to types or JS" check fails on them (NoResolution). Excluding
   the CSS-only entrypoints is correct — they aren't importable JS. publint still validates the
   files exist.

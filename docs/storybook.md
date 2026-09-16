@@ -1,4 +1,4 @@
-# Storybook — development workshop for `@sukuna/ui`
+# Storybook — development workshop for `sukuna-ui`
 
 Storybook is the dev environment for this library. There is no demo app; every component is built, reviewed, and accessibility-checked in Storybook first.
 

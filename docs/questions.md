@@ -36,7 +36,7 @@ Default base: Base UI. Radix is in maintenance; React Aria is the fallback.
 
 ## Q3. Single package or monorepo — what do you mean?
 
-**Answer.** A **monorepo** splits the project into several npm packages (`@sukuna/tokens`, `@sukuna/ui`, `@sukuna/icons`) in one repo using Bun workspaces. A **single package** is one `@sukuna/ui` that ships everything.
+**Answer.** A **monorepo** splits the project into several npm packages (`@sukuna/tokens`, `sukuna-ui`, `@sukuna/icons`) in one repo using Bun workspaces. A **single package** is one `sukuna-ui` that ships everything.
 
 Monorepo pays off when someone wants tokens without React, or icons get heavy. For v1 with ten components it is only extra config. Decision: single package, with the split noted as a later migration path.
 
@@ -50,7 +50,7 @@ Monorepo pays off when someone wants tokens without React, or icons get heavy. F
 
 ## Q5. Let's use Tailwind. (Decision, not a question, but it changed the answers above.)
 
-**Consequences.** Tailwind consumers add two lines to their CSS (`@import "@sukuna/ui/theme.css"` and `@source "../node_modules/@sukuna/ui/dist"`). Non-Tailwind consumers import a precompiled `styles.css` (second-class: not purged, override only via `--sk-*` vars). `.styles.tsx` uses `tv()` from `tailwind-variants`; `cn` uses `tailwind-merge`. Theming stays `data-theme` via `@theme inline` so no `dark:` variant is needed. Details in `plan-agentic.md` §1 and `tokens.md`.
+**Consequences.** Tailwind consumers add two lines to their CSS (`@import "sukuna-ui/theme.css"` and `@source "../node_modules/sukuna-ui/dist"`). Non-Tailwind consumers import a precompiled `styles.css` (second-class: not purged, override only via `--sk-*` vars). `.styles.tsx` uses `tv()` from `tailwind-variants`; `cn` uses `tailwind-merge`. Theming stays `data-theme` via `@theme inline` so no `dark:` variant is needed. Details in `plan-agentic.md` §1 and `tokens.md`.
 
 ---
 
@@ -139,7 +139,7 @@ as "softer" — no value. Phase 1 needs a concrete light value.
 | Topic | Decision |
 |---|---|
 | Design source | Pomo Design System (Sukuna language) as base |
-| Package name | `@sukuna/ui` |
+| Package name | `sukuna-ui` |
 | v1 components | Text, Badge, Card, Button, Input, Checkbox, Switch, Tooltip, Dialog, Select |
 | Docs language | English |
 | Package layout | Single package |

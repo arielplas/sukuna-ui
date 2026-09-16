@@ -3,7 +3,7 @@ import { create } from 'storybook/theming'
 // Sukuna-branded Storybook manager UI: near-black, crimson accent, bone text.
 export default create({
   base: 'dark',
-  brandTitle: '@sukuna/ui',
+  brandTitle: 'sukuna-ui',
   colorPrimary: '#FF3B4E',
   colorSecondary: '#FF3B4E',
   appBg: '#0A0A0B',
