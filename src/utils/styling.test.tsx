@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
-import { cn } from '../src/utils/cn'
-import { tv, type VariantProps } from '../src/utils/tv'
+import { cn } from './cn'
+import { tv, type VariantProps } from './tv'
 
 // Phase 3 gate: the styling primitives (`tv`, `cn`) are pure and server-safe. A `.styles.tsx`
 // looks exactly like `demo` below — no hooks, no DOM, no `'use client'` — so it renders on the

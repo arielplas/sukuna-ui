@@ -5,9 +5,9 @@
 | Suite | Files | Environment | Covers |
 |---|---|---|---|
 | Unit | `src/components/**/*.test.tsx` | happy-dom | Props, logic, a11y attributes, SSR render, hydration, axe |
-| Browser | `test/browser/**/*.test.ts` | Playwright driving `storybook-static` in Chromium | Focus traps, portals, keyboard choreography for Dialog/Select/Tooltip |
+| Browser | `test/browser/**/*.test.ts` | `@playwright/test` (Node) driving `storybook-static` in Chromium | Focus traps, portals, keyboard choreography for Dialog/Select/Tooltip |
 
-Both suites are `bun test` files. The browser suite imports Playwright's library API directly (no Playwright test runner) and is tagged so it only runs when a built Storybook exists. Visual regression is Chromatic on the Storybook build; it is not a test runner.
+The unit suite is `bun test`. The browser suite runs under **`@playwright/test` via Node** (`playwright.config.ts`; Storybook served by `scripts/serve-storybook.ts`), because Playwright's browser transport hangs under Bun — see `docs/ai-decisions.md` D16. `bun run test:browser` = `storybook:build` then `playwright test`. Visual regression is Chromatic on the Storybook build; it is not a test runner.
 
 Never use snapshot tests of rendered HTML.
 

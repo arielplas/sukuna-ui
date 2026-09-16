@@ -70,7 +70,7 @@ owner's visual pass._
 
 | Component | Doc | Styles | Logic | Index | Tests | Stories | Browser | Export | ≥90% | Review |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Tooltip | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Tooltip | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x]* |
 | Dialog | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
 | Select | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
 
@@ -84,7 +84,7 @@ owner's visual pass._
 | `src/styles/theme.css` | [x] | Generated `@theme inline` + `[data-theme]` palettes + gradient utility (Phase 3) |
 | `src/styles/fallback.css` → `dist/styles.css` | [x] | `css:build` compiles it; also copies theme.css/tokens.css (Phase 3) |
 | `test/setup.ts`, `test/ssr.ts`, `test/axe.ts` | [x] | Phase 2; happy-dom + jest-dom/axe + SSR/hydration helpers |
-| `test/browser/setup.ts` | [ ] | Playwright inside `bun test` — Phase 6 |
+| `playwright.config.ts` + `scripts/serve-storybook.ts` | [x] | Browser suite under @playwright/test/Node (D16) — Phase 6 |
 | `scripts/with-react.ts` | [x] | `test:react18` swaps React, runs tests, restores (Phase 5) |
 | `CLAUDE.md` / `AGENTS.md` | [x] | Rules §3 + breaking-change table + docs map (Phase 0) |
 | `.github/PULL_REQUEST_TEMPLATE.md` | [x] | Changeset/bump/docs/roadmap checklist (Phase 0) |
@@ -136,3 +136,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 5 Input (static, native size dropped, invalid) · (input commit)
 - 2026-09-16 · Phase 5 Checkbox + useControllableState hook (native accent-color, indeterminate, onCheckedChange); 100% cov · (checkbox commit)
 - 2026-09-16 · Phase 5 Switch + gate: role=switch button, tv slots track/thumb; scripts/with-react.ts + test:react18 (68 tests pass on React 18). Phase 5 gate closed. APIs logged D15 · (switch commit)
+- 2026-09-16 · Phase 6 Tooltip: Base UI wrapper (rc.0), styled popup; unit (trigger+SSR) + Playwright browser test (hover shows / Escape hides). Browser suite moved to @playwright/test/Node — Bun hangs Playwright (D16). Base UI installed, Chromium installed · (tooltip commit)

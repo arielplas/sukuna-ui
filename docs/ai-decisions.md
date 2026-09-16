@@ -9,6 +9,20 @@ agent's own calls. Newest first.
 
 ---
 
+## D16 — Browser tests run under `@playwright/test` (Node), not `bun test`
+
+- **Decision:** The real-browser suite (`test/browser/*.test.ts`) runs under `@playwright/test` via
+  Node (`playwright.config.ts`, served by `scripts/serve-storybook.ts`), not Playwright's library
+  API inside `bun test` as `docs/questions.md` Q11 planned. `test:browser` = `storybook:build` then
+  `playwright test`. Unit suite stays on `bun test src`.
+- **Why:** Playwright's browser transport **hangs under Bun** on this platform (verified: full
+  Chromium launches fine under Node, `chromium.launch()` never resolves under Bun — Bun's stdio-pipe
+  handling for Playwright's driver). It's not a config issue. The unit-vs-e2e runner split is the
+  conventional setup and keeps the browser gate actually executable.
+- **Trade-off:** two test tools instead of one (Q11's "single runner" holds for the unit suite,
+  which is what coverage measures). Browser specs use `@playwright/test`'s `test`/`expect`.
+- **Reverse:** move back into `bun test` if/when Bun supports Playwright's transport.
+
 ## D15 — Native interactive component APIs (Input, Checkbox, Switch)
 
 - **Input:** variant `size` (sm/md/lg) shadows and drops the native numeric `size` attribute

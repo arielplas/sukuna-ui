@@ -28,8 +28,11 @@ of the plan. If the roadmap and the code disagree, the code is the truth — fix
 ## Every unit of work ends green
 
 ```
-bun run check && bun test --coverage && bun run build && bun run check:pkg
+bun run check && bun run test:coverage && bun run build && bun run check:pkg
 ```
+
+(`test:coverage` = `bun test src --coverage`; the unit suite lives under `src/`. Real-browser
+tests are `bun run test:browser`, run against a built Storybook — not part of coverage.)
 
 Coverage floor is **90%** on lines, functions, and statements (enforced by `bunfig.toml`), per
 component's own files. Never raise coverage by excluding component code. If a branch is
