@@ -13,6 +13,8 @@ export type { DialogContentProps, DialogProps, DialogTitleProps } from './compon
 export { Dialog } from './components/dialog'
 export type { InputProps } from './components/input'
 export { Input } from './components/input'
+export type { SelectOption, SelectProps } from './components/select'
+export { Select } from './components/select'
 export type { SwitchProps } from './components/switch'
 export { Switch } from './components/switch'
 export type { TextElement, TextProps } from './components/text'

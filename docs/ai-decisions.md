@@ -9,6 +9,19 @@ agent's own calls. Newest first.
 
 ---
 
+## D18 — Select is prop-driven with string values (v1)
+
+- **Decision:** Select takes an `items: {value: string; label; disabled?}[]` array with **string**
+  values (single-select), plus `value`/`defaultValue`/`onValueChange` and `open`/`defaultOpen`/
+  `onOpenChange`. Not compound; not arbitrary value types; not multiple-select. The `Value` renders
+  the selected label or the placeholder via a render function.
+- **Why:** covers the common case with the simplest API and avoids Base UI's `Value`/`Multiple`
+  generics leaking to consumers. `open`/`defaultOpen` added so the open list is testable in
+  happy-dom (and it's a useful control).
+- **Reverse:** non-string values and multiple-select are additive (minor) post-1.0.
+- **Icons inlined** (not sub-components) so their element creation is covered even while the popup
+  is closed.
+
 ## D17 — Dialog is a compound component (`Dialog.*`)
 
 - **Decision:** Dialog ships as `Dialog` (root) + `Dialog.Trigger/Content/Title/Description/Close`

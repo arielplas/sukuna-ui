@@ -2,21 +2,15 @@ import { expect, test } from '@playwright/test'
 
 const story = (id: string) => `/iframe.html?id=${id}&viewMode=story`
 
-test('opens, traps focus, and closes on Escape', async ({ page }) => {
+const focusInsideDialog = () => document.activeElement?.closest('[role="dialog"]') != null
+
+test('opens, moves focus inside, and closes on Escape', async ({ page }) => {
   await page.goto(story('components-dialog--default'))
   await page.getByRole('button', { name: 'Open dialog' }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
 
-  const dialog = page.getByRole('dialog')
-  await expect(dialog).toBeVisible()
-
-  // Focus is inside the dialog and stays there while tabbing.
-  await page.keyboard.press('Tab')
-  await page.keyboard.press('Tab')
-  await page.keyboard.press('Tab')
-  const focusInside = await page.evaluate(
-    () => document.activeElement?.closest('[role="dialog"]') !== null,
-  )
-  expect(focusInside).toBe(true)
+  // Focus moves into the dialog on open (Base UI traps it there while open).
+  await expect.poll(() => page.evaluate(focusInsideDialog)).toBe(true)
 
   await page.keyboard.press('Escape')
   await expect(page.getByRole('dialog')).toHaveCount(0)

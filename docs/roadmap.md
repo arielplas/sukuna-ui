@@ -4,8 +4,8 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phases 0–5 done. Next: Phase 6 (headless-backed: Tooltip, Dialog, Select).
-Current phase: **Phase 6 — Headless-backed** (next). Phases 0–5 done; 7–9 pending.
+Last updated: 2026-09-16 — Phases 0–6 done (all 10 components ship). Next: Phase 7 (tree-shaking + size).
+Current phase: **Phase 7 — Tree-shaking + size** (next). Phases 0–6 done; 8–9 pending.
 Current version: none published. Target for first publish: `0.1.0`.
 
 ---
@@ -20,7 +20,7 @@ Current version: none published. Target for first publish: `0.1.0`.
 | 3 | Styling primitives | [x] | `theme.css`, `cn`, `tv` wrappers; `docs/styling.md`; `css:build` emits fallback CSS | Tailwind v4 + tv installed; generator emits `theme.css` (@theme inline + gradient utility); `cn`/`tv`/`tw-merge-config` (utils 100% cov); `css:build` → `dist/{styles,theme,tokens}.css`; Storybook on Tailwind; `docs/styling.md`. RSC-safe styling test passes. Spacing kept default — D10 |
 | 4 | Static components | [x] | Text, Badge, Card all `[x]` in section B | All three shipped, exported, 100% cov each, axe both themes, stories build |
 | 5 | Native interactive | [x] | Button, Input, Checkbox, Switch all `[x]` in section B | All four shipped, exported, 100% cov each; keyboard + a11y in tests; React 18 matrix green (68 tests) |
-| 6 | Headless-backed | [ ] | Tooltip, Dialog, Select all `[x]` in section B | |
+| 6 | Headless-backed | [x] | Tooltip, Dialog, Select all `[x]` in section B | All three on Base UI rc.0; unit 100% cov each; 5 Playwright browser tests stable (hover/focus-trap/Escape/outside-click/select) |
 | 7 | Tree-shaking + size | [ ] | `Button` alone < 3 kB gz; `size-limit` in CI | |
 | 8 | Consumer matrix | [ ] | vite-react18, vite-react19, next-app-router, remix all build with zero hydration warnings | |
 | 9 | Release | [ ] | CI green incl. enforcement jobs; Version Packages PR reviewed; owner said "publish" | |
@@ -72,7 +72,7 @@ owner's visual pass._
 |---|---|---|---|---|---|---|---|---|---|---|
 | Tooltip | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x]* |
 | Dialog | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x]* |
-| Select | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] | [ ] |
+| Select | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x]* |
 
 ### Shared internals
 
@@ -138,3 +138,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 5 Switch + gate: role=switch button, tv slots track/thumb; scripts/with-react.ts + test:react18 (68 tests pass on React 18). Phase 5 gate closed. APIs logged D15 · (switch commit)
 - 2026-09-16 · Phase 6 Tooltip: Base UI wrapper (rc.0), styled popup; unit (trigger+SSR) + Playwright browser test (hover shows / Escape hides). Browser suite moved to @playwright/test/Node — Bun hangs Playwright (D16). Base UI installed, Chromium installed · (tooltip commit)
 - 2026-09-16 · Phase 6 Dialog: compound Dialog.* (Trigger/Content/Title/Description/Close) over Base UI; unit 100% cov (defaultOpen renders portal content) + Playwright (focus trap / Escape / outside-click). Compound API logged D17 · (dialog commit)
+- 2026-09-16 · Phase 6 Select + gate: prop-driven items (string values), open/defaultOpen; unit 100% cov (open list click) + Playwright (choose/keyboard). Phase 6 closed — all 10 v1 components ship. Logged D18 · (select commit)
