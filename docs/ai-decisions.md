@@ -9,6 +9,15 @@ agent's own calls. Newest first.
 
 ---
 
+## D17 — Dialog is a compound component (`Dialog.*`)
+
+- **Decision:** Dialog ships as `Dialog` (root) + `Dialog.Trigger/Content/Title/Description/Close`
+  rather than a single prop-driven component. Wraps Base UI dialog parts and applies slot styles.
+- **Why:** dialogs vary in content structure; a compound API composes naturally and lets Base UI
+  wire `aria-labelledby`/`describedby` from the Title/Description parts. `Dialog.Close` accepts Base
+  UI's `render` prop for a custom button.
+- **Reverse:** additive.
+
 ## D16 — Browser tests run under `@playwright/test` (Node), not `bun test`
 
 - **Decision:** The real-browser suite (`test/browser/*.test.ts`) runs under `@playwright/test` via
