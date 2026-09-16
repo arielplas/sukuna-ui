@@ -4,6 +4,14 @@
   "description": "Sukuna design system component library for React — SSR-safe, zero-runtime, themeable via data-theme.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arielplas/sukuna-ui.git"
+  },
+  "homepage": "https://github.com/arielplas/sukuna-ui#readme",
+  "bugs": {
+    "url": "https://github.com/arielplas/sukuna-ui/issues"
+  },
   "sideEffects": [
     "**/*.css"
   ],
