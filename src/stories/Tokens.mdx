@@ -1,0 +1,16 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { ThemedTokenGallery } from './TokenGallery'
+
+<Meta title="Design/Tokens" />
+
+# Sukuna tokens
+
+Every `--sk-*` token rendered live, dark and light side by side. Values come from
+`src/tokens.ts` and are generated into `src/styles/tokens.css` by `bun run tokens:build`.
+Dark is the default/brand theme; light is a mode. Swatches read the CSS variables, so what
+you see is exactly what a consumer gets.
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}>
+  <ThemedTokenGallery theme="dark" />
+  <ThemedTokenGallery theme="light" />
+</div>

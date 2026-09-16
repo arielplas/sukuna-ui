@@ -4,8 +4,8 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phase 0 done; Phase 1 token pipeline built (Storybook swatch page pending Phase 2).
-Current phase: **Phase 1 — Tokens** (in progress). Phase 0 done; 2–9 pending.
+Last updated: 2026-09-16 — Phases 0, 1, 2 done. Next: Phase 3 (styling primitives).
+Current phase: **Phase 3 — Styling primitives** (next). Phases 0–2 done; 4–9 pending.
 Current version: none published. Target for first publish: `0.1.0`.
 
 ---
@@ -15,8 +15,8 @@ Current version: none published. Target for first publish: `0.1.0`.
 | # | Phase | Status | Gate | Evidence (link/commit) |
 |---|---|---|---|---|
 | 0 | Repo bootstrap | [x] | `bun run build` + `check:pkg` pass on empty entry; `CLAUDE.md`, PR template exist | local: `build`→ESM/CJS/d.ts/d.cts; `check:pkg` (publint --strict + attw) exit 0; `check` (biome+tsc) exit 0 |
-| 1 | Tokens | [~] | `tokens:build` deterministic; Tokens story shows both themes | `tokens:build` byte-identical on re-run ✓; `src/tokens.ts` → `src/styles/tokens.css` (+ reset.css, index.css). **Tokens story deferred to Phase 2** (needs Storybook). Light shadow proposed — Q12 |
-| 2 | Storybook + test harness | [ ] | Storybook opens with theme toolbar; `bun test` runs; 90% threshold proven to fail | |
+| 1 | Tokens | [x] | `tokens:build` deterministic; Tokens story shows both themes | `tokens:build` byte-identical on re-run ✓; `src/tokens.ts` → `src/styles/tokens.css` (+ reset.css, index.css); `Design/Tokens` MDX renders every `--sk-*` dark+light. Light shadow proposed — Q12 |
+| 2 | Storybook + test harness | [x] | Storybook opens with theme toolbar; `bun test` runs; 90% threshold proven to fail | SB10 react-vite builds; theme toolbar + SideBySide decorators; a11y+docs addons; Sukuna manager theme. `bun test` 3 pass; scalar 90% floor proven to fail (object form silently ignored by Bun — testing.md). Tailwind/theme.css deferred to Phase 3 per plan; Intro.mdx deferred to README (Phase 9) |
 | 3 | Styling primitives | [ ] | `theme.css`, `cn`, `tv` wrappers; `docs/styling.md`; `css:build` emits fallback CSS | |
 | 4 | Static components | [ ] | Text, Badge, Card all `[x]` in section B | |
 | 5 | Native interactive | [ ] | Button, Input, Checkbox, Switch all `[x]` in section B | |
@@ -80,9 +80,9 @@ One row block per component. A component is done only when every box is `[x]`. O
 | `src/utils/tv.ts` | [ ] | `tailwind-variants` with same merge config |
 | `src/styles/theme.css` | [ ] | `@theme inline` + `[data-theme]` palettes, generated from `src/tokens.ts` |
 | `src/styles/fallback.css` → `dist/styles.css` | [ ] | Precompiled path for non-Tailwind consumers |
-| `test/setup.ts`, `test/ssr.ts`, `test/axe.ts` | [ ] | |
-| `test/browser/setup.ts` | [ ] | Playwright inside `bun test` |
-| `scripts/with-react.ts` | [ ] | React 18 matrix |
+| `test/setup.ts`, `test/ssr.ts`, `test/axe.ts` | [x] | Phase 2; happy-dom + jest-dom/axe + SSR/hydration helpers |
+| `test/browser/setup.ts` | [ ] | Playwright inside `bun test` — Phase 6 |
+| `scripts/with-react.ts` | [ ] | React 18 matrix — Phase 5 |
 | `CLAUDE.md` / `AGENTS.md` | [x] | Rules §3 + breaking-change table + docs map (Phase 0) |
 | `.github/PULL_REQUEST_TEMPLATE.md` | [x] | Changeset/bump/docs/roadmap checklist (Phase 0) |
 
@@ -123,3 +123,5 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · File created during design; Button doc approved · (design session)
 - 2026-09-16 · Phase 0 bootstrap: package.json (@sukuna/ui, exports, peer react>=18), tsconfig strict, Biome, tsup (esm/cjs/dts + preserveDirectives), Changesets, CLAUDE.md/AGENTS.md, PR template; build + check:pkg green · (bootstrap commit)
 - 2026-09-16 · Phase 1 tokens: src/tokens.ts (typed source of truth) → scripts/build-tokens.ts → src/styles/tokens.css (deterministic), + reset.css, index.css; tokens:build script. Light shadow proposed pending Q12. Storybook Tokens page deferred to Phase 2 · (tokens commit)
+- 2026-09-16 · Phase 2 harness: bunfig.toml (90% scalar floor — object form is a Bun no-op), test/setup.ts+ssr.ts+axe.ts, smoke test (3 pass); fixed two testing.md spec bugs · (harness commit)
+- 2026-09-16 · Phase 2 Storybook: SB10 react-vite, .storybook/{main,preview,manager,theme}, theme toolbar + SideBySide, Design/Tokens MDX (both themes), telemetry off. Closes Phase 1 Tokens-story gate · (storybook commit)
