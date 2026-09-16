@@ -101,3 +101,62 @@
   /* Elevation */
   --sk-shadow-card: 0 20px 40px -24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
+
+@theme inline {
+  /* Colors → bg-*, text-*, border-*, ring-* */
+  --color-bg: var(--sk-bg);
+  --color-surface: var(--sk-surface);
+  --color-surface-2: var(--sk-surface-2);
+  --color-well: var(--sk-well);
+  --color-line: var(--sk-line);
+  --color-line-soft: var(--sk-line-soft);
+  --color-accent: var(--sk-accent);
+  --color-accent-deep: var(--sk-accent-deep);
+  --color-accent-glow: var(--sk-accent-glow);
+  --color-premium: var(--sk-premium);
+  --color-premium-dim: var(--sk-premium-dim);
+  --color-text: var(--sk-text);
+  --color-text-dim: var(--sk-text-dim);
+  --color-text-faint: var(--sk-text-faint);
+  --color-success: var(--sk-success);
+
+  /* Font families → font-* */
+  --font-sans: var(--sk-font-sans);
+  --font-display: var(--sk-font-display);
+
+  /* Font sizes → text-* */
+  --text-xs: var(--sk-text-xs);
+  --text-sm: var(--sk-text-sm);
+  --text-md: var(--sk-text-md);
+  --text-lg: var(--sk-text-lg);
+  --text-xl: var(--sk-text-xl);
+  --text-2xl: var(--sk-text-2xl);
+  --text-3xl: var(--sk-text-3xl);
+
+  /* Line-height → leading-* */
+  --leading-tight: var(--sk-leading-tight);
+  --leading-normal: var(--sk-leading-normal);
+
+  /* Letter-spacing → tracking-* */
+  --tracking-tight: var(--sk-tracking-tight);
+  --tracking-normal: var(--sk-tracking-normal);
+  --tracking-eyebrow: var(--sk-tracking-eyebrow);
+
+  /* Radius → rounded-* */
+  --radius-sm: var(--sk-radius-sm);
+  --radius-md: var(--sk-radius-md);
+  --radius-lg: var(--sk-radius-lg);
+  --radius-pill: var(--sk-radius-pill);
+
+  /* Shadow → shadow-* */
+  --shadow-card: var(--sk-shadow-card);
+
+  /* Motion → duration-*, ease-sukuna */
+  --duration-fast: var(--sk-duration-fast);
+  --duration-base: var(--sk-duration-base);
+  --ease-sukuna: var(--sk-ease);
+}
+
+@utility bg-gradient-accent {
+  background-image: var(--sk-gradient-accent);
+}

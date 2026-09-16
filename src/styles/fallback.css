@@ -1,0 +1,8 @@
+/*
+ * Precompiled CSS for NON-Tailwind consumers. Tailwind runs over our own components at
+ * build time (`bun run css:build`) and emits `dist/styles.css`. Second-class vs the Tailwind
+ * path: not purged against the consumer's markup, tokens overridable only via `--sk-*` vars.
+ */
+@import "tailwindcss";
+@import "./theme.css";
+@source "../components";

@@ -1,14 +1,20 @@
 /**
- * Generate `src/styles/tokens.css` from `src/tokens.ts`.
+ * Generate `src/styles/tokens.css` and `src/styles/theme.css` from `src/tokens.ts`.
  *
  * Run: `bun run tokens:build`.
  *
- * Output is deterministic (no timestamps, stable key order), so re-running on an
- * unchanged `tokens.ts` produces byte-identical CSS — the Phase 1 gate.
+ * - `tokens.css`: the raw `--sk-*` custom properties (dark default + light). Plain CSS,
+ *   works with or without Tailwind (the fallback / raw path, Storybook, index.css).
+ * - `theme.css`: the same palettes PLUS the Tailwind v4 `@theme inline` mapping
+ *   (`--color-*` → `var(--sk-*)`, etc.) and the `bg-gradient-accent` `@utility`. Self-contained
+ *   so a Tailwind consumer imports only this. `inline` keeps utilities pointing at the runtime
+ *   `--sk-*` var, so `data-theme` switches colors with no `dark:` variant.
  *
- * Theme-independent tokens live in the default `:root, [data-theme='dark']` block
- * and are inherited by `[data-theme='light']`; only themed tokens are redefined
- * under light.
+ * Output is deterministic (no timestamps, stable key order), so re-running on an unchanged
+ * `tokens.ts` produces byte-identical CSS — the Phase 1 gate.
+ *
+ * Theme-independent tokens live in the default `:root, [data-theme='dark']` block and are
+ * inherited by `[data-theme='light']`; only themed tokens are redefined under light.
  */
 
 import type { Themed } from '../src/tokens'
@@ -106,8 +112,7 @@ const lightBlock = renderBlock([
   { title: 'Elevation', decls: themedShadows.light },
 ])
 
-const css = `${header}
-:root,
+const paletteCss = `:root,
 [data-theme='dark'] {
 ${defaultBlock}
 }
@@ -117,6 +122,57 @@ ${lightBlock}
 }
 `
 
-const outPath = new URL('../src/styles/tokens.css', import.meta.url)
-await Bun.write(outPath, css)
-console.log(`tokens.css written (${css.length} bytes)`)
+const tokensCss = `${header}${paletteCss}`
+
+// --- theme.css: palettes + Tailwind @theme inline mapping ---------------------------
+
+/** `--<tw>: var(--sk-<sk>)` mapping line. */
+const mapLine = (twName: string, skName: string) => `${INDENT}${twName}: var(--sk-${skName});`
+
+function mapGroup(twPrefix: string, keys: string[], skPrefix = twPrefix): string {
+  return keys.map((k) => mapLine(`${twPrefix}${k}`, `${skPrefix}${k}`)).join('\n')
+}
+
+// Colors map to the Tailwind `--color-*` namespace, except the gradient (a `@utility`).
+const colorKeys = Object.keys(colors).filter((k) => k !== 'gradient-accent')
+
+const themeInline = [
+  `${INDENT}/* Colors → bg-*, text-*, border-*, ring-* */`,
+  mapGroup('--color-', colorKeys, ''),
+  '',
+  `${INDENT}/* Font families → font-* */`,
+  mapGroup('--font-', Object.keys(fonts), 'font-'),
+  '',
+  `${INDENT}/* Font sizes → text-* */`,
+  mapGroup('--text-', Object.keys(fontSizes), 'text-'),
+  '',
+  `${INDENT}/* Line-height → leading-* */`,
+  mapGroup('--leading-', Object.keys(leading), 'leading-'),
+  '',
+  `${INDENT}/* Letter-spacing → tracking-* */`,
+  mapGroup('--tracking-', Object.keys(tracking), 'tracking-'),
+  '',
+  `${INDENT}/* Radius → rounded-* */`,
+  mapGroup('--radius-', Object.keys(radius), 'radius-'),
+  '',
+  `${INDENT}/* Shadow → shadow-* */`,
+  mapGroup('--shadow-', Object.keys(shadows), 'shadow-'),
+  '',
+  `${INDENT}/* Motion → duration-*, ease-sukuna */`,
+  mapGroup('--duration-', Object.keys(motion.duration), 'duration-'),
+  `${INDENT}--ease-sukuna: var(--sk-ease);`,
+].join('\n')
+
+const themeCss = `${header}${paletteCss}
+@theme inline {
+${themeInline}
+}
+
+@utility bg-gradient-accent {
+  background-image: var(--sk-gradient-accent);
+}
+`
+
+await Bun.write(new URL('../src/styles/tokens.css', import.meta.url), tokensCss)
+await Bun.write(new URL('../src/styles/theme.css', import.meta.url), themeCss)
+console.log(`tokens.css (${tokensCss.length} B) + theme.css (${themeCss.length} B) written`)

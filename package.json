@@ -21,19 +21,23 @@
         "default": "./dist/index.cjs"
       }
     },
+    "./theme.css": "./dist/theme.css",
+    "./styles.css": "./dist/styles.css",
+    "./tokens.css": "./dist/tokens.css",
     "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
+    "build": "bun run tokens:build && tsup && bun run css:build",
     "tokens:build": "bun run scripts/build-tokens.ts",
+    "css:build": "bun run scripts/build-css.ts",
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome format --write .",
     "check": "biome check . && tsc --noEmit",
-    "check:pkg": "publint --strict && attw --pack .",
+    "check:pkg": "publint --strict && attw --pack . --exclude-entrypoints theme.css styles.css tokens.css",
     "test": "bun test",
     "test:coverage": "bun test --coverage",
     "test:watch": "bun test --watch",
@@ -44,7 +48,13 @@
   },
   "peerDependencies": {
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "tailwindcss": ">=4"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
@@ -54,6 +64,8 @@
     "@storybook/addon-a11y": "^10",
     "@storybook/addon-docs": "^10",
     "@storybook/react-vite": "^10",
+    "@tailwindcss/cli": "^4",
+    "@tailwindcss/vite": "^4",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
@@ -69,6 +81,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "storybook": "^10",
+    "tailwindcss": "^4",
     "tsup": "^8.5.0",
     "typescript": "^5.7.0",
     "vite": "^7"
@@ -80,5 +93,10 @@
   "publishConfig": {
     "access": "public",
     "provenance": true
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.7.0",
+    "tailwind-variants": "^3.3.1"
   }
 }

@@ -12,7 +12,10 @@
       "!coverage",
       "!storybook-static",
       "!.changeset",
-      "!src/styles/tokens.css"
+      "!src/styles/tokens.css",
+      "!src/styles/theme.css",
+      "!src/styles/fallback.css",
+      "!src/styles/storybook.css"
     ]
   },
   "formatter": {

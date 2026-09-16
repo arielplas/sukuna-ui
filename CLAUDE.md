@@ -69,6 +69,8 @@ leave a `// DECISION(open): ...` comment at the touch point.
 - `docs/roadmap.md` — **living** status board (phase gates + per-component checklist).
 - `docs/questions.md` — Q&A log + recorded decisions + open questions.
 - `docs/tokens.md` — Sukuna → `--sk-*` token values, dark + light.
+- `docs/styling.md` — Tailwind v4 + `tailwind-variants` engine, the `.styles.tsx` pattern, CSS files.
+- `docs/ai-decisions.md` — decisions the agent made on its own (open items, spec fixes, missing values).
 - `docs/testing.md` — `bun test` harness, coverage policy, required cases.
 - `docs/storybook.md` — Storybook 10 setup and story conventions.
 - `docs/component-button.md` — the component-doc template (every component copies its sections).

@@ -4,8 +4,8 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phases 0, 1, 2 done. Next: Phase 3 (styling primitives).
-Current phase: **Phase 3 — Styling primitives** (next). Phases 0–2 done; 4–9 pending.
+Last updated: 2026-09-16 — Phases 0–3 done. Next: Phase 4 (static components: Text, Badge, Card).
+Current phase: **Phase 4 — Static components** (next). Phases 0–3 done; 5–9 pending.
 Current version: none published. Target for first publish: `0.1.0`.
 
 ---
@@ -17,7 +17,7 @@ Current version: none published. Target for first publish: `0.1.0`.
 | 0 | Repo bootstrap | [x] | `bun run build` + `check:pkg` pass on empty entry; `CLAUDE.md`, PR template exist | local: `build`→ESM/CJS/d.ts/d.cts; `check:pkg` (publint --strict + attw) exit 0; `check` (biome+tsc) exit 0 |
 | 1 | Tokens | [x] | `tokens:build` deterministic; Tokens story shows both themes | `tokens:build` byte-identical on re-run ✓; `src/tokens.ts` → `src/styles/tokens.css` (+ reset.css, index.css); `Design/Tokens` MDX renders every `--sk-*` dark+light. Light shadow proposed — Q12 |
 | 2 | Storybook + test harness | [x] | Storybook opens with theme toolbar; `bun test` runs; 90% threshold proven to fail | SB10 react-vite builds; theme toolbar + SideBySide decorators; a11y+docs addons; Sukuna manager theme. `bun test` 3 pass; scalar 90% floor proven to fail (object form silently ignored by Bun — testing.md). Tailwind/theme.css deferred to Phase 3 per plan; Intro.mdx deferred to README (Phase 9) |
-| 3 | Styling primitives | [ ] | `theme.css`, `cn`, `tv` wrappers; `docs/styling.md`; `css:build` emits fallback CSS | |
+| 3 | Styling primitives | [x] | `theme.css`, `cn`, `tv` wrappers; `docs/styling.md`; `css:build` emits fallback CSS | Tailwind v4 + tv installed; generator emits `theme.css` (@theme inline + gradient utility); `cn`/`tv`/`tw-merge-config` (utils 100% cov); `css:build` → `dist/{styles,theme,tokens}.css`; Storybook on Tailwind; `docs/styling.md`. RSC-safe styling test passes. Spacing kept default — D10 |
 | 4 | Static components | [ ] | Text, Badge, Card all `[x]` in section B | |
 | 5 | Native interactive | [ ] | Button, Input, Checkbox, Switch all `[x]` in section B | |
 | 6 | Headless-backed | [ ] | Tooltip, Dialog, Select all `[x]` in section B | |
@@ -76,10 +76,10 @@ One row block per component. A component is done only when every box is `[x]`. O
 | Item | Status | Notes |
 |---|---|---|
 | `src/hooks/useControllableState` | [ ] | Needed by Checkbox, Switch, Select |
-| `src/utils/cn.ts` | [ ] | `extendTailwindMerge` with custom theme keys |
-| `src/utils/tv.ts` | [ ] | `tailwind-variants` with same merge config |
-| `src/styles/theme.css` | [ ] | `@theme inline` + `[data-theme]` palettes, generated from `src/tokens.ts` |
-| `src/styles/fallback.css` → `dist/styles.css` | [ ] | Precompiled path for non-Tailwind consumers |
+| `src/utils/cn.ts` | [x] | `extendTailwindMerge` via shared `tw-merge-config` (Phase 3) |
+| `src/utils/tv.ts` | [x] | `createTV` with same merge config (Phase 3) |
+| `src/styles/theme.css` | [x] | Generated `@theme inline` + `[data-theme]` palettes + gradient utility (Phase 3) |
+| `src/styles/fallback.css` → `dist/styles.css` | [x] | `css:build` compiles it; also copies theme.css/tokens.css (Phase 3) |
 | `test/setup.ts`, `test/ssr.ts`, `test/axe.ts` | [x] | Phase 2; happy-dom + jest-dom/axe + SSR/hydration helpers |
 | `test/browser/setup.ts` | [ ] | Playwright inside `bun test` — Phase 6 |
 | `scripts/with-react.ts` | [ ] | React 18 matrix — Phase 5 |
@@ -125,3 +125,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 1 tokens: src/tokens.ts (typed source of truth) → scripts/build-tokens.ts → src/styles/tokens.css (deterministic), + reset.css, index.css; tokens:build script. Light shadow proposed pending Q12. Storybook Tokens page deferred to Phase 2 · (tokens commit)
 - 2026-09-16 · Phase 2 harness: bunfig.toml (90% scalar floor — object form is a Bun no-op), test/setup.ts+ssr.ts+axe.ts, smoke test (3 pass); fixed two testing.md spec bugs · (harness commit)
 - 2026-09-16 · Phase 2 Storybook: SB10 react-vite, .storybook/{main,preview,manager,theme}, theme toolbar + SideBySide, Design/Tokens MDX (both themes), telemetry off. Closes Phase 1 Tokens-story gate · (storybook commit)
+- 2026-09-16 · Phase 3 styling: Tailwind v4 + tailwind-variants; generator emits theme.css; cn/tv/tw-merge-config utils (100% cov); css:build → dist CSS; theme.css/styles.css/tokens.css exports (attw excludes CSS); Storybook on Tailwind; docs/styling.md + ai-decisions.md · (styling commit)

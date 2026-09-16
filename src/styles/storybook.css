@@ -1,0 +1,8 @@
+/*
+ * Storybook preview stylesheet. Pulls in Tailwind + our theme so stories exercise the exact
+ * utilities a consumer's Tailwind build would generate, with `@source` pointed at the
+ * components so their classes are emitted in dev.
+ */
+@import "tailwindcss";
+@import "./theme.css";
+@source "../components";

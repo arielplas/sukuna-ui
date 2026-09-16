@@ -1,6 +1,6 @@
 import type { Decorator, Preview } from '@storybook/react-vite'
 import type { ReactNode } from 'react'
-import '../src/styles/index.css'
+import '../src/styles/storybook.css'
 
 type ThemeName = 'dark' | 'light'
 
