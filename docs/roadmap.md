@@ -109,11 +109,47 @@ owner's visual pass._
 
 ---
 
-## D. Post-1.0 backlog (not scheduled)
+## D. v1.1 — new components (scheduled)
+
+Gap analysis vs. Material UI (2026-09-16). Same contract as v1: docs-first, three-file split,
+≥90% coverage, axe, stories, `bun link` example still builds. Base UI (already a dep) backs the
+interactive ones. Each shipped component is a **minor** bump (adds API); pre-1.0 that's still `0.x`.
+
+Order within a component: doc → styles → logic → index → tests → stories → (browser if headless) →
+export → ≥90% → review.
+
+### Tier 1 — high-value, common
+
+| Component | Kind | Backing | Status |
+|---|---|---|---|
+| Divider | static | — | [x] 100% cov |
+| Alert | static | — | [x] 100% cov |
+| Chip | static (+ optional dismiss) | — | [x] 100% cov |
+| Avatar | static/img fallback | Base UI `avatar` | [ ] |
+| Spinner | static (CSS) | — | [x] 100% cov |
+| RadioGroup | interactive | Base UI `radio-group` | [ ] |
+| Tabs | interactive | Base UI `tabs` | [ ] |
+| Accordion | interactive | Base UI `accordion` | [ ] |
+
+### Tier 2 — common, a bit heavier
+
+| Component | Kind | Backing | Status |
+|---|---|---|---|
+| Menu (dropdown) | interactive | Base UI `menu` | [ ] |
+| Toast | interactive (provider/queue) | Base UI `toast` | [ ] |
+| Progress (bar) | static/indeterminate | Base UI `progress` | [ ] |
+| Skeleton | static | — | [ ] |
+
+### Tier 3 — niche / later
+
+Slider, Breadcrumbs, Pagination, Drawer, Stepper, Table, Tooltip-arrow, Combobox (Base UI
+`autocomplete`). Out of scope for now: layout primitives (Box/Grid/Stack), an icon set, low-level
+utils (Modal/Popover/Popper — used internally via Base UI).
+
+## D2. Post-1.0 backlog (not scheduled)
 
 - [ ] Polymorphic `as` / `asChild` for Button → Link
 - [ ] Monorepo split (`@sukuna/tokens`, `@sukuna/icons`) if demand appears
-- [ ] Combobox, Menu, Tabs, Toast
 - [ ] `premium` surface variants on Card
 - [ ] RTL audit
 
@@ -147,3 +183,5 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Phase 8: runtime hydration smoke (scripts/hydration-smoke.mjs) on the Next SSR app — zero hydration warnings; wired into CI examples job. Remix example remains · (hydration commit)
 - 2026-09-16 · Phase 9 CD: .github/workflows/release.yml — Changesets action opens Version Packages PR on push to main; publishes to npm (provenance) only after owner merges it. Needs NPM_TOKEN secret. docs/releasing.md updated · (release-workflow commit)
 - 2026-09-16 · Enabled repo setting "Actions can create PRs"; Version Packages PR #1 opened + merged (0.1.0). First publish 404'd: `@sukuna/ui` needs an npm org that isn't owned. Renamed package → `sukuna-ui` (unscoped, D20); re-publishing on next push · (rename commit)
+- 2026-09-16 · Published `sukuna-ui@0.1.0` to npm with provenance (Automation token + repository field). CI + CD green · (publish)
+- 2026-09-16 · v1.1 gap analysis vs MUI added to roadmap §D. Built Tier-1 static components: Divider, Alert, Chip, Spinner (100% cov each, axe both themes) · (v1.1 static wave)

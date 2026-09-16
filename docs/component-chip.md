@@ -1,0 +1,72 @@
+# Component: Chip
+
+> Follows the `docs/component-button.md` template. Static component — no `'use client'`
+> (the optional dismiss button just forwards the consumer's handler; Chip holds no state).
+
+## 1. Purpose
+
+A compact token for filters, selections, or tags — optionally removable. (For a non-removable
+status pill, use Badge.)
+
+## 2. Files
+
+```
+src/components/chip/
+├── chip.styles.tsx   # tv() slots: root, dismiss.
+├── chip.logic.tsx    # forwardRef; NO 'use client'.
+├── chip.test.tsx
+├── chip.stories.tsx
+└── index.tsx
+```
+
+## 3. API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
+  tone?: 'neutral' | 'accent' | 'success' | 'premium'   // default 'neutral'
+  size?: 'sm' | 'md'                                     // default 'md'
+  leadingIcon?: ReactNode
+  onDismiss?: () => void      // renders a × remove button
+  dismissLabel?: string       // aria-label for the remove button (default 'Remove')
+}
+```
+
+## 4. Variants → tokens
+
+Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap`.
+tone → same mapping as Badge (neutral/accent/success/premium). size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm text-current/70 hover:text-current focus-visible:ring-2 focus-visible:ring-accent-glow`.
+
+## 5. States
+
+Static; the dismiss button is a native `<button>` (keyboard/focus for free).
+
+## 6. Logic (`chip.logic.tsx`)
+
+- No `'use client'`. `forwardRef<HTMLSpanElement>`.
+- Renders optional `leadingIcon`, `children`, and — when `onDismiss` is set — a trailing
+  `<button aria-label={dismissLabel}>` calling it.
+
+## 7. Styles (`chip.styles.tsx`)
+
+`tv()` with `slots: { root, dismiss }` + `tone`/`size` variants.
+
+## 8. Accessibility checklist
+
+- [ ] Remove button has an `aria-label` (default "Remove"); it's a real `<button>`.
+- [ ] Tone conveyed by text, not color alone.
+- [ ] Text/border contrast ≥ 4.5:1 / 3:1 in both themes.
+
+## 9. Tests
+
+Renders tone × size; leading icon slot; dismiss button appears only with `onDismiss` and calls it
+on click; no leak; ref; className; SSR; axe both themes.
+
+## 10. Stories
+
+`Tones`, `Sizes`, `Dismissible`, `WithIcon`.
+
+## 11. Decisions
+
+- Dismiss is opt-in via `onDismiss` and stateless (consumer owns removal); Chip stays RSC-safe.
