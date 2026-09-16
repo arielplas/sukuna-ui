@@ -135,10 +135,10 @@ export → ≥90% → review.
 
 | Component | Kind | Backing | Status |
 |---|---|---|---|
-| Menu (dropdown) | interactive | Base UI `menu` | [ ] |
+| Menu (dropdown) | interactive | Base UI `menu` | [x] 100% cov + browser |
 | Toast | interactive (provider/queue) | Base UI `toast` | [ ] |
-| Progress (bar) | static/indeterminate | Base UI `progress` | [ ] |
-| Skeleton | static | — | [ ] |
+| Progress (bar) | static/indeterminate | Base UI `progress` | [x] 100% cov |
+| Skeleton | static | — | [x] 100% cov |
 
 ### Tier 3 — niche / later
 
@@ -186,3 +186,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Published `sukuna-ui@0.1.0` to npm with provenance (Automation token + repository field). CI + CD green · (publish)
 - 2026-09-16 · v1.1 gap analysis vs MUI added to roadmap §D. Built Tier-1 static components: Divider, Alert, Chip, Spinner (100% cov each, axe both themes) · (v1.1 static wave)
 - 2026-09-16 · Tier-1 complete: Avatar, RadioGroup, Tabs, Accordion (Base UI). 100% cov each; RadioGroup/Tabs/Accordion have Playwright browser tests (arrow-key/manual-activation/expand). 131 unit tests, 8 browser tests green · (v1.1 interactive wave)
+- 2026-09-16 · Tier-2 (3/4): Skeleton (static), Progress (Base UI), Menu (Base UI + browser test). 145 unit + 9 browser tests green. Toast remains · (v1.1 tier-2 wave)
