@@ -118,6 +118,8 @@ interactive ones. Each shipped component is a **minor** bump (adds API); pre-1.0
 Order within a component: doc → styles → logic → index → tests → stories → (browser if headless) →
 export → ≥90% → review.
 
+**Status: Tier 1 (8/8) and Tier 2 (4/4) complete — 22 components published/queued. Tier 3 is next / on demand.**
+
 ### Tier 1 — high-value, common
 
 | Component | Kind | Backing | Status |
@@ -136,7 +138,7 @@ export → ≥90% → review.
 | Component | Kind | Backing | Status |
 |---|---|---|---|
 | Menu (dropdown) | interactive | Base UI `menu` | [x] 100% cov + browser |
-| Toast | interactive (provider/queue) | Base UI `toast` | [ ] |
+| Toast | interactive (provider/queue) | Base UI `toast` | [x] 100% cov + browser |
 | Progress (bar) | static/indeterminate | Base UI `progress` | [x] 100% cov |
 | Skeleton | static | — | [x] 100% cov |
 
@@ -187,3 +189,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · v1.1 gap analysis vs MUI added to roadmap §D. Built Tier-1 static components: Divider, Alert, Chip, Spinner (100% cov each, axe both themes) · (v1.1 static wave)
 - 2026-09-16 · Tier-1 complete: Avatar, RadioGroup, Tabs, Accordion (Base UI). 100% cov each; RadioGroup/Tabs/Accordion have Playwright browser tests (arrow-key/manual-activation/expand). 131 unit tests, 8 browser tests green · (v1.1 interactive wave)
 - 2026-09-16 · Tier-2 (3/4): Skeleton (static), Progress (Base UI), Menu (Base UI + browser test). 145 unit + 9 browser tests green. Toast remains · (v1.1 tier-2 wave)
+- 2026-09-16 · Tier-2 complete: Toast (Base UI Provider + useToast hook + viewport). 147 unit + 10 browser tests green. v1.1 Tier 1 + Tier 2 all shipped (12 new components; 22 total) · (toast commit)
