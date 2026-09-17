@@ -144,9 +144,18 @@ export → ≥90% → review.
 
 ### Tier 3 — niche / later
 
-Slider, Breadcrumbs, Pagination, Drawer, Stepper, Table, Tooltip-arrow, Combobox (Base UI
-`autocomplete`). Out of scope for now: layout primitives (Box/Grid/Stack), an icon set, low-level
-utils (Modal/Popover/Popper — used internally via Base UI).
+| Component | Kind | Backing | Status |
+|---|---|---|---|
+| Breadcrumbs | static | — | [x] 100% cov |
+| Slider | interactive | Base UI `slider` | [x] 100% cov + browser |
+| Pagination | static (controlled) | — | [x] 100% cov |
+| Drawer | interactive | Base UI `dialog` (side) | [ ] |
+| Stepper | static/interactive | — | [ ] |
+| Combobox | interactive | Base UI `autocomplete` | [ ] |
+| Table | static | — | [ ] |
+
+Out of scope for now: layout primitives (Box/Grid/Stack), an icon set, low-level utils
+(Modal/Popover/Popper — used internally via Base UI).
 
 ## D2. Post-1.0 backlog (not scheduled)
 
@@ -190,3 +199,5 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Tier-1 complete: Avatar, RadioGroup, Tabs, Accordion (Base UI). 100% cov each; RadioGroup/Tabs/Accordion have Playwright browser tests (arrow-key/manual-activation/expand). 131 unit tests, 8 browser tests green · (v1.1 interactive wave)
 - 2026-09-16 · Tier-2 (3/4): Skeleton (static), Progress (Base UI), Menu (Base UI + browser test). 145 unit + 9 browser tests green. Toast remains · (v1.1 tier-2 wave)
 - 2026-09-16 · Tier-2 complete: Toast (Base UI Provider + useToast hook + viewport). 147 unit + 10 browser tests green. v1.1 Tier 1 + Tier 2 all shipped (12 new components; 22 total) · (toast commit)
+- 2026-09-17 · Published sukuna-ui@0.2.0 (merged Version Packages PR #2; 12 v1.1 components) · (release)
+- 2026-09-17 · Tier-3 (3/7): Breadcrumbs (static), Slider (Base UI + browser), Pagination (static, range helper). 167 unit + 11 browser tests green. Remaining: Drawer, Stepper, Combobox, Table · (v1.1 tier-3 wave)
