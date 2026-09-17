@@ -118,7 +118,7 @@ interactive ones. Each shipped component is a **minor** bump (adds API); pre-1.0
 Order within a component: doc → styles → logic → index → tests → stories → (browser if headless) →
 export → ≥90% → review.
 
-**Status: Tier 1 (8/8) and Tier 2 (4/4) complete — 22 components published/queued. Tier 3 is next / on demand.**
+**Status: v1.1 COMPLETE — Tier 1 (8/8), Tier 2 (4/4), Tier 3 (7/7). 29 components total. 187 unit + 13 browser tests, 100% coverage. `0.2.0` published; the rest queued for the next release.**
 
 ### Tier 1 — high-value, common
 
@@ -149,10 +149,10 @@ export → ≥90% → review.
 | Breadcrumbs | static | — | [x] 100% cov |
 | Slider | interactive | Base UI `slider` | [x] 100% cov + browser |
 | Pagination | static (controlled) | — | [x] 100% cov |
-| Drawer | interactive | Base UI `dialog` (side) | [ ] |
-| Stepper | static/interactive | — | [ ] |
-| Combobox | interactive | Base UI `autocomplete` | [ ] |
-| Table | static | — | [ ] |
+| Drawer | interactive | Base UI `dialog` (side) | [x] 100% cov + browser |
+| Stepper | static/interactive | — | [x] 100% cov |
+| Combobox | interactive | Base UI `autocomplete` | [x] 100% cov + browser |
+| Table | static | — | [x] 100% cov |
 
 Out of scope for now: layout primitives (Box/Grid/Stack), an icon set, low-level utils
 (Modal/Popover/Popper — used internally via Base UI).
@@ -201,3 +201,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-16 · Tier-2 complete: Toast (Base UI Provider + useToast hook + viewport). 147 unit + 10 browser tests green. v1.1 Tier 1 + Tier 2 all shipped (12 new components; 22 total) · (toast commit)
 - 2026-09-17 · Published sukuna-ui@0.2.0 (merged Version Packages PR #2; 12 v1.1 components) · (release)
 - 2026-09-17 · Tier-3 (3/7): Breadcrumbs (static), Slider (Base UI + browser), Pagination (static, range helper). 167 unit + 11 browser tests green. Remaining: Drawer, Stepper, Combobox, Table · (v1.1 tier-3 wave)
+- 2026-09-17 · Tier-3 complete + v1.1 DONE: Drawer (Base UI dialog, side variant), Stepper (static), Combobox (Base UI autocomplete), Table (static compound). 187 unit + 13 browser tests green. 29 components total · (v1.1 tier-3 wave 2)

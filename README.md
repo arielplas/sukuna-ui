@@ -76,11 +76,13 @@ export function Example() {
 
 ## Components
 
-| Tier | Components |
+29 components across three groups:
+
+| Group | Components |
 |---|---|
-| Static (RSC-safe) | `Text`, `Badge`, `Card` |
+| Static / display (RSC-safe) | `Text`, `Badge`, `Card`, `Divider`, `Alert`, `Chip`, `Spinner`, `Avatar`, `Skeleton`, `Breadcrumbs`, `Pagination`, `Stepper`, `Table`, `Progress` |
 | Native interactive | `Button`, `Input`, `Checkbox`, `Switch` |
-| Headless-backed (Base UI) | `Tooltip`, `Dialog`, `Select` |
+| Headless-backed (Base UI) | `Tooltip`, `Dialog`, `Select`, `RadioGroup`, `Tabs`, `Accordion`, `Menu`, `Toast`, `Slider`, `Drawer`, `Combobox` |
 
 Fonts: the library does **not** bundle Archivo. Load it yourself (`@import` or `next/font`) so
 `--sk-font-display` resolves; it falls back to the system sans otherwise.
