@@ -3,7 +3,7 @@ import { tv } from '../../utils/tv'
 export const toastStyles = tv({
   slots: {
     viewport:
-      'fixed bottom-4 right-4 z-50 flex w-80 max-w-[calc(100vw-2rem)] flex-col gap-2 outline-none',
+      'fixed bottom-4 right-4 z-[var(--sk-z-toast)] flex w-80 max-w-[calc(100vw-2rem)] flex-col gap-2 outline-none',
     root: [
       'relative rounded-md border border-line bg-surface p-4 pr-9 shadow-card text-text',
       'transition-all duration-base ease-sukuna',

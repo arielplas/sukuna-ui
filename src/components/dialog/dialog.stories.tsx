@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from '../button'
+import { Select } from '../select'
 import { Text } from '../text'
 import { Dialog } from './index'
 
@@ -52,6 +53,38 @@ export const Destructive: Story = {
         <div style={footer}>
           <Dialog.Close>Cancel</Dialog.Close>
           <Dialog.Close render={<Button>Delete</Button>} />
+        </div>
+      </Dialog.Content>
+    </Dialog>
+  ),
+}
+
+/**
+ * A dropdown opened inside a dialog must render *above* it. The popover layer sits above the
+ * dialog layer in the z-index scale, so the Select popup is never clipped by the dialog.
+ */
+export const WithSelect: Story = {
+  render: () => (
+    <Dialog>
+      <Dialog.Trigger>
+        <Button>Edit member</Button>
+      </Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Title>Member role</Dialog.Title>
+        <Dialog.Description>Choose a role for this workspace member.</Dialog.Description>
+        <div style={{ marginTop: 16 }}>
+          <Select
+            aria-label="Role"
+            defaultValue="viewer"
+            items={[
+              { value: 'viewer', label: 'Viewer' },
+              { value: 'editor', label: 'Editor' },
+              { value: 'admin', label: 'Admin' },
+            ]}
+          />
+        </div>
+        <div style={footer}>
+          <Dialog.Close render={<Button>Save</Button>} />
         </div>
       </Dialog.Content>
     </Dialog>

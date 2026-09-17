@@ -117,10 +117,16 @@ export const motion = {
   ease: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
 } as const
 
-/** Stacking order → `--sk-z-*`. */
+/**
+ * Stacking order → `--sk-z-*`. Higher sits above lower. The scale is monotonic so a surface that
+ * can open *inside* a dialog (a Select/Menu/Combobox dropdown, a tooltip) renders above it:
+ * `dialog` < `popover` < `toast` < `tooltip`.
+ */
 export const zIndex = {
-  tooltip: 40,
   dialog: 50,
+  popover: 60,
+  toast: 70,
+  tooltip: 80,
 } as const
 
 /** Everything, for consumers who want tokens in JS. */

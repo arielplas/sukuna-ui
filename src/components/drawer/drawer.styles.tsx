@@ -3,9 +3,9 @@ import { tv } from '../../utils/tv'
 export const drawerStyles = tv({
   slots: {
     backdrop:
-      'fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity duration-base ease-sukuna data-[starting-style]:opacity-0 data-[ending-style]:opacity-0',
+      'fixed inset-0 z-[var(--sk-z-dialog)] bg-black/60 backdrop-blur-sm transition-opacity duration-base ease-sukuna data-[starting-style]:opacity-0 data-[ending-style]:opacity-0',
     popup: [
-      'fixed z-50 flex flex-col gap-2 bg-surface p-6 shadow-card border-line',
+      'fixed z-[var(--sk-z-dialog)] flex flex-col gap-2 bg-surface p-6 shadow-card border-line',
       'transition-transform duration-base ease-sukuna focus-visible:outline-none',
     ],
     title: 'font-display text-lg font-bold tracking-tight text-text',

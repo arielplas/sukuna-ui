@@ -98,7 +98,7 @@ export function Select({
         <Base.Icon className={styles.icon()}>{chevron}</Base.Icon>
       </Base.Trigger>
       <Base.Portal>
-        <Base.Positioner sideOffset={6}>
+        <Base.Positioner sideOffset={6} className={styles.positioner()}>
           <Base.Popup className={styles.popup()}>
             <Base.List>
               {items.map((item) => (

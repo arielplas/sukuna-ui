@@ -43,7 +43,7 @@ export function Combobox({
         className={styles.input()}
       />
       <Base.Portal>
-        <Base.Positioner sideOffset={6}>
+        <Base.Positioner sideOffset={6} className={styles.positioner()}>
           <Base.Popup className={styles.popup()}>
             <Base.Empty className={styles.empty()}>{emptyMessage}</Base.Empty>
             <Base.List>

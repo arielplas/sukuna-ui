@@ -32,13 +32,19 @@ export function Tooltip({
   defaultOpen,
   onOpenChange,
 }: TooltipProps) {
+  const styles = tooltipStyles()
   return (
     <Base.Provider delay={delay}>
       <Base.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <Base.Trigger render={children as ReactElement<Record<string, unknown>>} />
         <Base.Portal>
-          <Base.Positioner side={side} align={align} sideOffset={sideOffset}>
-            <Base.Popup className={tooltipStyles()}>{content}</Base.Popup>
+          <Base.Positioner
+            side={side}
+            align={align}
+            sideOffset={sideOffset}
+            className={styles.positioner()}
+          >
+            <Base.Popup className={styles.popup()}>{content}</Base.Popup>
           </Base.Positioner>
         </Base.Portal>
       </Base.Root>

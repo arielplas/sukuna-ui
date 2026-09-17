@@ -75,8 +75,10 @@
   --sk-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 
   /* Z-index */
-  --sk-z-tooltip: 40;
   --sk-z-dialog: 50;
+  --sk-z-popover: 60;
+  --sk-z-toast: 70;
+  --sk-z-tooltip: 80;
 }
 
 [data-theme='light'] {

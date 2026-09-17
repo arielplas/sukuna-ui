@@ -4,8 +4,10 @@ export const comboboxStyles = tv({
   slots: {
     input:
       'w-full h-10 bg-surface-2 text-text border border-line rounded-md px-3 text-md placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed',
+    // z-index on the Positioner (body-level portalled element), above the dialog layer — see Select.
+    positioner: 'z-[var(--sk-z-popover)]',
     popup: [
-      'z-50 max-h-72 min-w-48 overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card outline-none',
+      'max-h-72 min-w-48 overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card outline-none',
       'transition-[opacity,transform] duration-fast ease-sukuna',
       'data-[starting-style]:opacity-0 data-[starting-style]:scale-95',
       'data-[ending-style]:opacity-0 data-[ending-style]:scale-95',

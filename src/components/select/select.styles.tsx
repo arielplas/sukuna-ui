@@ -11,8 +11,11 @@ export const selectStyles = tv({
       'disabled:opacity-45 disabled:cursor-not-allowed',
     ],
     icon: 'text-text-dim shrink-0',
+    // z-index lives on the Positioner (the body-level portalled element); the Popup is nested
+    // inside the Positioner's own stacking context, so a z-index there can't clear a dialog.
+    positioner: 'z-[var(--sk-z-popover)]',
     popup: [
-      'z-50 min-w-40 max-h-96 overflow-y-auto',
+      'min-w-40 max-h-96 overflow-y-auto',
       'rounded-md border border-line bg-surface p-1 shadow-card',
       'transition-[opacity,transform] duration-fast ease-sukuna',
       'data-[starting-style]:opacity-0 data-[starting-style]:scale-95',

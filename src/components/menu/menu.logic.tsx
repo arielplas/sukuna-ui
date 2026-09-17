@@ -31,7 +31,12 @@ export function Menu({
     <Base.Root>
       <Base.Trigger render={children as ReactElement<Record<string, unknown>>} />
       <Base.Portal>
-        <Base.Positioner side={side} align={align} sideOffset={sideOffset}>
+        <Base.Positioner
+          side={side}
+          align={align}
+          sideOffset={sideOffset}
+          className={styles.positioner()}
+        >
           <Base.Popup className={styles.popup()}>
             {items.map((item, index) => (
               <Base.Item

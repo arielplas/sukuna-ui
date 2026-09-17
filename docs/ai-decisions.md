@@ -9,6 +9,26 @@ agent's own calls. Newest first.
 
 ---
 
+## D21 — Overlay z-index scale; z-index moves to the positioner
+
+- **Decision:** Overlay stacking is a monotonic `--sk-*` token scale — `dialog: 50` < `popover: 60`
+  < `toast: 70` < `tooltip: 80` — and dropdown/tooltip components set their z-index on the Base UI
+  **positioner**, not the inner popup. Added tokens `--sk-z-popover`, `--sk-z-toast`; moved
+  `--sk-z-tooltip` from `40` → `80`. Dialog/Drawer/Toast now use `z-[var(--sk-z-*)]` instead of a
+  literal `z-50`.
+- **Why:** a Select/Menu/Combobox opened *inside* a Dialog rendered **behind** it. The `z-50` sat on
+  `Base.Popup`, but the element portalled to `<body>` is `Base.Positioner`, which Floating UI gives
+  a `transform` → its own stacking context, so the popup's z-index was trapped and `auto` (0) won at
+  the body level, losing to the dialog's `z-50`. On a plain page nothing else has a positive
+  z-index, so it only broke against a modal. Fix: z-index on the positioner, and a scale where
+  popovers/tooltips sit above the dialog layer. Guarded by a Playwright test
+  (`test/browser/dialog.test.ts`) that opens a Select inside a Dialog and asserts both the stacking
+  order and that the option is clickable (not obscured).
+- **Bump:** minor (adds tokens; pre-1.0 minor). `--sk-z-tooltip`'s value change is a stacking fix,
+  not a layout change.
+- **Reverse:** re-layer by overriding any `--sk-z-*`; the positioner is the correct anchor, don't
+  move it back.
+
 ## D20 — Package renamed `@sukuna/ui` → `sukuna-ui` (unscoped)
 
 - **Decision:** The npm package is **`sukuna-ui`** (unscoped), not `@sukuna/ui`. Owner's choice
