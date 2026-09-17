@@ -1,5 +1,18 @@
 # sukuna-ui
 
+## 0.3.0
+
+### Minor Changes
+
+- 8262442: Add three Tier-3 components: **Breadcrumbs** (navigation trail), **Slider** (single-value range,
+  Base UI), and **Pagination** (controlled, with an ellipsis range helper). All themed via `--sk-*`,
+  100% unit coverage, with a browser test for the Slider's keyboard behavior.
+- 37bd60a: Add the final v1.1 components, completing the set: **Drawer** (side-anchored overlay over Base UI
+  Dialog, left/right/top/bottom), **Stepper** (ordered progress indicator), **Combobox** (free-text
+  autocomplete over Base UI), and **Table** (styled compound over native table elements). All themed
+  via `--sk-*`, 100% unit coverage, with browser tests for Drawer and Combobox. The library now ships
+  29 components.
+
 ## 0.2.0
 
 ### Minor Changes
