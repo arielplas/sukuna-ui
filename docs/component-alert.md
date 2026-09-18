@@ -26,7 +26,8 @@ export interface AlertProps extends ComponentPropsWithoutRef<'div'> {
   tone?: 'info' | 'success' | 'warning' | 'danger'   // default 'info'
   title?: ReactNode
   icon?: ReactNode
-  // role defaults to 'status'; pass role="alert" for urgent/assertive messages.
+  // role derives from tone: 'alert' (assertive) for danger/warning, 'status' (polite)
+  // otherwise. An explicit `role` prop always overrides the derived default.
 }
 ```
 
@@ -42,7 +43,8 @@ Static; no interactive states. (No built-in dismiss in v1 — see Decisions.)
 
 ## 6. Logic (`alert.logic.tsx`)
 
-- No `'use client'`. `forwardRef<HTMLDivElement>`. `role` defaults to `status`.
+- No `'use client'`. `forwardRef<HTMLDivElement>`. `role` derives from `tone` — `alert` for
+  danger/warning, `status` otherwise — unless an explicit `role` is passed.
 - Renders optional `icon`, optional `title`, then `children` as the body.
 
 ## 7. Styles (`alert.styles.tsx`)
@@ -51,7 +53,10 @@ Static; no interactive states. (No built-in dismiss in v1 — see Decisions.)
 
 ## 8. Accessibility checklist
 
-- [ ] `role="status"` (polite) by default; `role="alert"` (assertive) for time-sensitive errors.
+- [x] Role derives from tone: `role="alert"` (assertive) for danger/warning, `role="status"`
+  (polite) for info/success; an explicit `role` overrides. Note: a live region only announces
+  content that appears *after* it exists, so a server-rendered alert present at page load is
+  not read aloud — the assertive announcement applies to alerts that appear after load.
 - [ ] Tone is reinforced by the title/text, never color alone.
 - [ ] Icon is decorative; the message text carries the meaning.
 

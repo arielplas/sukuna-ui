@@ -24,6 +24,11 @@ of the plan. If the roadmap and the code disagree, the code is the truth — fix
    (`bg-${x}`) — every utility string must appear literally in source.
 8. Colors/spacing/radius come from `@theme` tokens (`--sk-*`), never raw hex in a utility. Ask the
    human if a token is missing from `docs/tokens.md`; don't invent one.
+9. **Document in the source.** Every exported component and every prop carries TSDoc per
+   `docs/tsdoc.md` (purpose, `@remarks` for SSR/a11y/variants, `@default`, a copy-pasteable
+   `@example`). The README component table, `llms.txt`, `llms-full.txt` and `docs/llms/*.md` are
+   **generated** by `bun run docs:build` from `docs/component-*.md` + `src/index.ts` — never edit
+   them by hand; `bun run docs:check` fails CI if they drift.
 
 ## Every unit of work ends green
 
@@ -77,4 +82,8 @@ leave a `// DECISION(open): ...` comment at the touch point.
 - `docs/ai-decisions.md` — decisions the agent made on its own (open items, spec fixes, missing values).
 - `docs/testing.md` — `bun test` harness, coverage policy, required cases.
 - `docs/storybook.md` — Storybook 10 setup and story conventions.
+- `docs/tsdoc.md` — source-level TSDoc convention (what every component/prop comment must carry).
+- `docs/known-issues-and-audit.md` — ecosystem lessons + the library's own a11y/perf audit.
+- `docs/improvements.md` — prioritized improvement backlog.
+- `docs/llms/*.md`, `llms.txt`, `llms-full.txt` — **generated** agent-facing docs (`bun run docs:build`).
 - `docs/component-button.md` — the component-doc template (every component copies its sections).

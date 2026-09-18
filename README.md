@@ -1,61 +1,24 @@
 # sukuna-ui
 
-A React component library in the Sukuna design language: near-black surfaces, crimson for action,
-bone for premium, Archivo headlines. **Dark is the identity; light is a mode.**
+[![npm version](https://img.shields.io/npm/v/sukuna-ui?color=D8253A&label=npm)](https://www.npmjs.com/package/sukuna-ui)
+[![npm downloads](https://img.shields.io/npm/dm/sukuna-ui?color=D8253A)](https://www.npmjs.com/package/sukuna-ui)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/sukuna-ui?label=minzip)](https://bundlephobia.com/package/sukuna-ui)
+[![types](https://img.shields.io/npm/types/sukuna-ui)](https://www.npmjs.com/package/sukuna-ui)
+[![CI](https://github.com/arielplas/sukuna-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/arielplas/sukuna-ui/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/sukuna-ui)](./LICENSE)
 
-- **SSR-safe, zero runtime styling.** Tailwind v4 utilities mapped to `--sk-*` tokens. Static
-  components (Text, Badge, Card) work in React Server Components; interactive ones carry
-  `'use client'`.
-- **Themeable via `data-theme`.** No `dark:` variants, no config — flip `data-theme` and every token
-  switches.
-- **React 18 and 19.** React is a peer dependency; nothing is bundled twice.
-- **Tree-shakeable.** Importing `Button` alone is ~800 B (excluding React/deps).
+**SSR-safe, accessible React components for dark-first products — and for the AI agents that build them.**
 
-> Pre-1.0. On `0.x`, minor = breaking, patch = everything else, until all v1 components are used in
-> a real app. See [`docs/questions.md`](docs/questions.md) Q6 and [`docs/releasing.md`](docs/releasing.md).
-
-## Install
+<!-- count -->30<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
+contrast in both themes, `prefers-reduced-motion` honored, zero runtime styling, React Server
+Components-ready, React 18 and 19. Dark is the identity; light is a mode.
 
 ```bash
-bun add sukuna-ui react react-dom
+bun add sukuna-ui        # or: npm i sukuna-ui
 ```
-
-## Setup
-
-### Tailwind consumers (primary path)
-
-Add two lines to your global CSS — your Tailwind build then emits exactly the utilities used:
-
-```css
-@import "tailwindcss";
-@import "sukuna-ui/theme.css";              /* @theme tokens + data-theme palettes */
-@source "../node_modules/sukuna-ui/dist";   /* so your build sees our classes */
-```
-
-### Non-Tailwind consumers (fallback path)
-
-Import the precompiled stylesheet:
-
-```ts
-import "sukuna-ui/styles.css"
-```
-
-Second-class: not purged, tokens overridable only via `--sk-*` vars.
-
-### Theme
-
-Set `data-theme` on `<html>` (or any ancestor):
-
-```html
-<html data-theme="dark"> <!-- default/brand; or "light" -->
-```
-
-Override any token by redefining `--sk-*` under your own selector.
-
-## Usage
 
 ```tsx
-import { Button, Card, Text, Dialog } from "sukuna-ui"
+import { Button, Card, Dialog, Text } from 'sukuna-ui'
 
 export function Example() {
   return (
@@ -74,54 +37,122 @@ export function Example() {
 }
 ```
 
+→ **[llms.txt](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)** · [npm](https://www.npmjs.com/package/sukuna-ui) · [showcase source](examples/showcase) (a prerendered one-page site; deploys to Vercel from the root `vercel.json`)
+
+## For AI agents
+
+This library is documented for machines as carefully as for people:
+
+- **`https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt`** — an [llmstxt.org](https://llmstxt.org) index of every component with a one-line purpose and a link to its Markdown page.
+- **`https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms-full.txt`** — everything in one file. Paste this URL into your agent (Claude Code, Cursor, Codex, Copilot…) for complete context on every component, variant, state and accessibility rule.
+- **`docs/llms/<component>.md`** — one page per component, e.g. `https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/button.md`.
+- **Source-level TSDoc** — every exported component and prop in the published `.d.ts` carries usage notes, defaults, accessibility requirements and copy-pasteable `@example`s, so an agent reading `node_modules/sukuna-ui` is self-sufficient.
+- Also indexable via [Context7](https://context7.com) (search `sukuna-ui`).
+
+Once the showcase is deployed it serves the same files at its own origin (`/llms.txt`, `/llms-full.txt`, `/llms/<name>.md`). The generated docs are rebuilt from the source of truth on every build (`bun run docs:build`) and CI fails if they drift or a page is missing.
+
+## Setup
+
+### Tailwind v4 (primary path)
+
+Two lines in your global CSS — your Tailwind build then emits exactly the utilities used:
+
+```css
+@import "tailwindcss";
+@import "sukuna-ui/theme.css";              /* @theme tokens + data-theme palettes */
+@source "../node_modules/sukuna-ui/dist";   /* so your build sees our classes */
+```
+
+### No Tailwind (fallback path)
+
+```ts
+import "sukuna-ui/styles.css"
+```
+
+Precompiled and self-contained; tokens still overridable via `--sk-*` variables.
+
+### Theme
+
+Set `data-theme` on `<html>` (or any ancestor): `"dark"` (default/brand) or `"light"`. Override any
+token by redefining a `--sk-*` variable under your own selector — see [docs/tokens.md](docs/tokens.md).
+
 ## Components
 
-30 components across three groups:
+Every row links to that component's generated Markdown page (full API, variants, states, accessibility).
 
-| Group | Components |
-|---|---|
-| Static / display (RSC-safe) | `Text`, `Badge`, `Card`, `Divider`, `Alert`, `Chip`, `Spinner`, `Avatar`, `Skeleton`, `Breadcrumbs`, `Pagination`, `Stepper`, `Table`, `Progress` |
-| Native interactive | `Button`, `Input`, `Checkbox`, `Switch` |
-| Headless-backed (Base UI) | `Tooltip`, `Dialog`, `Select`, `RadioGroup`, `Tabs`, `Accordion`, `Menu`, `Toast`, `Slider`, `Drawer`, `Combobox`, `Field` |
+<!-- components:start -->
+| Component | What it is for | Docs |
+|---|---|---|
+| `Accordion` | Vertically stacked, expandable sections. | [docs/llms/accordion.md](docs/llms/accordion.md) |
+| `Alert` | An inline message that draws attention to information, success, a caution, or an error. | [docs/llms/alert.md](docs/llms/alert.md) |
+| `Avatar` | A user/entity image with a graceful fallback (initials or icon) while loading or on error. | [docs/llms/avatar.md](docs/llms/avatar.md) |
+| `Badge` | A small, pill-shaped label for status and metadata — "LIVE", counts, tags. | [docs/llms/badge.md](docs/llms/badge.md) |
+| `Breadcrumbs` | Show the path to the current page and let users jump back up it. | [docs/llms/breadcrumbs.md](docs/llms/breadcrumbs.md) |
+| `Button` | Triggers an action. | [docs/llms/button.md](docs/llms/button.md) |
+| `Card` | A surface container that groups related content on an elevation. | [docs/llms/card.md](docs/llms/card.md) |
+| `Checkbox` | A boolean checkbox. | [docs/llms/checkbox.md](docs/llms/checkbox.md) |
+| `Chip` | A compact token for filters, selections, or tags — optionally removable. | [docs/llms/chip.md](docs/llms/chip.md) |
+| `Combobox` | A text input with a filtered list of suggestions (free-text autocomplete). | [docs/llms/combobox.md](docs/llms/combobox.md) |
+| `Dialog` | A modal dialog. | [docs/llms/dialog.md](docs/llms/dialog.md) |
+| `Divider` | A thin rule that separates content, horizontally or vertically. | [docs/llms/divider.md](docs/llms/divider.md) |
+| `Drawer` | A panel that slides in from an edge (nav, filters, details). | [docs/llms/drawer.md](docs/llms/drawer.md) |
+| `Field` | Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you. | [docs/llms/field.md](docs/llms/field.md) |
+| `Input` | A single-line text input. | [docs/llms/input.md](docs/llms/input.md) |
+| `Menu` | A dropdown menu of actions triggered by a button. | [docs/llms/menu.md](docs/llms/menu.md) |
+| `Pagination`, `paginationRange` | Navigate between pages of results, with first/last always shown and ellipses in between. | [docs/llms/pagination.md](docs/llms/pagination.md) |
+| `Progress` | A horizontal progress bar, determinate or indeterminate. | [docs/llms/progress.md](docs/llms/progress.md) |
+| `RadioGroup` | Choose one option from a small set. | [docs/llms/radio-group.md](docs/llms/radio-group.md) |
+| `Select` | A single-select dropdown. | [docs/llms/select.md](docs/llms/select.md) |
+| `Skeleton` | A placeholder shimmer shown while content loads. | [docs/llms/skeleton.md](docs/llms/skeleton.md) |
+| `Slider` | Pick a number from a range by dragging or with the keyboard. | [docs/llms/slider.md](docs/llms/slider.md) |
+| `Spinner` | An indeterminate loading indicator (CSS spin). | [docs/llms/spinner.md](docs/llms/spinner.md) |
+| `Stepper` | Show progress through an ordered sequence of steps. | [docs/llms/stepper.md](docs/llms/stepper.md) |
+| `Switch` | An on/off toggle for an immediate setting (not form submission). | [docs/llms/switch.md](docs/llms/switch.md) |
+| `Table` | Present tabular data with Sukuna styling. | [docs/llms/table.md](docs/llms/table.md) |
+| `Tabs` | Switch between panels of related content. | [docs/llms/tabs.md](docs/llms/tabs.md) |
+| `Text` | The typographic primitive. | [docs/llms/text.md](docs/llms/text.md) |
+| `ToastProvider`, `useToast` | Transient notifications. | [docs/llms/toast.md](docs/llms/toast.md) |
+| `Tooltip` | A hover/focus tooltip for supplementary text. | [docs/llms/tooltip.md](docs/llms/tooltip.md) |
+<!-- components:end -->
 
 Fonts: the library does **not** bundle Archivo. Load it yourself (`@import` or `next/font`) so
 `--sk-font-display` resolves; it falls back to the system sans otherwise.
 
-## RSC notes
+## Accessibility
 
-`Text`, `Badge`, and `Card` are server components (no `'use client'`). `Button`, `Checkbox`,
-`Switch`, `Tooltip`, `Dialog`, and `Select` are client components — the `'use client'` boundary is
-per-file in the published package, so a server component importing only `Text` never pulls a client
-component in.
+- WCAG AA contrast for every text/UI token pair in both themes, **enforced by a test**
+  (`src/tokens.contrast.test.ts`) so it can't regress.
+- Solid focus rings (≥3:1), visible keyboard highlights, tone-derived live-region roles on alerts,
+  `prefers-reduced-motion` respected across all animated components.
+- Built on Base UI for focus management, ARIA wiring and keyboard interaction; every component ships
+  with axe tests in both themes plus real-browser Playwright tests for interactive flows.
+
+## React Server Components
+
+`Text`, `Badge`, `Card`, `Divider`, `Alert`, `Chip`, `Spinner`, `Avatar`, `Skeleton`, `Breadcrumbs`,
+`Pagination`, `Stepper`, `Table` and `Progress` are server components (no `'use client'`).
+Interactive components carry `'use client'` per file in the published package, so a server component
+importing only `Text` never pulls a client boundary in.
 
 ## Performance at scale
 
-Components render every row/item you pass — there is no built-in windowing. That's ideal for the
-common case and keeps SSR simple, but large datasets need care:
-
-- **`Combobox` and `Menu`** apply `content-visibility: auto`, so the browser skips layout/paint of
-  off-screen options. `Combobox` also takes `maxRenderedItems` to cap how many filtered suggestions
-  render (search still spans the full list). Comfortable up to a few thousand items; beyond that,
-  feed a server-filtered, capped list. For a long **`Select`**, prefer a `Combobox` (searchable) —
-  Select renders all options and aligns its popup to the selection, so it isn't meant for huge lists.
-- **`Table`** renders one `<tr>` per row with no virtualization. Keep it to a few hundred rows —
-  **paginate** (use the `Pagination` component) or virtualize in your app for more. A 100k-row table
-  will block the main thread on mount.
-
-`content-visibility` speeds paint but does not reduce DOM nodes or SSR size, so it is a mitigation,
-not a substitute for pagination/server-side search on very large data.
+Components render every row/item you pass — there is no built-in windowing. `Combobox` and `Menu`
+apply `content-visibility: auto` and `Combobox` takes `maxRenderedItems`; for very large datasets
+paginate (`Pagination`) or use server-side search. Details in [docs/known-issues-and-audit.md](docs/known-issues-and-audit.md).
 
 ## Development
 
-Bun only. See [`CLAUDE.md`](CLAUDE.md) and [`docs/`](docs). Every unit of work ends green:
+Bun only. See [CLAUDE.md](CLAUDE.md) and [docs/](docs). Every unit of work ends green:
 
 ```bash
 bun run check && bun run test:coverage && bun run build && bun run check:pkg
 ```
 
-- `bun run storybook` — component workshop (dark/light toolbar).
-- `bun run test:browser` — Playwright suite (built Storybook).
-- `bun run size` — per-export size budget.
+- `bun run storybook` — component workshop (dark/light toolbar, live token contrast badges).
+- `bun run test:browser` — Playwright suite against a built Storybook.
+- `bun run docs:build` / `bun run docs:check` — regenerate / verify the generated docs (README table, `llms.txt`, `docs/llms/*.md`).
+- `bun run size` — per-export size budgets.
+- `examples/showcase` — the deployable one-page showcase (`cd examples/showcase && bun install && bun link sukuna-ui && bun run dev`).
 
 ## License
 

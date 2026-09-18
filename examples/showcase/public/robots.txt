@@ -1,0 +1,31 @@
+# sukuna-ui — everything on this site is public documentation. Crawl freely.
+
+User-agent: *
+Allow: /
+
+# AI crawlers and agents are explicitly welcome; /llms.txt and /llms-full.txt are written for you.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://sukuna-ui.vercel.app/sitemap.xml

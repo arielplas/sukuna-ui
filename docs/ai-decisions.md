@@ -9,6 +9,47 @@ agent's own calls. Newest first.
 
 ---
 
+## D30 — Agent-friendly docs, SEO and discoverability (validated plan, 7 parallel agents)
+
+- **What:** Executed the approved plan to make the library discoverable and usable by AI agents and
+  search. Two research passes validated it first (internal survey of the doc/metadata gaps; external
+  brief on `llms.txt`, Mantine/shadcn/HeroUI's agent-adoption stack, JSON-LD, npm keywords).
+  - **TSDoc convention** (`docs/tsdoc.md`, CLAUDE.md rule 9): every exported component and prop now
+    carries purpose, `@remarks` (SSR/RSC, a11y + keyboard, every variant with default), `@default`
+    and copy-pasteable `@example`s. Applied to all 30 components by six agents on disjoint dirs;
+    verified comment-only (221 tests / 100% coverage unchanged, `tsc` clean). Ships in the `.d.ts`.
+  - **One generator, every channel** (`scripts/build-docs.ts`, mirrors `build-tokens.ts`): emits
+    `docs/llms/<name>.md`, spec-shaped `llms.txt`, `llms-full.txt`, the README component table +
+    count, and copies into the showcase `public/`. `bun run docs:build` is part of `build`;
+    `bun run docs:check` diffs in CI so nothing drifts. Deployed URL is one constant (`SITE_URL`,
+    env-overridable).
+  - **Decision — pages derive from `docs/component-*.md`, not TypeDoc:** zero new dependency and
+    the specs already have the 11 fixed sections. Trade-off surfaced immediately: specs can lag the
+    code (Button still said `as`/`href` were "not in v1"; Menu lacked `id`; Alert said role
+    defaults to `status`) — fixed by hand this batch. **Follow-up:** generate the API section from
+    the exported types + TSDoc (TypeDoc JSON) so the spec can't lie; until then, a prop change must
+    update both the TSDoc and the spec (the `update-readme` skill checks for missing docs/exports).
+  - **README** rewritten code-first with badges, a "For AI agents" section and the generated table;
+    `package.json` gains `keywords` (25, incl. `llms-txt`, `ai-agents`), `author`, a sharper
+    `description`. New `.claude/skills/update-readme` keeps it current.
+  - **Showcase → indexable site:** prerendered via `entry-server.tsx` + `scripts/prerender.ts`
+    (SSR build → inject into `dist/index.html` → `hydrateRoot`), full SEO head, JSON-LD
+    `SoftwareApplication` + `BreadcrumbList`, `robots.txt` (AI crawlers allowed), generated
+    `sitemap.xml`, `favicon.svg`, `og.png` (rasterized by a one-off Node script, per the D16
+    Bun/Playwright precedent), hero + "Built for AI agents" section, section anchors. Root
+    `vercel.json` carries the build chain. Caveat kept: React is external in the SSR bundle because
+    Bun's parser rejects Vite's re-bundled `react-dom/server`.
+- **Review findings applied (humane-reviewer, pre-merge):** (1) the Vercel URL isn't deployed
+  yet, so generated docs and the README now link the **raw GitHub** copies (live today, stable
+  source); the deployed showcase serves the same files at its own origin. (2) `docs:check` moved
+  to `scripts/check-docs.ts` using `git status --porcelain`, because `git diff --exit-code`
+  ignores untracked files and would have let a never-generated page for a new component pass CI.
+- **Deferred (per research):** own MCP server and a shadcn-compatible registry — after traction;
+  `llms.txt` + a Context7 listing cover agents now. Custom domain for the showcase: its
+  `SITE_URL` (prerender/sitemap/canonical) is one env var.
+- **Bump:** minor (enriched published `.d.ts`, metadata; no runtime change).
+- **Reverse:** each piece is independent; the generated files are reproducible from the specs.
+
 ## D29 — Improvements batch (6 parallel agents): Field, a11y, contrast gate
 
 - **What:** Implemented six `docs/improvements.md` items in parallel (one agent each), then integrated:

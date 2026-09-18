@@ -4,24 +4,56 @@ import { Select as Base } from '@base-ui-components/react/select'
 import { type ReactNode, useMemo } from 'react'
 import { type SelectStyleProps, selectStyles } from './select.styles'
 
+/** One entry in a {@link Select}'s `items` array. */
 export interface SelectOption {
+  /** Unique string submitted as the form value and passed to `onValueChange`. Used as the key. */
   value: string
+  /** Visible content for the option; also shown in the trigger once selected. */
   label: ReactNode
+  /**
+   * Renders the option dimmed, skips it in keyboard navigation and blocks selection.
+   * @default false
+   */
   disabled?: boolean
 }
 
+/** Props for {@link Select}. `size` comes from the style variants. */
 export interface SelectProps extends SelectStyleProps {
+  /** Options to list, in display order. Values must be unique strings. */
   items: SelectOption[]
+  /** Controlled selected value. Pair with `onValueChange`; omit to stay uncontrolled. */
   value?: string
+  /** Initial selection for uncontrolled use. Ignored once `value` is provided. */
   defaultValue?: string
+  /** Fires when the user picks an option, with the option's `value`. Never fires with `null`. */
   onValueChange?: (value: string) => void
+  /** Controlled open state of the listbox popup. Pair with `onOpenChange`. */
   open?: boolean
+  /**
+   * Whether the popup starts open (uncontrolled).
+   * @default false
+   */
   defaultOpen?: boolean
+  /** Fires when the popup opens or closes (trigger click, Escape, outside click, selection). */
   onOpenChange?: (open: boolean) => void
+  /**
+   * Faint text shown in the trigger while nothing is selected.
+   * @default 'Select…'
+   */
   placeholder?: string
+  /**
+   * Disables the trigger entirely; the popup cannot open and the value cannot change.
+   * @default false
+   */
   disabled?: boolean
+  /** Form field name; a hidden input carries the selected value on native form submit. */
   name?: string
+  /** `id` for the trigger button, so an external `<label htmlFor>` can name it. */
   id?: string
+  /**
+   * Accessible name for the trigger. Required unless a `<label>` is associated via `id`, since
+   * the selected value alone does not describe what the field is for.
+   */
   'aria-label'?: string
 }
 
@@ -52,8 +84,63 @@ const check = (
 )
 
 /**
- * Single-select dropdown. Behavior (keyboard, typeahead, positioning, dismiss, a11y) from Base UI;
- * we style trigger + popup + items. String values in v1. `'use client'`.
+ * Single-select dropdown: a trigger button that opens a portalled listbox of options. Use it for
+ * picking one value from a fixed list without typing; for free-text search use `Combobox`.
+ *
+ * @remarks
+ * - SSR/RSC: a client component (`'use client'`) because open state, positioning and keyboard
+ *   handling live in Base UI hooks. It still server-renders the trigger; only the popup is
+ *   client-only, so options are not in the DOM while closed.
+ * - Accessibility: the trigger is a button with `aria-haspopup="listbox"`/`aria-expanded`; the
+ *   popup is `role="listbox"` with `role="option"` items. The trigger needs a name: pass
+ *   `aria-label` or point a `<label htmlFor>` at `id`. Arrow keys move the highlight, typing
+ *   jumps by typeahead, `Enter`/`Space` select, `Escape` or an outside click closes and returns
+ *   focus to the trigger. Disabled options are announced as disabled and skipped.
+ * - Variants: `size` is `'sm'` (h-8, text-sm) or `'md'` (h-10, text-md); default `'md'`.
+ * - Behaviour: uncontrolled with `defaultValue`, or controlled with `value` + `onValueChange`.
+ *   Open state can likewise be controlled via `open` + `onOpenChange`. Values are strings only
+ *   in v1 (no multi-select). The trigger shows the matching item's `label`, falling back to the
+ *   `placeholder` when `value` is empty or not found in `items`.
+ * - Gotchas: `items` is memoised into a value-to-label map, so pass a stable array (hoist it or
+ *   `useMemo` it) to avoid rebuilding on every render. Long option sets belong in a `Combobox`;
+ *   Select aligns the popup over the trigger and cannot virtualise.
+ *
+ * @example
+ * ```tsx
+ * import { Select } from 'sukuna-ui'
+ *
+ * const fruits = [
+ *   { value: 'apple', label: 'Apple' },
+ *   { value: 'banana', label: 'Banana' },
+ *   { value: 'cherry', label: 'Cherry', disabled: true },
+ * ]
+ *
+ * <Select aria-label="Fruit" items={fruits} defaultValue="apple" name="fruit" />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * import { useState } from 'react'
+ * import { Select } from 'sukuna-ui'
+ *
+ * function SizePicker() {
+ *   const [size, setSize] = useState('md')
+ *   return (
+ *     <Select
+ *       aria-label="Size"
+ *       size="sm"
+ *       placeholder="Pick a size"
+ *       items={[
+ *         { value: 'sm', label: 'Small' },
+ *         { value: 'md', label: 'Medium' },
+ *         { value: 'lg', label: 'Large' },
+ *       ]}
+ *       value={size}
+ *       onValueChange={setSize}
+ *     />
+ *   )
+ * }
+ * ```
  */
 export function Select({
   items,

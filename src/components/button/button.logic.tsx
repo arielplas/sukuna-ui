@@ -4,12 +4,31 @@ import { type ComponentPropsWithoutRef, forwardRef, type ReactNode, type Ref } f
 import { buttonStyles } from './button.styles'
 
 interface ButtonOwnProps {
+  /**
+   * Visual weight. `primary` is the crimson CTA (use once per surface), `secondary` is a quiet
+   * bordered button, `ghost` has no background until hovered.
+   * @default 'primary'
+   */
   variant?: 'primary' | 'secondary' | 'ghost'
+  /**
+   * Height/padding/font scale: `sm` = 32px, `md` = 40px, `lg` = 48px.
+   * @default 'md'
+   */
   size?: 'sm' | 'md' | 'lg'
-  /** Shows a spinner, sets `aria-busy`, and disables the button; keeps its width. */
+  /**
+   * Shows a spinner in place of `leadingIcon`, sets `aria-busy="true"` and disables the button
+   * (blocks `onClick`); the label stays rendered so the width does not jump.
+   * @default false
+   */
   loading?: boolean
+  /**
+   * Stretches the button to the full width of its container (`w-full`).
+   * @default false
+   */
   fullWidth?: boolean
+  /** Icon rendered before the label. Replaced by the spinner while `loading`. */
   leadingIcon?: ReactNode
+  /** Icon rendered after the label. Stays visible while `loading`. */
   trailingIcon?: ReactNode
 }
 
@@ -37,6 +56,16 @@ type WithLabel<T> =
   | (T & { children: ReactNode })
   | (T & { children?: undefined; 'aria-label': string })
 
+/**
+ * Props for {@link Button}. A discriminated union on `as`:
+ * - `as` omitted or `'button'`: own props + every native `<button>` attribute (except `color`).
+ *   `type` defaults to `'button'`.
+ * - `as: 'a'`: own props + every native `<a>` attribute (except `color`), plus a `disabled`
+ *   boolean that maps to `aria-disabled` and `tabIndex={-1}`.
+ *
+ * In both branches you must pass visible `children` or, for an icon-only button, an
+ * `aria-label` (enforced by the type).
+ */
 export type ButtonProps = WithLabel<ButtonAsButton> | WithLabel<ButtonAsAnchor>
 
 const Spinner = () => (
@@ -59,6 +88,52 @@ type ButtonImplProps = ButtonOwnProps & {
   children?: ReactNode
 }
 
+/**
+ * Triggers an action. Use `variant="primary"` for the single main action on a surface and
+ * `secondary`/`ghost` for everything else.
+ *
+ * @remarks
+ * - SSR/RSC: a client component (`'use client'`) because it owns the `loading` state wiring.
+ *   Renders fine on the server; no `useEffect` and no DOM access.
+ * - Accessibility: renders a native `<button>` (or `<a>` with `as="a"`), so Space/Enter
+ *   activation, focus and the `button`/`link` role come from the platform. Icon-only usage
+ *   requires `aria-label` (the type will not compile without it). `loading` sets
+ *   `aria-busy="true"` and the spinner is `aria-hidden`. A visible focus ring is always rendered.
+ * - Variants: `variant`: 'primary' (default) | 'secondary' | 'ghost'; `size`: 'sm' | 'md'
+ *   (default) | 'lg'; `fullWidth`: boolean (default false).
+ * - `type` defaults to `'button'` (not the native `'submit'`); pass `type="submit"` explicitly
+ *   inside forms.
+ * - `disabled` and `loading` both block `onClick`. On `as="a"` there is no native `disabled`, so
+ *   it is expressed as `aria-disabled="true"`, `tabIndex={-1}` and `pointer-events: none`.
+ * - The ref is an `HTMLButtonElement` by default and an `HTMLAnchorElement` with `as="a"`.
+ * - A consumer `className` is merged last (tailwind-merge), so it can override any utility.
+ *
+ * @example
+ * ```tsx
+ * import { Button } from 'sukuna-ui'
+ *
+ * <Button variant="primary" size="lg" onClick={() => startTrial()}>
+ *   Start 7-day free trial
+ * </Button>
+ *
+ * <Button variant="secondary" loading={isSaving} type="submit">
+ *   Save changes
+ * </Button>
+ *
+ * // Icon-only: `aria-label` is required by the type.
+ * <Button variant="ghost" size="sm" aria-label="Close" leadingIcon={<CloseIcon />} />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * import { Button } from 'sukuna-ui'
+ *
+ * // A link that looks like a button; `disabled` becomes aria-disabled + tabIndex=-1.
+ * <Button as="a" href="/pricing" variant="secondary" disabled={!canUpgrade}>
+ *   See pricing
+ * </Button>
+ * ```
+ */
 export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
   function Button(props, ref) {
     const {

@@ -24,7 +24,13 @@ test/browser/menu.test.ts  # Playwright: open + select
 ```ts
 import type { ReactElement, ReactNode } from 'react'
 
-export interface MenuItemOption { label: ReactNode; onSelect?: () => void; disabled?: boolean }
+export interface MenuItemOption {
+  label: ReactNode
+  onSelect?: () => void   // fires on click / Enter / Space; the menu then closes
+  disabled?: boolean
+  id?: string             // stable React key — set it for dynamic (filtered/reordered) menus;
+                          // falls back to the array index
+}
 
 export interface MenuProps {
   children: ReactElement            // the trigger (e.g. a Button)

@@ -22,17 +22,31 @@ src/components/button/
 ```ts
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
-export interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
+interface ButtonOwnProps {
   variant?: 'primary' | 'secondary' | 'ghost'   // default 'primary'
-  size?: 'sm' | 'md' | 'lg'                                            // default 'md'
+  size?: 'sm' | 'md' | 'lg'                    // default 'md'
   loading?: boolean        // shows spinner, sets aria-busy, blocks clicks; keeps width
   fullWidth?: boolean
   leadingIcon?: ReactNode
   trailingIcon?: ReactNode
 }
+
+// Discriminated on `as`. The default renders a native <button> (`type` defaults to 'button');
+// `as="a"` renders an <a> with identical styling and accepts every anchor prop (href, target…).
+// On the anchor, `disabled` maps to aria-disabled="true" + tabIndex={-1} + pointer-events: none,
+// because a native <a> has no disabled attribute.
+export type ButtonProps =
+  | (ButtonOwnProps & { as?: 'button' } & Omit<ComponentPropsWithoutRef<'button'>, 'color'>)
+  | (ButtonOwnProps & { as: 'a'; disabled?: boolean } & Omit<ComponentPropsWithoutRef<'a'>, 'color'>)
+
+// Icon-only usage requires `aria-label` — enforced at the type level: pass visible `children`
+// or an `aria-label`.
 ```
 
-Deliberately **not** in v1: `as` / `asChild` polymorphism (a button that navigates is a `Link`; solve later), `color` prop (variants own color), `href`, a `premium` variant (premium is a surface treatment, not a button), a `danger` variant (Sukuna has one red; destructive actions are out of scope for v1).
+`as="a"` covers "a link that looks like a button". Deliberately **not** in v1: `asChild`/slot
+polymorphism, a `color` prop (variants own color), a `premium` variant (premium is a surface
+treatment, not a button), a `danger` variant (Sukuna has one red; destructive actions are out of
+scope for v1).
 
 ## 4. Variants → tokens
 

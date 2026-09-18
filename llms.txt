@@ -1,0 +1,62 @@
+# sukuna-ui
+
+> SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). Version 0.5.0.
+
+sukuna-ui is a React 18/19 component library: 30 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+
+Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
+
+- **Tailwind v4 (primary):** in your global CSS add `@import "tailwindcss"; @import "sukuna-ui/theme.css"; @source "../node_modules/sukuna-ui/dist";`
+- **No Tailwind:** `import "sukuna-ui/styles.css"` once.
+
+Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`. Every component below links to a Markdown page with its full API, variants, states and accessibility notes. Static components (Text, Badge, Card, Table…) work in Server Components; interactive ones are `'use client'`.
+
+## Getting started
+
+- [README](https://github.com/arielplas/sukuna-ui#readme): install, setup (Tailwind or precompiled CSS), theming, RSC notes, performance guidance
+- [Full docs in one file](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms-full.txt): every component page concatenated — paste this URL into your agent for complete context
+
+## Components
+
+- [Accordion](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/accordion.md): Vertically stacked, expandable sections.
+- [Alert](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/alert.md): An inline message that draws attention to information, success, a caution, or an error.
+- [Avatar](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/avatar.md): A user/entity image with a graceful fallback (initials or icon) while loading or on error.
+- [Badge](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/badge.md): A small, pill-shaped label for status and metadata — "LIVE", counts, tags.
+- [Breadcrumbs](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/breadcrumbs.md): Show the path to the current page and let users jump back up it.
+- [Button](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/button.md): Triggers an action.
+- [Card](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/card.md): A surface container that groups related content on an elevation.
+- [Checkbox](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/checkbox.md): A boolean checkbox.
+- [Chip](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/chip.md): A compact token for filters, selections, or tags — optionally removable.
+- [Combobox](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/combobox.md): A text input with a filtered list of suggestions (free-text autocomplete).
+- [Dialog](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/dialog.md): A modal dialog.
+- [Divider](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/divider.md): A thin rule that separates content, horizontally or vertically.
+- [Drawer](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/drawer.md): A panel that slides in from an edge (nav, filters, details).
+- [Field](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/field.md): Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you.
+- [Input](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/input.md): A single-line text input.
+- [Menu](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/menu.md): A dropdown menu of actions triggered by a button.
+- [Pagination](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/pagination.md): Navigate between pages of results, with first/last always shown and ellipses in between.
+- [Progress](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/progress.md): A horizontal progress bar, determinate or indeterminate.
+- [RadioGroup](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/radio-group.md): Choose one option from a small set.
+- [Select](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/select.md): A single-select dropdown.
+- [Skeleton](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/skeleton.md): A placeholder shimmer shown while content loads.
+- [Slider](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/slider.md): Pick a number from a range by dragging or with the keyboard.
+- [Spinner](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/spinner.md): An indeterminate loading indicator (CSS spin).
+- [Stepper](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/stepper.md): Show progress through an ordered sequence of steps.
+- [Switch](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/switch.md): An on/off toggle for an immediate setting (not form submission).
+- [Table](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/table.md): Present tabular data with Sukuna styling.
+- [Tabs](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/tabs.md): Switch between panels of related content.
+- [Text](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/text.md): The typographic primitive.
+- [Toast](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/toast.md): Transient notifications.
+- [Tooltip](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/tooltip.md): A hover/focus tooltip for supplementary text.
+
+## Theming
+
+- [Design tokens](https://github.com/arielplas/sukuna-ui/blob/main/docs/tokens.md): every `--sk-*` token with dark and light values and the AA contrast floor
+- [Styling engine](https://github.com/arielplas/sukuna-ui/blob/main/docs/styling.md): Tailwind v4 + tailwind-variants, how utilities map to tokens, overriding
+
+## Optional
+
+- [Known issues & audit](https://github.com/arielplas/sukuna-ui/blob/main/docs/known-issues-and-audit.md): ecosystem lessons and the library's own a11y/perf audit
+- [Improvement backlog](https://github.com/arielplas/sukuna-ui/blob/main/docs/improvements.md)
+- [Source repository](https://github.com/arielplas/sukuna-ui)
+- [npm](https://www.npmjs.com/package/sukuna-ui)

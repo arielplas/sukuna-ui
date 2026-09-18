@@ -1,0 +1,1695 @@
+# sukuna-ui — full documentation
+
+> SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). Version 0.5.0. This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
+
+sukuna-ui is a React 18/19 component library: 30 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+
+Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
+
+- **Tailwind v4 (primary):** in your global CSS add `@import "tailwindcss"; @import "sukuna-ui/theme.css"; @source "../node_modules/sukuna-ui/dist";`
+- **No Tailwind:** `import "sukuna-ui/styles.css"` once.
+
+Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`. Every component below links to a Markdown page with its full API, variants, states and accessibility notes. Static components (Text, Badge, Card, Table…) work in Server Components; interactive ones are `'use client'`.
+
+## Components
+
+- Accordion: Vertically stacked, expandable sections.
+- Alert: An inline message that draws attention to information, success, a caution, or an error.
+- Avatar: A user/entity image with a graceful fallback (initials or icon) while loading or on error.
+- Badge: A small, pill-shaped label for status and metadata — "LIVE", counts, tags.
+- Breadcrumbs: Show the path to the current page and let users jump back up it.
+- Button: Triggers an action.
+- Card: A surface container that groups related content on an elevation.
+- Checkbox: A boolean checkbox.
+- Chip: A compact token for filters, selections, or tags — optionally removable.
+- Combobox: A text input with a filtered list of suggestions (free-text autocomplete).
+- Dialog: A modal dialog.
+- Divider: A thin rule that separates content, horizontally or vertically.
+- Drawer: A panel that slides in from an edge (nav, filters, details).
+- Field: Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you.
+- Input: A single-line text input.
+- Menu: A dropdown menu of actions triggered by a button.
+- Pagination: Navigate between pages of results, with first/last always shown and ellipses in between.
+- Progress: A horizontal progress bar, determinate or indeterminate.
+- RadioGroup: Choose one option from a small set.
+- Select: A single-select dropdown.
+- Skeleton: A placeholder shimmer shown while content loads.
+- Slider: Pick a number from a range by dragging or with the keyboard.
+- Spinner: An indeterminate loading indicator (CSS spin).
+- Stepper: Show progress through an ordered sequence of steps.
+- Switch: An on/off toggle for an immediate setting (not form submission).
+- Table: Present tabular data with Sukuna styling.
+- Tabs: Switch between panels of related content.
+- Text: The typographic primitive.
+- Toast: Transient notifications.
+- Tooltip: A hover/focus tooltip for supplementary text.
+
+---
+
+# Accordion — sukuna-ui
+
+> Vertically stacked, expandable sections.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Accordion } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/accordion · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-accordion.md
+
+## Purpose
+
+Vertically stacked, expandable sections. Keyboard + `aria` wiring from Base UI.
+
+## API
+
+```ts
+export interface AccordionItemData { value: string; trigger: ReactNode; content: ReactNode; disabled?: boolean }
+
+export interface AccordionProps {
+  items: AccordionItemData[]
+  value?: string[]
+  defaultValue?: string[]
+  onValueChange?: (value: string[]) => void
+  openMultiple?: boolean          // default false
+  headingLevel?: 1|2|3|4|5|6      // default 3 — heading element for each item's header (WCAG 1.3.1)
+}
+```
+
+## Variants & tokens
+
+item: `border-b border-line`. trigger: `group flex w-full items-center justify-between gap-3 py-3 text-left font-medium text-text hover:text-text focus-visible:ring-2 focus-visible:ring-accent-glow`. icon (chevron): `text-text-dim transition-transform group-data-[panel-open]:rotate-180`. panel content: `pb-3 text-sm text-text-dim`.
+
+## States
+
+collapsed · expanded (chevron rotated) · focus-visible · disabled item.
+
+## Accessibility
+
+- [ ] Trigger is a `<button>` with `aria-expanded`/`aria-controls` (Base UI); panels are regions.
+- [ ] Enter/Space toggle; arrow keys move between headers.
+- [ ] Expanded state shown by more than the chevron (content visibility).
+
+---
+
+# Alert — sukuna-ui
+
+> An inline message that draws attention to information, success, a caution, or an error.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Alert } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/alert · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-alert.md
+
+## Purpose
+
+An inline message that draws attention to information, success, a caution, or an error.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface AlertProps extends ComponentPropsWithoutRef<'div'> {
+  tone?: 'info' | 'success' | 'warning' | 'danger'   // default 'info'
+  title?: ReactNode
+  icon?: ReactNode
+  // role derives from tone: 'alert' (assertive) for danger/warning, 'status' (polite)
+  // otherwise. An explicit `role` prop always overrides the derived default.
+}
+```
+
+## Variants & tokens
+
+Base root: `w-full rounded-md border border-line border-l-4 bg-surface-2 p-4 flex gap-3`.
+Left border + icon color by tone: info `text-faint`, success `success`, warning `premium`,
+danger `accent` (Sukuna's one red). title `font-display font-bold text-text`; body `text-sm text-text-dim`.
+
+## States
+
+Static; no interactive states. (No built-in dismiss in v1 — see Decisions.)
+
+## Accessibility
+
+- [x] Role derives from tone: `role="alert"` (assertive) for danger/warning, `role="status"`
+  (polite) for info/success; an explicit `role` overrides. Note: a live region only announces
+  content that appears *after* it exists, so a server-rendered alert present at page load is
+  not read aloud — the assertive announcement applies to alerts that appear after load.
+- [ ] Tone is reinforced by the title/text, never color alone.
+- [ ] Icon is decorative; the message text carries the meaning.
+
+---
+
+# Avatar — sukuna-ui
+
+> A user/entity image with a graceful fallback (initials or icon) while loading or on error.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Avatar } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/avatar · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-avatar.md
+
+## Purpose
+
+A user/entity image with a graceful fallback (initials or icon) while loading or on error.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface AvatarProps extends ComponentPropsWithoutRef<'span'> {
+  src?: string
+  alt?: string
+  fallback?: ReactNode   // initials or an icon, shown while loading / on error / when no src
+  size?: 'sm' | 'md' | 'lg'   // default 'md'
+}
+```
+
+## Variants & tokens
+
+root: `relative inline-flex items-center justify-center overflow-hidden rounded-full bg-surface-2 text-text-dim select-none`; size sm `size-8 text-xs` / md `size-10 text-sm` / lg `size-12 text-md`. image: `size-full object-cover`. fallback: `font-semibold`.
+
+## States
+
+image loaded (image shown) · loading/error/no src (fallback shown).
+
+## Accessibility
+
+- [ ] Provide `alt` for a meaningful image; empty `alt` for decorative.
+- [ ] Fallback initials are visible text; contrast ≥ 4.5:1 on `--sk-surface-2`.
+
+---
+
+# Badge — sukuna-ui
+
+> A small, pill-shaped label for status and metadata — "LIVE", counts, tags.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Badge } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/badge · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-badge.md
+
+## Purpose
+
+A small, pill-shaped label for status and metadata — "LIVE", counts, tags. Not interactive; if a
+badge needs to be clickable it belongs inside a Button or Link.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface BadgeProps extends ComponentPropsWithoutRef<'span'> {
+  tone?: 'neutral' | 'accent' | 'success' | 'premium'  // default 'neutral'
+  size?: 'sm' | 'md'                                    // default 'md'
+  dot?: boolean   // leading status dot in currentColor
+}
+```
+
+Extends `<span>`; adds only `tone`, `size`, `dot`. Pill radius is fixed (not a prop).
+
+## Variants & tokens
+
+| tone | utilities |
+|---|---|
+| neutral | `bg-surface-2 text-text-dim border border-line` |
+| accent | `bg-gradient-accent text-text border border-transparent` |
+| success | `bg-surface-2 text-success border border-line` |
+| premium | `bg-surface-2 text-premium border border-line` |
+
+| size | utilities |
+|---|---|
+| sm | `h-5 px-2 text-xs gap-1` |
+| md | `h-6 px-2.5 text-sm gap-1.5` |
+
+Base: `inline-flex items-center justify-center rounded-pill font-semibold whitespace-nowrap select-none align-middle`. Dot: `inline-block size-1.5 rounded-full bg-current shrink-0`, `aria-hidden`.
+
+## States
+
+Static; no interactive states.
+
+## Accessibility
+
+- [ ] The dot is decorative (`aria-hidden`); status is conveyed by the text, never color/dot alone.
+- [ ] `accent` text on the crimson gradient meets contrast in both themes (shares the Button
+      primary treatment; verify).
+- [ ] Not a `button`/`a` — no role, not focusable. Clickable status → wrap in Button/Link.
+- [ ] Text contrast ≥ 4.5:1 for every tone in both themes.
+
+---
+
+# Breadcrumbs — sukuna-ui
+
+> Show the path to the current page and let users jump back up it.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Breadcrumbs } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/breadcrumbs · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-breadcrumbs.md
+
+## Purpose
+
+Show the path to the current page and let users jump back up it.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface BreadcrumbItem { label: ReactNode; href?: string; current?: boolean }
+
+export interface BreadcrumbsProps extends Omit<ComponentPropsWithoutRef<'nav'>, 'children'> {
+  items: BreadcrumbItem[]
+  separator?: ReactNode   // default '/'
+}
+```
+
+## Variants & tokens
+
+root: `<nav>`; list: `flex items-center gap-2 text-sm`; link: `text-text-dim hover:text-text
+transition-colors focus-visible:ring-2 focus-visible:ring-accent-glow rounded-sm`; current:
+`text-text font-medium`; separator: `text-text-faint select-none`.
+
+## States
+
+Static; links hover/focus.
+
+## Accessibility
+
+- [ ] `<nav aria-label="Breadcrumb">` around an ordered list.
+- [ ] Current page marked `aria-current="page"` and not a link.
+- [ ] Separators are decorative (`aria-hidden`).
+
+---
+
+# Button — sukuna-ui
+
+> Triggers an action.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Button } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/button · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-button.md
+
+## Purpose
+
+Triggers an action. Crimson is reserved for the one primary action on a surface; everything else is quiet.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+interface ButtonOwnProps {
+  variant?: 'primary' | 'secondary' | 'ghost'   // default 'primary'
+  size?: 'sm' | 'md' | 'lg'                    // default 'md'
+  loading?: boolean        // shows spinner, sets aria-busy, blocks clicks; keeps width
+  fullWidth?: boolean
+  leadingIcon?: ReactNode
+  trailingIcon?: ReactNode
+}
+
+// Discriminated on `as`. The default renders a native <button> (`type` defaults to 'button');
+// `as="a"` renders an <a> with identical styling and accepts every anchor prop (href, target…).
+// On the anchor, `disabled` maps to aria-disabled="true" + tabIndex={-1} + pointer-events: none,
+// because a native <a> has no disabled attribute.
+export type ButtonProps =
+  | (ButtonOwnProps & { as?: 'button' } & Omit<ComponentPropsWithoutRef<'button'>, 'color'>)
+  | (ButtonOwnProps & { as: 'a'; disabled?: boolean } & Omit<ComponentPropsWithoutRef<'a'>, 'color'>)
+
+// Icon-only usage requires `aria-label` — enforced at the type level: pass visible `children`
+// or an `aria-label`.
+```
+
+`as="a"` covers "a link that looks like a button". Deliberately **not** in v1: `asChild`/slot
+polymorphism, a `color` prop (variants own color), a `premium` variant (premium is a surface
+treatment, not a button), a `danger` variant (Sukuna has one red; destructive actions are out of
+scope for v1).
+
+## Variants & tokens
+
+| Variant | Background | Text | Border | Hover |
+|---|---|---|---|---|
+| primary | `--sk-gradient-accent` | `--sk-text` | none | brighten + `--sk-accent-glow` shadow |
+| secondary | `--sk-surface-2` | `--sk-text` | `--sk-line` | bg `--sk-well` |
+| ghost | transparent | `--sk-text-dim` | none | text `--sk-text`, bg `--sk-line-soft` |
+
+| Size | Height | Padding-x | Font | Radius |
+|---|---|---|---|---|
+| sm | 32px | `--sk-space-3` | `--sk-text-sm` | `--sk-radius-sm` |
+| md | 40px | `--sk-space-5` | `--sk-text-md` | `--sk-radius-md` |
+| lg | 48px | `--sk-space-6` | `--sk-text-lg` | `--sk-radius-lg` |
+
+Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
+
+## States
+
+| State | Behavior |
+|---|---|
+| default | as above |
+| hover | per table; `--sk-duration-fast` transition |
+| focus-visible | 2px ring `--sk-accent-glow`, offset 2px. Never remove outline without replacing it. |
+| active | `transform: scale(.98)` |
+| disabled | `opacity: .45`, `cursor: not-allowed`, `pointer-events` NOT removed (tooltips must still work) |
+| loading | spinner replaces `leadingIcon`, label stays (visually dimmed) to preserve width, `aria-busy="true"`, `disabled` |
+
+## Accessibility
+
+- [ ] Native `<button>`; never a `div` with `role="button"`.
+- [ ] Icon-only usage requires `aria-label` (enforce via TS: if no children, `aria-label` becomes required — overload type).
+- [ ] Focus ring visible in both themes at ≥ 3:1 contrast against surface.
+- [ ] Text contrast ≥ 4.5:1 for all variants in both themes.
+- [ ] `aria-busy` while loading; spinner has `aria-hidden`.
+- [ ] Space and Enter activate (native).
+
+---
+
+# Card — sukuna-ui
+
+> A surface container that groups related content on an elevation.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Card } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/card · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-card.md
+
+## Purpose
+
+A surface container that groups related content on an elevation. Pure layout/skin — not
+interactive. A clickable card is a Button or Link wrapping a Card, not a Card with an `onClick`.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface CardProps extends ComponentPropsWithoutRef<'div'> {
+  elevation?: 'flat' | 'raised' | 'sunken'   // default 'flat'
+  padding?: 'none' | 'sm' | 'md' | 'lg'       // default 'md'
+  radius?: 'md' | 'lg'                         // default 'lg'
+}
+```
+
+Extends `<div>`; adds only `elevation`, `padding`, `radius`.
+
+## Variants & tokens
+
+| elevation | utilities |
+|---|---|
+| flat | `bg-surface border border-line` |
+| raised | `bg-surface border border-line shadow-card` |
+| sunken | `bg-well border border-line` |
+
+| padding | utility | | radius | utility |
+|---|---|---|---|---|
+| none | — | | md | `rounded-md` |
+| sm | `p-4` | | lg | `rounded-lg` |
+| md | `p-6` | | | |
+| lg | `p-8` | | | |
+
+Base: `block text-text`.
+
+## States
+
+Static; no interactive states. (`raised` is a resting elevation, not a hover effect.)
+
+## Accessibility
+
+- [ ] A Card is a generic container — no implicit role. Give it a landmark/role only when its
+      content warrants one (`role="group"` + `aria-label`, `<section>` via wrapping, etc.).
+- [ ] Not focusable and has no click handler; clickable surfaces wrap a Button/Link.
+- [ ] `sunken`/`flat` surfaces keep text contrast ≥ 4.5:1 in both themes.
+
+---
+
+# Checkbox — sukuna-ui
+
+> A boolean checkbox.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Checkbox } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/checkbox · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-checkbox.md
+
+## Purpose
+
+A boolean checkbox. A native `<input type="checkbox">` tinted with `accent-color`, so keyboard,
+focus, and the indeterminate state come from the platform. The consumer supplies the label.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+type Native = Omit<
+  ComponentPropsWithoutRef<'input'>,
+  'size' | 'type' | 'checked' | 'defaultChecked' | 'onChange' | 'value' | 'defaultValue'
+>
+
+export interface CheckboxProps extends Native {
+  size?: 'sm' | 'md'                    // default 'md'
+  checked?: boolean                     // controlled
+  defaultChecked?: boolean              // uncontrolled initial, default false
+  onCheckedChange?: (checked: boolean) => void
+  indeterminate?: boolean               // visual/AT "mixed"; default false
+}
+```
+
+Boolean-friendly API (`onCheckedChange(checked)`) instead of raw `onChange`. Uncontrolled +
+controlled via the shared `useControllableState` hook.
+
+## Variants & tokens
+
+Base: `accent-accent cursor-pointer rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:opacity-45 disabled:cursor-not-allowed`.
+`accent-accent` sets `accent-color: var(--sk-accent)` — the native control renders in crimson.
+
+| size | utility |
+|---|---|
+| sm | `size-4` |
+| md | `size-5` |
+
+## States
+
+default · hover · focus-visible (accent-glow ring) · checked (native, accent) · indeterminate
+(native mixed) · disabled (opacity .45, not-allowed).
+
+## Accessibility
+
+- [ ] Programmatic label via `<label htmlFor>`, `aria-label`, or `aria-labelledby` (not rendered here).
+- [ ] Space toggles (native).
+- [ ] `indeterminate` is set as the DOM property so AT reports "mixed".
+- [ ] Focus ring ≥ 3:1 against the surface in both themes.
+
+---
+
+# Chip — sukuna-ui
+
+> A compact token for filters, selections, or tags — optionally removable.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Chip } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/chip · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-chip.md
+
+## Purpose
+
+A compact token for filters, selections, or tags — optionally removable. (For a non-removable
+status pill, use Badge.)
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
+  tone?: 'neutral' | 'accent' | 'success' | 'premium'   // default 'neutral'
+  size?: 'sm' | 'md'                                     // default 'md'
+  leadingIcon?: ReactNode
+  onDismiss?: () => void      // renders a × remove button
+  dismissLabel?: string       // aria-label for the remove button (default 'Remove')
+}
+```
+
+## Variants & tokens
+
+Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap`.
+tone → same mapping as Badge (neutral/accent/success/premium). size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm text-current/70 hover:text-current focus-visible:ring-2 focus-visible:ring-accent-glow`.
+
+## States
+
+Static; the dismiss button is a native `<button>` (keyboard/focus for free).
+
+## Accessibility
+
+- [ ] Remove button has an `aria-label` (default "Remove"); it's a real `<button>`.
+- [ ] Tone conveyed by text, not color alone.
+- [ ] Text/border contrast ≥ 4.5:1 / 3:1 in both themes.
+
+---
+
+# Combobox — sukuna-ui
+
+> A text input with a filtered list of suggestions (free-text autocomplete).
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Combobox } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/combobox · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-combobox.md
+
+## Purpose
+
+A text input with a filtered list of suggestions (free-text autocomplete). For a fixed
+pick-from-list without typing, use Select.
+
+## API
+
+```ts
+export interface ComboboxProps {
+  items: string[]
+  value?: string          // the input text (controlled)
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  placeholder?: string    // default 'Search…'
+  disabled?: boolean
+  emptyMessage?: string   // default 'No results'
+  maxRenderedItems?: number // cap displayed suggestions (Base UI `limit`); search spans all items
+  'aria-label'?: string
+}
+```
+
+For large suggestion lists, set `maxRenderedItems` (e.g. `50`) so only the top N filtered matches
+render — filtering still runs over the full `items`. Items also use `content-visibility: auto` so
+off-screen options are cheap. Beyond a few thousand items, prefer server-side search feeding a
+capped `items`.
+
+## Variants & tokens
+
+input: same as Input (`bg-surface-2 border-line rounded-md`, focus ring). popup: `z-50 max-h-72
+overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale. item:
+`h-9 px-2.5 rounded-sm data-[highlighted]:bg-line-soft data-[selected]:text-accent`. empty:
+`text-sm text-text-dim`.
+
+## States
+
+closed · typing (filtered list) · item highlighted (keyboard) · empty (no matches) · disabled.
+
+## Accessibility
+
+- [ ] `role="combobox"` input with `aria-expanded`/`aria-controls`; listbox + options wired by Base UI.
+- [ ] Arrow keys move, Enter selects, Escape closes; typeahead filters.
+- [ ] Give the input an `aria-label` or associate a `<label>`.
+
+---
+
+# Dialog — sukuna-ui
+
+> A modal dialog.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Dialog } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/dialog · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-dialog.md
+
+## Purpose
+
+A modal dialog. Focus trap, scroll lock, `Escape`/outside-click dismiss, and `aria` wiring come
+from Base UI (`@base-ui-components/react/dialog`); we style backdrop, popup, title, etc.
+
+## API
+
+```ts
+export interface DialogProps {
+  children: ReactNode
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  modal?: boolean | 'trap-focus'   // default modal
+}
+```
+
+Compound: `Dialog` (root) + `Dialog.Trigger` (wraps an element) + `Dialog.Content` (backdrop +
+popup, portalled) + `Dialog.Title` + `Dialog.Description` + `Dialog.Close` (a button).
+
+```tsx
+<Dialog>
+  <Dialog.Trigger><Button>Open</Button></Dialog.Trigger>
+  <Dialog.Content>
+    <Dialog.Title>Delete project?</Dialog.Title>
+    <Dialog.Description>This can't be undone.</Dialog.Description>
+    <Dialog.Close>Cancel</Dialog.Close>
+  </Dialog.Content>
+</Dialog>
+```
+
+## Variants & tokens
+
+- backdrop: `fixed inset-0 z-50 bg-black/60 backdrop-blur-sm` + fade.
+- popup: centered, `w-[90vw] max-w-lg rounded-lg border border-line bg-surface p-6 shadow-card` +
+  scale/opacity enter-exit. `z-50` = `--sk-z-dialog`.
+- title: `font-display text-lg font-bold tracking-tight`; description: `text-sm text-text-dim`.
+- close: ghost-style button.
+
+## States
+
+closed (nothing) · open (backdrop + popup, focus trapped) · enter/leave transitions.
+
+## Accessibility
+
+- [ ] `role="dialog"` + `aria-modal`; labelled by `Dialog.Title`, described by `Dialog.Description`
+      (Base UI wires these).
+- [ ] Focus moves into the dialog on open, is trapped while open, and returns to the trigger on close.
+- [ ] `Escape` and outside-click dismiss (modal).
+- [ ] Background is inert/scroll-locked while open.
+
+---
+
+# Divider — sukuna-ui
+
+> A thin rule that separates content, horizontally or vertically.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Divider } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/divider · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-divider.md
+
+## Purpose
+
+A thin rule that separates content, horizontally or vertically.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface DividerProps extends ComponentPropsWithoutRef<'div'> {
+  orientation?: 'horizontal' | 'vertical'   // default 'horizontal'
+  decorative?: boolean   // if true: aria-hidden, no separator role
+}
+```
+
+## Variants & tokens
+
+Base: `border-line`. horizontal → `w-full border-t`; vertical → `h-full self-stretch border-l`.
+
+## States
+
+Static; no interactive states.
+
+## Accessibility
+
+- [ ] Non-decorative dividers expose `role="separator"` + `aria-orientation`.
+- [ ] Purely visual dividers set `decorative` so AT ignores them.
+- [ ] Line meets ≥ 3:1 against the surface where it conveys structure.
+
+---
+
+# Drawer — sukuna-ui
+
+> A panel that slides in from an edge (nav, filters, details).
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Drawer } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/drawer · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-drawer.md
+
+## Purpose
+
+A panel that slides in from an edge (nav, filters, details). Focus trap, scroll lock, and dismiss
+come from Base UI Dialog; we anchor and animate it to a side.
+
+## API
+
+```ts
+export interface DrawerProps { children: ReactNode; open?: boolean; defaultOpen?: boolean; onOpenChange?: (open: boolean) => void; modal?: boolean | 'trap-focus' }
+```
+
+Compound: `Drawer` + `Drawer.Trigger` + `Drawer.Content` (takes `side?: 'left'|'right'|'top'|'bottom'`,
+default `'right'`) + `Drawer.Title` + `Drawer.Description` + `Drawer.Close`.
+
+## Variants & tokens
+
+backdrop: `fixed inset-0 bg-black/60 backdrop-blur-sm`. popup: `fixed bg-surface p-6 shadow-card`
+anchored per `side` (e.g. right → `inset-y-0 right-0 h-full w-80 border-l`) with a slide-in
+transform via `data-[starting-style]`/`data-[ending-style]`.
+
+## States
+
+closed · open (slides in from `side`, focus trapped) · enter/leave transforms.
+
+## Accessibility
+
+- [ ] `role="dialog"` + `aria-modal`; labelled by `Drawer.Title`, described by `Drawer.Description`.
+- [ ] Focus moves in on open, trapped while open, returns to trigger on close.
+- [ ] `Escape` / outside-click dismiss; background scroll-locked.
+
+---
+
+# Field — sukuna-ui
+
+> Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Field } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/field · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-field.md
+
+## Purpose
+
+Wraps one form control (an `Input`, `Checkbox`, `Switch`, …) with a label, an optional
+description and an optional error, and wires the `id` / `aria-labelledby` / `aria-describedby` /
+`aria-invalid` relationships for you. It is the connective tissue of a form, not a control itself —
+the control stays whatever you put inside. Built on **Base UI Field**, which owns the id and aria
+bookkeeping so the wrapper stays thin.
+
+## API
+
+```tsx
+import { Field } from '@sukuna/ui'
+import { Input } from '@sukuna/ui'
+
+<Field invalid={hasError}>
+  <Field.Label>Email</Field.Label>
+  <Field.Control render={<Input type="email" />} />
+  <Field.Description>Work address only.</Field.Description>
+  <Field.Error>Enter a valid email.</Field.Error>
+</Field>
+```
+
+Compound parts (each maps 1:1 to a Base UI Field part; every prop the Base part takes is accepted):
+
+| Part | Renders | Notes |
+|---|---|---|
+| `Field` (root) | `<div>` | `invalid`, `name`, `disabled`, `validate`, `validationMode` from Base UI Field.Root. |
+| `Field.Label` | `<label>` | Auto `htmlFor` → control id. |
+| `Field.Control` | `<input>` | Pass `render={<Input/>}` (or any Base UI control) to use a custom control. |
+| `Field.Description` | `<p>` | Auto-linked into the control's `aria-describedby`. |
+| `Field.Error` | `<div>` | Shows conditionally (see §5); auto-linked into `aria-describedby` when shown. |
+
+`Field.Error` accepts Base UI's `match` (`boolean | keyof ValidityState`). When `match` is omitted,
+the wrapper defaults it to `true` if the root has `invalid` set — so a controlled `<Field invalid>`
+shows its error with no extra prop, while native-constraint validation (no `invalid` prop) keeps
+Base UI's default behavior (show when the control's `ValidityState` is invalid).
+
+Deliberately **not** in v1: a monolithic `label` / `error` string prop (the compound parts are the
+API; a one-shot convenience wrapper can come later), `size` variants (the inner control owns its
+size), built-in async validation UI beyond what Base UI Field exposes.
+
+## Variants & tokens
+
+No visual variants. Slots map straight to type/spacing tokens:
+
+| Slot | Utilities | Tokens |
+|---|---|---|
+| root | `flex flex-col gap-1.5` | layout only |
+| label | `text-sm font-medium text-text` | `--sk-text` |
+| control | `w-full` | layout only (control brings its own styling) |
+| description | `text-sm text-text-dim` | `--sk-text-dim` |
+| error | `text-sm text-accent` | `--sk-accent` (Sukuna's one red, used as the danger tone) |
+
+No raw hex; all colors resolve through `@theme` in `src/styles/theme.css`.
+
+## States
+
+| State | Behavior |
+|---|---|
+| default | label + control; description/error optional |
+| invalid (`<Field invalid>`) | control gets `aria-invalid="true"`; `Field.Error` renders and joins `aria-describedby` |
+| valid | `Field.Error` renders `null`; nothing added to `aria-describedby` for it |
+| disabled (`<Field disabled>`) | forwarded to the control (Base UI Field.Root precedence) |
+| focus | handled entirely by the inner control (Input's own focus ring) |
+
+The wrapper adds **zero** runtime styling and no focus handling of its own — focus visuals live on
+the control.
+
+## Accessibility
+
+- [ ] Label is a real `<label>` associated with the control (`htmlFor` ↔ control `id`, from Base UI).
+- [ ] Description and error, when present, are referenced by the control's `aria-describedby`.
+- [ ] `aria-invalid="true"` on the control when the field is invalid.
+- [ ] Error text meets ≥ 4.5:1 contrast in both themes (`text-accent` on surfaces).
+- [ ] No independent focus target on the wrapper; focus lives on the control.
+
+---
+
+# Input — sukuna-ui
+
+> A single-line text input.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Input } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/input · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-input.md
+
+## Purpose
+
+A single-line text input. Native `<input>` styled to Sukuna, with size and an invalid state.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'size'> {
+  size?: 'sm' | 'md' | 'lg'   // default 'md' (shadows the native numeric `size` attr — omitted)
+  invalid?: boolean           // sets aria-invalid + crimson border
+}
+```
+
+Native `size` (visible width in chars) is omitted in favor of the variant `size`. Everything else
+native passes through (`type`, `value`, `defaultValue`, `onChange`, `placeholder`, `disabled`,
+`required`, `name`, `autoComplete`, `aria-*`, …).
+
+## Variants & tokens
+
+Base: `w-full bg-surface-2 text-text border border-line placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+
+| size | utilities |
+|---|---|
+| sm | `h-8 px-3 text-sm rounded-sm` |
+| md | `h-10 px-3 text-md rounded-md` |
+| lg | `h-12 px-4 text-lg rounded-lg` |
+
+| invalid | utilities |
+|---|---|
+| true | `border-accent focus-visible:ring-accent-glow` |
+
+Sukuna has one red (crimson), so the invalid border reuses `--sk-accent` (see `docs/questions.md` Q10).
+
+## States
+
+| State | Behavior |
+|---|---|
+| default | as above |
+| focus-visible | 2px `--sk-accent-glow` ring, border → accent |
+| invalid | crimson border always; `aria-invalid="true"` |
+| disabled | `opacity .45`, `cursor: not-allowed` (native disabled) |
+
+## Accessibility
+
+- [ ] Every input has a programmatic label — a `<label htmlFor>`, `aria-label`, or
+      `aria-labelledby`. The component does not render a label; the consumer supplies one.
+- [ ] `invalid` sets `aria-invalid`; pair with `aria-describedby` pointing at the error text.
+- [ ] Placeholder is not a label (it disappears on input); never rely on it alone.
+- [ ] Focus ring ≥ 3:1 against the surface in both themes.
+
+---
+
+# Menu — sukuna-ui
+
+> A dropdown menu of actions triggered by a button.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Menu } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/menu · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-menu.md
+
+## Purpose
+
+A dropdown menu of actions triggered by a button. Keyboard nav, typeahead, focus, and dismiss from
+Base UI.
+
+## API
+
+```ts
+import type { ReactElement, ReactNode } from 'react'
+
+export interface MenuItemOption {
+  label: ReactNode
+  onSelect?: () => void   // fires on click / Enter / Space; the menu then closes
+  disabled?: boolean
+  id?: string             // stable React key — set it for dynamic (filtered/reordered) menus;
+                          // falls back to the array index
+}
+
+export interface MenuProps {
+  children: ReactElement            // the trigger (e.g. a Button)
+  items: MenuItemOption[]
+  side?: 'top' | 'right' | 'bottom' | 'left'   // default 'bottom'
+  align?: 'start' | 'center' | 'end'            // default 'start'
+  sideOffset?: number                            // default 6
+}
+```
+
+## Variants & tokens
+
+popup: `z-50 min-w-40 rounded-md border border-line bg-surface p-1 shadow-card` + enter/exit
+transitions. item: `flex items-center gap-2 h-9 px-2.5 rounded-sm text-sm text-text cursor-pointer
+data-[highlighted]:bg-line-soft data-[disabled]:opacity-45`.
+
+## States
+
+closed · open (positioned popup) · item highlighted (keyboard) · disabled item.
+
+## Accessibility
+
+- [ ] `role="menu"`/`menuitem` wired by Base UI; trigger has `aria-haspopup`/`aria-expanded`.
+- [ ] Arrow keys move, Enter/Space select, Escape closes, focus returns to trigger.
+
+---
+
+# Pagination — sukuna-ui
+
+> Navigate between pages of results, with first/last always shown and ellipses in between.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Pagination, paginationRange } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/pagination · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-pagination.md
+
+## Purpose
+
+Navigate between pages of results, with first/last always shown and ellipses in between.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface PaginationProps extends Omit<ComponentPropsWithoutRef<'nav'>, 'onChange'> {
+  page: number            // current page, 1-based
+  count: number           // total pages
+  onPageChange?: (page: number) => void
+  siblingCount?: number   // pages shown around current (default 1)
+}
+```
+
+## Variants & tokens
+
+page button: `size-9 rounded-md text-sm text-text-dim hover:bg-line-soft data-[active]:bg-surface-2
+data-[active]:text-text focus-visible:ring-2 focus-visible:ring-accent-glow`; nav (prev/next):
+same + `disabled:opacity-45`; ellipsis: `text-text-faint`.
+
+## States
+
+page: default · hover · active (`aria-current="page"`). prev/next disabled at the bounds.
+
+## Accessibility
+
+- [ ] `<nav aria-label="Pagination">`; current page `aria-current="page"`.
+- [ ] Prev/Next have labels and are `disabled` at the ends.
+- [ ] Ellipses are inert text, not buttons.
+
+---
+
+# Progress — sukuna-ui
+
+> A horizontal progress bar, determinate or indeterminate.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Progress } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/progress · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-progress.md
+
+## Purpose
+
+A horizontal progress bar, determinate or indeterminate.
+
+## API
+
+```ts
+export interface ProgressProps {
+  value?: number | null   // 0..max; null/omitted → indeterminate
+  max?: number            // default 100
+  label?: ReactNode
+  size?: 'sm' | 'md'      // default 'md'
+  className?: string
+  'aria-label'?: string
+}
+```
+
+## Variants & tokens
+
+track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2`. indicator:
+`bg-accent rounded-pill transition-[width]`; indeterminate → `w-1/3 animate-pulse`. label:
+`text-sm text-text-dim`. Base UI sizes the indicator width from the value.
+
+## States
+
+determinate (width = value) · indeterminate (pulsing partial bar).
+
+## Accessibility
+
+- [ ] `role="progressbar"` with `aria-valuenow/min/max` (determinate) from Base UI.
+- [ ] Accessible name via `aria-label` or a visible `label`.
+- [ ] Indeterminate omits `aria-valuenow`.
+
+---
+
+# RadioGroup — sukuna-ui
+
+> Choose one option from a small set.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { RadioGroup } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/radio-group · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-radio-group.md
+
+## Purpose
+
+Choose one option from a small set. Roving focus + arrow-key selection from Base UI.
+
+## API
+
+```ts
+export interface RadioOption { value: string; label: ReactNode; disabled?: boolean }
+
+export interface RadioGroupProps {
+  items: RadioOption[]
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  name?: string
+  disabled?: boolean
+  orientation?: 'vertical' | 'horizontal'   // default 'vertical'
+  size?: 'sm' | 'md'                          // default 'md'
+  'aria-label'?: string
+}
+```
+
+## Variants & tokens
+
+group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
+
+## States
+
+unchecked · checked (accent border + dot) · focus-visible ring · disabled.
+
+## Accessibility
+
+- [ ] `role="radiogroup"` with an accessible name (`aria-label`/`aria-labelledby`).
+- [ ] Arrow keys move + select; Tab enters/leaves the group (Base UI).
+- [ ] Each option has a visible, associated label.
+
+---
+
+# Select — sukuna-ui
+
+> A single-select dropdown.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Select } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/select · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-select.md
+
+## Purpose
+
+A single-select dropdown. Keyboard, typeahead, positioning, dismiss, and listbox a11y come from
+Base UI (`@base-ui-components/react/select`); we style the trigger, popup, and items.
+
+## API
+
+```ts
+export interface SelectOption { value: string; label: ReactNode; disabled?: boolean }
+
+export interface SelectProps {
+  items: SelectOption[]
+  value?: string            // controlled
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  placeholder?: string      // default 'Select…'
+  disabled?: boolean
+  name?: string             // form field name
+  id?: string
+  size?: 'sm' | 'md'        // default 'md'
+  'aria-label'?: string
+}
+```
+
+Prop-driven with an `items` array (string values in v1). The `Value` shows the selected item's
+label, or the placeholder when empty.
+
+## Variants & tokens
+
+- trigger: `bg-surface-2 text-text border border-line rounded-md`, `data-[popup-open]:border-accent`,
+  focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md`.
+- popup: `z-50 rounded-md border border-line bg-surface p-1 shadow-card max-h-96 overflow-y-auto` + fade/scale.
+- item: `h-9 px-2.5 rounded-sm text-sm`, `data-[highlighted]:bg-line-soft`, `data-[disabled]` dim.
+- indicator: `text-accent` check; icon: `text-text-dim` chevron.
+
+## States
+
+closed · open (listbox) · item highlighted (keyboard) · item selected (check) · disabled item ·
+disabled trigger.
+
+## Accessibility
+
+- [ ] Trigger exposes the selected value; give it an `aria-label` or associate a `<label>` via `id`.
+- [ ] Listbox roles, arrow-key navigation, typeahead, and selection from Base UI.
+- [ ] `Escape` / outside-click dismiss; focus returns to the trigger.
+- [ ] Disabled items are not selectable and are announced disabled.
+
+---
+
+# Skeleton — sukuna-ui
+
+> A placeholder shimmer shown while content loads.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Skeleton } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/skeleton · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-skeleton.md
+
+## Purpose
+
+A placeholder shimmer shown while content loads.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface SkeletonProps extends ComponentPropsWithoutRef<'div'> {
+  variant?: 'text' | 'rectangular' | 'circular'   // default 'rectangular'
+  // size comes from your className/style (e.g. className="h-4 w-40")
+}
+```
+
+## Variants & tokens
+
+Base: `animate-pulse bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular → `rounded-md`;
+circular → `rounded-full`.
+
+## States
+
+Static; always pulsing while mounted.
+
+## Accessibility
+
+- [ ] Decorative (`aria-hidden`); convey loading via a container `aria-busy`/`role="status"`.
+
+---
+
+# Slider — sukuna-ui
+
+> Pick a number from a range by dragging or with the keyboard.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Slider } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/slider · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-slider.md
+
+## Purpose
+
+Pick a number from a range by dragging or with the keyboard.
+
+## API
+
+```ts
+export interface SliderProps {
+  value?: number
+  defaultValue?: number
+  onValueChange?: (value: number) => void
+  min?: number     // default 0
+  max?: number     // default 100
+  step?: number    // default 1
+  disabled?: boolean
+  className?: string
+  'aria-label'?: string
+}
+```
+
+## Variants & tokens
+
+track: `h-1.5 w-full rounded-pill bg-surface-2`; indicator: `bg-accent rounded-pill` (Base UI sizes
+it); thumb: `size-4 rounded-full bg-text border border-line focus-visible:ring-2
+focus-visible:ring-accent-glow`; disabled → `opacity-45`.
+
+## States
+
+default · dragging · focus-visible ring on thumb · disabled.
+
+## Accessibility
+
+- [ ] Thumb exposes `role="slider"` + `aria-valuenow/min/max` (Base UI); give an `aria-label`.
+- [ ] Arrow keys adjust by `step`; Home/End jump to min/max.
+- [ ] Disabled sliders are not focusable.
+
+---
+
+# Spinner — sukuna-ui
+
+> An indeterminate loading indicator (CSS spin).
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Spinner } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/spinner · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-spinner.md
+
+## Purpose
+
+An indeterminate loading indicator (CSS spin).
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface SpinnerProps extends Omit<ComponentPropsWithoutRef<'span'>, 'children'> {
+  size?: 'sm' | 'md' | 'lg'   // default 'md'
+  label?: string              // accessible name, default 'Loading'
+}
+```
+
+## Variants & tokens
+
+Wrapper: `inline-flex text-accent` (crimson by default; override via `className`). SVG:
+`animate-spin` + size sm `size-4` / md `size-5` / lg `size-6`; strokes use `currentColor`.
+
+## States
+
+Static; always spinning while mounted.
+
+## Accessibility
+
+- [ ] `role="status"` + `aria-label` announces loading; the SVG is `aria-hidden`.
+- [ ] Motion is decorative; respect reduced-motion at the app level if needed.
+
+---
+
+# Stepper — sukuna-ui
+
+> Show progress through an ordered sequence of steps.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Stepper } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/stepper · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-stepper.md
+
+## Purpose
+
+Show progress through an ordered sequence of steps.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface Step { label: ReactNode; description?: ReactNode }
+
+export interface StepperProps extends Omit<ComponentPropsWithoutRef<'ol'>, 'children'> {
+  steps: Step[]
+  activeStep: number   // 0-based index of the current step
+  orientation?: 'horizontal' | 'vertical'   // default 'horizontal'
+}
+```
+
+## Variants & tokens
+
+indicator by state: completed `bg-accent text-text border-accent` (check); current
+`border-accent text-accent` + ring; upcoming `border-line text-text-faint`. connector: completed →
+`bg-accent`, else `bg-line`. label: current/completed `text-text`, upcoming `text-text-dim`.
+
+## States
+
+per step: completed (`index < activeStep`) · current (`=== activeStep`, `aria-current="step"`) ·
+upcoming (`> activeStep`).
+
+## Accessibility
+
+- [ ] Ordered list; current step `aria-current="step"`.
+- [ ] Completed/current conveyed by more than color (check icon + number + text weight).
+- [ ] Give the list an `aria-label` (e.g. "Progress").
+
+---
+
+# Switch — sukuna-ui
+
+> An on/off toggle for an immediate setting (not form submission).
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Switch } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/switch · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-switch.md
+
+## Purpose
+
+An on/off toggle for an immediate setting (not form submission). There is no native switch element,
+so it's a `<button role="switch">` with a sliding thumb; keyboard and semantics come from the button.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+type Native = Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick' | 'value' | 'role' | 'aria-checked'>
+
+export interface SwitchProps extends Native {
+  size?: 'sm' | 'md'                    // default 'md'
+  checked?: boolean
+  defaultChecked?: boolean              // default false
+  onCheckedChange?: (checked: boolean) => void
+}
+```
+
+Toggle via `onCheckedChange`. Uncontrolled + controlled through `useControllableState`. Give it an
+accessible name (`aria-label` / `aria-labelledby`).
+
+## Variants & tokens
+
+Slots — `root` (the track/button) and `thumb`:
+
+- root base: `group relative inline-flex items-center rounded-pill p-0.5 border border-line bg-surface-2 transition-colors duration-fast ease-sukuna cursor-pointer aria-checked:bg-gradient-accent aria-checked:border-transparent disabled:opacity-45 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:ring-offset-2 focus-visible:ring-offset-bg`
+- thumb base: `inline-block rounded-full bg-text transition-transform duration-fast ease-sukuna`
+
+| size | root | thumb |
+|---|---|---|
+| sm | `h-5 w-9` | `size-4 group-aria-checked:translate-x-4` |
+| md | `h-6 w-11` | `size-5 group-aria-checked:translate-x-5` |
+
+The thumb slides via `group-aria-checked` reading the track's `aria-checked`.
+
+## States
+
+off · on (crimson gradient track, thumb slid right) · focus-visible (accent-glow ring) ·
+disabled (opacity .45, not-allowed).
+
+## Accessibility
+
+- [ ] `role="switch"` with `aria-checked` reflecting state (set by the component).
+- [ ] Accessible name required (`aria-label`/`aria-labelledby`) — no visible label is rendered.
+- [ ] Space and Enter toggle (native button).
+- [ ] Focus ring ≥ 3:1 against the surface in both themes.
+- [ ] Thumb is decorative (`aria-hidden`).
+
+---
+
+# Table — sukuna-ui
+
+> Present tabular data with Sukuna styling.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Table } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/table · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-table.md
+
+## Purpose
+
+Present tabular data with Sukuna styling. Composition over configuration; sorting/selection/
+virtualization are out of scope (use a data-grid library for those).
+
+## API
+
+```ts
+export const Table: ForwardRefExoticComponent<TableProps> & {
+  Header, Body, Row, HeaderCell, Cell   // thin styled wrappers over thead/tbody/tr/th/td
+}
+```
+
+```tsx
+<Table>
+  <Table.Header><Table.Row><Table.HeaderCell>Name</Table.HeaderCell></Table.Row></Table.Header>
+  <Table.Body><Table.Row><Table.Cell>Ariel</Table.Cell></Table.Row></Table.Body>
+</Table>
+```
+
+## Variants & tokens
+
+wrapper: `w-full overflow-x-auto` (horizontal scroll on small screens). table: `w-full border-collapse
+text-sm text-text`. headerCell: `h-10 px-3 text-xs uppercase tracking-eyebrow text-text-dim border-b
+border-line`. row: `border-b border-line`, `data-[interactive]:hover:bg-line-soft`. cell: `h-11 px-3`.
+
+## States
+
+Static. Rows can opt into a hover with `data-interactive`.
+
+## Accessibility
+
+- [ ] Real `<table>`/`<thead>`/`<th>` semantics (use `Table.HeaderCell` for headers).
+- [ ] Add `scope="col"`/`scope="row"` on header cells where appropriate (native prop passthrough).
+- [ ] The wrapper scrolls horizontally so the table never breaks the page layout.
+
+---
+
+# Tabs — sukuna-ui
+
+> Switch between panels of related content.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Tabs } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/tabs · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-tabs.md
+
+## Purpose
+
+Switch between panels of related content. Roving focus + arrow-key navigation from Base UI.
+
+## API
+
+```ts
+export interface TabItem { value: string; label: ReactNode; content: ReactNode; disabled?: boolean }
+
+export interface TabsProps {
+  items: TabItem[]
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+  'aria-label'?: string
+}
+```
+
+## Variants & tokens
+
+list: `flex border-b border-line`. tab: `h-10 px-3 text-sm font-medium text-text-dim border-b-2 border-transparent -mb-px hover:text-text data-[selected]:text-text data-[selected]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow`. panel: `pt-4 text-text`.
+
+## States
+
+tab: default · hover · selected (accent underline) · focus-visible · disabled.
+
+## Accessibility
+
+- [ ] `role="tablist"`/`tab`/`tabpanel` wired by Base UI; give the list an `aria-label`.
+- [ ] Arrow keys move between tabs; Tab key moves to the panel.
+- [ ] Selected tab is distinguishable by more than color (underline + text weight).
+
+---
+
+# Text — sukuna-ui
+
+> The typographic primitive.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Text } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/text · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-text.md
+
+## Purpose
+
+The typographic primitive. Renders body copy, labels, eyebrows, and headings against the Sukuna
+type scale, weights, tones, and tracking. One component so type stays consistent; `as` picks the
+semantic element.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export type TextElement =
+  | 'p' | 'span' | 'div' | 'label' | 'strong' | 'em' | 'small'
+  | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+export interface TextProps extends Omit<ComponentPropsWithoutRef<'p'>, 'color'> {
+  as?: TextElement          // default 'p'
+  font?: 'sans' | 'display' // default 'sans'; 'display' = Archivo, for headlines
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'   // default 'md'
+  weight?: 'regular' | 'semibold' | 'bold' | 'black'        // default 'regular'
+  tone?: 'default' | 'dim' | 'faint' | 'accent' | 'success' | 'premium' // default 'default'
+  align?: 'start' | 'center' | 'end'
+  leading?: 'tight' | 'normal'      // default 'normal'
+  tracking?: 'tight' | 'normal' | 'eyebrow'   // default 'normal'; 'eyebrow' also uppercases
+  truncate?: boolean        // single-line ellipsis
+  numeric?: boolean         // tabular-nums for aligned figures
+}
+```
+
+`color` is omitted from the native props so it can't fight `tone`. `as` is a fixed allowlist of
+intrinsic tags (not `asChild` polymorphism, which stays out of v1) — SSR-safe and enough for text.
+
+## Variants & tokens
+
+| Variant | Values → utility |
+|---|---|
+| font | sans → `font-sans` · display → `font-display` |
+| size | xs/sm/md/lg/xl/2xl/3xl → `text-xs … text-3xl` (`--sk-text-*`) |
+| weight | regular/semibold/bold/black → `font-normal/semibold/bold/black` (400/600/700/900) |
+| tone | default `text-text` · dim `text-text-dim` · faint `text-text-faint` · accent `text-accent` · success `text-success` · premium `text-premium` |
+| align | start/center/end → `text-start/center/end` |
+| leading | tight `leading-tight` · normal `leading-normal` |
+| tracking | tight/normal/eyebrow → `tracking-*`; eyebrow adds `uppercase` |
+| truncate | true → `truncate` |
+| numeric | true → `tabular-nums` |
+
+## States
+
+Static; no interactive states. It inherits nothing that changes on hover/focus.
+
+## Accessibility
+
+- [ ] Use real heading tags (`as="h2"`) for headings — never size alone to fake hierarchy.
+- [ ] `tone="faint"` is for placeholder/disabled/decorative text; don't use it for essential body
+      copy (it can fall below 4.5:1).
+- [ ] `default`/`dim` tones meet 4.5:1 on `--sk-bg`/`--sk-surface` in both themes.
+- [ ] `eyebrow` conveys style, not meaning; don't rely on uppercase to carry information.
+- [ ] `label` usage associates with a control via `htmlFor`.
+
+---
+
+# Toast — sukuna-ui
+
+> Transient notifications.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { ToastProvider, useToast } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/toast · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-toast.md
+
+## Purpose
+
+Transient notifications. Wrap the app in `ToastProvider`; call `useToast().toast(...)` to show one.
+
+## API
+
+```ts
+export interface ToastProviderProps { children: ReactNode; timeout?: number; limit?: number }
+export function ToastProvider(props: ToastProviderProps): JSX.Element
+
+export interface ToastOptions { title?: ReactNode; description?: ReactNode; type?: string }
+export function useToast(): { toast: (options: ToastOptions) => string }  // returns the toast id
+```
+
+Usage:
+
+```tsx
+<ToastProvider><App /></ToastProvider>
+// inside App:
+const { toast } = useToast()
+toast({ title: 'Saved', description: 'Your changes were saved.' })
+```
+
+## Variants & tokens
+
+viewport: `fixed bottom-4 right-4 z-50 flex w-80 flex-col gap-2`. root: `rounded-md border border-line bg-surface p-4 shadow-card` + enter/exit slide/opacity. title `font-display font-bold text-sm`; description `text-sm text-text-dim`; close: top-right ghost button.
+
+## States
+
+enter (slide/fade in) · visible · auto-dismiss after `timeout` · close (button/swipe from Base UI).
+
+## Accessibility
+
+- [ ] Viewport is a labelled region; toasts announce politely (Base UI live region).
+- [ ] Close button has `aria-label`; Escape/close supported.
+- [ ] Auto-dismiss pauses on hover/focus (Base UI).
+
+---
+
+# Tooltip — sukuna-ui
+
+> A hover/focus tooltip for supplementary text.
+
+- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Tooltip } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/tooltip · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-tooltip.md
+
+## Purpose
+
+A hover/focus tooltip for supplementary text. Behavior (delay, positioning, dismiss, a11y wiring)
+comes from Base UI (`@base-ui-components/react/tooltip`); we style the popup.
+
+## API
+
+```ts
+import type { ReactElement, ReactNode } from 'react'
+
+export interface TooltipProps {
+  children: ReactElement          // the trigger (an element; Base UI merges trigger props onto it)
+  content: ReactNode              // tooltip body
+  side?: 'top' | 'right' | 'bottom' | 'left'   // default 'top'
+  align?: 'start' | 'center' | 'end'           // default 'center'
+  sideOffset?: number             // default 8
+  delay?: number                  // open delay ms
+  open?: boolean                  // controlled
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+```
+
+A composition wrapper (not `forwardRef`): the ref belongs on the trigger element you pass as
+`children`.
+
+## Variants & tokens
+
+Popup: `z-40 max-w-xs rounded-md border border-line bg-surface-2 text-text px-2.5 py-1.5 text-sm shadow-card select-none` + enter/exit transition via Base UI `data-[starting-style]`/`data-[ending-style]`. `z-40` = `--sk-z-tooltip`.
+
+## States
+
+closed (nothing rendered) · open (popup, positioned by Base UI) · enter/leave transitions.
+
+## Accessibility
+
+- [ ] Popup wired as the trigger's description by Base UI; content is supplementary, not essential.
+- [ ] Opens on hover AND keyboard focus; dismiss on Escape / blur (Base UI).
+- [ ] Not a replacement for a label; don't put interactive content inside a tooltip.
+
+---
+
+# Design tokens
+
+# Tokens — Sukuna → `--sk-*`
+
+Source: Pomo Design System (Sukuna language). Dark is the default theme. Light palette **approved by owner 2026-09-16**.
+
+## Color (semantic)
+
+| Token | Dark (source) | Light (proposed) | Use |
+|---|---|---|---|
+| `--sk-bg` | `#0A0A0B` (ink) | `#FAF9F5` | Page canvas |
+| `--sk-surface` | `#141416` (panel) | `#FFFFFF` | Cards, dialogs |
+| `--sk-surface-2` | `#1C1C20` (panel2) | `#F1EFE9` | Nested surfaces, inputs |
+| `--sk-well` | `#000000` | `#E8E5DD` | Sunken areas |
+| `--sk-line` | `rgba(255,255,255,.10)` | `rgba(0,0,0,.12)` | Borders |
+| `--sk-line-soft` | `rgba(255,255,255,.06)` | `rgba(0,0,0,.06)` | Dividers |
+| `--sk-accent` | `#FF3B4E` (crimson) | `#D8253A` | Primary action, "live" |
+| `--sk-accent-deep` | `#B01221` | `#9A0E1C` | Hover/pressed accent |
+| `--sk-accent-glow` | `rgba(255,59,78,.6)` | `rgba(216,37,58,.35)` | Decorative glow shadow (not the focus ring) |
+| `--sk-focus-ring` | `#FF3B4E` | `#D8253A` | Solid focus ring (≥3:1 on every surface, WCAG 1.4.11) |
+| `--sk-on-accent` | `#FFFFFF` | `#FFFFFF` | Text/icons on the crimson accent/gradient (Button primary) |
+| `--sk-premium` | `#E8DCC4` (bone) | `#786A4A` | Premium / gold surfaces |
+| `--sk-premium-dim` | `#B5A98C` | `#776A48` | Premium secondary |
+| `--sk-text` | `#F4F1EC` | `#141413` | Primary text |
+| `--sk-text-dim` | `#9A948A` | `#5E5A52` | Secondary text |
+| `--sk-text-faint` | `#8C8479` | `#6F6B63` | Placeholders, disabled |
+| `--sk-success` | `#31C877` | `#177B46` | Done / positive |
+
+> **Contrast floor.** Every color used as text must clear WCAG AA — 4.5:1 (normal) / 3:1 (large or
+> non-text UI) — on `bg`, `surface` and `surface-2` in **both** themes. `text-faint` (both themes)
+> and light-theme `premium`/`premium-dim`/`success` were retuned to meet this (see D22). The focus
+> ring uses the solid `--sk-focus-ring`, not the translucent `--sk-accent-glow` (which failed 3:1).
+> Verify with `scratchpad` contrast script when changing any color token.
+| `--sk-gradient-accent` | `linear-gradient(135deg,#D8253A,#B01221)` | `linear-gradient(135deg,#D8253A,#9A0E1C)` | Wordmark, hero CTA, Button primary |
+
+## Typography
+
+| Token | Value |
+|---|---|
+| `--sk-font-sans` | `-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif` |
+| `--sk-font-display` | `"Archivo", var(--sk-font-sans)` — library does NOT bundle the font; document `@import` / `next/font` for consumers |
+| `--sk-text-xs / sm / md / lg / xl / 2xl / 3xl` | `11 / 12 / 14 / 16 / 18 / 24 / 34 px` |
+| `--sk-weight-regular / semibold / bold / black` | `400 / 600 / 700 / 900` |
+| `--sk-tracking-tight / normal / eyebrow` | `-0.02em / 0 / 0.22em` |
+| `--sk-leading-tight / normal` | `1.02 / 1.5` |
+| Numerals | `font-variant-numeric: tabular-nums` on numeric Text variant |
+
+## Spacing, radius, shadow, motion
+
+| Group | Tokens |
+|---|---|
+| Space | `--sk-space-1..8` = `4 6 8 12 16 20 24 32 px` |
+| Radius | `--sk-radius-sm 8px`, `--sk-radius-md 12px`, `--sk-radius-lg 16px`, `--sk-radius-pill 999px` |
+| Shadow | `--sk-shadow-card: 0 30px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06)` (dark) / light **proposed** `0 20px 40px -24px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.06)` — pending owner approval, see `questions.md` Q12 |
+| Motion | `--sk-duration-fast 120ms`, `--sk-duration-base 200ms`, `--sk-ease: cubic-bezier(.2,.8,.2,1)` |
+| Z-index | `--sk-z-tooltip 40`, `--sk-z-dialog 50` |
+
+## Theme wiring (Tailwind v4)
+
+`src/styles/theme.css`, shipped as `sukuna-ui/theme.css`:
+
+```css
+:root, [data-theme="dark"]  { --sk-bg: #0A0A0B; --sk-surface: #141416; /* ... */ }
+[data-theme="light"]        { --sk-bg: #FAF9F5; --sk-surface: #FFFFFF; /* ... */ }
+
+@theme inline {
+  --color-bg: var(--sk-bg);
+  --color-surface: var(--sk-surface);
+  --color-surface-2: var(--sk-surface-2);
+  --color-accent: var(--sk-accent);
+  --color-text: var(--sk-text);
+  /* one line per semantic color */
+  --font-display: var(--sk-font-display);
+  --radius-sm: var(--sk-radius-sm);
+  --ease-sukuna: var(--sk-ease);
+  --duration-fast: var(--sk-duration-fast);
+}
+
+@utility bg-gradient-accent { background-image: var(--sk-gradient-accent); }
+```
+
+`@theme inline` keeps the utility pointing at the runtime variable, so `data-theme` switches colors without Tailwind's `dark:` variant. Consumers override by redefining any `--sk-*` under their own selector, exactly as before.

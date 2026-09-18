@@ -23,6 +23,8 @@ jobs:
       - run: bun run test:coverage
       - run: bun run build
       - run: bun run check:pkg
+      - name: Generated docs are in sync (README table, llms.txt, docs/llms)
+        run: bun run docs:check
       - run: bun run size
       - name: Upload coverage
         if: always()
