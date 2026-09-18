@@ -1,5 +1,42 @@
 # sukuna-ui
 
+## 0.6.0
+
+### Minor Changes
+
+- a6c2ba3: Accordion: new `headingLevel` prop (1–6, default 3) so each item's header renders as the right
+  `<h1>`–`<h6>` for your document outline (WCAG 1.3.1), with the trigger nested inside the heading.
+- ded3d69: Documented for AI agents and search. Every exported component and prop now carries rich TSDoc in
+  the published `.d.ts` — purpose, `@remarks` (SSR/RSC posture, accessibility and keyboard behaviour,
+  every variant with its default), `@default`, and copy-pasteable `@example`s — so IDE hover and
+  agents reading `node_modules/sukuna-ui` are self-sufficient. New generated agent-facing docs
+  (`llms.txt`, `llms-full.txt`, `docs/llms/<component>.md`) are built from the component specs by
+  `bun run docs:build` and drift-checked in CI. The README is rewritten code-first with a "For AI
+  agents" section and a generated component table; `package.json` gains `keywords`/`author` and a
+  sharper description. The showcase example is now a deployable, prerendered, SEO-complete site
+  (meta/Open Graph/JSON-LD `SoftwareApplication`, sitemap, robots, favicon, llms files). No runtime
+  behaviour changes.
+- a6c2ba3: Alert: the ARIA role now derives from `tone` — `role="alert"` (assertive) for `danger`/`warning`,
+  `role="status"` (polite) otherwise — so urgent alerts interrupt screen readers appropriately. An
+  explicit `role` prop still overrides.
+- a6c2ba3: Button is now polymorphic: `<Button as="a" href="…">` renders an anchor with the same styling for
+  "link that looks like a button". A disabled link maps to `aria-disabled` + `tabindex={-1}` +
+  non-interactive styles (anchors have no native `disabled`). Default (no `as`) is unchanged.
+- 72cb4e2: Export `Tabs` (and its `TabItem` / `TabsProps` types) from the package entry. The component
+  shipped, was documented and tested, but was never re-exported from `src/index.ts`, so
+  `import { Tabs } from "sukuna-ui"` failed. It's now importable like every other component, guarded
+  by a test that asserts every component directory is re-exported.
+- a6c2ba3: New `Field` component — a form-control wrapper (compound: `Field` + `Field.Label` / `Field.Control`
+  / `Field.Description` / `Field.Error`) built on Base UI Field. It wires label association,
+  `aria-describedby` for description and error, and `aria-invalid`, so a labelled/validated input is
+  correct by construction. Set `invalid` and the error shows and links automatically.
+
+### Patch Changes
+
+- 72cb4e2: Breadcrumbs: key items by position instead of `href`. Keying by `href` produced duplicate React
+  keys when two crumbs shared one (e.g. repeated or placeholder hrefs); a breadcrumb trail is a fixed,
+  ordered list, so the index is the correct stable key.
+
 ## 0.5.0
 
 ### Minor Changes
