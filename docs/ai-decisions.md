@@ -9,6 +9,22 @@ agent's own calls. Newest first.
 
 ---
 
+## D28 — Showcase example app; found Tabs was never exported
+
+- **What:** Added `examples/showcase` — a single-page Vite + React 19 app (zero-config
+  `sukuna-ui/styles.css` path, `bun link`) that renders all 29 components with a live dark/light
+  toggle. Building it surfaced two real bugs:
+  1. **`Tabs` was never re-exported from `src/index.ts`** — the component shipped, was documented,
+     tested, and listed in the README, but `import { Tabs } from "sukuna-ui"` failed (through 0.5.0).
+     Fixed the export and added `src/index.test.ts` asserting every component directory is
+     re-exported, so this class of gap can't recur. (minor — new public API.)
+  2. **Breadcrumbs keyed by `href`** → duplicate React keys when two crumbs share an href. Keyed by
+     index (a trail is a fixed ordered list). (patch.)
+- **Why an example, given Storybook exists:** Storybook is per-component; a showcase app exercises
+  the real consumer path (published package + one CSS import) end to end and catches integration
+  gaps like the missing export that per-component tools miss.
+- **Reverse:** delete `examples/showcase`; the two library fixes stand on their own.
+
 ## D27 — Tabs: fix invisible selected state; active tab reads crimson
 
 - **Decision:** The selected Tab now renders crimson text + a crimson underline

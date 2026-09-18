@@ -24,7 +24,10 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(function Br
         {items.map((item, index) => {
           const last = index === items.length - 1
           return (
-            <li key={item.href ?? `${index}`} className={styles.item()}>
+            // A breadcrumb trail is a fixed, ordered list; index is the stable key. Keying by href
+            // breaks when two crumbs share one (e.g. repeated or placeholder hrefs).
+            // biome-ignore lint/suspicious/noArrayIndexKey: ordered, non-reordering trail
+            <li key={index} className={styles.item()}>
               {item.current || (!item.href && last) ? (
                 <span aria-current="page" className={styles.current()}>
                   {item.label}
