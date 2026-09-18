@@ -3,7 +3,7 @@
 
 > Transient notifications.
 
-- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
 - **Import:** `import { ToastProvider, useToast } from 'sukuna-ui'`
 - **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
 - **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/toast · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-toast.md

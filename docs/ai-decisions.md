@@ -44,6 +44,12 @@ agent's own calls. Newest first.
   source); the deployed showcase serves the same files at its own origin. (2) `docs:check` moved
   to `scripts/check-docs.ts` using `git status --porcelain`, because `git diff --exit-code`
   ignores untracked files and would have let a never-generated page for a new component pass CI.
+- **Post-release fix (CI red on the 0.6.0 merge):** the generated docs embedded
+  `package.json`'s version, but the Changesets release commit bumps the version *without* running
+  `docs:build`, so the embedded value drifted (64 files, all `0.5.0 → 0.6.0`) and `docs:check`
+  failed. Generated docs now carry no version at all — the version is authoritative in
+  `package.json`/npm — so release bumps can never drift them. Rule of thumb recorded in the
+  generator header: never embed a value in generated output that changes outside `docs:build`.
 - **Deferred (per research):** own MCP server and a shadcn-compatible registry — after traction;
   `llms.txt` + a Context7 listing cover agents now. Custom domain for the showcase: its
   `SITE_URL` (prerender/sitemap/canonical) is one env var.

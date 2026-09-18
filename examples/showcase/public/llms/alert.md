@@ -3,7 +3,7 @@
 
 > An inline message that draws attention to information, success, a caution, or an error.
 
-- **Package:** `sukuna-ui` v0.5.0 — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
 - **Import:** `import { Alert } from 'sukuna-ui'`
 - **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
 - **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/alert · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-alert.md

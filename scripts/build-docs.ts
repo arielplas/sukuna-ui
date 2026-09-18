@@ -21,6 +21,11 @@
  * Links point at the raw GitHub copies (`RAW_URL`) so they work before — and independently of —
  * the showcase deployment; the deployed showcase serves the same files at its own origin
  * (`/llms.txt`, `/llms-full.txt`, `/llms/<name>.md`).
+ *
+ * The package VERSION is deliberately NOT embedded in any output: the Changesets release commit
+ * bumps `package.json` without running this script, so an embedded version drifts on every
+ * release and fails `docs:check` (it did, on the 0.6.0 merge). The version is authoritative in
+ * `package.json` / npm.
  */
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -155,7 +160,7 @@ function renderComponentPage(doc: ComponentDoc): string {
     '',
     `> ${doc.summary}`,
     '',
-    `- **Package:** \`${pkg.name}\` v${pkg.version} — \`bun add ${pkg.name}\` (or \`npm i ${pkg.name}\`)`,
+    `- **Package:** \`${pkg.name}\` — \`bun add ${pkg.name}\` (or \`npm i ${pkg.name}\`)`,
     `- **Import:** \`${importLine}\``,
     `- **Styles:** \`@import "${pkg.name}/theme.css"\` (Tailwind v4) or \`import "${pkg.name}/styles.css"\` (no Tailwind) — see [Getting started](${RAW_URL}/llms.txt)`,
     `- **Source:** ${REPO_URL}/tree/main/src/components/${doc.name} · **Spec:** ${REPO_URL}/blob/main/docs/component-${doc.name}.md`,
@@ -189,7 +194,7 @@ function renderLlmsTxt(docs: ComponentDoc[]): string {
   const lines: string[] = [
     `# ${pkg.name}`,
     '',
-    `> ${pkg.description} Version ${pkg.version}.`,
+    `> ${pkg.description}`,
     '',
     gettingStarted.replace('{COUNT}', String(docs.length)),
     '',
@@ -222,7 +227,7 @@ function renderLlmsFull(docs: ComponentDoc[], pages: Map<string, string>): strin
   const parts: string[] = [
     `# ${pkg.name} — full documentation`,
     '',
-    `> ${pkg.description} Version ${pkg.version}. This file concatenates every component page plus the design-token reference; the index is at ${RAW_URL}/llms.txt.`,
+    `> ${pkg.description} This file concatenates every component page plus the design-token reference; the index is at ${RAW_URL}/llms.txt.`,
     '',
     gettingStarted.replace('{COUNT}', String(docs.length)),
     '',
