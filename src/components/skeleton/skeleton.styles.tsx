@@ -1,7 +1,7 @@
 import { tv, type VariantProps } from '../../utils/tv'
 
 export const skeletonStyles = tv({
-  base: 'animate-pulse bg-surface-2',
+  base: 'animate-pulse motion-reduce:animate-none bg-surface-2',
   variants: {
     variant: {
       text: 'rounded-sm h-[1em]',

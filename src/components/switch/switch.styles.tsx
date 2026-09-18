@@ -9,7 +9,8 @@ export const switchStyles = tv({
       'disabled:opacity-45 disabled:cursor-not-allowed',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     ],
-    thumb: 'inline-block rounded-full bg-text transition-transform duration-fast ease-sukuna',
+    thumb:
+      'inline-block rounded-full bg-text transition-transform motion-reduce:transition-none duration-fast ease-sukuna',
   },
   variants: {
     size: {

@@ -11,7 +11,7 @@ export const accordionStyles = tv({
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-sm',
       'disabled:opacity-45 disabled:cursor-not-allowed',
     ],
-    icon: 'shrink-0 text-text-dim transition-transform duration-fast ease-sukuna group-data-[panel-open]:rotate-180',
+    icon: 'shrink-0 text-text-dim transition-transform motion-reduce:transition-none duration-fast ease-sukuna group-data-[panel-open]:rotate-180',
     panel: 'overflow-hidden',
     content: 'pb-3 text-sm text-text-dim',
   },

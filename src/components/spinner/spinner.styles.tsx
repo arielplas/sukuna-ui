@@ -1,7 +1,7 @@
 import { tv, type VariantProps } from '../../utils/tv'
 
 export const spinnerStyles = tv({
-  base: 'animate-spin',
+  base: 'animate-spin motion-reduce:animate-none',
   variants: {
     size: {
       sm: 'size-4',

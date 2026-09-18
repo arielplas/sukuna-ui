@@ -17,7 +17,7 @@ export const selectStyles = tv({
     popup: [
       'min-w-40 max-h-96 overflow-y-auto',
       'rounded-md border border-line bg-surface p-1 shadow-card',
-      'transition-[opacity,transform] duration-fast ease-sukuna',
+      'transition-[opacity,transform] motion-reduce:transition-none duration-fast ease-sukuna',
       'data-[starting-style]:opacity-0 data-[starting-style]:scale-95',
       'data-[ending-style]:opacity-0 data-[ending-style]:scale-95',
       'focus-visible:outline-none',

@@ -6,7 +6,7 @@ export const toastStyles = tv({
       'fixed bottom-4 right-4 z-[var(--sk-z-toast)] flex w-80 max-w-[calc(100vw-2rem)] flex-col gap-2 outline-none',
     root: [
       'relative rounded-md border border-line bg-surface p-4 pr-9 shadow-card text-text',
-      'transition-all duration-base ease-sukuna',
+      'transition-all motion-reduce:transition-none duration-base ease-sukuna',
       'data-[starting-style]:opacity-0 data-[starting-style]:translate-y-3',
       'data-[ending-style]:opacity-0 data-[ending-style]:translate-y-3',
     ],

@@ -4,9 +4,9 @@ export const buttonStyles = tv({
   base: [
     'inline-flex items-center justify-center gap-2 select-none',
     'font-display font-bold tracking-tight',
-    'transition-[background-color,box-shadow,transform] duration-fast ease-sukuna',
+    'transition-[background-color,box-shadow,transform] motion-reduce:transition-none duration-fast ease-sukuna',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-    'active:scale-[.98]',
+    'active:scale-[.98] motion-reduce:active:scale-100',
     'disabled:opacity-45 disabled:cursor-not-allowed',
     'aria-busy:cursor-progress',
   ],

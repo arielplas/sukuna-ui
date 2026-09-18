@@ -6,7 +6,7 @@ export const progressStyles = tv({
     label: 'mb-1 block text-sm text-text-dim',
     track: 'w-full overflow-hidden rounded-pill bg-surface-2',
     indicator:
-      'h-full rounded-pill bg-accent transition-[width] duration-base ease-sukuna data-[indeterminate]:w-1/3 data-[indeterminate]:animate-pulse',
+      'h-full rounded-pill bg-accent transition-[width] motion-reduce:transition-none duration-base ease-sukuna data-[indeterminate]:w-1/3 data-[indeterminate]:animate-pulse motion-reduce:animate-none',
   },
   variants: {
     size: {

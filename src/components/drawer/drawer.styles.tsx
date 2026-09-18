@@ -3,10 +3,10 @@ import { tv } from '../../utils/tv'
 export const drawerStyles = tv({
   slots: {
     backdrop:
-      'fixed inset-0 z-[var(--sk-z-dialog)] bg-black/60 backdrop-blur-sm transition-opacity duration-base ease-sukuna data-[starting-style]:opacity-0 data-[ending-style]:opacity-0',
+      'fixed inset-0 z-[var(--sk-z-dialog)] bg-black/60 backdrop-blur-sm transition-opacity motion-reduce:transition-none duration-base ease-sukuna data-[starting-style]:opacity-0 data-[ending-style]:opacity-0',
     popup: [
       'fixed z-[var(--sk-z-dialog)] flex flex-col gap-2 bg-surface p-6 shadow-card border-line',
-      'transition-transform duration-base ease-sukuna focus-visible:outline-none',
+      'transition-transform motion-reduce:transition-none duration-base ease-sukuna focus-visible:outline-none',
     ],
     title: 'font-display text-lg font-bold tracking-tight text-text',
     description: 'mt-1 text-sm text-text-dim',

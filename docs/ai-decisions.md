@@ -9,6 +9,23 @@ agent's own calls. Newest first.
 
 ---
 
+## D25 — Reduced-motion support (audit P1 #7)
+
+- **Decision:** Honor `prefers-reduced-motion: reduce` via Tailwind's `motion-reduce:` variant on the
+  motion-bearing slots across the library (17 spots in 13 components): `motion-reduce:animate-none`
+  on `animate-spin`/`animate-pulse` (Spinner, Skeleton, Progress), `motion-reduce:transition-none` on
+  the enter/exit transform+opacity transitions (Dialog, Drawer, Toast, Menu, Select, Combobox,
+  Tooltip, Accordion, Switch, Progress width), and `motion-reduce:active:scale-100` on the Button
+  press-scale. Color-only transitions (borders, hovers) are left as-is — they aren't movement.
+- **Why per-utility, not a global `@media` reset:** the library has no shared root class to scope a
+  global rule to, and a blanket `* { animation: none }` in the shipped CSS would override the
+  consumer's own animations. `motion-reduce:` variants are scoped to our elements only.
+- **Convention:** new components with movement/animation must add the matching `motion-reduce:*`
+  variant. Verified end-to-end by a Playwright test that emulates `reducedMotion: 'reduce'` and
+  asserts the Spinner's `animationName` is `none` (and animates without the preference).
+- **Bump:** minor (a11y fix toward spec; WCAG 2.3.3 / 2.2.2). No API change.
+- **Reverse:** strip the `motion-reduce:*` classes.
+
 ## D24 — Performance at scale: no-dep stopgap (owner-approved Option 2)
 
 - **Decision:** Address the large-list perf findings (audit P0 #2/#3, #8/#10/#12) **without** adding a

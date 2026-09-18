@@ -6,7 +6,7 @@ export const menuStyles = tv({
     positioner: 'z-[var(--sk-z-popover)]',
     popup: [
       'min-w-40 rounded-md border border-line bg-surface p-1 shadow-card outline-none',
-      'transition-[opacity,transform] duration-fast ease-sukuna',
+      'transition-[opacity,transform] motion-reduce:transition-none duration-fast ease-sukuna',
       'data-[starting-style]:opacity-0 data-[starting-style]:scale-95',
       'data-[ending-style]:opacity-0 data-[ending-style]:scale-95',
     ],
