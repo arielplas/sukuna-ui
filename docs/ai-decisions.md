@@ -9,6 +9,24 @@ agent's own calls. Newest first.
 
 ---
 
+## D27 — Tabs: fix invisible selected state; active tab reads crimson
+
+- **Decision:** The selected Tab now renders crimson text + a crimson underline
+  (`aria-selected:text-accent aria-selected:border-accent`), so the active tab is obvious.
+- **Root cause:** the styles keyed the selected state off `data-[selected]:` but **Base UI's
+  `Tabs.Tab` never sets `data-selected`** — it exposes `data-active` and `aria-selected="true"`
+  (confirmed in `TabsTabDataAttributes`). So the old selectors matched nothing and the active tab
+  had *no* distinct styling at all (it computed to `text-dim` with a transparent border — verified
+  in-browser). Keyed off `aria-selected` (the unambiguous "which panel is shown" state; `data-active`
+  can follow focus). Base UI **Select/Combobox** items *do* use `data-selected`, so those were left
+  as-is.
+- **Contrast:** `accent` as text clears AA on the page `bg` (5.64/4.70) and `surface` (5.25/4.95) —
+  the backgrounds tabs sit on. (Avoid placing tabs directly on `surface-2` in light, where accent is
+  4.30.)
+- **Bump:** patch (fixes broken selected styling; no API/layout change). Guarded by a browser test
+  asserting the selected tab's computed color is the accent.
+- **Reverse:** revert the two `aria-selected:` utilities.
+
 ## D26 — RadioGroup: clicking the label text selects the option
 
 - **Decision:** The whole option row is now the `Radio.Root` (role=radio) with the circle and label

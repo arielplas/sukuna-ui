@@ -7,7 +7,10 @@ export const tabsStyles = tv({
     tab: [
       'relative inline-flex items-center h-10 px-3 text-sm font-medium -mb-px cursor-pointer',
       'text-text-dim border-b-2 border-transparent transition-colors duration-fast ease-sukuna',
-      'hover:text-text data-[selected]:text-text data-[selected]:border-accent',
+      // Base UI marks the selected tab with aria-selected (there is no data-selected) — key the
+      // active styling off it. Selected tab reads crimson (text + underline) so it's unmistakable;
+      // `accent` clears AA as text on the page/surface backgrounds tabs sit on.
+      'hover:text-text aria-selected:text-accent aria-selected:border-accent',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-t-sm',
       'disabled:opacity-45 disabled:cursor-not-allowed',
     ],
