@@ -1,5 +1,22 @@
 # sukuna-ui
 
+## 0.7.0
+
+### Minor Changes
+
+- 1bebf2d: Checkbox: new `label` prop renders the text inside a real `<label>` beside the box, so clicking
+  the text toggles it and names it for assistive tech. Enter now toggles the box like Space does;
+  the component prevents the default so Enter never implicitly submits a surrounding form (a
+  consumer `onKeyDown` that calls `preventDefault()` opts out).
+
+### Patch Changes
+
+- 1bebf2d: Select: the popup now opens below the trigger (flipping above when cramped) instead of Base UI's
+  macOS-style "align selected item with trigger" mode, so the mouse wheel scrolls the list rather
+  than growing/moving the popup. The popup is at least as wide as the trigger and caps its height at
+  the space available on its side (`--available-height`), so a Select near the bottom of the
+  viewport no longer runs off the page. Storybook gains a `ManyItems` story (100 numeric options).
+
 ## 0.6.0
 
 ### Minor Changes
