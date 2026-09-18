@@ -22,3 +22,13 @@ test('the selected tab is visibly styled (crimson), not just aria-selected', asy
   expect(await color(selected)).toBe('rgb(255, 59, 78)')
   expect(await color(unselected)).not.toBe('rgb(255, 59, 78)')
 })
+
+test('a disabled tab is visibly dimmed (Base UI uses data-disabled)', async ({ page }) => {
+  await page.goto(story('components-tabs--default'))
+  // "Team" is disabled; Base UI marks it data-disabled (no native `disabled`), so the styling
+  // must key off that — the tab should be dimmed, not full opacity.
+  const team = page.getByRole('tab', { name: 'Team' })
+  await expect(team).toHaveAttribute('data-disabled', '')
+  expect(await team.evaluate((el) => getComputedStyle(el).opacity)).toBe('0.45')
+  expect(await team.evaluate((el) => getComputedStyle(el).cursor)).toBe('not-allowed')
+})

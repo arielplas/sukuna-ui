@@ -25,7 +25,14 @@ agent's own calls. Newest first.
   4.30.)
 - **Bump:** patch (fixes broken selected styling; no API/layout change). Guarded by a browser test
   asserting the selected tab's computed color is the accent.
-- **Reverse:** revert the two `aria-selected:` utilities.
+- **Also (same gotcha):** a **disabled** tab wasn't dimmed either — `disabled:opacity-45` relies on
+  the native `:disabled` pseudo-class, but a disabled `Tabs.Tab` inside the list is
+  `focusableWhenDisabled`, so Base UI marks it with `data-disabled` and no native `disabled` attr.
+  Added `data-[disabled]:opacity-45 data-[disabled]:cursor-not-allowed`. Verified the other
+  disable-able components are fine (Checkbox/Input native; Switch/Select/Combobox set native
+  `disabled`; Accordion sets native `disabled`) — only the composite Tab needed it. Guarded by a
+  browser test.
+- **Reverse:** revert the two `aria-selected:` utilities and the `data-[disabled]:` pair.
 
 ## D26 — RadioGroup: clicking the label text selects the option
 

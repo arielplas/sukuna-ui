@@ -12,7 +12,9 @@ export const tabsStyles = tv({
       // `accent` clears AA as text on the page/surface backgrounds tabs sit on.
       'hover:text-text aria-selected:text-accent aria-selected:border-accent',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-t-sm',
-      'disabled:opacity-45 disabled:cursor-not-allowed',
+      // Base UI marks a disabled tab with data-disabled (no native `disabled` attr), so the plain
+      // `disabled:` variant never fires — gate the dim/cursor styling on data-disabled too.
+      'disabled:opacity-45 disabled:cursor-not-allowed data-[disabled]:opacity-45 data-[disabled]:cursor-not-allowed',
     ],
     panel: 'pt-4 text-text focus-visible:outline-none',
   },
