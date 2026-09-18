@@ -50,23 +50,22 @@ export function RadioGroup({
       {items.map((item) => {
         const labelId = `${baseId}-${item.value}`
         return (
-          <div
+          // Radio.Root wraps the label too, so a click on the text selects the option (the whole
+          // row is the role=radio control). Named via aria-labelledby on the label span inside it.
+          <Radio.Root
             key={item.value}
+            value={item.value}
+            disabled={item.disabled}
+            aria-labelledby={labelId}
             className={styles.item()}
-            data-disabled={item.disabled || undefined}
           >
-            <Radio.Root
-              value={item.value}
-              disabled={item.disabled}
-              aria-labelledby={labelId}
-              className={styles.control()}
-            >
+            <span className={styles.control()}>
               <Radio.Indicator className={styles.indicator()} />
-            </Radio.Root>
+            </span>
             <span id={labelId} className={styles.label()}>
               {item.label}
             </span>
-          </div>
+          </Radio.Root>
         )
       })}
     </BaseRadioGroup>

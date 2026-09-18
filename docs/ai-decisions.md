@@ -9,6 +9,20 @@ agent's own calls. Newest first.
 
 ---
 
+## D26 — RadioGroup: clicking the label text selects the option
+
+- **Decision:** The whole option row is now the `Radio.Root` (role=radio) with the circle and label
+  as children, so a click on the label text selects the option (previously the label was a sibling
+  `<span>` that did nothing). The explicit `aria-labelledby` → label span is **kept**, so the
+  accessible name is unchanged and axe still passes — this does not reintroduce the D-era
+  "toggle-field needs name" problem (that came from a native `<label>` wrapper naming the hidden
+  input, not from naming the role=radio element).
+- **Styling:** the circle became a child `<span>`, so its checked/focus styles read the root via
+  `group-data-[checked]:` / `group-focus-visible:` (the ring still renders around the circle).
+- **Bump:** patch (behavior/a11y fix, no API or visual change). Guarded by a browser test that clicks
+  the label text.
+- **Reverse:** move the label span back outside `Radio.Root`.
+
 ## D25 — Reduced-motion support (audit P1 #7)
 
 - **Decision:** Honor `prefers-reduced-motion: reduce` via Tailwind's `motion-reduce:` variant on the
