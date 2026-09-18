@@ -11,7 +11,8 @@
 ## Purpose
 
 A boolean checkbox. A native `<input type="checkbox">` tinted with `accent-color`, so keyboard,
-focus, and the indeterminate state come from the platform. The consumer supplies the label.
+focus, and the indeterminate state come from the platform. Pass `label` for clickable text beside
+the box (rendered inside a `<label>`), or label the bare input yourself.
 
 ## API
 
@@ -29,11 +30,14 @@ export interface CheckboxProps extends Native {
   defaultChecked?: boolean              // uncontrolled initial, default false
   onCheckedChange?: (checked: boolean) => void
   indeterminate?: boolean               // visual/AT "mixed"; default false
+  label?: ReactNode                     // wraps input + text in a <label>; text click toggles
 }
 ```
 
 Boolean-friendly API (`onCheckedChange(checked)`) instead of raw `onChange`. Uncontrolled +
-controlled via the shared `useControllableState` hook.
+controlled via the shared `useControllableState` hook. Enter toggles as well as Space (handled
+in `onKeyDown` with `preventDefault`, so it never implicitly submits a form); a consumer
+`onKeyDown` runs first and can `preventDefault()` to opt out.
 
 ## Variants & tokens
 
@@ -45,6 +49,9 @@ Base: `accent-accent cursor-pointer rounded-sm focus-visible:outline-none focus-
 | sm | `size-4` |
 | md | `size-5` |
 
+With `label`: wrapper `<label>` `inline-flex items-center gap-2 cursor-pointer select-none text-text
+has-[:disabled]:cursor-not-allowed has-[:disabled]:text-text-dim`; text `text-sm` (sm) / `text-md` (md).
+
 ## States
 
 default · hover · focus-visible (accent-glow ring) · checked (native, accent) · indeterminate
@@ -52,7 +59,8 @@ default · hover · focus-visible (accent-glow ring) · checked (native, accent)
 
 ## Accessibility
 
-- [ ] Programmatic label via `<label htmlFor>`, `aria-label`, or `aria-labelledby` (not rendered here).
-- [ ] Space toggles (native).
+- [ ] Named by `label` (wrapping `<label>`), or by `<label htmlFor>`, `aria-label`, or `aria-labelledby`.
+- [ ] Space toggles (native); Enter toggles too and never submits the form.
+- [ ] Clicking the `label` text toggles the box.
 - [ ] `indeterminate` is set as the DOM property so AT reports "mixed".
 - [ ] Focus ring ≥ 3:1 against the surface in both themes.

@@ -356,7 +356,7 @@ function Showcase() {
             <Input placeholder="Email address" aria-label="Email" />
             <Input placeholder="Invalid input" invalid aria-label="Invalid" />
             <div style={row}>
-              <Checkbox defaultChecked /> <Text>Checkbox</Text>
+              <Checkbox defaultChecked label="Checkbox" />
               <Switch defaultChecked /> <Text>Switch</Text>
             </div>
             <RadioGroup

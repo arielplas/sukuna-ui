@@ -46,7 +46,10 @@ label, or the placeholder when empty.
 
 - trigger: `bg-surface-2 text-text border border-line rounded-md`, `data-[popup-open]:border-accent`,
   focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md`.
-- popup: `z-50 rounded-md border border-line bg-surface p-1 shadow-card max-h-96 overflow-y-auto` + fade/scale.
+- popup: `min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto`
+  `rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale; z-index on the positioner
+  (`z-[var(--sk-z-popover)]`). Opens below the trigger (`alignItemWithTrigger={false}`, flips up
+  when cramped), is at least as wide as the trigger, and never taller than the space on its side.
 - item: `h-9 px-2.5 rounded-sm text-sm`, `data-[highlighted]:bg-line-soft`, `data-[disabled]` dim.
 - indicator: `text-accent` check; icon: `text-text-dim` chevron.
 
@@ -81,7 +84,8 @@ keyboard selection.
 
 ## 10. Stories
 
-`Default`, `WithDefault`, `Sizes`, `Disabled`, `WithDisabledItem`. Story ids are part of the
+`Default`, `WithDefault`, `Sizes`, `Disabled`, `WithDisabledItem`, `ManyItems` (four stacked
+Selects with 100 numeric options — scroll and width guard). Story ids are part of the
 browser-test contract.
 
 ## 11. Decisions

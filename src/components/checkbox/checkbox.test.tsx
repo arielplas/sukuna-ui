@@ -80,6 +80,51 @@ describe('Checkbox', () => {
     expect(el.checked).toBe(true)
   })
 
+  it('toggles with the Enter key and does not submit the form', async () => {
+    const onSubmit = mock((e: { preventDefault: () => void }) => e.preventDefault())
+    const onKeyDown = mock(() => {})
+    render(
+      <form onSubmit={onSubmit}>
+        <Checkbox aria-label="c" onKeyDown={onKeyDown} />
+      </form>,
+    )
+    const el = screen.getByRole<HTMLInputElement>('checkbox')
+    await userEvent.tab()
+    await userEvent.keyboard('{Enter}')
+    expect(el.checked).toBe(true)
+    await userEvent.keyboard('{Enter}')
+    expect(el.checked).toBe(false)
+    expect(onKeyDown).toHaveBeenCalledTimes(2)
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('leaves Enter alone when the consumer already prevented it', async () => {
+    render(<Checkbox aria-label="c" onKeyDown={(e) => e.preventDefault()} />)
+    const el = screen.getByRole<HTMLInputElement>('checkbox')
+    await userEvent.tab()
+    await userEvent.keyboard('{Enter}')
+    expect(el.checked).toBe(false)
+  })
+
+  it('renders `label` inside a <label>, so clicking the text toggles and names the box', async () => {
+    const onCheckedChange = mock(() => {})
+    const ref = createRef<HTMLInputElement>()
+    render(<Checkbox ref={ref} label="Email me updates" onCheckedChange={onCheckedChange} />)
+    const el = screen.getByRole<HTMLInputElement>('checkbox', { name: 'Email me updates' })
+    expect(ref.current).toBe(el)
+    expect(el.closest('label')).not.toBeNull()
+    await userEvent.click(screen.getByText('Email me updates'))
+    expect(el.checked).toBe(true)
+    expect(onCheckedChange).toHaveBeenCalledWith(true)
+  })
+
+  it('dims the label text when disabled and renders it on the server', () => {
+    const html = renderServer(<Checkbox label="Off" disabled />)
+    expect(html).toContain('<label')
+    expect(html).toContain('has-[:disabled]:text-text-dim')
+    expect(html).toContain('>Off<')
+  })
+
   it('does not leak variant props and lets className override', () => {
     render(<Checkbox aria-label="c" size="sm" className="size-8" data-testid="c" />)
     const el = screen.getByTestId('c')
@@ -90,6 +135,18 @@ describe('Checkbox', () => {
 
   it('hydrates without warnings', async () => {
     await expectHydrates(<Checkbox aria-label="h" defaultChecked />)
+  })
+
+  it('is accessible with a label prop in both themes', async () => {
+    for (const theme of ['dark', 'light'] as const) {
+      const { container, unmount } = render(
+        <div data-theme={theme}>
+          <Checkbox label="Accept the terms" defaultChecked />
+        </div>,
+      )
+      await expectAccessible(container)
+      unmount()
+    }
   })
 
   it('is accessible in both themes', async () => {

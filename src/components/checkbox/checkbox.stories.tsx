@@ -38,6 +38,11 @@ export const Disabled: Story = {
 }
 
 export const WithLabel: Story = {
+  args: { 'aria-label': undefined, label: 'Email me product updates' },
+}
+
+/** Naming the bare input from outside with `<label htmlFor>` also works. */
+export const ExternalLabel: Story = {
   render: () => (
     <div
       style={{
@@ -49,7 +54,9 @@ export const WithLabel: Story = {
       }}
     >
       <Checkbox id="updates" />
-      <label htmlFor="updates">Email me product updates</label>
+      <label htmlFor="updates" style={{ cursor: 'pointer' }}>
+        Email me product updates
+      </label>
     </div>
   ),
 }

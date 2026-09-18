@@ -35,3 +35,21 @@ export const Sizes: Story = {
 export const Disabled: Story = { args: { disabled: true, defaultValue: 'react' } }
 
 export const WithDisabledItem: Story = {}
+
+const numbers = Array.from({ length: 100 }, (_, i) => ({
+  value: String(i + 1),
+  label: String(i + 1),
+}))
+
+/** 100 items (1 … 100) — the popup scrolls; no windowing is applied. Several stacked vertically. */
+export const ManyItems: Story = {
+  args: { items: numbers, placeholder: 'Pick a number', 'aria-label': 'Number' },
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: 240 }}>
+      <Select {...args} aria-label="First number" />
+      <Select {...args} aria-label="Second number" defaultValue="42" />
+      <Select {...args} aria-label="Third number" size="sm" />
+      <Select {...args} aria-label="Fourth number" defaultValue="100" />
+    </div>
+  ),
+}

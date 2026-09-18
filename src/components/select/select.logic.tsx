@@ -102,8 +102,10 @@ const check = (
  *   in v1 (no multi-select). The trigger shows the matching item's `label`, falling back to the
  *   `placeholder` when `value` is empty or not found in `items`.
  * - Gotchas: `items` is memoised into a value-to-label map, so pass a stable array (hoist it or
- *   `useMemo` it) to avoid rebuilding on every render. Long option sets belong in a `Combobox`;
- *   Select aligns the popup over the trigger and cannot virtualise.
+ *   `useMemo` it) to avoid rebuilding on every render. The popup opens below the trigger (above
+ *   when cramped), is at least as wide as the trigger, and caps its height at 24rem or the room
+ *   left on that side — whichever is smaller — scrolling internally beyond that.
+ *   Long option sets still belong in a `Combobox`; Select cannot virtualise.
  *
  * @example
  * ```tsx
@@ -183,7 +185,15 @@ export function Select({
         <Base.Icon className={styles.icon()}>{chevron}</Base.Icon>
       </Base.Trigger>
       <Base.Portal>
-        <Base.Positioner sideOffset={6} className={styles.positioner()}>
+        {/* Standard dropdown placement (below the trigger, flips when cramped). Base UI's default
+            aligns the selected option over the trigger macOS-style, pinning a viewport-tall
+            positioner whose popup grows as you wheel — the box appears to move instead of the
+            list scrolling (see D31). */}
+        <Base.Positioner
+          alignItemWithTrigger={false}
+          sideOffset={6}
+          className={styles.positioner()}
+        >
           <Base.Popup className={styles.popup()}>
             <Base.List>
               {items.map((item) => (

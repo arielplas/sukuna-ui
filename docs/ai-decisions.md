@@ -9,6 +9,39 @@ agent's own calls. Newest first.
 
 ---
 
+## D32 — Checkbox: `label` prop and Enter-to-toggle
+
+- **Decision:** `Checkbox` gains `label?: ReactNode` (wraps input + text in a `<label>`; the text
+  click toggles and names the box) and toggles on **Enter** as well as Space, via `onKeyDown`
+  with `preventDefault()`. A consumer `onKeyDown` runs first and can prevent it.
+- **Why:** Owner request while reviewing Storybook: "pressing enter should check the box… also
+  clicking on its text should check the box". Text clicks already worked when consumers used
+  `<label htmlFor>`, but the showcase (and most quick usages) put a `<Text>` next to the box,
+  which is not a label — a `label` prop makes the correct thing the easy thing, matching
+  `RadioGroup` items. Enter is *not* native checkbox behaviour (only Space is, and Enter inside
+  a form normally means "submit"); the owner explicitly wants it, so it's handled component-side
+  and the default is prevented so a stray Enter can never submit a form from a checkbox. Logged
+  as a deliberate deviation in `docs/component-checkbox.md` §11. Classified **minor** (new prop).
+- **Reverse:** Remove the `Enter` branch in `handleKeyDown` (patch) — the `label` prop is
+  independent of it. `Switch` (a Base UI button) already toggles on Enter natively.
+
+## D31 — Select popup: standard placement, trigger-matched width, available-height cap
+
+- **Decision:** `Select.Positioner` gets `alignItemWithTrigger={false}`; the popup slot uses
+  `min-w-[var(--anchor-width,10rem)]` and `max-h-[min(24rem,var(--available-height,24rem))]`.
+- **Why:** Reported while reviewing a 100-item Select stacked among others: (1) wheel-scrolling
+  the open list "moved the whole box" — Base UI's default aligned mode pins a viewport-tall
+  positioner (`data-side="none"`) and grows the popup as you wheel, which reads as the popup
+  drifting instead of the list scrolling; (2) the popup was 160px wide under a 240px trigger;
+  (3) a Select near the bottom of the viewport opened a fixed 24rem-tall popup off the page.
+  Standard `side="bottom"` placement with Floating UI flip + the `--anchor-width` /
+  `--available-height` CSS vars Base UI already sets on the Positioner fix all three with no new
+  API. Classified **patch**: a fix toward the documented "dropdown" behaviour, no prop/token/
+  trigger-layout change. Two Playwright guards added (`test/browser/select.test.ts`).
+- **Reverse:** Drop the prop to return to aligned mode; keep the width/height vars regardless.
+- **Note:** The in-app browser tool's synthetic wheel can't drive native overflow scrolling, so
+  the wheel behaviour is verified by Playwright (`page.mouse.wheel`), not by the pane.
+
 ## D30 — Agent-friendly docs, SEO and discoverability (validated plan, 7 parallel agents)
 
 - **What:** Executed the approved plan to make the library discoverable and usable by AI agents and

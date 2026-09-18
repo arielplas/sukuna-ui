@@ -433,7 +433,8 @@ Static; no interactive states. (`raised` is a resting elevation, not a hover eff
 ## Purpose
 
 A boolean checkbox. A native `<input type="checkbox">` tinted with `accent-color`, so keyboard,
-focus, and the indeterminate state come from the platform. The consumer supplies the label.
+focus, and the indeterminate state come from the platform. Pass `label` for clickable text beside
+the box (rendered inside a `<label>`), or label the bare input yourself.
 
 ## API
 
@@ -451,11 +452,14 @@ export interface CheckboxProps extends Native {
   defaultChecked?: boolean              // uncontrolled initial, default false
   onCheckedChange?: (checked: boolean) => void
   indeterminate?: boolean               // visual/AT "mixed"; default false
+  label?: ReactNode                     // wraps input + text in a <label>; text click toggles
 }
 ```
 
 Boolean-friendly API (`onCheckedChange(checked)`) instead of raw `onChange`. Uncontrolled +
-controlled via the shared `useControllableState` hook.
+controlled via the shared `useControllableState` hook. Enter toggles as well as Space (handled
+in `onKeyDown` with `preventDefault`, so it never implicitly submits a form); a consumer
+`onKeyDown` runs first and can `preventDefault()` to opt out.
 
 ## Variants & tokens
 
@@ -467,6 +471,9 @@ Base: `accent-accent cursor-pointer rounded-sm focus-visible:outline-none focus-
 | sm | `size-4` |
 | md | `size-5` |
 
+With `label`: wrapper `<label>` `inline-flex items-center gap-2 cursor-pointer select-none text-text
+has-[:disabled]:cursor-not-allowed has-[:disabled]:text-text-dim`; text `text-sm` (sm) / `text-md` (md).
+
 ## States
 
 default · hover · focus-visible (accent-glow ring) · checked (native, accent) · indeterminate
@@ -474,8 +481,9 @@ default · hover · focus-visible (accent-glow ring) · checked (native, accent)
 
 ## Accessibility
 
-- [ ] Programmatic label via `<label htmlFor>`, `aria-label`, or `aria-labelledby` (not rendered here).
-- [ ] Space toggles (native).
+- [ ] Named by `label` (wrapping `<label>`), or by `<label htmlFor>`, `aria-label`, or `aria-labelledby`.
+- [ ] Space toggles (native); Enter toggles too and never submits the form.
+- [ ] Clicking the `label` text toggles the box.
 - [ ] `indeterminate` is set as the DOM property so AT reports "mixed".
 - [ ] Focus ring ≥ 3:1 against the surface in both themes.
 
@@ -1101,7 +1109,10 @@ label, or the placeholder when empty.
 
 - trigger: `bg-surface-2 text-text border border-line rounded-md`, `data-[popup-open]:border-accent`,
   focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md`.
-- popup: `z-50 rounded-md border border-line bg-surface p-1 shadow-card max-h-96 overflow-y-auto` + fade/scale.
+- popup: `min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto`
+  `rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale; z-index on the positioner
+  (`z-[var(--sk-z-popover)]`). Opens below the trigger (`alignItemWithTrigger={false}`, flips up
+  when cramped), is at least as wide as the trigger, and never taller than the space on its side.
 - item: `h-9 px-2.5 rounded-sm text-sm`, `data-[highlighted]:bg-line-soft`, `data-[disabled]` dim.
 - indicator: `text-accent` check; icon: `text-text-dim` chevron.
 

@@ -15,7 +15,10 @@ export const selectStyles = tv({
     // inside the Positioner's own stacking context, so a z-index there can't clear a dialog.
     positioner: 'z-[var(--sk-z-popover)]',
     popup: [
-      'min-w-40 max-h-96 overflow-y-auto',
+      // At least as wide as the trigger, never taller than the room Base UI measured on the
+      // chosen side (both CSS vars are set on the Positioner) — so a Select near the bottom of the
+      // viewport shrinks/flips instead of running off the page. 24rem = the previous fixed cap.
+      'min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto',
       'rounded-md border border-line bg-surface p-1 shadow-card',
       'transition-[opacity,transform] motion-reduce:transition-none duration-fast ease-sukuna',
       'data-[starting-style]:opacity-0 data-[starting-style]:scale-95',
@@ -24,8 +27,8 @@ export const selectStyles = tv({
     ],
     item: [
       'flex items-center justify-between gap-2 h-9 px-2.5 rounded-sm text-sm text-text',
-      // NB: no `content-visibility` here — Base UI Select aligns the popup so the selected option
-      // sits over the trigger, and deferring off-screen option layout breaks that positioning.
+      // NB: no `content-visibility` here — deferring off-screen option layout breaks Base UI's
+      // popup measurement/flip logic (verified: Playwright reported the popup outside the viewport).
       // Long option sets belong in a Combobox (searchable + capped) instead.
       'cursor-pointer select-none outline-none',
       // Keyboard highlight at ≥3:1 (WCAG 1.4.11) via a crimson inset ring — see Menu.
