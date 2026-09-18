@@ -31,9 +31,15 @@ export interface ComboboxProps {
   placeholder?: string    // default 'Search…'
   disabled?: boolean
   emptyMessage?: string   // default 'No results'
+  maxRenderedItems?: number // cap displayed suggestions (Base UI `limit`); search spans all items
   'aria-label'?: string
 }
 ```
+
+For large suggestion lists, set `maxRenderedItems` (e.g. `50`) so only the top N filtered matches
+render — filtering still runs over the full `items`. Items also use `content-visibility: auto` so
+off-screen options are cheap. Beyond a few thousand items, prefer server-side search feeding a
+capped `items`.
 
 ## 4. Variants → tokens
 

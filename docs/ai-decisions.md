@@ -9,6 +9,29 @@ agent's own calls. Newest first.
 
 ---
 
+## D24 — Performance at scale: no-dep stopgap (owner-approved Option 2)
+
+- **Decision:** Address the large-list perf findings (audit P0 #2/#3, #8/#10/#12) **without** adding a
+  virtualization dependency — the owner picked the no-dep option over `@tanstack/react-virtual`:
+  - `content-visibility: auto` + `contain-intrinsic-size` on **Combobox and Menu** item slots (via
+    inline Tailwind arbitrary properties) so the browser skips layout/paint of off-screen options.
+    **Not** applied to **Select** (its popup aligns the selected option over the trigger, and
+    deferring off-screen layout breaks that positioning — caught by the Select browser test) nor to
+    Table `<tr>` (unreliable on table rows, can jitter column widths). Table/Select large-data
+    guidance is docs-only (use a Combobox or paginate).
+  - Combobox `maxRenderedItems` prop → Base UI Autocomplete's `limit`. Search still spans every item;
+    only the top N filtered results render. No dependency (Base UI already provides it).
+  - `Select.Value` now uses a memoized `Map<value,label>` (O(1)) instead of `items.find` (O(n)) per
+    value render. Menu items accept an optional stable `id` (`key={item.id ?? index}`).
+  - size-limit budgets added for Table (498 B — proves it never pulls Base UI) and Select (48.5 kB,
+    limit 60 kB — the "stateful pays for Base UI once" contract).
+- **Limitation (documented):** content-visibility speeds client paint but does **not** reduce DOM
+  node count or SSR bytes/memory; true virtualization (Option 1) remains the real fix for extreme
+  sizes and can be added later as an opt-in `virtualized` variant (Base UI Autocomplete/Select
+  already accept a `virtualized` flag).
+- **Bump:** minor (adds a prop + tokens-free perf/CSS; `maxRenderedItems` is additive).
+- **Reverse:** drop the arbitrary-property classes, the `maxRenderedItems` prop, and the size entries.
+
 ## D23 — Button primary contrast: darken the gradient + white `on-accent` label (owner-approved)
 
 - **Decision:** Fix the primary Button's failing label contrast (P1 #5, was 3.11:1 dark / 3.73:1 light,

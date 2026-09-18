@@ -19,5 +19,26 @@
     "import": "{ Button }",
     "limit": "14 kB",
     "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Table (static, tree-shaken — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Table }",
+    "limit": "3 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Select + deps (pays for Base UI once)",
+    "path": "dist/index.js",
+    "import": "{ Select }",
+    "limit": "60 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
   }
 ]

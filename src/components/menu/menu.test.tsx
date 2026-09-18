@@ -5,7 +5,7 @@ import { Button } from '../button'
 import { Menu } from './index'
 
 const items = [
-  { label: 'Edit', onSelect: () => {} },
+  { label: 'Edit', onSelect: () => {}, id: 'edit' },
   { label: 'Duplicate', onSelect: () => {} },
   { label: 'Delete', onSelect: () => {}, disabled: true },
 ]

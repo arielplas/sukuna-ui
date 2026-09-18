@@ -11,6 +11,11 @@ export interface ComboboxProps {
   placeholder?: string
   disabled?: boolean
   emptyMessage?: string
+  /**
+   * Cap how many (filtered) suggestions render at once — search still spans every item, only the
+   * top N are shown. Keeps a huge `items` list cheap to open. Omit/`-1` for no cap.
+   */
+  maxRenderedItems?: number
   'aria-label'?: string
 }
 
@@ -26,6 +31,7 @@ export function Combobox({
   placeholder = 'Search…',
   disabled,
   emptyMessage = 'No results',
+  maxRenderedItems,
   'aria-label': ariaLabel,
 }: ComboboxProps) {
   const styles = comboboxStyles()
@@ -35,6 +41,7 @@ export function Combobox({
       value={value}
       defaultValue={defaultValue}
       onValueChange={onValueChange}
+      limit={maxRenderedItems}
     >
       <Base.Input
         placeholder={placeholder}

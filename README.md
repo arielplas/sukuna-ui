@@ -94,6 +94,23 @@ Fonts: the library does **not** bundle Archivo. Load it yourself (`@import` or `
 per-file in the published package, so a server component importing only `Text` never pulls a client
 component in.
 
+## Performance at scale
+
+Components render every row/item you pass — there is no built-in windowing. That's ideal for the
+common case and keeps SSR simple, but large datasets need care:
+
+- **`Combobox` and `Menu`** apply `content-visibility: auto`, so the browser skips layout/paint of
+  off-screen options. `Combobox` also takes `maxRenderedItems` to cap how many filtered suggestions
+  render (search still spans the full list). Comfortable up to a few thousand items; beyond that,
+  feed a server-filtered, capped list. For a long **`Select`**, prefer a `Combobox` (searchable) —
+  Select renders all options and aligns its popup to the selection, so it isn't meant for huge lists.
+- **`Table`** renders one `<tr>` per row with no virtualization. Keep it to a few hundred rows —
+  **paginate** (use the `Pagination` component) or virtualize in your app for more. A 100k-row table
+  will block the main thread on mount.
+
+`content-visibility` speeds paint but does not reduce DOM nodes or SSR size, so it is a mitigation,
+not a substitute for pagination/server-side search on very large data.
+
 ## Development
 
 Bun only. See [`CLAUDE.md`](CLAUDE.md) and [`docs/`](docs). Every unit of work ends green:

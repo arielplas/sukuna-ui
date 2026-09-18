@@ -14,6 +14,8 @@ export const comboboxStyles = tv({
     ],
     item: [
       'flex h-9 items-center px-2.5 rounded-sm text-sm text-text cursor-pointer select-none outline-none',
+      // Skip layout/paint of off-screen suggestions in long lists.
+      '[content-visibility:auto] [contain-intrinsic-size:auto_36px]',
       // Keyboard highlight at ≥3:1 (WCAG 1.4.11) via a crimson inset ring — see Menu.
       'data-[highlighted]:bg-surface-2 data-[highlighted]:ring-1 data-[highlighted]:ring-inset data-[highlighted]:ring-focus-ring data-[selected]:text-accent',
     ],

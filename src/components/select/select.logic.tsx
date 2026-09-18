@@ -1,7 +1,7 @@
 'use client'
 
 import { Select as Base } from '@base-ui-components/react/select'
-import type { ReactNode } from 'react'
+import { type ReactNode, useMemo } from 'react'
 import { type SelectStyleProps, selectStyles } from './select.styles'
 
 export interface SelectOption {
@@ -71,6 +71,8 @@ export function Select({
   'aria-label': ariaLabel,
 }: SelectProps) {
   const styles = selectStyles({ size })
+  // O(1) value→label lookup for the trigger, instead of an O(n) `items.find` on every value render.
+  const labelByValue = useMemo(() => new Map(items.map((i) => [i.value, i.label])), [items])
   return (
     <Base.Root<string>
       value={value}
@@ -87,12 +89,8 @@ export function Select({
       <Base.Trigger id={id} aria-label={ariaLabel} className={styles.trigger()}>
         <Base.Value>
           {(current: string | null) => {
-            const selected = items.find((item) => item.value === current)
-            return selected ? (
-              selected.label
-            ) : (
-              <span className={styles.placeholder()}>{placeholder}</span>
-            )
+            if (current != null && labelByValue.has(current)) return labelByValue.get(current)
+            return <span className={styles.placeholder()}>{placeholder}</span>
           }}
         </Base.Value>
         <Base.Icon className={styles.icon()}>{chevron}</Base.Icon>

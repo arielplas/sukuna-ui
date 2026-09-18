@@ -24,6 +24,9 @@ export const selectStyles = tv({
     ],
     item: [
       'flex items-center justify-between gap-2 h-9 px-2.5 rounded-sm text-sm text-text',
+      // NB: no `content-visibility` here — Base UI Select aligns the popup so the selected option
+      // sits over the trigger, and deferring off-screen option layout breaks that positioning.
+      // Long option sets belong in a Combobox (searchable + capped) instead.
       'cursor-pointer select-none outline-none',
       // Keyboard highlight at ≥3:1 (WCAG 1.4.11) via a crimson inset ring — see Menu.
       'data-[highlighted]:bg-surface-2 data-[highlighted]:ring-1 data-[highlighted]:ring-inset data-[highlighted]:ring-focus-ring',

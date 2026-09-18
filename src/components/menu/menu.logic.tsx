@@ -8,6 +8,8 @@ export interface MenuItemOption {
   label: ReactNode
   onSelect?: () => void
   disabled?: boolean
+  /** Stable key. Provide for dynamic menus (filtered/reordered) so React keeps item state correct. */
+  id?: string
 }
 
 export interface MenuProps {
@@ -40,8 +42,8 @@ export function Menu({
           <Base.Popup className={styles.popup()}>
             {items.map((item, index) => (
               <Base.Item
-                // biome-ignore lint/suspicious/noArrayIndexKey: menu items are a static, ordered list
-                key={index}
+                // Prefer a stable `id`; index is the documented fallback for static menus.
+                key={item.id ?? index}
                 disabled={item.disabled}
                 onClick={item.onSelect}
                 className={styles.item()}

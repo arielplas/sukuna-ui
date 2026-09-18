@@ -25,6 +25,14 @@ describe('Combobox', () => {
     expect(screen.queryByRole('option', { name: 'Banana' })).toBeNull()
   })
 
+  it('caps the number of rendered suggestions with maxRenderedItems', async () => {
+    const many = ['Apple', 'Apricot', 'Avocado', 'Almond', 'Acai']
+    render(<Combobox items={many} maxRenderedItems={2} aria-label="Fruit" />)
+    // Every item contains "a"; the cap limits the displayed list to 2 even though all 5 match.
+    await userEvent.type(screen.getByRole('combobox', { name: 'Fruit' }), 'a')
+    expect(await screen.findAllByRole('option')).toHaveLength(2)
+  })
+
   it('renders the input on the server', () => {
     expect(
       renderServer(<Combobox items={items} placeholder="Find fruit" aria-label="Fruit" />),
