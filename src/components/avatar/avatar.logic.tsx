@@ -13,7 +13,9 @@ export function Avatar({ src, alt, fallback, size, className, ...rest }: AvatarP
   const styles = avatarStyles({ size })
   return (
     <Base.Root className={styles.root({ className })} {...rest}>
-      {src ? <Base.Image src={src} alt={alt} className={styles.image()} /> : null}
+      {/* Default alt="" so an image with no caption is treated as decorative (a fallback exists)
+          rather than letting the screen reader announce the filename. */}
+      {src ? <Base.Image src={src} alt={alt ?? ''} className={styles.image()} /> : null}
       <Base.Fallback className={styles.fallback()}>{fallback}</Base.Fallback>
     </Base.Root>
   )

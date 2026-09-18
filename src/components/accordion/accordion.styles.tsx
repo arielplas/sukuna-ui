@@ -8,7 +8,7 @@ export const accordionStyles = tv({
     trigger: [
       'group flex w-full items-center justify-between gap-3 py-3 text-left cursor-pointer',
       'font-medium text-text hover:text-text',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow rounded-sm',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring rounded-sm',
       'disabled:opacity-45 disabled:cursor-not-allowed',
     ],
     icon: 'shrink-0 text-text-dim transition-transform duration-fast ease-sukuna group-data-[panel-open]:rotate-180',

@@ -7,7 +7,7 @@ export const selectStyles = tv({
       'bg-surface-2 text-text border border-line rounded-md px-3 cursor-pointer',
       'transition-[border-color,box-shadow] duration-fast ease-sukuna',
       'data-[popup-open]:border-accent',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring',
       'disabled:opacity-45 disabled:cursor-not-allowed',
     ],
     icon: 'text-text-dim shrink-0',
@@ -25,7 +25,8 @@ export const selectStyles = tv({
     item: [
       'flex items-center justify-between gap-2 h-9 px-2.5 rounded-sm text-sm text-text',
       'cursor-pointer select-none outline-none',
-      'data-[highlighted]:bg-line-soft',
+      // Keyboard highlight at ≥3:1 (WCAG 1.4.11) via a crimson inset ring — see Menu.
+      'data-[highlighted]:bg-surface-2 data-[highlighted]:ring-1 data-[highlighted]:ring-inset data-[highlighted]:ring-focus-ring',
       'data-[disabled]:opacity-45 data-[disabled]:cursor-not-allowed',
     ],
     indicator: 'text-accent',

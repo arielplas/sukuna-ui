@@ -12,7 +12,9 @@ export const menuStyles = tv({
     ],
     item: [
       'flex items-center gap-2 h-9 px-2.5 rounded-sm text-sm text-text cursor-pointer outline-none select-none',
-      'data-[highlighted]:bg-line-soft',
+      // Keyboard highlight must clear 3:1 (WCAG 1.4.11); a crimson inset ring reads clearly and,
+      // unlike a text-color change, never collides with a selected item's own color.
+      'data-[highlighted]:bg-surface-2 data-[highlighted]:ring-1 data-[highlighted]:ring-inset data-[highlighted]:ring-focus-ring',
       'data-[disabled]:opacity-45 data-[disabled]:cursor-not-allowed',
     ],
   },

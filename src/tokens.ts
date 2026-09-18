@@ -27,12 +27,17 @@ export const colors = {
   accent: { dark: '#FF3B4E', light: '#D8253A' },
   'accent-deep': { dark: '#B01221', light: '#9A0E1C' },
   'accent-glow': { dark: 'rgba(255, 59, 78, 0.6)', light: 'rgba(216, 37, 58, 0.35)' },
-  premium: { dark: '#E8DCC4', light: '#8A7A55' },
-  'premium-dim': { dark: '#B5A98C', light: '#A8996F' },
+  // Solid focus-ring color (a11y: the translucent `accent-glow` failed WCAG 1.4.11 3:1 as the
+  // sole focus indicator). Crimson `accent` clears 3:1 on every surface (4.84 dark / 4.30 light).
+  'focus-ring': { dark: '#FF3B4E', light: '#D8253A' },
+  premium: { dark: '#E8DCC4', light: '#786A4A' },
+  'premium-dim': { dark: '#B5A98C', light: '#776A48' },
   text: { dark: '#F4F1EC', light: '#141413' },
   'text-dim': { dark: '#9A948A', light: '#5E5A52' },
-  'text-faint': { dark: '#6C665D', light: '#8C877D' },
-  success: { dark: '#31C877', light: '#1E9E5A' },
+  // text-faint retuned to clear AA 4.5:1 in both themes (was #6C665D / #8C877D, ~3:1) — it colors
+  // every Input/Select/Combobox placeholder. See docs/tokens.md and D22 in docs/ai-decisions.md.
+  'text-faint': { dark: '#8C8479', light: '#6F6B63' },
+  success: { dark: '#31C877', light: '#177B46' },
   'gradient-accent': {
     dark: 'linear-gradient(135deg, #FF3B4E, #B01221)',
     light: 'linear-gradient(135deg, #D8253A, #9A0E1C)',

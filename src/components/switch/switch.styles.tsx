@@ -7,7 +7,7 @@ export const switchStyles = tv({
       'transition-colors duration-fast ease-sukuna cursor-pointer',
       'aria-checked:bg-gradient-accent aria-checked:border-transparent',
       'disabled:opacity-45 disabled:cursor-not-allowed',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     ],
     thumb: 'inline-block rounded-full bg-text transition-transform duration-fast ease-sukuna',
   },

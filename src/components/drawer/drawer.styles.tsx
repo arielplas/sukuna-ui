@@ -13,7 +13,7 @@ export const drawerStyles = tv({
     close: [
       'absolute top-3 right-3 inline-flex size-8 items-center justify-center rounded-md',
       'text-text-dim hover:text-text hover:bg-line-soft cursor-pointer',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring',
     ],
   },
   variants: {

@@ -7,6 +7,6 @@ export const sliderStyles = tv({
     track: 'relative h-1.5 w-full rounded-pill bg-surface-2',
     indicator: 'absolute h-full rounded-pill bg-accent',
     thumb:
-      'size-4 rounded-full bg-text border border-line shadow-sm cursor-grab data-[dragging]:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+      'size-4 rounded-full bg-text border border-line shadow-sm cursor-grab data-[dragging]:cursor-grabbing focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
   },
 })

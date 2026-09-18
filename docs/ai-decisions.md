@@ -9,6 +9,29 @@ agent's own calls. Newest first.
 
 ---
 
+## D22 — Accessibility wave 1: contrast token retune + solid focus ring
+
+- **Decision:** Retuned color tokens to clear WCAG AA and made the focus ring a solid color, from the
+  `docs/known-issues-and-audit.md` backlog (P0 #1, P1 #4/#6, P2 #9/#11):
+  - `text-faint` → `#8C8479` (dark) / `#6F6B63` (light) — was `#6C665D`/`#8C877D` (~3:1, failed 4.5:1
+    as placeholder text in both themes).
+  - light-theme `premium` `#786A4A`, `premium-dim` `#776A48`, `success` `#177B46` — the old light
+    values failed 4.5:1 as text in Badge/Chip/Alert (dark theme was already fine, unchanged).
+  - New `--sk-focus-ring` token (= `accent`, solid) replaces `ring-accent-glow` on every focus ring;
+    the translucent glow failed WCAG 1.4.11 3:1 (1.7–2.6:1) as the sole indicator. `accent-glow` is
+    kept for decorative shadow only.
+  - Menu/Select/Combobox keyboard highlight → a crimson inset ring (`data-[highlighted]:ring-…`)
+    instead of a 6%-opacity fill that was <3:1; the ring doesn't collide with a selected item's color.
+  - Avatar defaults `alt=""` (decorative) when omitted; Progress defaults `aria-label="Progress"`
+    when unlabeled; Toast close bumped 24→32px.
+- **How chosen:** new hex values were computed by a scratchpad script (WCAG 2.1 sRGB luminance),
+  keeping each token's hue/saturation and nudging only lightness to ~4.6:1 (small margin over 4.5).
+  Faithful to the palette; dark brand colors are unchanged except `text-faint`.
+- **Bump:** minor (a11y fix toward spec; token *values* change but no API/layout change). Deferred to
+  the owner: the **Button primary-label-on-gradient** contrast (needs a design call — darken the
+  crimson gradient vs. change the label) and **virtualization** (adds a dependency + API).
+- **Reverse:** revert the token values in `src/tokens.ts`; every change is a value/class swap.
+
 ## D21 — Overlay z-index scale; z-index moves to the positioner
 
 - **Decision:** Overlay stacking is a monotonic `--sk-*` token scale — `dialog: 50` < `popover: 60`

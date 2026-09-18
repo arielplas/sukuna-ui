@@ -13,9 +13,9 @@ export const toastStyles = tv({
     title: 'font-display text-sm font-bold tracking-tight',
     description: 'mt-1 text-sm text-text-dim',
     close: [
-      'absolute top-2 right-2 inline-flex size-6 items-center justify-center rounded-sm',
+      'absolute top-2 right-2 inline-flex size-8 items-center justify-center rounded-sm',
       'text-text-dim hover:text-text hover:bg-line-soft cursor-pointer',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring',
     ],
   },
 })

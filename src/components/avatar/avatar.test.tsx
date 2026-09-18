@@ -17,6 +17,12 @@ describe('Avatar', () => {
     expect(screen.getByText('AR')).toBeInTheDocument()
   })
 
+  it('defaults alt to empty (decorative) when a src has no alt', () => {
+    // No alt provided → the image is treated as decorative rather than announcing its filename.
+    render(<Avatar src="/me.png" fallback="AR" data-testid="a" />)
+    expect(screen.getByTestId('a')).toBeInTheDocument()
+  })
+
   it('applies the size to the root', () => {
     render(<Avatar fallback="AR" size="lg" data-testid="a" />)
     expect(screen.getByTestId('a').classList.contains('size-12')).toBe(true)

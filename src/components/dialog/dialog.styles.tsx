@@ -21,7 +21,7 @@ export const dialogStyles = tv({
       'inline-flex h-9 items-center justify-center rounded-md px-3 text-sm',
       'text-text-dim hover:text-text hover:bg-line-soft',
       'transition-colors duration-fast ease-sukuna',
-      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     ],
   },
 })

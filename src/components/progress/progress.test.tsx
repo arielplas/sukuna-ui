@@ -17,6 +17,11 @@ describe('Progress', () => {
     expect(screen.getByRole('progressbar')).not.toHaveAttribute('aria-valuenow')
   })
 
+  it('defaults an accessible name when neither label nor aria-label is given', () => {
+    render(<Progress value={20} />)
+    expect(screen.getByRole('progressbar')).toHaveAttribute('aria-label', 'Progress')
+  })
+
   it('respects a custom max', () => {
     render(<Progress value={3} max={5} aria-label="Steps" />)
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuemax', '5')

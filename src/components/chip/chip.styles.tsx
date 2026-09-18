@@ -4,7 +4,7 @@ export const chipStyles = tv({
   slots: {
     root: 'inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap align-middle select-none',
     dismiss:
-      'inline-flex items-center justify-center rounded-sm -mr-1 size-4 opacity-70 hover:opacity-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow',
+      'inline-flex items-center justify-center rounded-sm -mr-1 size-4 opacity-70 hover:opacity-100 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring',
   },
   variants: {
     tone: {

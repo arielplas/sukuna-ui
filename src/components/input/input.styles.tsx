@@ -5,7 +5,7 @@ export const inputStyles = tv({
     'w-full bg-surface-2 text-text border border-line',
     'placeholder:text-text-faint',
     'transition-[border-color,box-shadow] duration-fast ease-sukuna',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:border-accent',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:border-accent',
     'disabled:opacity-45 disabled:cursor-not-allowed',
   ],
   variants: {
@@ -15,7 +15,7 @@ export const inputStyles = tv({
       lg: 'h-12 px-4 text-lg rounded-lg',
     },
     invalid: {
-      true: 'border-accent focus-visible:ring-accent-glow',
+      true: 'border-accent focus-visible:ring-focus-ring',
     },
   },
   defaultVariants: { size: 'md' },

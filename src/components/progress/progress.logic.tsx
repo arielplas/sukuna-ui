@@ -25,7 +25,9 @@ export function Progress({
     <Base.Root
       value={value ?? null}
       max={max}
-      aria-label={ariaLabel}
+      // Guarantee an accessible name: a rendered `label` names it via Base UI's `aria-labelledby`;
+      // otherwise fall back to a default so the progressbar is never unlabeled.
+      aria-label={ariaLabel ?? (label ? undefined : 'Progress')}
       className={styles.root({ className })}
     >
       {label ? <Base.Label className={styles.label()}>{label}</Base.Label> : null}
