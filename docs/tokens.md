@@ -16,6 +16,7 @@ Source: Pomo Design System (Sukuna language). Dark is the default theme. Light p
 | `--sk-accent-deep` | `#B01221` | `#9A0E1C` | Hover/pressed accent |
 | `--sk-accent-glow` | `rgba(255,59,78,.6)` | `rgba(216,37,58,.35)` | Decorative glow shadow (not the focus ring) |
 | `--sk-focus-ring` | `#FF3B4E` | `#D8253A` | Solid focus ring (≥3:1 on every surface, WCAG 1.4.11) |
+| `--sk-on-accent` | `#FFFFFF` | `#FFFFFF` | Text/icons on the crimson accent/gradient (Button primary) |
 | `--sk-premium` | `#E8DCC4` (bone) | `#786A4A` | Premium / gold surfaces |
 | `--sk-premium-dim` | `#B5A98C` | `#776A48` | Premium secondary |
 | `--sk-text` | `#F4F1EC` | `#141413` | Primary text |
@@ -28,7 +29,7 @@ Source: Pomo Design System (Sukuna language). Dark is the default theme. Light p
 > and light-theme `premium`/`premium-dim`/`success` were retuned to meet this (see D22). The focus
 > ring uses the solid `--sk-focus-ring`, not the translucent `--sk-accent-glow` (which failed 3:1).
 > Verify with `scratchpad` contrast script when changing any color token.
-| `--sk-gradient-accent` | `linear-gradient(135deg,#FF3B4E,#B01221)` | `linear-gradient(135deg,#D8253A,#9A0E1C)` | Wordmark, hero CTA |
+| `--sk-gradient-accent` | `linear-gradient(135deg,#D8253A,#B01221)` | `linear-gradient(135deg,#D8253A,#9A0E1C)` | Wordmark, hero CTA, Button primary |
 
 ## Typography
 

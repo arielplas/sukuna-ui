@@ -15,13 +15,14 @@
   --sk-accent-deep: #B01221;
   --sk-accent-glow: rgba(255, 59, 78, 0.6);
   --sk-focus-ring: #FF3B4E;
+  --sk-on-accent: #FFFFFF;
   --sk-premium: #E8DCC4;
   --sk-premium-dim: #B5A98C;
   --sk-text: #F4F1EC;
   --sk-text-dim: #9A948A;
   --sk-text-faint: #8C8479;
   --sk-success: #31C877;
-  --sk-gradient-accent: linear-gradient(135deg, #FF3B4E, #B01221);
+  --sk-gradient-accent: linear-gradient(135deg, #D8253A, #B01221);
 
   /* Elevation */
   --sk-shadow-card: 0 30px 60px -24px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06);
@@ -94,6 +95,7 @@
   --sk-accent-deep: #9A0E1C;
   --sk-accent-glow: rgba(216, 37, 58, 0.35);
   --sk-focus-ring: #D8253A;
+  --sk-on-accent: #FFFFFF;
   --sk-premium: #786A4A;
   --sk-premium-dim: #776A48;
   --sk-text: #141413;

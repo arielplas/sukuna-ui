@@ -13,7 +13,7 @@ export const buttonStyles = tv({
   variants: {
     variant: {
       primary:
-        'bg-gradient-accent text-text hover:brightness-110 hover:shadow-[0_0_22px_4px_var(--sk-accent-glow)]',
+        'bg-gradient-accent text-on-accent hover:brightness-110 hover:shadow-[0_0_22px_4px_var(--sk-accent-glow)]',
       secondary: 'bg-surface-2 text-text border border-line hover:bg-well',
       ghost: 'bg-transparent text-text-dim hover:text-text hover:bg-line-soft',
     },

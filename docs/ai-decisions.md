@@ -9,6 +9,22 @@ agent's own calls. Newest first.
 
 ---
 
+## D23 — Button primary contrast: darken the gradient + white `on-accent` label (owner-approved)
+
+- **Decision:** Fix the primary Button's failing label contrast (P1 #5, was 3.11:1 dark / 3.73:1 light,
+  below AA 4.5:1) by **(a)** adding an `--sk-on-accent` foreground token (`#FFFFFF`, both themes) so the
+  label no longer flips to dark text in light mode, and **(b)** darkening the dark-theme gradient's
+  light stop `#FF3B4E → #D8253A`. White on the resulting gradient is 4.95:1 (light stop) / 7.11:1
+  (deep stop). The light-theme gradient was already fine with a white label (4.95/8.56) and is
+  unchanged. Owner picked "darken gradient stop" over a solid `accent-deep` fill.
+- **Why `#D8253A`:** it is an existing brand crimson (the light-theme `accent`), so the dark button
+  stays clearly crimson — a straight HSL-darken of `#FF3B4E` drifts toward a pure fire-red. Trade-off:
+  the shared `gradient-accent` also backs the wordmark/hero, so those darken slightly too (still
+  large-text/decorative, so within spec). If the neon wordmark must be preserved, split a
+  button-specific gradient — flag it.
+- **Bump:** minor (visual change toward the spec; a11y fix). Batches with D22.
+- **Reverse:** restore `gradient-accent.dark` start to `#FF3B4E` and the primary label to `text-text`.
+
 ## D22 — Accessibility wave 1: contrast token retune + solid focus ring
 
 - **Decision:** Retuned color tokens to clear WCAG AA and made the focus ring a solid color, from the
