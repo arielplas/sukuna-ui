@@ -27,6 +27,14 @@ export type { DividerProps } from './components/divider'
 export { Divider } from './components/divider'
 export type { DrawerContentProps, DrawerProps } from './components/drawer'
 export { Drawer } from './components/drawer'
+export type {
+  FieldControlProps,
+  FieldDescriptionProps,
+  FieldErrorProps,
+  FieldLabelProps,
+  FieldProps,
+} from './components/field'
+export { Field } from './components/field'
 export type { InputProps } from './components/input'
 export { Input } from './components/input'
 export type { MenuItemOption, MenuProps } from './components/menu'

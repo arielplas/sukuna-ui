@@ -130,4 +130,66 @@ describe('Button', () => {
     await userEvent.keyboard('[Enter]')
     expect(onClick).toHaveBeenCalledTimes(1)
   })
+
+  it('renders as an anchor with role link and the button classes when as="a"', () => {
+    render(
+      <Button as="a" href="/pricing" data-testid="link">
+        Pricing
+      </Button>,
+    )
+    const link = screen.getByRole('link', { name: 'Pricing' })
+    expect(link.tagName).toBe('A')
+    expect(link).toHaveAttribute('href', '/pricing')
+    // Shares the button styling.
+    expect(link.classList.contains('inline-flex')).toBe(true)
+    expect(link.classList.contains('font-display')).toBe(true)
+    // Anchor must not carry button-only attributes.
+    expect(link.hasAttribute('type')).toBe(false)
+    expect(link.hasAttribute('disabled')).toBe(false)
+  })
+
+  it('marks a disabled link with aria-disabled and removes it from the tab order', () => {
+    render(
+      <Button as="a" href="/pricing" disabled>
+        Pricing
+      </Button>,
+    )
+    const link = screen.getByRole('link', { name: 'Pricing' })
+    expect(link).toHaveAttribute('aria-disabled', 'true')
+    expect(link).toHaveAttribute('tabindex', '-1')
+    expect(link.hasAttribute('disabled')).toBe(false)
+    expect(link.classList.contains('aria-disabled:pointer-events-none')).toBe(true)
+  })
+
+  it('sets aria-busy and blocks activation on a loading link', () => {
+    render(
+      <Button as="a" href="/pricing" loading leadingIcon={<span data-testid="lead" />}>
+        Pricing
+      </Button>,
+    )
+    const link = screen.getByRole('link', { name: 'Pricing' })
+    expect(link).toHaveAttribute('aria-busy', 'true')
+    expect(link).toHaveAttribute('aria-disabled', 'true')
+    expect(link).toHaveAttribute('tabindex', '-1')
+    // Spinner replaces the leading icon while loading.
+    expect(screen.queryByTestId('lead')).toBeNull()
+    expect(link.querySelector('svg[aria-hidden="true"]')).not.toBeNull()
+  })
+
+  it('forwards ref to the anchor element when as="a"', () => {
+    const ref = createRef<HTMLAnchorElement>()
+    render(
+      <Button as="a" href="/pricing" ref={ref}>
+        Pricing
+      </Button>,
+    )
+    expect(ref.current).toBeInstanceOf(HTMLAnchorElement)
+  })
+
+  it('supports an icon-only link via aria-label', () => {
+    render(<Button as="a" href="/next" aria-label="Next" leadingIcon={<span data-testid="ic" />} />)
+    const link = screen.getByRole('link', { name: 'Next' })
+    expect(link.tagName).toBe('A')
+    expect(screen.queryByTestId('ic')).not.toBeNull()
+  })
 })

@@ -29,7 +29,8 @@ export interface AccordionProps {
   value?: string[]
   defaultValue?: string[]
   onValueChange?: (value: string[]) => void
-  openMultiple?: boolean   // default false
+  openMultiple?: boolean          // default false
+  headingLevel?: 1|2|3|4|5|6      // default 3 — heading element for each item's header (WCAG 1.3.1)
 }
 ```
 
@@ -45,6 +46,9 @@ collapsed · expanded (chevron rotated) · focus-visible · disabled item.
 
 - `'use client'`. `Base.Root` (openMultiple, value/defaultValue/onValueChange) → per item:
   `Base.Item` → `Base.Header` → `Base.Trigger` (label + chevron) → `Base.Panel` (content).
+- `Base.Header` renders an `<h3>` by default; `headingLevel` (1–6) overrides it via the Base UI
+  `render` prop (`render={<hN />}`) so the document outline is correct. The trigger button stays
+  nested inside the heading.
 
 ## 7. Styles
 
@@ -59,11 +63,12 @@ collapsed · expanded (chevron rotated) · focus-visible · disabled item.
 ## 9. Tests
 
 **Unit:** renders triggers; `defaultValue` shows a panel; clicking a trigger toggles its content;
-`onValueChange` fires; SSR. **Browser:** click expands/collapses.
+`onValueChange` fires; headers default to level 3 and honor `headingLevel` (trigger stays inside
+the heading); SSR. **Browser:** click expands/collapses.
 
 ## 10. Stories
 
-`Default`, `OpenMultiple`, `WithDefault`.
+`Default`, `OpenMultiple`, `WithDefault`, `CustomHeadingLevel`.
 
 ## 11. Decisions
 

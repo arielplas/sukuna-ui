@@ -8,6 +8,8 @@ export const buttonStyles = tv({
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     'active:scale-[.98] motion-reduce:active:scale-100',
     'disabled:opacity-45 disabled:cursor-not-allowed',
+    // Anchors can't be `:disabled`; mirror the disabled look and block activation via aria-disabled.
+    'aria-disabled:opacity-45 aria-disabled:cursor-not-allowed aria-disabled:pointer-events-none',
     'aria-busy:cursor-progress',
   ],
   variants: {

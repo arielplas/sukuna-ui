@@ -34,4 +34,17 @@ describe('Accordion', () => {
     expect(html).toContain('Shipping')
     expect(html).toContain('Returns')
   })
+
+  it('defaults headers to level 3', () => {
+    render(<Accordion items={items} />)
+    expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(items.length)
+  })
+
+  it('renders headers at the requested heading level', () => {
+    render(<Accordion items={items} headingLevel={2} />)
+    expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(items.length)
+    // trigger button stays inside the heading
+    const heading = screen.getByRole('heading', { level: 2, name: 'Shipping' })
+    expect(heading.querySelector('button')).not.toBeNull()
+  })
 })

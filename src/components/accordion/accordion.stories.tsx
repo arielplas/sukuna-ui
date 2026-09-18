@@ -38,3 +38,10 @@ export const WithDefault: Story = {
     </div>
   ),
 }
+export const CustomHeadingLevel: Story = {
+  render: (args) => (
+    <div style={{ width: 380 }}>
+      <Accordion {...args} headingLevel={2} />
+    </div>
+  ),
+}

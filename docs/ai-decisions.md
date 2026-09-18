@@ -9,6 +9,30 @@ agent's own calls. Newest first.
 
 ---
 
+## D29 — Improvements batch (6 parallel agents): Field, a11y, contrast gate
+
+- **What:** Implemented six `docs/improvements.md` items in parallel (one agent each), then integrated:
+  - **#26 `Field`** (new component, minor) — compound wrapper on Base UI Field. Decision by the agent,
+    kept: `Field.Error`'s `match` defaults to the root's `invalid`, so controlled errors "just work"
+    while leaving `invalid` unset preserves Base UI's native-validity behavior. It requires
+    `'use client'` (Base UI Field parts are client). Now 30 components.
+  - **#4 Accordion `headingLevel`** (minor) — 1–6, default 3, via Base UI Header's `render` prop
+    (there is no numeric level prop; `render={<hN/>}` swaps the tag).
+  - **#24 Button `as="a"`** (minor) — polymorphic anchor variant (discriminated-union props). Chose
+    to accept `disabled` on the anchor variant and map it to `aria-disabled` + `tabindex={-1}` +
+    `pointer-events-none` (ergonomic; anchors have no native `disabled`).
+  - **#3 Alert tone→role** (minor) — `alert` for danger/warning, `status` otherwise; explicit
+    override wins.
+  - **#36 contrast gate** — `src/tokens.contrast.test.ts` asserts every token pair clears AA in both
+    themes (38 assertions); runs with the normal test gate. Locks the D22 contrast fixes.
+  - **#34 token gallery** — live WCAG badges in the Storybook token reference.
+- **Note (#15 already done):** `package.json` already has `sideEffects: ["**/*.css"]`.
+- **Integration:** agents worked on disjoint files (no shared-file edits, no commits); the
+  orchestrator wired `src/index.ts` (Field exports), fixed strict-`tsc` issues the agents couldn't
+  see whole-repo (accordion `createElement` cast, Button anchor `disabled` type, TokenGallery
+  `noUncheckedIndexedAccess`), and ran the full gate. 221 unit tests, 100% coverage, all green.
+- **Reverse:** each item is independent; revert per changeset.
+
 ## D28 — Showcase example app; found Tabs was never exported
 
 - **What:** Added `examples/showcase` — a single-page Vite + React 19 app (zero-config

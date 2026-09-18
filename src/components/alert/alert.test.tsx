@@ -12,11 +12,37 @@ describe('Alert', () => {
     for (const tone of tones) expect(renderServer(<Alert tone={tone}>msg</Alert>)).toContain('msg')
   })
 
-  it('has role status by default and can be overridden', () => {
+  it('derives role from tone: assertive for danger/warning, polite otherwise', () => {
     const { rerender } = render(<Alert data-testid="a">hi</Alert>)
+    // undefined tone → polite
+    expect(screen.getByTestId('a')).toHaveAttribute('role', 'status')
+    for (const tone of ['info', 'success'] as const) {
+      rerender(
+        <Alert data-testid="a" tone={tone}>
+          hi
+        </Alert>,
+      )
+      expect(screen.getByTestId('a')).toHaveAttribute('role', 'status')
+    }
+    for (const tone of ['warning', 'danger'] as const) {
+      rerender(
+        <Alert data-testid="a" tone={tone}>
+          hi
+        </Alert>,
+      )
+      expect(screen.getByTestId('a')).toHaveAttribute('role', 'alert')
+    }
+  })
+
+  it('lets an explicit role prop win over the tone-derived default', () => {
+    const { rerender } = render(
+      <Alert data-testid="a" tone="danger" role="status">
+        hi
+      </Alert>,
+    )
     expect(screen.getByTestId('a')).toHaveAttribute('role', 'status')
     rerender(
-      <Alert data-testid="a" role="alert">
+      <Alert data-testid="a" tone="info" role="alert">
         hi
       </Alert>,
     )

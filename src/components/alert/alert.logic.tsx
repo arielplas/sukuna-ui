@@ -10,12 +10,14 @@ export interface AlertProps
 
 /** Inline status/message. Static and RSC-safe (no `'use client'`). */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  { tone, title, icon, role = 'status', className, children, ...rest },
+  { tone, title, icon, role, className, children, ...rest },
   ref,
 ) {
+  // Announce urgent tones assertively; consumer `role` always wins.
+  const resolvedRole = role ?? (tone === 'danger' || tone === 'warning' ? 'alert' : 'status')
   const styles = alertStyles({ tone })
   return (
-    <div ref={ref} role={role} className={styles.root({ className })} {...rest}>
+    <div ref={ref} role={resolvedRole} className={styles.root({ className })} {...rest}>
       {icon ? (
         <span aria-hidden="true" className={styles.icon()}>
           {icon}

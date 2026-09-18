@@ -88,3 +88,20 @@ export const IconOnly: Story = {
   args: { 'aria-label': 'Next', children: undefined, leadingIcon: <ArrowIcon /> },
   render: (args) => <Button {...args} />,
 }
+
+export const AsLink: Story = {
+  name: 'As link (anchor)',
+  render: () => (
+    <div style={row}>
+      <Button as="a" href="#pricing" trailingIcon={<ArrowIcon />}>
+        View pricing
+      </Button>
+      <Button as="a" href="#" variant="secondary">
+        Docs
+      </Button>
+      <Button as="a" href="#" disabled>
+        Unavailable
+      </Button>
+    </div>
+  ),
+}
