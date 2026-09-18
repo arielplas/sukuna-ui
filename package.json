@@ -1,6 +1,6 @@
 {
   "name": "sukuna-ui",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Sukuna design system component library for React — SSR-safe, zero-runtime, themeable via data-theme.",
   "type": "module",
   "license": "MIT",

@@ -1,5 +1,48 @@
 # sukuna-ui
 
+## 0.5.0
+
+### Minor Changes
+
+- 02823b2: Accessibility pass (contrast + focus). Retuned color tokens so every text color clears WCAG AA in
+  both themes: `text-faint` (was ~3:1, it colors all placeholders), and light-theme `premium`,
+  `premium-dim` and `success`. The focus ring is now a **solid** color via a new `--sk-focus-ring`
+  token (the translucent `--sk-accent-glow` failed the 3:1 non-text bar as the sole focus indicator);
+  `--sk-accent-glow` remains for decorative glow. Menu/Select/Combobox keyboard highlight is now a
+  crimson inset ring that meets 3:1 (was a near-invisible 6%-opacity fill). Avatar defaults `alt=""`
+  when omitted, Progress defaults an accessible name when unlabeled, and the Toast close button is a
+  larger touch target (24→32px). Override any `--sk-*` token to re-tune.
+- 59a34b8: Button primary label now meets WCAG AA contrast. The near-white label on the crimson gradient was
+  ~3.1:1; the primary label uses a new `--sk-on-accent` token (white, both themes, so it no longer
+  flips to dark in light mode) and the dark-theme gradient's light stop is darkened `#FF3B4E → #D8253A`
+  so white clears 4.95:1. Still a crimson gradient. The shared `--sk-gradient-accent` (wordmark/hero)
+  darkens slightly with it; override the token to customize.
+- eca98f2: Performance for large lists (no new dependency). Combobox and Menu items now use
+  `content-visibility: auto` so the browser skips layout/paint of off-screen options in long lists.
+  Combobox gains a `maxRenderedItems` prop (maps to Base UI's `limit`) — search still spans every
+  item, only the top N filtered results render. `Select.Value` uses an O(1) memoized lookup instead
+  of an O(n) `items.find` per render, and `MenuItemOption` accepts an optional stable `id` for keying
+  dynamic menus. For very large datasets (thousands of rows/options), still paginate or use
+  server-side search — `content-visibility` speeds paint but doesn't reduce DOM nodes; see the
+  Performance section of the README.
+- 32456bf: Respect `prefers-reduced-motion: reduce`. Every animated component now drops its movement under the
+  OS "reduce motion" setting via Tailwind's `motion-reduce:` variant: spinners/skeletons/progress stop
+  their spin/pulse, overlay enter-exit slide/scale transitions (Dialog, Drawer, Toast, Menu, Select,
+  Combobox, Tooltip, Accordion, Switch) become instant, and the Button press-scale is disabled.
+  Color-only transitions are unaffected. Verified with a Playwright test that emulates the preference.
+
+### Patch Changes
+
+- 2271c19: RadioGroup: clicking an option's label text now selects it, not just the radio circle. The whole
+  row is the control; the accessible name (via `aria-labelledby`) and visuals are unchanged.
+- 71b3b0b: Tabs: a disabled tab is now visibly dimmed with a `not-allowed` cursor. It relied on the native
+  `:disabled` pseudo-class, but Base UI keeps a disabled tab focusable and marks it with
+  `data-disabled` (no native `disabled` attribute), so the dim styling never applied. Now gated on
+  `data-disabled` too.
+- 4d8d151: Tabs: the selected tab is now clearly styled. It keyed off `data-[selected]`, but Base UI's
+  `Tabs.Tab` uses `aria-selected` (there is no `data-selected`), so the active tab previously had no
+  distinct styling. The selected tab now shows crimson text and a crimson underline.
+
 ## 0.4.0
 
 ### Minor Changes
