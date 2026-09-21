@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
 
-sukuna-ui is a React 18/19 component library: 31 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 32 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -28,6 +28,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Divider: A thin rule that separates content, horizontally or vertically.
 - Drawer: A panel that slides in from an edge (nav, filters, details).
 - Field: Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you.
+- GradientText: Fills text with a gradient (via background-clip: text) for wordmarks, hero headings, and accent phrases.
 - Input: A single-line text input.
 - Menu: A dropdown menu of actions triggered by a button.
 - Pagination: Navigate between pages of results, with first/last always shown and ellipses in between.
@@ -898,6 +899,76 @@ the control.
 - [ ] `aria-invalid="true"` on the control when the field is invalid.
 - [ ] Error text meets ≥ 4.5:1 contrast in both themes (`text-accent` on surfaces).
 - [ ] No independent focus target on the wrapper; focus lives on the control.
+
+---
+
+# GradientText — sukuna-ui
+
+> Fills text with a gradient (via background-clip: text) for wordmarks, hero headings, and accent phrases.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { GradientText } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/gradient-text · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-gradient-text.md
+
+## Purpose
+
+Fills text with a gradient (via `background-clip: text`) for wordmarks, hero headings, and accent
+phrases. Pure CSS — server-rendered, no runtime, no hooks. The gradient is a **preset** that resolves
+through `--sk-*` tokens, so it stays on-brand and theme-aware in both light and dark.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export type GradientTextElement =
+  | 'span' | 'p' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+interface GradientTextOwnProps {
+  as?: GradientTextElement          // default 'span'
+  gradient?: 'accent'               // default 'accent' — preset only (see §11); 'premium' pending Q13
+  children: ReactNode
+}
+
+export type GradientTextProps =
+  GradientTextOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'color'>
+```
+
+Deliberately **not** in v1: a raw `from`/`via`/`to` color prop or arbitrary hex — that would force
+interpolated class names (violates rule #7) or raw hex in a utility (violates rule #8). Custom
+gradients are the documented escape hatch: pass your own `className` with a project utility. `color`
+is omitted so it can't fight the clipped fill.
+
+## Variants & tokens
+
+| Variant | Fill | Utility | Status |
+|---|---|---|---|
+| accent | `--sk-gradient-accent` | `bg-gradient-accent` | **shipped** |
+| premium | `--sk-gradient-premium` | `bg-gradient-premium` | pending owner (Q13) |
+
+The clip mechanism: `bg-clip-text` + `-webkit-background-clip:text` + `-webkit-text-fill-color:transparent`
+reveals the gradient, while a real `color` (`text-accent`) stays as the fallback (see §8). `premium`
+is **not shipped** — `--sk-gradient-premium` (e.g. `linear-gradient(135deg, var(--sk-premium),
+var(--sk-premium-dim))`) is not yet in `docs/tokens.md`; it's added as an additive `minor` once the
+token + `@utility bg-gradient-premium` are approved (Q13) and emitted by `scripts/build-tokens.ts`.
+
+## States
+
+Static — no interactive states, no animation, so no reduced-motion concern. Selectable, copyable real
+text.
+
+## Accessibility
+
+- [ ] Renders real, selectable text (not an image) — screen readers and search engines read it.
+- [ ] Real `color` (`text-accent`) via `-webkit-text-fill-color: transparent` (not `color:
+      transparent`), so text stays visible if `background-clip: text` is unsupported and contrast
+      tooling has a real color to read.
+- [ ] Use real heading tags (`as="h1"`) for headings — the gradient is style, not structure.
+- [ ] **Contrast:** clipped gradient text can dip below AA. Reserve GradientText for **large display
+      text** (≥ 24px / bold, so the 3:1 large-text floor applies) and ensure the gradient's lightest
+      stop clears 3:1 on the surface. Do not use it for body copy — documented in TSDoc `@remarks`.
+- [ ] `-webkit-background-clip: text` prefix included for WebKit/Blink.
 
 ---
 

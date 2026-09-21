@@ -30,7 +30,7 @@ export type GradientTextElement =
 
 interface GradientTextOwnProps {
   as?: GradientTextElement          // default 'span'
-  gradient?: 'accent' | 'premium'   // default 'accent' — preset only (see §11)
+  gradient?: 'accent'               // default 'accent' — preset only (see §11); 'premium' pending Q13
   children: ReactNode
 }
 
@@ -45,16 +45,16 @@ is omitted so it can't fight the clipped fill.
 
 ## 4. Variants → tokens
 
-| Variant | Fill | Utility |
-|---|---|---|
-| accent | `--sk-gradient-accent` | `bg-gradient-accent` (exists) |
-| premium | `--sk-gradient-premium` | `bg-gradient-premium` (**new — owner approval needed**) |
+| Variant | Fill | Utility | Status |
+|---|---|---|---|
+| accent | `--sk-gradient-accent` | `bg-gradient-accent` | **shipped** |
+| premium | `--sk-gradient-premium` | `bg-gradient-premium` | pending owner (Q13) |
 
-The clip mechanism is shared by both: `bg-clip-text text-transparent` plus the gradient utility, with
-a solid `color` fallback (see §8). `--sk-gradient-premium` (e.g. `linear-gradient(135deg,
-var(--sk-premium), var(--sk-premium-dim))`) is **not yet in `docs/tokens.md`** — logged as an owner
-question; do not ship `premium` until the token + `@utility bg-gradient-premium` are approved and
-emitted by `scripts/build-tokens.ts`.
+The clip mechanism: `bg-clip-text` + `-webkit-background-clip:text` + `-webkit-text-fill-color:transparent`
+reveals the gradient, while a real `color` (`text-accent`) stays as the fallback (see §8). `premium`
+is **not shipped** — `--sk-gradient-premium` (e.g. `linear-gradient(135deg, var(--sk-premium),
+var(--sk-premium-dim))`) is not yet in `docs/tokens.md`; it's added as an additive `minor` once the
+token + `@utility bg-gradient-premium` are approved (Q13) and emitted by `scripts/build-tokens.ts`.
 
 ## 5. States
 
@@ -76,12 +76,11 @@ text.
 import { tv, type VariantProps } from '../../utils/tv'
 
 export const gradientTextStyles = tv({
-  // `text-accent` is the solid fallback color if background-clip:text is unsupported.
-  base: 'inline-block bg-clip-text text-transparent [-webkit-background-clip:text] [color:transparent]',
+  base: 'inline-block bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]',
   variants: {
     gradient: {
       accent: 'bg-gradient-accent text-accent',
-      premium: 'bg-gradient-premium text-premium',
+      // premium: 'bg-gradient-premium text-premium',  // add when Q13 lands
     },
   },
   defaultVariants: { gradient: 'accent' },
@@ -89,15 +88,17 @@ export const gradientTextStyles = tv({
 export type GradientTextStyleProps = VariantProps<typeof gradientTextStyles>
 ```
 
-`bg-gradient-accent` is the existing `@utility` in `theme.css`; `bg-gradient-premium` must be added
-there via the token generator. The `text-accent`/`text-premium` classes provide a legible solid color
-where `-webkit-background-clip: text` isn't honored.
+`bg-gradient-accent` is the existing `@utility` in `theme.css`. `-webkit-text-fill-color:transparent`
+reveals the gradient while `text-accent` stays as the real `color` — the accessible fallback and what
+contrast tooling reads (better than `color: transparent`, which would be invisible where clip is
+unsupported).
 
 ## 8. Accessibility checklist
 
 - [ ] Renders real, selectable text (not an image) — screen readers and search engines read it.
-- [ ] Solid `color` fallback (`text-accent`/`text-premium`) so text stays visible if
-      `background-clip: text` is unsupported (never invisible transparent text).
+- [ ] Real `color` (`text-accent`) via `-webkit-text-fill-color: transparent` (not `color:
+      transparent`), so text stays visible if `background-clip: text` is unsupported and contrast
+      tooling has a real color to read.
 - [ ] Use real heading tags (`as="h1"`) for headings — the gradient is style, not structure.
 - [ ] **Contrast:** clipped gradient text can dip below AA. Reserve GradientText for **large display
       text** (≥ 24px / bold, so the 3:1 large-text floor applies) and ensure the gradient's lightest
@@ -108,8 +109,7 @@ where `-webkit-background-clip: text` isn't honored.
 
 - Server render (`renderServer`) of each `gradient` × representative `as` without throwing.
 - Renders as each `as` element; default is `span`.
-- Applies `bg-clip-text` + `text-transparent` + the gradient utility; carries the solid fallback
-  color class.
+- Applies `bg-clip-text` + the gradient utility + the `text-accent` fallback color class.
 - `children` appear as real text (`textContent` matches).
 - `as`/`gradient` never leak to the DOM; native props (`id`, `data-*`, `aria-*`) pass through.
 - Forwards `ref`; consumer `className` wins over a conflicting utility.
@@ -117,14 +117,15 @@ where `-webkit-background-clip: text` isn't honored.
 
 ## 10. Stories
 
-`Playground`, `Accent`, `Premium` (gated on token approval), `Headline` (`as="h1"`, large),
-`AsElements`, `InParagraph` (accent phrase inside body). Both themes via the toolbar.
+`Playground`, `Headline` (`as="h1"`, large), `InParagraph` (accent phrase inside body). Both themes
+via the toolbar. (`Premium` story added when Q13 lands.)
 
 ## 11. Decisions
 
 - **Preset gradients only** — no raw-hex/`from`-`via`-`to` prop, to honor rule #7 (no interpolated
   class names) and rule #8 (no raw hex in utilities). Custom gradients go through a consumer
   `className`. `// DECISION(open)` recorded at the touch point.
-- New token `--sk-gradient-premium` + `@utility bg-gradient-premium` are **owner questions** (logged
-  in `docs/questions.md`); `premium` variant ships only once approved.
-- Solid `color` fallback is mandatory (accessibility), not optional.
+- **v1 ships `accent` only.** New token `--sk-gradient-premium` + `@utility bg-gradient-premium` are
+  **owner questions** (Q13); the `premium` variant is added (additive minor) once approved.
+- **`-webkit-text-fill-color: transparent` + real `text-accent`** rather than `color: transparent` —
+  keeps a legible fallback and a real color for contrast tooling (accessibility), not optional.

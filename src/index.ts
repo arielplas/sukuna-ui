@@ -37,6 +37,8 @@ export type {
   FieldProps,
 } from './components/field'
 export { Field } from './components/field'
+export type { GradientTextElement, GradientTextProps } from './components/gradient-text'
+export { GradientText } from './components/gradient-text'
 export type { InputProps } from './components/input'
 export { Input } from './components/input'
 export type { MenuItemOption, MenuProps } from './components/menu'
