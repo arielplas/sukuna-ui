@@ -40,8 +40,10 @@ export type GradientTextProps =
 
 Deliberately **not** in v1: a raw `from`/`via`/`to` color prop or arbitrary hex — that would force
 interpolated class names (violates rule #7) or raw hex in a utility (violates rule #8). Custom
-gradients are the documented escape hatch: pass your own `className` with a project utility. `color`
-is omitted so it can't fight the clipped fill.
+gradients are the documented escape hatch: pass `style={{ backgroundImage: 'linear-gradient(...)' }}`
+(inline style reliably overrides the `bg-gradient-accent` utility; a `className` gradient may not,
+since tailwind-merge doesn't dedupe the custom utility). `color` is omitted so it can't fight the
+clipped fill.
 
 ## 4. Variants → tokens
 
@@ -123,8 +125,9 @@ via the toolbar. (`Premium` story added when Q13 lands.)
 ## 11. Decisions
 
 - **Preset gradients only** — no raw-hex/`from`-`via`-`to` prop, to honor rule #7 (no interpolated
-  class names) and rule #8 (no raw hex in utilities). Custom gradients go through a consumer
-  `className`. `// DECISION(open)` recorded at the touch point.
+  class names) and rule #8 (no raw hex in utilities). Custom gradients go through
+  `style={{ backgroundImage }}` (inline style reliably overrides the utility). `// DECISION(open)`
+  recorded at the touch point.
 - **v1 ships `accent` only.** New token `--sk-gradient-premium` + `@utility bg-gradient-premium` are
   **owner questions** (Q13); the `premium` variant is added (additive minor) once approved.
 - **`-webkit-text-fill-color: transparent` + real `text-accent`** rather than `color: transparent` —

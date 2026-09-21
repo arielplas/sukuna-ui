@@ -1029,8 +1029,10 @@ export type GradientTextProps =
 
 Deliberately **not** in v1: a raw `from`/`via`/`to` color prop or arbitrary hex — that would force
 interpolated class names (violates rule #7) or raw hex in a utility (violates rule #8). Custom
-gradients are the documented escape hatch: pass your own `className` with a project utility. `color`
-is omitted so it can't fight the clipped fill.
+gradients are the documented escape hatch: pass `style={{ backgroundImage: 'linear-gradient(...)' }}`
+(inline style reliably overrides the `bg-gradient-accent` utility; a `className` gradient may not,
+since tailwind-merge doesn't dedupe the custom utility). `color` is omitted so it can't fight the
+clipped fill.
 
 ## Variants & tokens
 
