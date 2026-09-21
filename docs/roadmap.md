@@ -164,6 +164,31 @@ Out of scope for now: layout primitives (Box/Grid/Stack), an icon set, low-level
 - [ ] `premium` surface variants on Card
 - [ ] RTL audit
 
+## D3. v1.2 — Base UI coverage wave (design docs first)
+
+Gap analysis vs. shadcn/ui, Radix, MUI, Mantine, Chakra (2026-09-21). Five components Base UI
+(already a dep) ships but we hadn't wrapped — zero new dependencies, same contract as v1/v1.1
+(docs-first, three-file split, ≥90% cov, axe, stories, browser test where headless). No new tokens
+(all reuse existing surface/line/text tokens). Each is a **minor** bump; pre-1.0 that's still `0.x`.
+
+Order within a component: doc → styles → logic → index → tests → stories → (browser if headless) →
+export → ≥90% → review.
+
+**Status: v1.2 SHIPPED (code) — 5/5 built, exported, 100% cov each, `check`/`build`/`check:pkg`
+green. 313 unit tests total. Browser tests added (run under built Storybook). 39 components total.**
+
+| Component | Kind | Backing | Doc | Code |
+|---|---|---|---|---|
+| NumberField | interactive | Base UI `number-field` | [x] | [x] 100% cov + browser |
+| ToggleGroup (+ Toggle) | interactive | Base UI `toggle-group` + `toggle` | [x] | [x] 100% cov + browser |
+| HoverCard | interactive | Base UI `preview-card` | [x] | [x] 100% cov + browser |
+| ScrollArea | interactive | Base UI `scroll-area` | [x] | [x] 100% cov + browser |
+| ContextMenu | interactive | Base UI `context-menu` (reuses `MenuItemOption`) | [x] | [x] 100% cov + browser |
+
+Considered and held for owner: **Popover** (biggest cross-library gap, but roadmap §D lists
+Modal/Popover/Popper as out of scope — needs an explicit decision to reverse). Cheaper alternates
+if breadth is preferred over these: Collapsible, Meter, Kbd, AspectRatio.
+
 ---
 
 ## E. Update log
@@ -221,3 +246,7 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-21 · GradientText shipped (wave 2/4): static/RSC-safe `background-clip:text` fill; `-webkit-text-fill-color:transparent` reveals the gradient while a real `text-accent` stays as the a11y/axe fallback; `as` span/p/h1–h6. Ships `accent`; `premium` gated on the `--sk-gradient-premium` token (Q13). 7 tests, 100% cov. minor · (gradient-text commit)
 - 2026-09-21 · ShinyText shipped (wave 3/4): static/RSC-safe CSS sweep (dim→bright→dim gradient, no transparent stop, legible base); `sk-shine` keyframe + `animate-shine*` utilities added to the generated theme layer (build-tokens.ts); `motion-reduce` freezes it; `speed` slow/normal/fast. `disabled` deferred (tailwind-merge can't dedupe the custom animate utility). 7 tests, 100% cov. minor · (shiny-text commit)
 - 2026-09-21 · Carousel shipped (wave 4/4): root-managed WAI-ARIA carousel (labelled region, per-slide role=group + "n of total", live-region off during autoplay, arrows/Home/End, loop, autoplay with WCAG-2.2.2 pause control that never starts under reduced-motion — tri-state `reduced` avoids a transient start, pause-on-hover/focus, dots, controlled/uncontrolled). Swipe + `inert` on off-screen slides deferred to v1.1. 14 tests, 100% cov (setInterval/matchMedia mocked). Now 34 components. minor · (carousel commit)
+- 2026-09-21 · v1.2 Base UI coverage wave — DESIGN DOCS ONLY (docs-first, no code): authored `docs/component-{number-field,toggle-group,hover-card,scroll-area,context-menu}.md` per the Button template. Gap analysis vs shadcn/Radix/MUI/Mantine/Chakra picked 5 components Base UI (already a dep) ships but we hadn't wrapped — zero new deps, no new tokens. Roadmap §D3 added. Popover held out for an explicit owner decision (currently out-of-scope per §D). code pending owner doc approval · (v1.2 design-docs)
+- 2026-09-21 · v1.2 SHIPPED (code): built NumberField (text input + hidden number mirror; steppers, largeStep, Intl format, clamp), ToggleGroup + standalone Toggle (segmented/multiple, `multiple` not `toggleMultiple`; onValueChange always an array), HoverCard (Base preview-card; delay/closeDelay on the Trigger not root; no arrow — matches Tooltip/Menu), ScrollArea (native-scroll viewport + themed thumbs, orientation vertical/horizontal/both), ContextMenu (right-click, reuses Menu's `MenuItemOption`, style parity with Menu). All exported, 100% cov each; `check`/`build`/`check:pkg` green; 313 unit tests. 5 browser specs added. 39 components. Doc fixes from real Base UI rc API: NumberField readOnly doesn't disable steppers; HoverCard arrow dropped. minor ×5 · (v1.2 code)
+- 2026-09-21 · v1.2 polish: (1) halved default open delay to 300ms on Tooltip (was Base 600) and HoverCard.Trigger — snappier hover reveal; Tooltip default change = minor (breaking on 0.x), HoverCard folded in pre-release. (2) ContextMenu iOS long-press fix: children now wrapped in Base UI's `display:contents` trigger with `user-select:none` + `-webkit-touch-callout:none` (Base only sets the callout; without user-select:none an iOS long-press starts text selection and the menu never opens). Verified desktop right-click still opens; child inherits user-select:none. 313 tests green · (v1.2 polish)
+- 2026-09-21 · Showcase rebuilt as an auto-driven component explorer (examples/showcase): left-nav routing (hash) over all 39 components, right pane renders every Storybook story per component (examples/showcase/src/stories.tsx globs src/components/*/*.stories.tsx and renders meta+story args / render fns, like Storybook). Added Tailwind v4 to the showcase build (mirrors .storybook: @tailwindcss/vite + a styles.css that @imports theme.css and @sources the components+stories) so story-only utilities render; imports library+stories from source so context components (Toast) share one instance. Overview page kept as the default route (SEO + prerender <h1>). Component count is now dynamic (components.length) — no more hard-coded/stale count. Prerender build green; verified dark+light, story rendering, Toast context. `update-showcase` skill rewritten (showcase is auto-driven now; no manual demo/count upkeep) · (showcase explorer)

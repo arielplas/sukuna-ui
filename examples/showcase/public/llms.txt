@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).
 
-sukuna-ui is a React 18/19 component library: 34 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 39 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -29,17 +29,21 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - [Checkbox](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/checkbox.md): A boolean checkbox.
 - [Chip](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/chip.md): A compact token for filters, selections, or tags — optionally removable.
 - [Combobox](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/combobox.md): A text input with a filtered list of suggestions (free-text autocomplete).
+- [ContextMenu](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/context-menu.md): Offer contextual actions where the pointer is — right-click on desktop, long-press on touch.
 - [Counter](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/counter.md): Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
 - [Dialog](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/dialog.md): A modal dialog.
 - [Divider](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/divider.md): A thin rule that separates content, horizontally or vertically.
 - [Drawer](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/drawer.md): A panel that slides in from an edge (nav, filters, details).
 - [Field](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/field.md): Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you.
 - [GradientText](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/gradient-text.md): Fills text with a gradient (via background-clip: text) for wordmarks, hero headings, and accent phrases.
+- [HoverCard](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/hover-card.md): Preview richer context for a link without a click — a user card, a repo summary, a footnote.
 - [Input](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/input.md): A single-line text input.
 - [Menu](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/menu.md): A dropdown menu of actions triggered by a button.
+- [NumberField](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/number-field.md): Enter a number precisely.
 - [Pagination](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/pagination.md): Navigate between pages of results, with first/last always shown and ellipses in between.
 - [Progress](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/progress.md): A horizontal progress bar, determinate or indeterminate.
 - [RadioGroup](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/radio-group.md): Choose one option from a small set.
+- [ScrollArea](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/scroll-area.md): Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in every browser and matches the Sukuna surface, instead of the OS default.
 - [Select](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/select.md): A single-select dropdown.
 - [ShinyText](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/shiny-text.md): Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis.
 - [Skeleton](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/skeleton.md): A placeholder shimmer shown while content loads.
@@ -51,6 +55,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - [Tabs](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/tabs.md): Switch between panels of related content.
 - [Text](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/text.md): The typographic primitive.
 - [Toast](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/toast.md): Transient notifications.
+- [ToggleGroup](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/toggle-group.md): Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
 - [Tooltip](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/tooltip.md): A hover/focus tooltip for supplementary text.
 
 ## Theming
