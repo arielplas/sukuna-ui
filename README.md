@@ -9,7 +9,7 @@
 
 **SSR-safe, accessible React components for dark-first products — and for the AI agents that build them.**
 
-<!-- count -->32<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
+<!-- count -->33<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
 contrast in both themes, `prefers-reduced-motion` honored, zero runtime styling, React Server
 Components-ready, React 18 and 19. Dark is the identity; light is a mode.
 
@@ -105,6 +105,7 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `Progress` | A horizontal progress bar, determinate or indeterminate. | [docs/llms/progress.md](docs/llms/progress.md) |
 | `RadioGroup` | Choose one option from a small set. | [docs/llms/radio-group.md](docs/llms/radio-group.md) |
 | `Select` | A single-select dropdown. | [docs/llms/select.md](docs/llms/select.md) |
+| `ShinyText` | Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis. | [docs/llms/shiny-text.md](docs/llms/shiny-text.md) |
 | `Skeleton` | A placeholder shimmer shown while content loads. | [docs/llms/skeleton.md](docs/llms/skeleton.md) |
 | `Slider` | Pick a number from a range by dragging or with the keyboard. | [docs/llms/slider.md](docs/llms/slider.md) |
 | `Spinner` | An indeterminate loading indicator (CSS spin). | [docs/llms/spinner.md](docs/llms/spinner.md) |

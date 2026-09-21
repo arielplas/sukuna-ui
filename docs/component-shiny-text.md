@@ -30,7 +30,6 @@ export type ShinyTextElement = 'span' | 'p' | 'div' | 'strong'
 interface ShinyTextOwnProps {
   as?: ShinyTextElement                 // default 'span'
   speed?: 'slow' | 'normal' | 'fast'    // default 'normal' — enum, not a raw duration (rule #7)
-  disabled?: boolean                    // freeze the sheen (static text)
   children: ReactNode
 }
 
@@ -38,44 +37,49 @@ export type ShinyTextProps =
   ShinyTextOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'color'>
 ```
 
-Deliberately **not** in v1: arbitrary duration/delay numbers (enum keeps class names literal),
-configurable sheen color or angle (fixed to the on-brand light band), gradient-fill text (that's
-`GradientText`). `color` omitted so it can't fight the clipped sheen.
+Deliberately **not** in v1: `disabled` (manual freeze — deferred; `animate-shine` is a custom
+utility tailwind-merge doesn't know, so a `disabled → animate-none` variant risks an unresolved
+cascade conflict; `motion-reduce` already covers the a11y need), arbitrary duration/delay numbers
+(enum keeps class names literal), configurable sheen color or angle (fixed to the on-brand light
+band), gradient-fill text (that's `GradientText`). `color` omitted so it can't fight the clipped
+sheen.
 
 ## 4. Variants → tokens
 
 | Variant | Values → utility |
 |---|---|
 | speed | slow → `animate-shine-slow` · normal → `animate-shine` · fast → `animate-shine-fast` |
-| disabled | true → `animate-none` |
 
-Base combines `bg-clip-text text-transparent` with a repeating light-band background over a
-`text-dim` fallback color. Requires **new** CSS added to the theme layer via
-`scripts/build-tokens.ts` (owner-approved), all with literal class names:
+Base clips a dim→bright→dim gradient to the text and reveals it with
+`-webkit-text-fill-color: transparent`, over a real `text-dim` fallback color. The keyframe + utilities
+were added to the theme layer via `scripts/build-tokens.ts` (emitted into the generated `theme.css`),
+all with literal class names:
 
 ```css
-@keyframes sk-shine { to { background-position: -200% center; } }
+@keyframes sk-shine {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
 @utility animate-shine      { animation: sk-shine 3s linear infinite; }
 @utility animate-shine-slow { animation: sk-shine 6s linear infinite; }
 @utility animate-shine-fast { animation: sk-shine 1.6s linear infinite; }
 ```
 
 No new **color** token needed — the band is built from `--sk-text-dim` (base) and `--sk-text`
-(highlight). The keyframe/utility additions are logged as an owner question in `docs/questions.md`.
+(highlight). Durations are the proposed values in owner question Q13 (tunable, patch pre-1.0).
 
 ## 5. States
 
 | State | Behavior |
 |---|---|
-| default | light band sweeps across the text on a loop (`--sk-` motion feel, linear). |
+| default | light band sweeps across the text on a loop (linear). |
 | prefers-reduced-motion | `motion-reduce:animate-none` — the sheen freezes; the dimmed base text stays fully legible. |
-| `disabled` | animation removed (static), same legible base text. |
 
 ## 6. Logic (`shiny-text.logic.tsx`)
 
 - No `'use client'` — the animation is CSS; the component is a pure render.
 - `forwardRef<HTMLElement, ShinyTextProps>`; `const Component = as ?? 'span'`.
-- Destructure `as`/`speed`/`disabled` out of `rest`; spread remaining native props.
+- Destructure `as`/`speed` out of `rest`; spread remaining native props.
 - `className` merges last via `shinyTextStyles`.
 - No hooks, no `window`/`document`.
 
@@ -86,9 +90,10 @@ import { tv, type VariantProps } from '../../utils/tv'
 
 export const shinyTextStyles = tv({
   base: [
-    'inline-block bg-clip-text text-transparent [-webkit-background-clip:text]',
+    'inline-block bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]',
     'text-dim', // legible fallback + reduced-motion resting color
-    'bg-[linear-gradient(110deg,transparent_35%,var(--sk-text)_50%,transparent_65%)] bg-[length:200%_100%]',
+    'bg-[linear-gradient(110deg,var(--sk-text-dim)_40%,var(--sk-text)_50%,var(--sk-text-dim)_60%)]',
+    'bg-[length:200%_100%]',
     'motion-reduce:animate-none',
   ],
   variants: {
@@ -97,15 +102,16 @@ export const shinyTextStyles = tv({
       normal: 'animate-shine',
       fast: 'animate-shine-fast',
     },
-    disabled: { true: 'animate-none' },
   },
   defaultVariants: { speed: 'normal' },
 })
 export type ShinyTextStyleProps = VariantProps<typeof shinyTextStyles>
 ```
 
-The `bg-[linear-gradient(...)]` arbitrary value is a literal string (no interpolation) and references
-`--sk-text` — compliant with rules #7/#8. `animate-shine*` utilities come from the theme layer (§4).
+The gradient never uses a transparent stop (dim → bright → dim), so the full text is always painted —
+`-webkit-text-fill-color: transparent` reveals it while `text-dim` stays as the real fallback color.
+The arbitrary values are literal strings referencing `--sk-*` (rules #7/#8). `animate-shine*` utilities
+come from the theme layer (§4).
 
 ## 8. Accessibility checklist
 
@@ -120,10 +126,9 @@ The `bg-[linear-gradient(...)]` arbitrary value is a literal string (no interpol
 ## 9. Tests
 
 - Server render (`renderServer`) of each `speed` and `as` without throwing (static).
-- Applies `animate-shine*` per `speed`; `disabled` yields `animate-none`; base always carries
-  `motion-reduce:animate-none`.
+- Applies `animate-shine*` per `speed`; base always carries `motion-reduce:animate-none`.
 - `children` render as real text (`textContent` matches).
-- `as`/`speed`/`disabled` never leak to the DOM; native props pass through.
+- `as`/`speed` never leak to the DOM; native props pass through.
 - Forwards `ref`; consumer `className` wins.
 - axe: zero violations in both themes.
 - Browser (Playwright): under emulated `prefers-reduced-motion: reduce`, computed
@@ -131,8 +136,7 @@ The `bg-[linear-gradient(...)]` arbitrary value is a literal string (no interpol
 
 ## 10. Stories
 
-`Playground`, `Default`, `Speeds`, `Disabled`, `OnLabel` (inside a Badge/Chip context),
-`ReducedMotion` (note). Both themes via the toolbar.
+`Playground`, `Speeds`, `OnLabel` (an eyebrow/label context). Both themes via the toolbar.
 
 ## 11. Decisions
 
@@ -140,6 +144,9 @@ The `bg-[linear-gradient(...)]` arbitrary value is a literal string (no interpol
   React Bits original).
 - `speed` is an **enum** mapping to literal `animate-shine*` utilities (rule #7); no raw duration
   prop.
-- Keyframe `sk-shine` + `animate-shine*` utilities are **owner questions** (logged in
-  `docs/questions.md`); component ships once they're emitted by the token generator.
+- Keyframe `sk-shine` + `animate-shine*` utilities were added to the theme layer via
+  `scripts/build-tokens.ts` (motion utilities, no new color token); durations are the proposed
+  values pending owner confirmation (Q13, tunable pre-1.0).
+- **`disabled` deferred** — `animate-shine` is a custom utility tailwind-merge doesn't dedupe against
+  `animate-none`, so a freeze variant risks a cascade conflict; `motion-reduce` covers the a11y need.
 - Base color fixed to `text-dim` for guaranteed contrast at rest.

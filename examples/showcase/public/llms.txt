@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).
 
-sukuna-ui is a React 18/19 component library: 32 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 33 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -40,6 +40,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - [Progress](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/progress.md): A horizontal progress bar, determinate or indeterminate.
 - [RadioGroup](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/radio-group.md): Choose one option from a small set.
 - [Select](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/select.md): A single-select dropdown.
+- [ShinyText](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/shiny-text.md): Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis.
 - [Skeleton](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/skeleton.md): A placeholder shimmer shown while content loads.
 - [Slider](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/slider.md): Pick a number from a range by dragging or with the keyboard.
 - [Spinner](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/spinner.md): An indeterminate loading indicator (CSS spin).
