@@ -9,7 +9,7 @@
 
 **SSR-safe, accessible React components for dark-first products — and for the AI agents that build them.**
 
-<!-- count -->30<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
+<!-- count -->31<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
 contrast in both themes, `prefers-reduced-motion` honored, zero runtime styling, React Server
 Components-ready, React 18 and 19. Dark is the identity; light is a mode.
 
@@ -93,6 +93,7 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `Checkbox` | A boolean checkbox. | [docs/llms/checkbox.md](docs/llms/checkbox.md) |
 | `Chip` | A compact token for filters, selections, or tags — optionally removable. | [docs/llms/chip.md](docs/llms/chip.md) |
 | `Combobox` | A text input with a filtered list of suggestions (free-text autocomplete). | [docs/llms/combobox.md](docs/llms/combobox.md) |
+| `Counter` | Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards. | [docs/llms/counter.md](docs/llms/counter.md) |
 | `Dialog` | A modal dialog. | [docs/llms/dialog.md](docs/llms/dialog.md) |
 | `Divider` | A thin rule that separates content, horizontally or vertically. | [docs/llms/divider.md](docs/llms/divider.md) |
 | `Drawer` | A panel that slides in from an edge (nav, filters, details). | [docs/llms/drawer.md](docs/llms/drawer.md) |

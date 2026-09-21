@@ -122,6 +122,11 @@ function readComponentDocs(): ComponentDoc[] {
     const m = file.match(/^component-([a-z0-9-]+)\.md$/)
     if (!m) continue
     const name = m[1] ?? ''
+    const exports = exportsByDir.get(name)
+    // Docs-first: a spec may exist before its code. Skip specs with no matching export in
+    // src/index.ts so generated docs (README table, llms.txt) never advertise an unshipped
+    // component. The spec still lives in docs/ and gets picked up once the code is exported.
+    if (!exports) continue
     const md = readFileSync(join(docsDir, file), 'utf8')
     const h1 = md.match(/^# Component: (.+)$/m)
     const display = (h1?.[1] ?? name).trim()
@@ -130,7 +135,7 @@ function readComponentDocs(): ComponentDoc[] {
     docs.push({
       name,
       display,
-      exports: exportsByDir.get(name) ?? [display],
+      exports,
       summary: purpose ? firstSentence(purpose.body) : '',
       sections,
     })

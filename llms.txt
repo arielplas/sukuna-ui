@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).
 
-sukuna-ui is a React 18/19 component library: 30 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 31 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -28,6 +28,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - [Checkbox](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/checkbox.md): A boolean checkbox.
 - [Chip](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/chip.md): A compact token for filters, selections, or tags — optionally removable.
 - [Combobox](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/combobox.md): A text input with a filtered list of suggestions (free-text autocomplete).
+- [Counter](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/counter.md): Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
 - [Dialog](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/dialog.md): A modal dialog.
 - [Divider](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/divider.md): A thin rule that separates content, horizontally or vertically.
 - [Drawer](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/drawer.md): A panel that slides in from an edge (nav, filters, details).

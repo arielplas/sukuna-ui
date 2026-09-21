@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
 
-sukuna-ui is a React 18/19 component library: 30 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 31 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -23,6 +23,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Checkbox: A boolean checkbox.
 - Chip: A compact token for filters, selections, or tags — optionally removable.
 - Combobox: A text input with a filtered list of suggestions (free-text autocomplete).
+- Counter: Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
 - Dialog: A modal dialog.
 - Divider: A thin rule that separates content, horizontally or vertically.
 - Drawer: A panel that slides in from an edge (nav, filters, details).
@@ -585,6 +586,88 @@ closed · typing (filtered list) · item highlighted (keyboard) · empty (no mat
 - [ ] `role="combobox"` input with `aria-expanded`/`aria-controls`; listbox + options wired by Base UI.
 - [ ] Arrow keys move, Enter selects, Escape closes; typeahead filters.
 - [ ] Give the input an `aria-label` or associate a `<label>`.
+
+---
+
+# Counter — sukuna-ui
+
+> Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Counter } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/counter · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-counter.md
+
+## Purpose
+
+Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
+The **server renders the final value** (correct for no-JS and SEO); the animation is a progressive
+enhancement that runs once on the client. Motion is decorative and never gates the information.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+interface CounterOwnProps {
+  value: number              // target value; ALSO the value rendered on the server / with no JS
+  from?: number              // animation start; default 0
+  duration?: number          // ms; default 1200
+  decimals?: number          // fixed fraction digits; default 0
+  prefix?: string            // e.g. '$'
+  suffix?: string            // e.g. '%', 'k'
+  format?: (n: number) => string   // full custom formatter; overrides decimals/prefix/suffix
+  once?: boolean             // default true; animate only the first mount, snap on later value changes
+}
+
+// Renders a <span>. `children` is omitted — the number IS the content.
+export type CounterProps =
+  CounterOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'children'>
+```
+
+Deliberately **not** in v1: `startOnView` (count when scrolled into view — deferred; needs
+`IntersectionObserver`, planned as a follow-up), locale/`Intl.NumberFormat` presets (pass your own
+via `format`), scroll-scrubbed counting, spring physics, per-digit odometer roll. `format` is the
+escape hatch for currency/locale — `format={(n) => n.toLocaleString()}`.
+
+## Variants & tokens
+
+No color/size variants — a Counter inherits type and color from its context (wrap it in `Text`, or
+set `className`). The only intrinsic style is **`tabular-nums`** (`--sk-` numerals rule) so the width
+doesn't jitter frame to frame while counting.
+
+| Base | Utility |
+|---|---|
+| numerals | `tabular-nums` |
+
+No new color/spacing tokens required.
+
+## States
+
+| State | Behavior |
+|---|---|
+| server / no-JS | renders the formatted **`value`** (final). This is the accessible source of truth. |
+| mount (motion OK) | displays `from`, then rAF-interpolates to `value` over `duration` with an ease-out curve; ends exactly on `value`. |
+| prefers-reduced-motion | **no animation** — shows the final `value` immediately (WCAG 2.3.3 / respects `motion-reduce`). |
+| value change (`once={false}`) | re-animates from the currently displayed number to the new `value`. |
+| value change (`once`, default) | snaps to the new `value` without re-animating. |
+
+> One-frame note: because the server emits the final value, the mount effect briefly sets the
+> display to `from` before the first animation frame. This is imperceptible and never happens for
+> reduced-motion users. Documented as the SSR-correct tradeoff — we optimize for no-JS/SEO
+> correctness over a hypothetical flash.
+
+## Accessibility
+
+- [ ] The animating digits are decorative: put the mid-animation text in an `aria-hidden` inner
+      span and expose the **final** formatted value via `role="img"` + `aria-label` on the outer
+      `<span>`, so a screen reader announces `"1,234"` once, not every frame. (`role="img"` is what
+      makes `aria-label` valid on the wrapper — a bare `<span aria-label>` fails axe's
+      `aria-prohibited-attr`.)
+- [ ] Reduced-motion users get the final value with no animation.
+- [ ] The final value is present in server HTML (no-JS + SEO + SR all read it).
+- [ ] `tabular-nums` prevents layout shift during the count.
+- [ ] Color/contrast is the responsibility of the surrounding `Text`/`className`; Counter adds none.
 
 ---
 
