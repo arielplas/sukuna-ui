@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).
 
-sukuna-ui is a React 18/19 component library: 33 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 34 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -25,6 +25,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - [Breadcrumbs](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/breadcrumbs.md): Show the path to the current page and let users jump back up it.
 - [Button](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/button.md): Triggers an action.
 - [Card](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/card.md): A surface container that groups related content on an elevation.
+- [Carousel](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/carousel.md): A horizontal, one-slide-at-a-time content carousel for images, cards, or arbitrary nodes — the gap Slider (a range input) doesn't fill.
 - [Checkbox](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/checkbox.md): A boolean checkbox.
 - [Chip](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/chip.md): A compact token for filters, selections, or tags — optionally removable.
 - [Combobox](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/combobox.md): A text input with a filtered list of suggestions (free-text autocomplete).

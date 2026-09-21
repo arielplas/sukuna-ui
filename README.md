@@ -9,7 +9,7 @@
 
 **SSR-safe, accessible React components for dark-first products — and for the AI agents that build them.**
 
-<!-- count -->33<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
+<!-- count -->34<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
 contrast in both themes, `prefers-reduced-motion` honored, zero runtime styling, React Server
 Components-ready, React 18 and 19. Dark is the identity; light is a mode.
 
@@ -90,6 +90,7 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `Breadcrumbs` | Show the path to the current page and let users jump back up it. | [docs/llms/breadcrumbs.md](docs/llms/breadcrumbs.md) |
 | `Button` | Triggers an action. | [docs/llms/button.md](docs/llms/button.md) |
 | `Card` | A surface container that groups related content on an elevation. | [docs/llms/card.md](docs/llms/card.md) |
+| `Carousel` | A horizontal, one-slide-at-a-time content carousel for images, cards, or arbitrary nodes — the gap Slider (a range input) doesn't fill. | [docs/llms/carousel.md](docs/llms/carousel.md) |
 | `Checkbox` | A boolean checkbox. | [docs/llms/checkbox.md](docs/llms/checkbox.md) |
 | `Chip` | A compact token for filters, selections, or tags — optionally removable. | [docs/llms/chip.md](docs/llms/chip.md) |
 | `Combobox` | A text input with a filtered list of suggestions (free-text autocomplete). | [docs/llms/combobox.md](docs/llms/combobox.md) |
