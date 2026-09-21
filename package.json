@@ -1,6 +1,6 @@
 {
   "name": "sukuna-ui",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).",
   "type": "module",
   "license": "MIT",

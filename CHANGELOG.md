@@ -1,5 +1,72 @@
 # sukuna-ui
 
+## 0.8.0
+
+### Minor Changes
+
+- f896480: Add `Carousel` — an accessible, one-slide-at-a-time content carousel (the gap `Slider`, a range
+  input, doesn't fill). Root-managed: each direct child becomes a slide; the root renders the viewport,
+  track, prev/next controls, and dots. Follows the WAI-ARIA carousel pattern: labelled region, per-slide
+  `role="group"` + `aria-label="{n} of {total}"`, a live region that goes `off` while auto-rotating,
+  keyboard (arrows + Home/End), `loop`, and optional `autoplay` that never starts under
+  `prefers-reduced-motion` and always renders a pause control (WCAG 2.2.2). Controlled or uncontrolled
+  via `index`/`defaultIndex`/`onIndexChange`. Pointer swipe is a documented v1.1 follow-up. Adds a
+  component = minor.
+- c60d519: Add `ContextMenu` — a right-click (desktop) / long-press (touch) menu of actions over a target area.
+  Built on Base UI `context-menu` (`'use client'`), prop-driven `items` reusing `Menu`'s
+  `MenuItemOption` shape, with popup/item styling kept in parity with `Menu`. Full keyboard support
+  (also `Shift`+`F10`); disabled rows skipped. `children` are wrapped in a `display: contents` trigger
+  that sets `user-select: none` / `-webkit-touch-callout: none` so an iOS long-press opens the menu
+  instead of starting text selection. Because right-click isn't discoverable, expose the same actions
+  through a visible control as well. Adds a component = minor.
+- 8a0402f: Add `Counter` — an animated number that counts up to a target value on mount, for stat tiles, KPIs,
+  and pricing. Server-renders the final value (no-JS/SEO correct); the count-up is a client
+  enhancement that honors `prefers-reduced-motion` (shows the final value instantly). Supports
+  `from`, `duration`, `decimals`, `prefix`, `suffix`, a custom `format`, and `once`. The wrapper is
+  `role="img"` with an `aria-label` of the final value so assistive tech announces it once, not every
+  frame. Adds a component = minor per the breaking-change table.
+- 46324fa: Add `GradientText` — fills text with an on-brand gradient via `background-clip: text` for wordmarks,
+  hero headings, and accent phrases. Pure CSS, static/RSC-safe (no `'use client'`), zero JavaScript.
+  The gradient shows through `-webkit-text-fill-color: transparent` while a real `color` (accent)
+  stays as the accessible fallback. Ships the `accent` gradient (the `premium` variant is pending the
+  `--sk-gradient-premium` token, owner Q13). Renders real, selectable text as any of `span`/`p`/`h1`–`h6`.
+  Adds a component = minor.
+- c60d519: Add `HoverCard` — a rich floating card revealed on hover or keyboard focus of a link (a user card,
+  repo summary, footnote preview). Built on Base UI `preview-card` (`'use client'`); compound
+  `HoverCard` + `HoverCard.Trigger` (an `<a>`, with `delay`/`closeDelay`) + `HoverCard.Content`
+  (`side`/`align`/`sideOffset`). Unlike `Tooltip` its content is reachable by assistive tech and may
+  hold interactive elements; `prefers-reduced-motion` collapses the transition. The open `delay`
+  defaults to 300 ms (halved from Base UI's 600 for a snappier preview). Adds a component = minor.
+- c60d519: Add `NumberField` — a numeric input with stepper buttons, keyboard increment (`Arrow`, `Shift`+Arrow
+  /`PageUp`-`PageDown` for `largeStep`, `Home`/`End` to the bounds), min/max clamping, and `Intl`
+  locale formatting (`format`, e.g. currency or percent). Built on Base UI `number-field`
+  (`'use client'`); `forwardRef` targets the `<input>`. Sizes `sm`/`md`/`lg`; wheel scrubbing is
+  opt-in via `allowWheelScrub`. `disabled`/`name`/`id`/`required` apply to the field root, other native
+  input props spread onto the input. Adds a component = minor.
+- c60d519: Add `ScrollArea` — a bounded region with consistent, themed scrollbars across browsers/OSes. Content
+  is real, server-rendered DOM inside a native-scrolling viewport (wheel, keyboard, selection and
+  find-in-page all native); only the thumb is custom. Built on Base UI `scroll-area` (`'use client'`),
+  `forwardRef` to the root. `orientation` `vertical` (default) / `horizontal` / `both` (adds a corner);
+  size the region with `className` on the root. Adds a component = minor.
+- 3154908: Add `ShinyText` — sweeps a soft light band across dimmed text for "New" flags, premium labels, and
+  subtle emphasis. Pure CSS keyframe, static/RSC-safe (no `'use client'`), no runtime deps (unlike the
+  GSAP-based original). The band is built from `--sk-text` over a legible `--sk-text-dim` base and
+  freezes under `prefers-reduced-motion`. `speed`: 'slow' | 'normal' | 'fast'. Adds a `sk-shine`
+  keyframe and `animate-shine*` utilities to the generated theme layer. Adds a component = minor.
+- c60d519: Add `ToggleGroup` (plus a standalone `Toggle`) — a segmented control of pressable buttons, single by
+  default or multi-select via `multiple`. Built on Base UI `toggle-group`/`toggle` (`'use client'`),
+  prop-driven `items` like `Menu`/`Select`. Roving focus with Arrow keys, `aria-pressed` per button,
+  `aria-label` required on the group and on icon-only items; sizes `sm`/`md`/`lg` and horizontal or
+  vertical `orientation`. `onValueChange` always reports an array (even in single mode). Standalone
+  `Toggle` is a single on/off `<button>` (`forwardRef`). Adds components = minor.
+- c60d519: `Tooltip`: halve the default open `delay` to **300 ms** (was Base UI's 600 ms) so tooltips appear
+  more promptly on hover; keyboard focus still opens instantly, and you can override per-instance with
+  `delay`. Changing a documented default is a breaking change (minor on 0.x).
+
+### Patch Changes
+
+- 2ec410f: Button now shows `cursor: pointer` on hover, matching every other interactive component (switch, tabs, accordion, menu items, etc.). The `disabled`/`aria-disabled`/`aria-busy` cursor states are unchanged and still override it. Visual-behavior fix with no API or layout change — patch per the breaking-change table.
+
 ## 0.7.0
 
 ### Minor Changes
