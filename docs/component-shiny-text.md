@@ -131,8 +131,8 @@ come from the theme layer (§4).
 - `as`/`speed` never leak to the DOM; native props pass through.
 - Forwards `ref`; consumer `className` wins.
 - axe: zero violations in both themes.
-- Browser (Playwright): under emulated `prefers-reduced-motion: reduce`, computed
-  `animation-name` is `none` (joins the existing reduced-motion guard suite).
+- (Follow-up) Browser Playwright reduced-motion guard — not yet added; the base carries
+  `motion-reduce:animate-none`, asserted in the unit test.
 
 ## 10. Stories
 
