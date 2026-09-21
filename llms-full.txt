@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
 
-sukuna-ui is a React 18/19 component library: 30 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 34 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -20,19 +20,23 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Breadcrumbs: Show the path to the current page and let users jump back up it.
 - Button: Triggers an action.
 - Card: A surface container that groups related content on an elevation.
+- Carousel: A horizontal, one-slide-at-a-time content carousel for images, cards, or arbitrary nodes — the gap Slider (a range input) doesn't fill.
 - Checkbox: A boolean checkbox.
 - Chip: A compact token for filters, selections, or tags — optionally removable.
 - Combobox: A text input with a filtered list of suggestions (free-text autocomplete).
+- Counter: Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
 - Dialog: A modal dialog.
 - Divider: A thin rule that separates content, horizontally or vertically.
 - Drawer: A panel that slides in from an edge (nav, filters, details).
 - Field: Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you.
+- GradientText: Fills text with a gradient (via background-clip: text) for wordmarks, hero headings, and accent phrases.
 - Input: A single-line text input.
 - Menu: A dropdown menu of actions triggered by a button.
 - Pagination: Navigate between pages of results, with first/last always shown and ellipses in between.
 - Progress: A horizontal progress bar, determinate or indeterminate.
 - RadioGroup: Choose one option from a small set.
 - Select: A single-select dropdown.
+- ShinyText: Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis.
 - Skeleton: A placeholder shimmer shown while content loads.
 - Slider: Pick a number from a range by dragging or with the keyboard.
 - Spinner: An indeterminate loading indicator (CSS spin).
@@ -345,7 +349,7 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 
 | State | Behavior |
 |---|---|
-| default | as above |
+| default | as above; `cursor: pointer` |
 | hover | per table; `--sk-duration-fast` transition |
 | focus-visible | 2px ring `--sk-accent-glow`, offset 2px. Never remove outline without replacing it. |
 | active | `transform: scale(.98)` |
@@ -418,6 +422,96 @@ Static; no interactive states. (`raised` is a resting elevation, not a hover eff
       content warrants one (`role="group"` + `aria-label`, `<section>` via wrapping, etc.).
 - [ ] Not focusable and has no click handler; clickable surfaces wrap a Button/Link.
 - [ ] `sunken`/`flat` surfaces keep text contrast ≥ 4.5:1 in both themes.
+
+---
+
+# Carousel — sukuna-ui
+
+> A horizontal, one-slide-at-a-time content carousel for images, cards, or arbitrary nodes — the gap Slider (a range input) doesn't fill.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Carousel } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/carousel · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-carousel.md
+
+## Purpose
+
+A horizontal, one-slide-at-a-time content carousel for images, cards, or arbitrary nodes — the gap
+`Slider` (a range input) doesn't fill. Accessible by construction: labelled slides, a live region,
+keyboard and swipe navigation, and a required pause control whenever it auto-rotates.
+
+## API
+
+**Root-managed** (not compound in v1): each direct child becomes one slide, and the root renders the
+viewport, track, controls, dots, and (with `autoplay`) the pause toggle. Index state uses
+`useControllableState` (like Checkbox/Switch).
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+interface CarouselProps extends Omit<ComponentPropsWithoutRef<'section'>, 'onChange'> {
+  'aria-label': string           // REQUIRED — names the carousel region
+  index?: number                 // controlled active slide
+  defaultIndex?: number          // uncontrolled initial; default 0
+  onIndexChange?: (index: number) => void
+  loop?: boolean                 // wrap past the ends; default false
+  autoplay?: boolean             // default false
+  autoplayInterval?: number      // ms; default 5000
+  pauseOnHover?: boolean         // pause on hover/focus; default true
+  controls?: boolean             // render prev/next; default true
+  dots?: boolean                 // render indicator dots; default true
+  children: ReactNode            // each direct child is one slide
+}
+```
+
+Deliberately **not** in v1 (logged as `// DECISION(open)`): pointer **swipe/drag** (deferred; buttons
++ dots + keyboard cover navigation), a compound `Carousel.Slide`/`Viewport`/`Track` API, vertical
+orientation, `slidesToShow > 1` / peek, fade transition, `inert` on off-screen slides (their focusable
+content stays tabbable for now), infinite virtualization, thumbnail navigation.
+
+## Variants & tokens
+
+`tv()` with slots (no color variants — it inherits surface/text from its slides):
+
+| Slot | Key utilities → tokens |
+|---|---|
+| root | `relative` |
+| viewport | `overflow-hidden`; carries the `aria-live` region |
+| track | `flex` + `transition-transform duration-base ease-sukuna motion-reduce:transition-none` (`--sk-duration-base`, `--sk-ease`); inline `translateX` transform |
+| slide | `shrink-0 grow-0 basis-full` |
+| controls | absolute overlay, `pointer-events-none`; buttons re-enable pointer events |
+| control | `rounded-full bg-surface-2 border border-line` + focus ring `ring-focus-ring` (`--sk-radius-pill`, `--sk-focus-ring`); `disabled:opacity-45 disabled:cursor-not-allowed` |
+| footer | `mt-3 flex justify-center gap-3` — holds dots + play toggle |
+| dot | `rounded-full bg-line` → `active` `bg-accent` (`--sk-line`, `--sk-accent`); focus ring |
+| playToggle | small round button, focus ring |
+
+No new tokens required.
+
+## States
+
+| State | Behavior |
+|---|---|
+| default | active slide shown; track translated by `index * -100%`. |
+| navigate | prev/next/dots/keys change `index`; track transitions over `--sk-duration-base`. |
+| prefers-reduced-motion | `motion-reduce:transition-none` — slide change is instant; **autoplay does not auto-start**. |
+| at start / at end (`!loop`) | prev/next disabled respectively; with `loop`, they wrap. |
+| autoplay running | advances every `autoplayInterval`; the pause toggle shows "Pause"; slides container `aria-live="off"`. |
+| autoplay paused | on hover/focus (`pauseOnHover`), when the toggle is pressed, or under reduced-motion; slides container `aria-live="polite"`. |
+| focus-visible | solid `--sk-focus-ring` on every control. |
+
+## Accessibility
+
+- [ ] Root is a labelled region: `aria-roledescription="carousel"` + required `aria-label`.
+- [ ] Each slide: `role="group"`, `aria-roledescription="slide"`, `aria-label="{n} of {total}"`.
+- [ ] Viewport `aria-live="polite"` when idle, `"off"` during autoplay.
+- [ ] Prev/next are real `<button>`s with `aria-label`; disabled at the ends when `!loop`.
+- [ ] Dots are buttons with `aria-label="Go to slide {n}"` and `aria-current` on the active dot.
+- [ ] **Autoplay always renders a pause toggle** (WCAG 2.2.2); autoplay also pauses on hover/focus
+      and never auto-starts under reduced-motion.
+- [ ] Keyboard: arrows + Home/End move slides; controls are in the tab order; focus is never trapped.
+- [ ] `motion-reduce:transition-none` makes slide changes instant.
+- [ ] Known v1 gap: off-screen slides' focusable content stays tabbable (no `inert` yet) — a
+      documented follow-up.
 
 ---
 
@@ -585,6 +679,88 @@ closed · typing (filtered list) · item highlighted (keyboard) · empty (no mat
 - [ ] `role="combobox"` input with `aria-expanded`/`aria-controls`; listbox + options wired by Base UI.
 - [ ] Arrow keys move, Enter selects, Escape closes; typeahead filters.
 - [ ] Give the input an `aria-label` or associate a `<label>`.
+
+---
+
+# Counter — sukuna-ui
+
+> Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Counter } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/counter · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-counter.md
+
+## Purpose
+
+Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
+The **server renders the final value** (correct for no-JS and SEO); the animation is a progressive
+enhancement that runs once on the client. Motion is decorative and never gates the information.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+interface CounterOwnProps {
+  value: number              // target value; ALSO the value rendered on the server / with no JS
+  from?: number              // animation start; default 0
+  duration?: number          // ms; default 1200
+  decimals?: number          // fixed fraction digits; default 0
+  prefix?: string            // e.g. '$'
+  suffix?: string            // e.g. '%', 'k'
+  format?: (n: number) => string   // full custom formatter; overrides decimals/prefix/suffix
+  once?: boolean             // default true; animate only the first mount, snap on later value changes
+}
+
+// Renders a <span>. `children` is omitted — the number IS the content.
+export type CounterProps =
+  CounterOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'children'>
+```
+
+Deliberately **not** in v1: `startOnView` (count when scrolled into view — deferred; needs
+`IntersectionObserver`, planned as a follow-up), locale/`Intl.NumberFormat` presets (pass your own
+via `format`), scroll-scrubbed counting, spring physics, per-digit odometer roll. `format` is the
+escape hatch for currency/locale — `format={(n) => n.toLocaleString()}`.
+
+## Variants & tokens
+
+No color/size variants — a Counter inherits type and color from its context (wrap it in `Text`, or
+set `className`). The only intrinsic style is **`tabular-nums`** (`--sk-` numerals rule) so the width
+doesn't jitter frame to frame while counting.
+
+| Base | Utility |
+|---|---|
+| numerals | `tabular-nums` |
+
+No new color/spacing tokens required.
+
+## States
+
+| State | Behavior |
+|---|---|
+| server / no-JS | renders the formatted **`value`** (final). This is the accessible source of truth. |
+| mount (motion OK) | displays `from`, then rAF-interpolates to `value` over `duration` with an ease-out curve; ends exactly on `value`. |
+| prefers-reduced-motion | **no animation** — shows the final `value` immediately (WCAG 2.3.3 / respects `motion-reduce`). |
+| value change (`once={false}`) | re-animates from the currently displayed number to the new `value`. |
+| value change (`once`, default) | snaps to the new `value` without re-animating. |
+
+> One-frame note: because the server emits the final value, the mount effect briefly sets the
+> display to `from` before the first animation frame. This is imperceptible and never happens for
+> reduced-motion users. Documented as the SSR-correct tradeoff — we optimize for no-JS/SEO
+> correctness over a hypothetical flash.
+
+## Accessibility
+
+- [ ] The animating digits are decorative: put the mid-animation text in an `aria-hidden` inner
+      span and expose the **final** formatted value via `role="img"` + `aria-label` on the outer
+      `<span>`, so a screen reader announces `"1,234"` once, not every frame. (`role="img"` is what
+      makes `aria-label` valid on the wrapper — a bare `<span aria-label>` fails axe's
+      `aria-prohibited-attr`.)
+- [ ] Reduced-motion users get the final value with no animation.
+- [ ] The final value is present in server HTML (no-JS + SEO + SR all read it).
+- [ ] `tabular-nums` prevents layout shift during the count.
+- [ ] Color/contrast is the responsibility of the surrounding `Text`/`className`; Counter adds none.
 
 ---
 
@@ -815,6 +991,78 @@ the control.
 - [ ] `aria-invalid="true"` on the control when the field is invalid.
 - [ ] Error text meets ≥ 4.5:1 contrast in both themes (`text-accent` on surfaces).
 - [ ] No independent focus target on the wrapper; focus lives on the control.
+
+---
+
+# GradientText — sukuna-ui
+
+> Fills text with a gradient (via background-clip: text) for wordmarks, hero headings, and accent phrases.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { GradientText } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/gradient-text · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-gradient-text.md
+
+## Purpose
+
+Fills text with a gradient (via `background-clip: text`) for wordmarks, hero headings, and accent
+phrases. Pure CSS — server-rendered, no runtime, no hooks. The gradient is a **preset** that resolves
+through `--sk-*` tokens, so it stays on-brand and theme-aware in both light and dark.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export type GradientTextElement =
+  | 'span' | 'p' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+interface GradientTextOwnProps {
+  as?: GradientTextElement          // default 'span'
+  gradient?: 'accent'               // default 'accent' — preset only (see §11); 'premium' pending Q13
+  children: ReactNode
+}
+
+export type GradientTextProps =
+  GradientTextOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'color'>
+```
+
+Deliberately **not** in v1: a raw `from`/`via`/`to` color prop or arbitrary hex — that would force
+interpolated class names (violates rule #7) or raw hex in a utility (violates rule #8). Custom
+gradients are the documented escape hatch: pass `style={{ backgroundImage: 'linear-gradient(...)' }}`
+(inline style reliably overrides the `bg-gradient-accent` utility; a `className` gradient may not,
+since tailwind-merge doesn't dedupe the custom utility). `color` is omitted so it can't fight the
+clipped fill.
+
+## Variants & tokens
+
+| Variant | Fill | Utility | Status |
+|---|---|---|---|
+| accent | `--sk-gradient-accent` | `bg-gradient-accent` | **shipped** |
+| premium | `--sk-gradient-premium` | `bg-gradient-premium` | pending owner (Q13) |
+
+The clip mechanism: `bg-clip-text` + `-webkit-background-clip:text` + `-webkit-text-fill-color:transparent`
+reveals the gradient, while a real `color` (`text-accent`) stays as the fallback (see §8). `premium`
+is **not shipped** — `--sk-gradient-premium` (e.g. `linear-gradient(135deg, var(--sk-premium),
+var(--sk-premium-dim))`) is not yet in `docs/tokens.md`; it's added as an additive `minor` once the
+token + `@utility bg-gradient-premium` are approved (Q13) and emitted by `scripts/build-tokens.ts`.
+
+## States
+
+Static — no interactive states, no animation, so no reduced-motion concern. Selectable, copyable real
+text.
+
+## Accessibility
+
+- [ ] Renders real, selectable text (not an image) — screen readers and search engines read it.
+- [ ] Real `color` (`text-accent`) via `-webkit-text-fill-color: transparent` (not `color:
+      transparent`), so text stays visible if `background-clip: text` is unsupported and contrast
+      tooling has a real color to read.
+- [ ] Use real heading tags (`as="h1"`) for headings — the gradient is style, not structure.
+- [ ] **Contrast:** clipped gradient text can dip below AA. Reserve GradientText for **large display
+      text** (≥ 24px / bold, so the 3:1 large-text floor applies) and ensure the gradient's lightest
+      stop clears 3:1 on the surface. Do not use it for body copy — documented in TSDoc `@remarks`.
+- [ ] `-webkit-background-clip: text` prefix included for WebKit/Blink.
 
 ---
 
@@ -1127,6 +1375,88 @@ disabled trigger.
 - [ ] Listbox roles, arrow-key navigation, typeahead, and selection from Base UI.
 - [ ] `Escape` / outside-click dismiss; focus returns to the trigger.
 - [ ] Disabled items are not selectable and are announced disabled.
+
+---
+
+# ShinyText — sukuna-ui
+
+> Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { ShinyText } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/shiny-text · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-shiny-text.md
+
+## Purpose
+
+Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA
+emphasis. Pure CSS animation, so it works in Server Components. The base text is legible on its own;
+the sheen is decorative and honors `prefers-reduced-motion`.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export type ShinyTextElement = 'span' | 'p' | 'div' | 'strong'
+
+interface ShinyTextOwnProps {
+  as?: ShinyTextElement                 // default 'span'
+  speed?: 'slow' | 'normal' | 'fast'    // default 'normal' — enum, not a raw duration (rule #7)
+  children: ReactNode
+}
+
+export type ShinyTextProps =
+  ShinyTextOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'color'>
+```
+
+Deliberately **not** in v1: `disabled` (manual freeze — deferred; `animate-shine` is a custom
+utility tailwind-merge doesn't know, so a `disabled → animate-none` variant risks an unresolved
+cascade conflict; `motion-reduce` already covers the a11y need), arbitrary duration/delay numbers
+(enum keeps class names literal), configurable sheen color or angle (fixed to the on-brand light
+band), gradient-fill text (that's `GradientText`). `color` omitted so it can't fight the clipped
+sheen.
+
+## Variants & tokens
+
+| Variant | Values → utility |
+|---|---|
+| speed | slow → `animate-shine-slow` · normal → `animate-shine` · fast → `animate-shine-fast` |
+
+Base clips a dim→bright→dim gradient to the text and reveals it with
+`-webkit-text-fill-color: transparent`, over a real `text-dim` fallback color. The keyframe + utilities
+were added to the theme layer via `scripts/build-tokens.ts` (emitted into the generated `theme.css`),
+all with literal class names:
+
+```css
+@keyframes sk-shine {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@utility animate-shine      { animation: sk-shine 3s linear infinite; }
+@utility animate-shine-slow { animation: sk-shine 6s linear infinite; }
+@utility animate-shine-fast { animation: sk-shine 1.6s linear infinite; }
+```
+
+No new **color** token needed — the band is built from `--sk-text-dim` (base) and `--sk-text`
+(highlight). Durations are the proposed values in owner question Q13 (tunable, patch pre-1.0).
+
+## States
+
+| State | Behavior |
+|---|---|
+| default | light band sweeps across the text on a loop (linear). |
+| prefers-reduced-motion | `motion-reduce:animate-none` — the sheen freezes; the dimmed base text stays fully legible. |
+
+## Accessibility
+
+- [ ] Real, selectable text — the sheen is `aria`-neutral decoration, not content.
+- [ ] `prefers-reduced-motion` freezes the animation (`motion-reduce:animate-none`); verified in a
+      browser test alongside the other reduced-motion components.
+- [ ] The resting/base color is `text-dim`, which clears 4.5:1 on `--sk-bg`/`--sk-surface` in both
+      themes — text is never below-contrast when the band isn't over it.
+- [ ] `-webkit-background-clip: text` prefix included; solid `text-dim` shows if clip is unsupported.
+- [ ] No flashing faster than 3/s (WCAG 2.3.1) — the slowest visible cycle is the sweep, not a flash.
 
 ---
 

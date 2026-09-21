@@ -134,6 +134,37 @@ as "softer" — no value. Phase 1 needs a concrete light value.
 
 ---
 
+## Q13. (Agent → owner) React Bits-inspired wave — new tokens/utilities for GradientText & ShinyText?
+
+**Context.** Scouted reactbits.dev and designed 4 component specs
+(`docs/component-{counter,carousel,gradient-text,shiny-text}.md`) that fit sukuna's SSR/a11y/token
+rules (the WebGL backgrounds and cursor effects were rejected as off-identity). Two of them need CSS
+additions that rule #8 says not to invent without you:
+
+1. **`--sk-gradient-premium`** + `@utility bg-gradient-premium` — for `GradientText gradient="premium"`.
+   Proposed value: `linear-gradient(135deg, var(--sk-premium), var(--sk-premium-dim))` (both themes,
+   reuses existing tokens). `GradientText` ships `accent` (existing utility) regardless; `premium`
+   variant is gated on this.
+2. **`@keyframes sk-shine` + `animate-shine` / `animate-shine-slow` / `animate-shine-fast`** utilities —
+   for `ShinyText`. Pure CSS, `motion-reduce:animate-none`, no new color token (band built from
+   `--sk-text-dim`/`--sk-text`). Durations 6s / 3s / 1.6s proposed.
+
+Both would be emitted by `scripts/build-tokens.ts` into the generated `theme.css` (like the existing
+`bg-gradient-accent`), keeping a single source of truth.
+
+**Status:** waiting on owner (blocks only the `premium` gradient variant and ShinyText; Counter,
+Carousel, and GradientText `accent` need nothing new).
+
+## Q14. (Agent → owner) Counter defaults & SSR strategy — confirm?
+
+**Context.** `Counter` (`docs/component-counter.md`) server-renders the **final** value (no-JS/SEO
+correct) and treats the count-up as a mount enhancement; reduced-motion shows the final value. Default
+`duration` 1200ms, `easeOutCubic`. Flagged as `// DECISION(open)` in the spec.
+
+**Status:** waiting on owner (non-blocking; defaults are sensible, changeable pre-1.0).
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |
@@ -160,3 +191,5 @@ as "softer" — no value. Phase 1 needs a concrete light value.
 | # | Question | Status |
 |---|---|---|
 | Q12 | Light-mode `--sk-shadow-card` value — approve the proposed softer shadow or supply one? | Proposed value in use; awaiting approval. Non-blocking (patch to change pre-1.0). |
+| Q13 | Approve `--sk-gradient-premium` token + `bg-gradient-premium` and the `sk-shine` keyframe + `animate-shine*` utilities for the React Bits-inspired wave? | Specs written; blocks only GradientText `premium` + ShinyText. Proposed values in Q13. |
+| Q14 | Confirm Counter's SSR-final-value strategy and defaults (1200ms, easeOutCubic)? | Spec written; non-blocking, sensible defaults. |

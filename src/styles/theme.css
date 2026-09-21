@@ -168,3 +168,24 @@
 @utility bg-gradient-accent {
   background-image: var(--sk-gradient-accent);
 }
+
+@keyframes sk-shine {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+@utility animate-shine {
+  animation: sk-shine 3s linear infinite;
+}
+
+@utility animate-shine-slow {
+  animation: sk-shine 6s linear infinite;
+}
+
+@utility animate-shine-fast {
+  animation: sk-shine 1.6s linear infinite;
+}

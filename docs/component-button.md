@@ -68,7 +68,7 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 
 | State | Behavior |
 |---|---|
-| default | as above |
+| default | as above; `cursor: pointer` |
 | hover | per table; `--sk-duration-fast` transition |
 | focus-visible | 2px ring `--sk-accent-glow`, offset 2px. Never remove outline without replacing it. |
 | active | `transform: scale(.98)` |
@@ -96,6 +96,7 @@ export const buttonStyles = tv({
     'transition-[background-color,box-shadow,transform] duration-fast ease-sukuna',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     'active:scale-[.98]',
+    'cursor-pointer',
     'disabled:opacity-45 disabled:cursor-not-allowed',
     'aria-busy:cursor-progress',
   ],
