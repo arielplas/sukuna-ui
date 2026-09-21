@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
 
-sukuna-ui is a React 18/19 component library: 34 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 39 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -24,17 +24,21 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Checkbox: A boolean checkbox.
 - Chip: A compact token for filters, selections, or tags — optionally removable.
 - Combobox: A text input with a filtered list of suggestions (free-text autocomplete).
+- ContextMenu: Offer contextual actions where the pointer is — right-click on desktop, long-press on touch.
 - Counter: Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
 - Dialog: A modal dialog.
 - Divider: A thin rule that separates content, horizontally or vertically.
 - Drawer: A panel that slides in from an edge (nav, filters, details).
 - Field: Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you.
 - GradientText: Fills text with a gradient (via background-clip: text) for wordmarks, hero headings, and accent phrases.
+- HoverCard: Preview richer context for a link without a click — a user card, a repo summary, a footnote.
 - Input: A single-line text input.
 - Menu: A dropdown menu of actions triggered by a button.
+- NumberField: Enter a number precisely.
 - Pagination: Navigate between pages of results, with first/last always shown and ellipses in between.
 - Progress: A horizontal progress bar, determinate or indeterminate.
 - RadioGroup: Choose one option from a small set.
+- ScrollArea: Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in every browser and matches the Sukuna surface, instead of the OS default.
 - Select: A single-select dropdown.
 - ShinyText: Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis.
 - Skeleton: A placeholder shimmer shown while content loads.
@@ -46,6 +50,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Tabs: Switch between panels of related content.
 - Text: The typographic primitive.
 - Toast: Transient notifications.
+- ToggleGroup: Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
 - Tooltip: A hover/focus tooltip for supplementary text.
 
 ---
@@ -682,6 +687,62 @@ closed · typing (filtered list) · item highlighted (keyboard) · empty (no mat
 
 ---
 
+# ContextMenu — sukuna-ui
+
+> Offer contextual actions where the pointer is — right-click on desktop, long-press on touch.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { ContextMenu } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/context-menu · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-context-menu.md
+
+## Purpose
+
+Offer contextual actions where the pointer is — right-click on desktop, long-press on touch.
+Positioning at the cursor, keyboard nav, typeahead, focus return, and dismiss come from Base UI
+Context Menu. Shares `MenuItemOption` and the popup/item look with `Menu` so the two read as one
+family.
+
+## API
+
+```ts
+import type { ReactNode } from 'react'
+import type { MenuItemOption } from '../menu'   // reused: { label, onSelect?, disabled?, id? }
+
+export interface ContextMenuProps {
+  children: ReactNode             // area that responds to right-click / long-press (wrapped in a
+                                  // display:contents trigger carrying the touch/iOS fixes)
+  items: MenuItemOption[]
+}
+```
+
+Reuses `MenuItemOption` verbatim (label / `onSelect` / `disabled` / `id`). Deliberately **not** in
+v1: separators, submenus, and checkbox/radio items — same scope line as `Menu`; add to both together
+if wanted.
+
+## Variants & tokens
+
+Identical to `Menu`. popup: `z-50 min-w-40 rounded-md border border-line bg-surface p-1 shadow-card`
+with enter/exit transitions. item: `flex items-center gap-2 h-9 px-2.5 rounded-sm text-sm text-text
+cursor-pointer data-[highlighted]:bg-line-soft data-[disabled]:opacity-45`.
+
+No new tokens — same set as `Menu` (`--sk-surface`, `--sk-line`, `--sk-line-soft`, `--sk-shadow-card`,
+text tokens).
+
+## States
+
+closed · open at cursor (positioned popup) · item highlighted (pointer/keyboard) · disabled item.
+
+## Accessibility
+
+- [ ] `role="menu"`/`menuitem`; opens on `contextmenu` event and on long-press (touch).
+- [ ] Full keyboard: once open, Arrow keys move, Enter/Space select, Escape closes, focus returns.
+- [ ] Also openable from the keyboard (ContextMenu key / Shift+F10) via Base UI.
+- [ ] Highlighted item ≥3:1 against the popup; disabled items announced as disabled.
+- [ ] Never the *only* path to an action — provide a `Menu`/button alternative for critical actions.
+
+---
+
 # Counter — sukuna-ui
 
 > Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
@@ -1066,6 +1127,72 @@ text.
 
 ---
 
+# HoverCard — sukuna-ui
+
+> Preview richer context for a link without a click — a user card, a repo summary, a footnote.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { HoverCard } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/hover-card · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-hover-card.md
+
+## Purpose
+
+Preview richer context for a link without a click — a user card, a repo summary, a footnote.
+Positioning, hover/focus open-and-close delays, portalling, and dismiss come from Base UI Preview
+Card. Distinct from `Tooltip`: HoverCard holds interactive/structured content and is **not** a
+`role="tooltip"` (screen readers reach its content), so it must never carry information the user
+can't get another way.
+
+## API
+
+```ts
+import type { ReactNode } from 'react'
+
+export interface HoverCardProps {
+  children: ReactNode          // Trigger + Content
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  delay?: number               // ms before opening on hover; default 300
+  closeDelay?: number          // ms before closing after leave; default 300
+}
+```
+
+Compound: `HoverCard` + `HoverCard.Trigger` (renders an `<a>`; accepts `href`, `delay`,
+`closeDelay`, and Base UI `render` to swap the element) + `HoverCard.Content` (takes
+`side?: 'top'|'right'|'bottom'|'left'` default `'top'`, `align?: 'start'|'center'|'end'` default
+`'center'`, `sideOffset?: number` default `8`). `delay`/`closeDelay` live on the **Trigger** (Base
+UI), not the root.
+
+Deliberately **not** in v1: an arrow (no library component uses one — Tooltip/Menu offset without
+one), `openOnHover={false}` click mode (that's `Popover`, out of scope for now), and a backdrop.
+
+## Variants & tokens
+
+popup: `max-w-xs rounded-md border border-line bg-surface p-4 text-sm text-text shadow-card` with
+enter/exit fade+scale via `data-[starting-style]`/`data-[ending-style]` and
+`origin-[var(--transform-origin)]`. positioner: `z-[var(--sk-z-popover)]`. trigger: focus ring only
+(colour inherited so any link style works).
+
+No new tokens — reuses `--sk-surface`, `--sk-line`, `--sk-shadow-card`, `--sk-focus-ring`,
+`--sk-z-popover`, text tokens.
+
+## States
+
+closed · opening (after `delay`, fades/scales in) · open · closing (after `closeDelay`). Reduced
+motion: enter/exit transforms collapse to instant (`motion-reduce:*`).
+
+## Accessibility
+
+- [ ] Opens on hover **and** keyboard focus of the trigger; closes on blur/leave/Escape.
+- [ ] Content reachable by AT (not `role="tooltip"`); never the sole source of critical info.
+- [ ] Interactive content inside the card is focusable and the card stays open while focus is in it.
+- [ ] `prefers-reduced-motion` honored (no scale/slide).
+- [ ] Text contrast ≥4.5:1 in both themes.
+
+---
+
 # Input — sukuna-ui
 
 > A single-line text input.
@@ -1179,6 +1306,89 @@ closed · open (positioned popup) · item highlighted (keyboard) · disabled ite
 
 - [ ] `role="menu"`/`menuitem` wired by Base UI; trigger has `aria-haspopup`/`aria-expanded`.
 - [ ] Arrow keys move, Enter/Space select, Escape closes, focus returns to trigger.
+
+---
+
+# NumberField — sukuna-ui
+
+> Enter a number precisely.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { NumberField } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/number-field · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-number-field.md
+
+## Purpose
+
+Enter a number precisely. Steppers, arrow-key increment, min/max clamping, and `Intl` formatting
+(currency, percent, decimals) come from Base UI Number Field — a plain `<input type="number">` gives
+none of that and formats inconsistently across browsers.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+interface NumberFieldOwnProps {
+  value?: number | null           // controlled; null = empty
+  defaultValue?: number           // uncontrolled initial
+  onValueChange?: (value: number | null) => void
+  min?: number
+  max?: number
+  step?: number                   // default 1
+  largeStep?: number              // Shift+Arrow / PageUp-Down; default 10
+  format?: Intl.NumberFormatOptions   // e.g. { style: 'currency', currency: 'USD' }
+  size?: 'sm' | 'md' | 'lg'       // default 'md'
+  readOnly?: boolean
+  allowWheelScrub?: boolean        // default false — scroll wheel over the input changes value
+}
+
+// The visible field is a native <input>; own props are consumed, the rest spread onto it.
+export type NumberFieldProps = NumberFieldOwnProps &
+  Omit<
+    ComponentPropsWithoutRef<'input'>,
+    'value' | 'defaultValue' | 'onChange' | 'size' | 'type' | 'min' | 'max' | 'step'
+  >
+```
+
+Deliberately **not** in v1: a `ScrubArea` drag-to-change cursor (pointer-only, poor a11y; wheel scrub
+is opt-in instead), prefix/suffix adornment slots (use `format`), and a `variant` prop (one surface
+treatment, matching `Input`).
+
+## Variants & tokens
+
+group: `inline-flex items-stretch rounded-md border border-line bg-surface-2
+focus-within:ring-2 focus-within:ring-focus-ring`. input: `min-w-0 flex-1 bg-transparent px-3
+text-text tabular-nums outline-none placeholder:text-text-faint`. decrement/increment:
+`grid w-9 place-items-center text-text-dim hover:bg-well hover:text-text
+data-[disabled]:opacity-45` (decrement gets a right border, increment a left border via
+`border-line`).
+
+| Size | Height | Font | Radius |
+|---|---|---|---|
+| sm | 32px (`h-8`) | `text-sm` | `rounded-sm` |
+| md | 40px (`h-10`) | `text-md` | `rounded-md` |
+| lg | 48px (`h-12`) | `text-lg` | `rounded-lg` |
+
+No new tokens — reuses `--sk-surface-2`, `--sk-line`, `--sk-well`, `--sk-focus-ring`, text tokens.
+
+## States
+
+| State | Behavior |
+|---|---|
+| default | steppers enabled within range |
+| focus-within | 2px `--sk-focus-ring` ring on the group |
+| at-min / at-max | the corresponding stepper is `disabled` (dimmed, not clickable) |
+| readOnly | input not editable (native `readonly`), still focusable/selectable; the value can't be changed |
+| disabled | whole group `opacity-45`, `cursor-not-allowed`, steppers off |
+
+## Accessibility
+
+- [ ] Input exposes `role="spinbutton"` with `aria-valuenow/min/max` (Base UI).
+- [ ] Stepper buttons have `aria-label` ("Increase"/"Decrease") and `aria-hidden` icons.
+- [ ] Arrow keys step; Shift+Arrow / PageUp-Down use `largeStep`; Home/End jump to min/max.
+- [ ] Focus ring visible in both themes at ≥3:1 against surface.
+- [ ] Pair with `Field` (`Field.Label`) for an associated label; `aria-label` accepted otherwise.
 
 ---
 
@@ -1314,6 +1524,65 @@ unchecked · checked (accent border + dot) · focus-visible ring · disabled.
 - [ ] `role="radiogroup"` with an accessible name (`aria-label`/`aria-labelledby`).
 - [ ] Arrow keys move + select; Tab enters/leaves the group (Base UI).
 - [ ] Each option has a visible, associated label.
+
+---
+
+# ScrollArea — sukuna-ui
+
+> Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in every browser and matches the Sukuna surface, instead of the OS default.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { ScrollArea } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/scroll-area · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-scroll-area.md
+
+## Purpose
+
+Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in
+every browser and matches the Sukuna surface, instead of the OS default. The content is real,
+server-rendered DOM inside a native-scrolling viewport — only the visible scrollbar is custom — so
+keyboard scrolling, wheel, and text selection behave natively.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+interface ScrollAreaOwnProps {
+  orientation?: 'vertical' | 'horizontal' | 'both'  // which scrollbars to render; default 'vertical'
+  children: ReactNode
+}
+
+// Sizing (height / max-height / width) is the consumer's job via className on the root.
+export type ScrollAreaProps = ScrollAreaOwnProps & ComponentPropsWithoutRef<'div'>
+```
+
+Deliberately **not** in v1: a Radix-style `type` (`hover`/`always`/`scroll`/`auto`) visibility mode
+(Base UI shows the scrollbar on interaction; a single sensible default), and `scrollHideDelay`.
+
+## Variants & tokens
+
+root: `relative overflow-hidden` (consumer sets size). viewport: `h-full w-full rounded-[inherit]`
+(native scroll; `focus-visible:ring-2 focus-visible:ring-focus-ring` when focusable).
+scrollbar: `flex touch-none select-none p-0.5 bg-transparent
+transition-colors duration-fast data-[hovering]:bg-well/50` — `w-2.5` vertical / `h-2.5` horizontal.
+thumb: `flex-1 rounded-pill bg-line hover:bg-text-faint`. corner: `bg-transparent`.
+
+No new tokens — reuses `--sk-line`, `--sk-well`, `--sk-text-faint`, `--sk-focus-ring`,
+`--sk-radius-pill`.
+
+## States
+
+idle (thumb dim) · hovering scrollbar (track tint, thumb brighter) · dragging thumb · at edge.
+Vertical only / horizontal only / both (a corner square where they meet).
+
+## Accessibility
+
+- [ ] Viewport scrolls with wheel, arrow keys, PageUp/Down, Home/End (native — not intercepted).
+- [ ] Content is real DOM, present at SSR and reachable by AT and Find-in-page.
+- [ ] Custom scrollbar is decorative; never the only way to reach content.
+- [ ] Thumb ≥3:1 against the track; focusable viewport shows a visible ring.
+- [ ] Respects OS "always show scrollbars" without breaking layout (overlay, not layout-shifting).
 
 ---
 
@@ -1901,6 +2170,95 @@ enter (slide/fade in) · visible · auto-dismiss after `timeout` · close (butto
 
 ---
 
+# ToggleGroup — sukuna-ui
+
+> Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Toggle, ToggleGroup } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/toggle-group · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-toggle-group.md
+
+## Purpose
+
+Pick one option from a small, mutually-exclusive set (segmented control), or toggle several
+independent options (a formatting toolbar). Roving focus, `aria-pressed`, and keyboard navigation
+come from Base UI. Distinct from `RadioGroup` (which is for form values with labels/descriptions);
+ToggleGroup is a compact button-style control, and `Toggle` is a single pressable button.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface ToggleOption {
+  value: string
+  label: ReactNode
+  disabled?: boolean
+  'aria-label'?: string   // required when label is icon-only
+}
+
+interface ToggleGroupOwnProps {
+  items: ToggleOption[]
+  value?: string | string[]          // controlled; string in single mode, string[] in multiple
+  defaultValue?: string | string[]
+  onValueChange?: (value: string[]) => void   // always an array from Base UI
+  multiple?: boolean                  // default false → single-select (segmented control)
+  size?: 'sm' | 'md' | 'lg'           // default 'md'
+  orientation?: 'horizontal' | 'vertical'  // default 'horizontal'
+  disabled?: boolean
+}
+
+// A group needs an accessible name: pass aria-label or aria-labelledby.
+export type ToggleGroupProps = ToggleGroupOwnProps &
+  Omit<ComponentPropsWithoutRef<'div'>, 'onChange' | 'defaultValue' | 'dir'>
+
+// Standalone single toggle button (e.g. a mute button). forwardRef to the <button>.
+interface ToggleOwnProps {
+  pressed?: boolean
+  defaultPressed?: boolean
+  onPressedChange?: (pressed: boolean) => void
+  size?: 'sm' | 'md' | 'lg'
+}
+export type ToggleProps = ToggleOwnProps &
+  Omit<ComponentPropsWithoutRef<'button'>, 'onChange' | 'value'>
+```
+
+Deliberately **not** in v1: `variant` styles beyond the single segmented look, and per-item icons +
+text combos beyond what `label: ReactNode` already allows.
+
+## Variants & tokens
+
+root: `inline-flex rounded-md border border-line bg-surface-2 p-0.5 gap-0.5`
+(`flex-col` when `orientation="vertical"`). item: `inline-flex items-center justify-center gap-2
+rounded-sm text-text-dim font-medium select-none cursor-pointer transition-colors duration-fast
+hover:text-text data-[pressed]:bg-well data-[pressed]:text-text
+data-[disabled]:opacity-45 data-[disabled]:cursor-not-allowed
+focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring`.
+
+| Size | Item height | Padding-x | Font |
+|---|---|---|---|
+| sm | 28px | `px-2.5` | `text-sm` |
+| md | 34px | `px-3` | `text-md` |
+| lg | 40px | `px-4` | `text-lg` |
+
+No new tokens — reuses `--sk-surface-2`, `--sk-line`, `--sk-well`, `--sk-focus-ring`, text tokens.
+
+## States
+
+default (unpressed) · hover · pressed (`data-[pressed]` → `--sk-well` fill) · focus-visible (ring) ·
+disabled (per item or whole group).
+
+## Accessibility
+
+- [ ] Group requires `aria-label`/`aria-labelledby` (enforced in docs + a warning-free story).
+- [ ] Items expose `aria-pressed`; roving `tabIndex` with Arrow keys (Base UI), Home/End jump.
+- [ ] Icon-only items require `aria-label` (enforced on `ToggleOption`).
+- [ ] Pressed vs unpressed distinguished by more than color (fill + text weight/contrast ≥3:1).
+- [ ] Focus ring visible in both themes.
+
+---
+
 # Tooltip — sukuna-ui
 
 > A hover/focus tooltip for supplementary text.
@@ -1926,7 +2284,7 @@ export interface TooltipProps {
   side?: 'top' | 'right' | 'bottom' | 'left'   // default 'top'
   align?: 'start' | 'center' | 'end'           // default 'center'
   sideOffset?: number             // default 8
-  delay?: number                  // open delay ms
+  delay?: number                  // open delay ms; default 300 (focus opens instantly)
   open?: boolean                  // controlled
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void

@@ -1,0 +1,13 @@
+/*
+ * Showcase stylesheet. Like the Storybook preview, it pulls in Tailwind + the sukuna-ui theme and
+ * points `@source` at the library components AND their stories, so every utility a story uses is
+ * generated. `@source "."` also scans this app's own explorer chrome.
+ *
+ * (The zero-config consumer path — a single precompiled `sukuna-ui/styles.css`, no Tailwind — is
+ * still documented in the README; the explorer needs the full utility set to render arbitrary story
+ * markup, so it builds Tailwind here the same way Storybook does.)
+ */
+@import "tailwindcss";
+@import "../../../src/styles/theme.css";
+@source "../../../src/components";
+@source ".";

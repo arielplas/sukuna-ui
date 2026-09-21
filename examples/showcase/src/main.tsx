@@ -1,7 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
-// Zero-config consumer path: one precompiled stylesheet, no Tailwind.
-import 'sukuna-ui/styles.css'
+// Tailwind entry: pulls in the sukuna-ui theme and generates every utility the components and their
+// stories use (see styles.css). The explorer renders arbitrary story markup, so it needs the full
+// utility set, the same way Storybook does.
+import './styles.css'
 import { App } from './App'
 
 const root = document.getElementById('root')

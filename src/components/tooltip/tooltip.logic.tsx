@@ -30,8 +30,8 @@ export interface TooltipProps {
    */
   sideOffset?: number
   /**
-   * Hover delay in ms before the popup opens. Undefined uses Base UI's default (600 ms);
-   * keyboard focus opens instantly regardless.
+   * Hover delay in ms before the popup opens; keyboard focus opens instantly regardless.
+   * @default 300
    */
   delay?: number
   /** Controlled open state; pair with `onOpenChange`. Omit for hover/focus-driven behavior. */
@@ -78,7 +78,7 @@ export function Tooltip({
   side = 'top',
   align = 'center',
   sideOffset = 8,
-  delay,
+  delay = 300,
   open,
   defaultOpen,
   onOpenChange,

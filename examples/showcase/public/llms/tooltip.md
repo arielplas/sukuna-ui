@@ -24,7 +24,7 @@ export interface TooltipProps {
   side?: 'top' | 'right' | 'bottom' | 'left'   // default 'top'
   align?: 'start' | 'center' | 'end'           // default 'center'
   sideOffset?: number             // default 8
-  delay?: number                  // open delay ms
+  delay?: number                  // open delay ms; default 300 (focus opens instantly)
   open?: boolean                  // controlled
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
