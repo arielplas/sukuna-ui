@@ -345,7 +345,7 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 
 | State | Behavior |
 |---|---|
-| default | as above |
+| default | as above; `cursor: pointer` |
 | hover | per table; `--sk-duration-fast` transition |
 | focus-visible | 2px ring `--sk-accent-glow`, offset 2px. Never remove outline without replacing it. |
 | active | `transform: scale(.98)` |
