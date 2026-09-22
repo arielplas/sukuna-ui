@@ -1,7 +1,21 @@
 import { type ComponentPropsWithoutRef, forwardRef, type ReactNode } from 'react'
 import { type ChipStyleProps, chipStyles } from './chip.styles'
 
-export interface ChipProps extends ComponentPropsWithoutRef<'span'>, ChipStyleProps {
+export interface ChipProps
+  extends ComponentPropsWithoutRef<'span'>,
+    Omit<ChipStyleProps, 'variant'> {
+  /**
+   * Surface treatment. Unset keeps each tone's original look (`accent` solid, the rest soft);
+   * `soft` | `solid` | `outline` force one. Same map as Badge.
+   */
+  variant?: 'soft' | 'solid' | 'outline'
+  /**
+   * Marks the chip as the active choice in a filter list: accent border + accent text (via
+   * `data-selected`). Purely visual — the Chip stays a static span; put the click/toggle on a
+   * wrapping Button/Link (or use `ToggleGroup` for a real toggle).
+   * @default false
+   */
+  selected?: boolean
   /** Node rendered before the children, e.g. a 12–14px icon; mark it `aria-hidden` yourself. */
   leadingIcon?: ReactNode
   /**
@@ -34,6 +48,9 @@ const DismissIcon = () => (
  *   and make it specific when several chips are listed (e.g. `'Remove filter: Tokyo'`).
  * - Variants:
  *   - `tone`: 'neutral' (default) | 'accent' | 'success' | 'premium' (same palette as Badge).
+ *   - `variant`: unset (default) keeps each tone's original look (`accent` solid, others soft);
+ *     'soft' | 'solid' | 'outline' force one. Solid fills label with the page-background token.
+ *   - `selected`: boolean — accent border + text for the active filter (visual only, see above).
  *   - `size`: 'sm' | 'md' (default) — 24px / 28px tall.
  * - For a non-removable status pill use Badge instead. `className` merges into the root slot
  *   and wins over a conflicting utility.
@@ -53,12 +70,28 @@ const DismissIcon = () => (
  * ```
  */
 export const Chip = forwardRef<HTMLSpanElement, ChipProps>(function Chip(
-  { tone, size, leadingIcon, onDismiss, dismissLabel = 'Remove', className, children, ...rest },
+  {
+    tone,
+    variant,
+    size,
+    selected,
+    leadingIcon,
+    onDismiss,
+    dismissLabel = 'Remove',
+    className,
+    children,
+    ...rest
+  },
   ref,
 ) {
-  const styles = chipStyles({ tone, size })
+  const styles = chipStyles({ tone, variant, size })
   return (
-    <span ref={ref} className={styles.root({ className })} {...rest}>
+    <span
+      ref={ref}
+      data-selected={selected ? '' : undefined}
+      className={styles.root({ className })}
+      {...rest}
+    >
       {leadingIcon}
       {children}
       {onDismiss ? (

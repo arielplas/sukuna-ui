@@ -25,21 +25,27 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 export interface BadgeProps extends ComponentPropsWithoutRef<'span'> {
   tone?: 'neutral' | 'accent' | 'success' | 'premium'  // default 'neutral'
+  variant?: 'soft' | 'solid' | 'outline'                // unset = each tone's original look
   size?: 'sm' | 'md'                                    // default 'md'
   dot?: boolean   // leading status dot in currentColor
 }
 ```
 
-Extends `<span>`; adds only `tone`, `size`, `dot`. Pill radius is fixed (not a prop).
+Extends `<span>`; adds only `tone`, `variant`, `size`, `dot`. Pill radius is fixed (not a prop).
 
 ## 4. Variants → tokens
 
-| tone | utilities |
-|---|---|
-| neutral | `bg-surface-2 text-text-dim border border-line` |
-| accent | `bg-gradient-accent text-text border border-transparent` |
-| success | `bg-surface-2 text-success border border-line` |
-| premium | `bg-surface-2 text-premium border border-line` |
+Base: `… border`. Each tone × variant is one literal compound class (below). **Unset `variant`**
+(internal `auto`) reproduces the original look exactly — `accent` solid, the others soft — so adding
+`variant` changed nothing. Solid fills use `text-bg` (the page-background token) for the label: it
+is dark on a light fill and light on a dark fill in both themes.
+
+| tone | soft | solid | outline |
+|---|---|---|---|
+| neutral | `bg-surface-2 text-text-dim border-line` | `bg-text-dim text-bg border-transparent` | `bg-transparent text-text-dim border-line` |
+| accent | `bg-surface-2 text-accent border-line` | `bg-gradient-accent text-text border-transparent` (original) | `bg-transparent text-accent border-accent` |
+| success | `bg-surface-2 text-success border-line` (original) | `bg-success text-bg border-transparent` | `bg-transparent text-success border-success` |
+| premium | `bg-surface-2 text-premium border-line` (original) | `bg-premium text-bg border-transparent` | `bg-transparent text-premium border-premium` |
 
 | size | utilities |
 |---|---|
@@ -84,10 +90,13 @@ class is a static string exported alongside.
 
 ## 10. Stories
 
-`Playground`, `Tones`, `Sizes`, `WithDot`, `Live`, `InText`. Both themes via toolbar.
+`Playground`, `Tones`, `Variants` (tone × soft/solid/outline grid), `Sizes`, `WithDot`, `Live`,
+`InText`. Both themes via toolbar.
 
 ## 11. Decisions
 
 - Pill radius fixed (not a prop): badges are always fully rounded in Sukuna.
+- `variant` (added post-0.8.0) has **no public default**: unset keeps the mixed original look
+  (accent solid, others soft) so the addition is non-breaking; the trio is opt-in. Same map as Chip.
 - `dot` uses `currentColor`, not a separate color prop (kept minimal for v1).
 - No `count`/number formatting helper in v1 (pass the string yourself).
