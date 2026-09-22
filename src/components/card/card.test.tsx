@@ -34,12 +34,52 @@ describe('Card', () => {
 
   it('does not leak variant props to the DOM', () => {
     render(
-      <Card elevation="sunken" padding="lg" radius="lg" data-testid="c">
+      <Card
+        elevation="sunken"
+        padding="lg"
+        radius="lg"
+        tone="premium"
+        interactive
+        glow
+        data-testid="c"
+      >
         x
       </Card>,
     )
     const el = screen.getByTestId('c')
-    for (const attr of ['elevation', 'padding', 'radius']) expect(el.hasAttribute(attr)).toBe(false)
+    for (const attr of ['elevation', 'padding', 'radius', 'tone', 'interactive', 'glow'])
+      expect(el.hasAttribute(attr)).toBe(false)
+  })
+
+  it('premium tone swaps the border and tints the surface; default is unchanged', () => {
+    render(
+      <>
+        <Card tone="premium" data-testid="p">
+          x
+        </Card>
+        <Card data-testid="d">x</Card>
+      </>,
+    )
+    const p = screen.getByTestId('p').classList
+    expect(p.contains('border-premium-dim')).toBe(true)
+    expect(p.contains('border-line')).toBe(false)
+    expect(screen.getByTestId('p').className).toContain('color-mix')
+    const d = screen.getByTestId('d').classList
+    expect(d.contains('border-line')).toBe(true)
+    expect(d.contains('border-premium-dim')).toBe(false)
+  })
+
+  it('interactive adds the hover lift and focus-within ring; glow adds the accent halo', () => {
+    render(
+      <Card interactive glow data-testid="c">
+        x
+      </Card>,
+    )
+    const cls = screen.getByTestId('c').classList
+    expect(cls.contains('hover:-translate-y-0.5')).toBe(true)
+    expect(cls.contains('focus-within:ring-2')).toBe(true)
+    expect(cls.contains('hover:shadow-[0_0_22px_4px_var(--sk-accent-glow)]')).toBe(true)
+    expect(cls.contains('motion-reduce:transition-none')).toBe(true)
   })
 
   it('forwards ref and renders children', () => {
@@ -88,6 +128,12 @@ describe('Card', () => {
               {elevation}
             </Card>
           ))}
+          <Card tone="premium">premium</Card>
+          <a href="/x">
+            <Card interactive glow>
+              clickable
+            </Card>
+          </a>
         </div>,
       )
       await expectAccessible(container)
