@@ -54,6 +54,43 @@ export const Radius: Story = {
   ),
 }
 
+export const Tones: Story = {
+  render: (args) => (
+    <div style={grid}>
+      <Card {...args} tone="default">
+        default
+      </Card>
+      <Card {...args} tone="premium">
+        premium
+      </Card>
+      <Card {...args} tone="premium" elevation="raised">
+        premium raised
+      </Card>
+    </div>
+  ),
+}
+
+export const Interactive: Story = {
+  name: 'Interactive (wrapped in a link)',
+  render: () => (
+    <div style={grid}>
+      <a href="#one" style={{ textDecoration: 'none' }}>
+        <Card interactive>Hover: lift · Tab: ring</Card>
+      </a>
+      <a href="#two" style={{ textDecoration: 'none' }}>
+        <Card interactive glow>
+          Interactive + glow
+        </Card>
+      </a>
+      <a href="#three" style={{ textDecoration: 'none' }}>
+        <Card interactive glow tone="premium">
+          Premium, interactive, glow
+        </Card>
+      </a>
+    </div>
+  ),
+}
+
 export const Composed: Story = {
   render: () => (
     <Card elevation="raised" style={{ maxWidth: 320 }}>
