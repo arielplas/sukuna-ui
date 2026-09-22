@@ -23,7 +23,11 @@ export const chipStyles = tv({
   compoundVariants: [
     // auto = original look
     { tone: 'neutral', variant: 'auto', class: { root: 'bg-surface-2 text-text-dim border-line' } },
-    { tone: 'accent', variant: 'auto', class: { root: 'bg-gradient-accent text-text border-transparent' } },
+    {
+      tone: 'accent',
+      variant: 'auto',
+      class: { root: 'bg-gradient-accent text-text border-transparent' },
+    },
     { tone: 'success', variant: 'auto', class: { root: 'bg-surface-2 text-success border-line' } },
     { tone: 'premium', variant: 'auto', class: { root: 'bg-surface-2 text-premium border-line' } },
     // soft
@@ -32,15 +36,39 @@ export const chipStyles = tv({
     { tone: 'success', variant: 'soft', class: { root: 'bg-surface-2 text-success border-line' } },
     { tone: 'premium', variant: 'soft', class: { root: 'bg-surface-2 text-premium border-line' } },
     // solid
-    { tone: 'neutral', variant: 'solid', class: { root: 'bg-text-dim text-bg border-transparent' } },
-    { tone: 'accent', variant: 'solid', class: { root: 'bg-gradient-accent text-text border-transparent' } },
+    {
+      tone: 'neutral',
+      variant: 'solid',
+      class: { root: 'bg-text-dim text-bg border-transparent' },
+    },
+    {
+      tone: 'accent',
+      variant: 'solid',
+      class: { root: 'bg-gradient-accent text-text border-transparent' },
+    },
     { tone: 'success', variant: 'solid', class: { root: 'bg-success text-bg border-transparent' } },
     { tone: 'premium', variant: 'solid', class: { root: 'bg-premium text-bg border-transparent' } },
     // outline
-    { tone: 'neutral', variant: 'outline', class: { root: 'bg-transparent text-text-dim border-line' } },
-    { tone: 'accent', variant: 'outline', class: { root: 'bg-transparent text-accent border-accent' } },
-    { tone: 'success', variant: 'outline', class: { root: 'bg-transparent text-success border-success' } },
-    { tone: 'premium', variant: 'outline', class: { root: 'bg-transparent text-premium border-premium' } },
+    {
+      tone: 'neutral',
+      variant: 'outline',
+      class: { root: 'bg-transparent text-text-dim border-line' },
+    },
+    {
+      tone: 'accent',
+      variant: 'outline',
+      class: { root: 'bg-transparent text-accent border-accent' },
+    },
+    {
+      tone: 'success',
+      variant: 'outline',
+      class: { root: 'bg-transparent text-success border-success' },
+    },
+    {
+      tone: 'premium',
+      variant: 'outline',
+      class: { root: 'bg-transparent text-premium border-premium' },
+    },
   ],
   defaultVariants: { tone: 'neutral', variant: 'auto', size: 'md' },
 })

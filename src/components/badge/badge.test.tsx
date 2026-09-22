@@ -41,11 +41,21 @@ describe('Badge', () => {
   it('unset variant keeps the original per-tone look; soft/solid/outline force one', () => {
     render(
       <>
-        <Badge tone="accent" data-testid="accent-auto">x</Badge>
-        <Badge tone="success" data-testid="success-auto">x</Badge>
-        <Badge tone="accent" variant="soft" data-testid="accent-soft">x</Badge>
-        <Badge tone="neutral" variant="solid" data-testid="neutral-solid">x</Badge>
-        <Badge tone="success" variant="outline" data-testid="success-outline">x</Badge>
+        <Badge tone="accent" data-testid="accent-auto">
+          x
+        </Badge>
+        <Badge tone="success" data-testid="success-auto">
+          x
+        </Badge>
+        <Badge tone="accent" variant="soft" data-testid="accent-soft">
+          x
+        </Badge>
+        <Badge tone="neutral" variant="solid" data-testid="neutral-solid">
+          x
+        </Badge>
+        <Badge tone="success" variant="outline" data-testid="success-outline">
+          x
+        </Badge>
       </>,
     )
     const cls = (id: string) => screen.getByTestId(id).classList
