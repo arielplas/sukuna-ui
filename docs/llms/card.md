@@ -22,10 +22,13 @@ export interface CardProps extends ComponentPropsWithoutRef<'div'> {
   elevation?: 'flat' | 'raised' | 'sunken'   // default 'flat'
   padding?: 'none' | 'sm' | 'md' | 'lg'       // default 'md'
   radius?: 'md' | 'lg'                         // default 'lg'
+  tone?: 'default' | 'premium'                 // default 'default' — bone/gold surface treatment
+  interactive?: boolean                        // hover lift + focus-within ring (affordance only)
+  glow?: boolean                               // crimson accent-glow halo on hover
 }
 ```
 
-Extends `<div>`; adds only `elevation`, `padding`, `radius`.
+Extends `<div>`; adds only `elevation`, `padding`, `radius`, `tone`, `interactive`, `glow`.
 
 ## Variants & tokens
 
@@ -42,15 +45,34 @@ Extends `<div>`; adds only `elevation`, `padding`, `radius`.
 | md | `p-6` | | | |
 | lg | `p-8` | | | |
 
-Base: `block text-text`.
+| tone | utilities |
+|---|---|
+| default | — (unchanged) |
+| premium | `border-premium-dim` + `bg-[color-mix(in_oklab,var(--sk-premium)_6%,var(--sk-surface))]` — a 6% premium tint mixed into the surface token, no raw hex |
+
+| flag | utilities |
+|---|---|
+| interactive | `transition-[transform,box-shadow,border-color] duration-fast ease-sukuna` · `hover:-translate-y-0.5 hover:border-text-faint` · `focus-within:ring-2 focus-within:ring-focus-ring` (+ offset) · `motion-reduce:*` off |
+| glow | `hover:shadow-[0_0_22px_4px_var(--sk-accent-glow)]` (the Button-primary halo) + `transition-shadow` |
+
+`tone` is declared after `elevation` so its border/background win the merge. Base: `block text-text`.
 
 ## States
 
-Static; no interactive states. (`raised` is a resting elevation, not a hover effect.)
+| State | Behavior |
+|---|---|
+| default | static (`raised` is a resting elevation, not a hover effect) |
+| hover (`interactive`) | lifts 2px, border brightens to `text-faint`; with `glow`, the accent halo appears |
+| focus-within (`interactive`) | solid `--sk-focus-ring` ring when the wrapping/inner Link or Button is focused |
+| prefers-reduced-motion | transitions and the lift are disabled; the ring and halo still apply |
 
 ## Accessibility
 
 - [ ] A Card is a generic container — no implicit role. Give it a landmark/role only when its
       content warrants one (`role="group"` + `aria-label`, `<section>` via wrapping, etc.).
-- [ ] Not focusable and has no click handler; clickable surfaces wrap a Button/Link.
-- [ ] `sunken`/`flat` surfaces keep text contrast ≥ 4.5:1 in both themes.
+- [ ] Not focusable and has no click handler; clickable surfaces wrap (or contain) a Button/Link.
+      `interactive` is affordance only — it never adds `role`/`tabIndex` — and its ring uses
+      `focus-within` so the real control's focus lights the card.
+- [ ] `sunken`/`flat`/`premium` surfaces keep text contrast ≥ 4.5:1 in both themes (the premium
+      tint is 6%, so `text-text` contrast is effectively unchanged).
+- [ ] Hover-only effects (`lift`, `glow`) carry no information; keyboard users get the ring.
