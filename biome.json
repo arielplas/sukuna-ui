@@ -17,7 +17,9 @@
       "!packages/ui/src/styles/fallback.css",
       "!packages/ui/src/styles/storybook.css",
       "!packages/video/src/styles/video.css",
-      "!examples/showcase/src/styles.css"
+      "!examples/showcase/src/styles.css",
+      "!brand",
+      "!examples/showcase/public"
     ]
   },
   "formatter": {

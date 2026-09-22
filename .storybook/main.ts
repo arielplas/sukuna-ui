@@ -7,8 +7,12 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
   typescript: { reactDocgen: 'react-docgen-typescript' },
   core: { disableTelemetry: true },
-  // Media fixtures for VideoPlayer stories and browser tests (served at /video/*).
-  staticDirs: ['./public'],
+  staticDirs: [
+    // Media fixtures for VideoPlayer stories and browser tests (served at /video/*).
+    './public',
+    // The brand kit's Storybook logo (see brand/storybook) for the manager theme's brandImage.
+    { from: '../brand/storybook', to: '/brand' },
+  ],
   // Stories exercise the same Tailwind utilities a consumer's build generates.
   viteFinal: async (cfg) => {
     const { default: tailwindcss } = await import('@tailwindcss/vite')
