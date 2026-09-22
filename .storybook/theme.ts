@@ -4,6 +4,10 @@ import { create } from 'storybook/theming'
 export default create({
   base: 'dark',
   brandTitle: 'sukuna-ui',
+  // Ember Gate lockup from the brand kit, served via `staticDirs` in main.ts.
+  brandImage: '/brand/storybook-logo-dark.svg',
+  brandUrl: 'https://github.com/arielplas/sukuna-ui',
+  brandTarget: '_self',
   colorPrimary: '#FF3B4E',
   colorSecondary: '#FF3B4E',
   appBg: '#0A0A0B',

@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://sukuna-ui.vercel.app/">
+    <img src="https://raw.githubusercontent.com/arielplas/sukuna-ui/main/brand/social/readme-banner.png" alt="sukuna-ui — Accessible React components. One crimson." width="100%" />
+  </a>
+</p>
+
 # sukuna-ui
 
 [![npm version](https://img.shields.io/npm/v/sukuna-ui?color=D8253A&label=npm)](https://www.npmjs.com/package/sukuna-ui)
