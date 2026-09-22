@@ -19,6 +19,23 @@ describe('Skeleton', () => {
     expect(el.classList.contains('animate-pulse')).toBe(true)
   })
 
+  it('shimmer swaps the pulse for the shine sweep; pulse stays the default', () => {
+    render(
+      <>
+        <Skeleton data-testid="pulse" />
+        <Skeleton animation="shimmer" data-testid="shimmer" />
+      </>,
+    )
+    const pulse = screen.getByTestId('pulse').classList
+    expect(pulse.contains('animate-pulse')).toBe(true)
+    expect(pulse.contains('animate-shine-fast')).toBe(false)
+    const shimmer = screen.getByTestId('shimmer')
+    expect(shimmer.classList.contains('animate-shine-fast')).toBe(true)
+    expect(shimmer.classList.contains('animate-pulse')).toBe(false)
+    expect(shimmer.classList.contains('motion-reduce:animate-none')).toBe(true)
+    expect(shimmer.hasAttribute('animation')).toBe(false)
+  })
+
   it('forwards ref', () => {
     const ref = createRef<HTMLDivElement>()
     render(<Skeleton ref={ref} />)
