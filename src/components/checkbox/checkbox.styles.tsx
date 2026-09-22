@@ -10,6 +10,7 @@ export const checkboxStyles = tv({
     size: {
       sm: 'size-4',
       md: 'size-5',
+      lg: 'size-6',
     },
   },
   defaultVariants: { size: 'md' },
@@ -28,6 +29,7 @@ export const checkboxLabelStyles = tv({
     size: {
       sm: { text: 'text-sm' },
       md: { text: 'text-md' },
+      lg: { text: 'text-lg' },
     },
   },
   defaultVariants: { size: 'md' },

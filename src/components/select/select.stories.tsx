@@ -28,6 +28,17 @@ export const Sizes: Story = {
     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
       <Select {...args} size="sm" />
       <Select {...args} size="md" />
+      <Select {...args} size="lg" />
+    </div>
+  ),
+}
+
+export const Variants: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <Select {...args} variant="filled" placeholder="filled" />
+      <Select {...args} variant="outline" placeholder="outline" />
+      <Select {...args} variant="ghost" placeholder="ghost" />
     </div>
   ),
 }

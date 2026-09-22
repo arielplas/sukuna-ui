@@ -26,6 +26,8 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
   tone?: 'neutral' | 'accent' | 'success' | 'premium'   // default 'neutral'
+  variant?: 'soft' | 'solid' | 'outline'                 // unset = each tone's original look (same map as Badge)
+  selected?: boolean                                     // active filter: accent border + text (visual, via data-selected)
   size?: 'sm' | 'md'                                     // default 'md'
   leadingIcon?: ReactNode
   onDismiss?: () => void      // renders a × remove button
@@ -35,12 +37,18 @@ export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
 
 ## 4. Variants → tokens
 
-Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap`.
-tone → same mapping as Badge (neutral/accent/success/premium). size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm text-current/70 hover:text-current focus-visible:ring-2 focus-visible:ring-accent-glow`.
+Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap` +
+`data-[selected]:border-accent data-[selected]:text-accent`. tone × variant → the same literal
+compound map as Badge (see `docs/component-badge.md` §4); unset `variant` keeps the original
+per-tone look. size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm
+opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring`.
 
 ## 5. States
 
-Static; the dismiss button is a native `<button>` (keyboard/focus for free).
+| State | Behavior |
+|---|---|
+| default | static; the dismiss button is a native `<button>` (keyboard/focus for free) |
+| selected | `data-selected` → accent border + accent text; the attribute selector beats the tone colors. Visual only — the click/toggle lives on a wrapping Button/Link (or use `ToggleGroup`). |
 
 ## 6. Logic (`chip.logic.tsx`)
 
@@ -65,8 +73,14 @@ on click; no leak; ref; className; SSR; axe both themes.
 
 ## 10. Stories
 
-`Tones`, `Sizes`, `Dismissible`, `WithIcon`.
+`Tones`, `Variants` (tone × soft/solid/outline grid), `Selected (filter chips)`, `Sizes`,
+`Dismissible`, `WithIcon`.
 
 ## 11. Decisions
 
 - Dismiss is opt-in via `onDismiss` and stateless (consumer owns removal); Chip stays RSC-safe.
+- `variant` (post-0.8.0) has no public default — unset keeps the mixed original look, so it's
+  non-breaking; same map as Badge.
+- `selected` is a visual state, not a toggle: Chip remains a non-focusable span (RSC-safe). A
+  real, keyboard-operable toggle is `ToggleGroup`; `selected` serves custom filter UIs where the
+  chip sits inside a Button/Link.

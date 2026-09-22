@@ -2,7 +2,7 @@
 
 import { Tabs as Base } from '@base-ui-components/react/tabs'
 import type { ReactNode } from 'react'
-import { tabsStyles } from './tabs.styles'
+import { type TabsStyleProps, tabsStyles } from './tabs.styles'
 
 /** One tab and its panel, as passed in {@link TabsProps.items}. */
 export interface TabItem {
@@ -20,8 +20,12 @@ export interface TabItem {
   disabled?: boolean
 }
 
-/** Props for {@link Tabs}. Prop-driven: no `children`, no native element passthrough. */
-export interface TabsProps {
+/**
+ * Props for {@link Tabs}. Prop-driven: no `children`, no native element passthrough. Style
+ * variants: `variant?: 'underline' | 'pill'` (default `'underline'`), `size?: 'sm' | 'md' | 'lg'`
+ * (default `'md'`), `fitted?: boolean`.
+ */
+export interface TabsProps extends TabsStyleProps {
   /** Tabs to render, in order; one `<button role="tab">` and one panel per item. */
   items: TabItem[]
   /** Selected tab's `value` for controlled usage; pair with `onValueChange`. */
@@ -49,8 +53,14 @@ export interface TabsProps {
  *   Home/End jump to first/last) and Enter/Space selects; Tab then moves into the panel. Give the
  *   list an `aria-label`. The selected tab is marked by an accent underline + color, not color
  *   alone.
- * - Variants: none — horizontal only. `items[].disabled` tabs are dimmed (`data-disabled`,
- *   not the native attribute) and cannot be activated, but remain focusable.
+ * - Variants (horizontal only):
+ *   - `variant`: 'underline' (default) — crimson text + underline on the selected tab, over a
+ *     `line` rule; 'pill' — a segmented control on a `well` track whose selected segment is a
+ *     lighter `surface` pill with crimson text (lighter than its track in both themes).
+ *   - `size`: 'sm' (32px) | 'md' (40px, default) | 'lg' (48px).
+ *   - `fitted`: boolean — tabs share the list width equally.
+ *   `items[].disabled` tabs are dimmed (`data-disabled`, not the native attribute) and cannot be
+ *   activated, but remain focusable.
  * - Behaviour: uncontrolled with `defaultValue`, controlled with `value` + `onValueChange`.
  *   Values are strings; Base UI's index fallback matches none of them, so pass a default.
  *   Only the selected panel is mounted: switching tabs unmounts the previous `content`, so any
@@ -88,8 +98,11 @@ export function Tabs({
   defaultValue,
   onValueChange,
   'aria-label': ariaLabel,
+  variant,
+  size,
+  fitted,
 }: TabsProps) {
-  const styles = tabsStyles()
+  const styles = tabsStyles({ variant, size, fitted })
   return (
     <Base.Root
       value={value}

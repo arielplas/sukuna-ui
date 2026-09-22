@@ -81,9 +81,27 @@ describe('NumberField', () => {
     expect(screen.getByRole('textbox')).toHaveAttribute('placeholder', '0')
   })
 
-  it('does not leak the size variant onto the DOM input', () => {
-    render(<NumberField defaultValue={1} size="lg" aria-label="qty" />)
-    expect(screen.getByRole('textbox').hasAttribute('size')).toBe(false)
+  it('does not leak the style variants onto the DOM input', () => {
+    render(<NumberField defaultValue={1} variant="ghost" size="lg" aria-label="qty" />)
+    const input = screen.getByRole('textbox')
+    expect(input.hasAttribute('size')).toBe(false)
+    expect(input.hasAttribute('variant')).toBe(false)
+  })
+
+  it('maps variant onto the group; filled is the unchanged default', () => {
+    render(
+      <>
+        <NumberField defaultValue={1} aria-label="filled" />
+        <NumberField defaultValue={1} aria-label="ghost" variant="ghost" />
+      </>,
+    )
+    // The group is the nearest ancestor of the input carrying the `items-stretch` layout class.
+    const group = (name: string) =>
+      screen.getByRole('textbox', { name }).closest('.items-stretch') as HTMLElement
+    expect(group('filled').classList.contains('bg-surface-2')).toBe(true)
+    expect(group('filled').classList.contains('border-line')).toBe(true)
+    expect(group('ghost').classList.contains('border-transparent')).toBe(true)
+    expect(group('ghost').classList.contains('bg-surface-2')).toBe(false)
   })
 
   it('lets a consumer className override a group utility', () => {

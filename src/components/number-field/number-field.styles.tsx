@@ -3,7 +3,7 @@ import { tv, type VariantProps } from '../../utils/tv'
 export const numberFieldStyles = tv({
   slots: {
     group: [
-      'inline-flex items-stretch overflow-hidden bg-surface-2 text-text border border-line',
+      'inline-flex items-stretch overflow-hidden text-text border',
       'transition-[border-color,box-shadow] duration-fast ease-sukuna',
       'focus-within:ring-2 focus-within:ring-focus-ring focus-within:border-accent',
       'has-[input:disabled]:opacity-45 has-[input:disabled]:cursor-not-allowed',
@@ -24,6 +24,12 @@ export const numberFieldStyles = tv({
     ],
   },
   variants: {
+    // Shared form-control surface map (see Input). `filled` is the original look.
+    variant: {
+      filled: { group: 'bg-surface-2 border-line' },
+      outline: { group: 'bg-transparent border-line' },
+      ghost: { group: 'bg-transparent border-transparent hover:bg-surface-2' },
+    },
     size: {
       sm: {
         group: 'h-8 rounded-sm text-sm',
@@ -39,7 +45,7 @@ export const numberFieldStyles = tv({
       },
     },
   },
-  defaultVariants: { size: 'md' },
+  defaultVariants: { variant: 'filled', size: 'md' },
 })
 
 export type NumberFieldStyleProps = VariantProps<typeof numberFieldStyles>

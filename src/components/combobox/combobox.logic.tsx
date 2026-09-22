@@ -1,10 +1,13 @@
 'use client'
 
 import { Autocomplete as Base } from '@base-ui-components/react/autocomplete'
-import { comboboxStyles } from './combobox.styles'
+import { type ComboboxStyleProps, comboboxStyles } from './combobox.styles'
 
-/** Props for {@link Combobox}. There are no style variants. */
-export interface ComboboxProps {
+/**
+ * Props for {@link Combobox}. Style variants: `variant?: 'filled' | 'outline' | 'ghost'` (default
+ * `'filled'`) and `size?: 'sm' | 'md' | 'lg'` (default `'md'`) — the same maps as `Input`.
+ */
+export interface ComboboxProps extends ComboboxStyleProps {
   /** Suggestion strings. Each is both the option's key and the text it fills into the input. */
   items: string[]
   /**
@@ -58,8 +61,9 @@ export interface ComboboxProps {
  *   at a `role="listbox"` of `role="option"` items. Give it an `aria-label` or a `<label>`. Typing
  *   filters (case-insensitive substring match from Base UI), `ArrowDown`/`ArrowUp` move the
  *   highlight, `Enter` fills the highlighted suggestion into the input, `Escape` closes.
- * - Variants: none. The input matches `Input` (h-10, text-md); the popup is capped at `max-h-72`
- *   and scrolls.
+ * - Variants: `variant` ('filled' default | 'outline' | 'ghost') and `size` ('sm' | 'md' default |
+ *   'lg') use the same maps as `Input`, so the field matches a plain Input beside it. The popup is
+ *   capped at `max-h-72` and scrolls.
  * - Behaviour: the value is the raw input text, so a typed string that matches no item is still a
  *   valid value. Uncontrolled via `defaultValue`, controlled via `value` + `onValueChange`.
  *   Filtering is built in; do not pre-filter `items` yourself on each keystroke. For large lists
@@ -106,9 +110,11 @@ export function Combobox({
   disabled,
   emptyMessage = 'No results',
   maxRenderedItems,
+  variant,
+  size,
   'aria-label': ariaLabel,
 }: ComboboxProps) {
-  const styles = comboboxStyles()
+  const styles = comboboxStyles({ variant, size })
   return (
     <Base.Root
       items={items}

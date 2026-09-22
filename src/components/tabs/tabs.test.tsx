@@ -32,6 +32,33 @@ describe('Tabs', () => {
     expect(screen.getByText('Billing details')).toBeVisible()
   })
 
+  it('pill variant renders a segmented track; underline stays the default', () => {
+    const { unmount } = render(
+      <Tabs items={items} aria-label="Settings" defaultValue="account" variant="pill" />,
+    )
+    const list = screen.getByRole('tablist')
+    expect(list.classList.contains('rounded-pill')).toBe(true)
+    expect(list.classList.contains('bg-well')).toBe(true)
+    expect(list.classList.contains('border-b')).toBe(false)
+    expect(screen.getByRole('tab', { name: 'Account' }).classList.contains('rounded-pill')).toBe(
+      true,
+    )
+    unmount()
+
+    render(<Tabs items={items} aria-label="Settings" defaultValue="account" />)
+    const underline = screen.getByRole('tablist')
+    expect(underline.classList.contains('border-b')).toBe(true)
+    expect(screen.getByRole('tab', { name: 'Account' }).classList.contains('border-b-2')).toBe(true)
+  })
+
+  it('size and fitted map to their utilities', () => {
+    render(<Tabs items={items} aria-label="Settings" defaultValue="account" size="lg" fitted />)
+    const tab = screen.getByRole('tab', { name: 'Account' })
+    expect(tab.classList.contains('h-12')).toBe(true)
+    expect(tab.classList.contains('flex-1')).toBe(true)
+    expect(screen.getByRole('tablist').classList.contains('w-full')).toBe(true)
+  })
+
   it('renders on the server with the tabs', () => {
     const html = renderServer(<Tabs items={items} aria-label="Settings" defaultValue="account" />)
     expect(html).toContain('Account')

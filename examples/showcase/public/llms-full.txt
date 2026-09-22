@@ -209,21 +209,27 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 export interface BadgeProps extends ComponentPropsWithoutRef<'span'> {
   tone?: 'neutral' | 'accent' | 'success' | 'premium'  // default 'neutral'
+  variant?: 'soft' | 'solid' | 'outline'                // unset = each tone's original look
   size?: 'sm' | 'md'                                    // default 'md'
   dot?: boolean   // leading status dot in currentColor
 }
 ```
 
-Extends `<span>`; adds only `tone`, `size`, `dot`. Pill radius is fixed (not a prop).
+Extends `<span>`; adds only `tone`, `variant`, `size`, `dot`. Pill radius is fixed (not a prop).
 
 ## Variants & tokens
 
-| tone | utilities |
-|---|---|
-| neutral | `bg-surface-2 text-text-dim border border-line` |
-| accent | `bg-gradient-accent text-text border border-transparent` |
-| success | `bg-surface-2 text-success border border-line` |
-| premium | `bg-surface-2 text-premium border border-line` |
+Base: `… border`. Each tone × variant is one literal compound class (below). **Unset `variant`**
+(internal `auto`) reproduces the original look exactly — `accent` solid, the others soft — so adding
+`variant` changed nothing. Solid fills use `text-bg` (the page-background token) for the label: it
+is dark on a light fill and light on a dark fill in both themes.
+
+| tone | soft | solid | outline |
+|---|---|---|---|
+| neutral | `bg-surface-2 text-text-dim border-line` | `bg-text-dim text-bg border-transparent` | `bg-transparent text-text-dim border-line` |
+| accent | `bg-surface-2 text-accent border-line` | `bg-gradient-accent text-text border-transparent` (original) | `bg-transparent text-accent border-accent` |
+| success | `bg-surface-2 text-success border-line` (original) | `bg-success text-bg border-transparent` | `bg-transparent text-success border-success` |
+| premium | `bg-surface-2 text-premium border-line` (original) | `bg-premium text-bg border-transparent` | `bg-transparent text-premium border-premium` |
 
 | size | utilities |
 |---|---|
@@ -395,10 +401,13 @@ export interface CardProps extends ComponentPropsWithoutRef<'div'> {
   elevation?: 'flat' | 'raised' | 'sunken'   // default 'flat'
   padding?: 'none' | 'sm' | 'md' | 'lg'       // default 'md'
   radius?: 'md' | 'lg'                         // default 'lg'
+  tone?: 'default' | 'premium'                 // default 'default' — bone/gold surface treatment
+  interactive?: boolean                        // hover lift + focus-within ring (affordance only)
+  glow?: boolean                               // crimson accent-glow halo on hover
 }
 ```
 
-Extends `<div>`; adds only `elevation`, `padding`, `radius`.
+Extends `<div>`; adds only `elevation`, `padding`, `radius`, `tone`, `interactive`, `glow`.
 
 ## Variants & tokens
 
@@ -415,18 +424,37 @@ Extends `<div>`; adds only `elevation`, `padding`, `radius`.
 | md | `p-6` | | | |
 | lg | `p-8` | | | |
 
-Base: `block text-text`.
+| tone | utilities |
+|---|---|
+| default | — (unchanged) |
+| premium | `border-premium-dim` + `bg-[color-mix(in_oklab,var(--sk-premium)_6%,var(--sk-surface))]` — a 6% premium tint mixed into the surface token, no raw hex |
+
+| flag | utilities |
+|---|---|
+| interactive | `transition-[transform,box-shadow,border-color] duration-fast ease-sukuna` · `hover:-translate-y-0.5 hover:border-text-faint` · `focus-within:ring-2 focus-within:ring-focus-ring` (+ offset) · `motion-reduce:*` off |
+| glow | `hover:shadow-[0_0_22px_4px_var(--sk-accent-glow)]` (the Button-primary halo) + `transition-shadow` |
+
+`tone` is declared after `elevation` so its border/background win the merge. Base: `block text-text`.
 
 ## States
 
-Static; no interactive states. (`raised` is a resting elevation, not a hover effect.)
+| State | Behavior |
+|---|---|
+| default | static (`raised` is a resting elevation, not a hover effect) |
+| hover (`interactive`) | lifts 2px, border brightens to `text-faint`; with `glow`, the accent halo appears |
+| focus-within (`interactive`) | solid `--sk-focus-ring` ring when the wrapping/inner Link or Button is focused |
+| prefers-reduced-motion | transitions and the lift are disabled; the ring and halo still apply |
 
 ## Accessibility
 
 - [ ] A Card is a generic container — no implicit role. Give it a landmark/role only when its
       content warrants one (`role="group"` + `aria-label`, `<section>` via wrapping, etc.).
-- [ ] Not focusable and has no click handler; clickable surfaces wrap a Button/Link.
-- [ ] `sunken`/`flat` surfaces keep text contrast ≥ 4.5:1 in both themes.
+- [ ] Not focusable and has no click handler; clickable surfaces wrap (or contain) a Button/Link.
+      `interactive` is affordance only — it never adds `role`/`tabIndex` — and its ring uses
+      `focus-within` so the real control's focus lights the card.
+- [ ] `sunken`/`flat`/`premium` surfaces keep text contrast ≥ 4.5:1 in both themes (the premium
+      tint is 6%, so `text-text` contrast is effectively unchanged).
+- [ ] Hover-only effects (`lift`, `glow`) carry no information; keyboard users get the ring.
 
 ---
 
@@ -546,7 +574,7 @@ type Native = Omit<
 >
 
 export interface CheckboxProps extends Native {
-  size?: 'sm' | 'md'                    // default 'md'
+  size?: 'sm' | 'md' | 'lg'             // default 'md'
   checked?: boolean                     // controlled
   defaultChecked?: boolean              // uncontrolled initial, default false
   onCheckedChange?: (checked: boolean) => void
@@ -569,6 +597,7 @@ Base: `accent-accent cursor-pointer rounded-sm focus-visible:outline-none focus-
 |---|---|
 | sm | `size-4` |
 | md | `size-5` |
+| lg | `size-6` |
 
 With `label`: wrapper `<label>` `inline-flex items-center gap-2 cursor-pointer select-none text-text
 has-[:disabled]:cursor-not-allowed has-[:disabled]:text-text-dim`; text `text-sm` (sm) / `text-md` (md).
@@ -609,6 +638,8 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
   tone?: 'neutral' | 'accent' | 'success' | 'premium'   // default 'neutral'
+  variant?: 'soft' | 'solid' | 'outline'                 // unset = each tone's original look (same map as Badge)
+  selected?: boolean                                     // active filter: accent border + text (visual, via data-selected)
   size?: 'sm' | 'md'                                     // default 'md'
   leadingIcon?: ReactNode
   onDismiss?: () => void      // renders a × remove button
@@ -618,12 +649,18 @@ export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
 
 ## Variants & tokens
 
-Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap`.
-tone → same mapping as Badge (neutral/accent/success/premium). size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm text-current/70 hover:text-current focus-visible:ring-2 focus-visible:ring-accent-glow`.
+Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap` +
+`data-[selected]:border-accent data-[selected]:text-accent`. tone × variant → the same literal
+compound map as Badge (see `docs/component-badge.md` §4); unset `variant` keeps the original
+per-tone look. size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm
+opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring`.
 
 ## States
 
-Static; the dismiss button is a native `<button>` (keyboard/focus for free).
+| State | Behavior |
+|---|---|
+| default | static; the dismiss button is a native `<button>` (keyboard/focus for free) |
+| selected | `data-selected` → accent border + accent text; the attribute selector beats the tone colors. Visual only — the click/toggle lives on a wrapping Button/Link (or use `ToggleGroup`). |
 
 ## Accessibility
 
@@ -659,6 +696,8 @@ export interface ComboboxProps {
   disabled?: boolean
   emptyMessage?: string   // default 'No results'
   maxRenderedItems?: number // cap displayed suggestions (Base UI `limit`); search spans all items
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
+  size?: 'sm' | 'md' | 'lg'                   // default 'md'; same scale as Input
   'aria-label'?: string
 }
 ```
@@ -670,7 +709,10 @@ capped `items`.
 
 ## Variants & tokens
 
-input: same as Input (`bg-surface-2 border-line rounded-md`, focus ring). popup: `z-50 max-h-72
+input: same as Input — `variant` filled `bg-surface-2 border-line` (default) / outline
+`bg-transparent border-line` / ghost `bg-transparent border-transparent hover:bg-surface-2`; `size`
+sm `h-8 px-3 text-sm rounded-sm` / md `h-10 px-3 text-md rounded-md` / lg `h-12 px-4 text-lg
+rounded-lg`; focus ring. popup: `z-50 max-h-72
 overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale. item:
 `h-9 px-2.5 rounded-sm data-[highlighted]:bg-line-soft data-[selected]:text-accent`. empty:
 `text-sm text-text-dim`.
@@ -1212,6 +1254,7 @@ A single-line text input. Native `<input>` styled to Sukuna, with size and an in
 import type { ComponentPropsWithoutRef } from 'react'
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'size'> {
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look)
   size?: 'sm' | 'md' | 'lg'   // default 'md' (shadows the native numeric `size` attr — omitted)
   invalid?: boolean           // sets aria-invalid + crimson border
 }
@@ -1223,7 +1266,15 @@ native passes through (`type`, `value`, `defaultValue`, `onChange`, `placeholder
 
 ## Variants & tokens
 
-Base: `w-full bg-surface-2 text-text border border-line placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+Base: `w-full text-text border placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+
+| variant | utilities | use |
+|---|---|---|
+| filled | `bg-surface-2 border-line` | default — the original look |
+| outline | `bg-transparent border-line` | on busy/tinted surfaces |
+| ghost | `bg-transparent border-transparent hover:bg-surface-2` | inline edit; the border appears on focus (`border-accent`) or `invalid` |
+
+The same `variant` map is shared by Select, Combobox and NumberField so the form layer reads as one.
 
 | size | utilities |
 |---|---|
@@ -1338,6 +1389,7 @@ interface NumberFieldOwnProps {
   step?: number                   // default 1
   largeStep?: number              // Shift+Arrow / PageUp-Down; default 10
   format?: Intl.NumberFormatOptions   // e.g. { style: 'currency', currency: 'USD' }
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
   size?: 'sm' | 'md' | 'lg'       // default 'md'
   readOnly?: boolean
   allowWheelScrub?: boolean        // default false — scroll wheel over the input changes value
@@ -1357,8 +1409,10 @@ treatment, matching `Input`).
 
 ## Variants & tokens
 
-group: `inline-flex items-stretch rounded-md border border-line bg-surface-2
-focus-within:ring-2 focus-within:ring-focus-ring`. input: `min-w-0 flex-1 bg-transparent px-3
+group: `inline-flex items-stretch rounded-md border focus-within:ring-2 focus-within:ring-focus-ring`
++ `variant` filled `bg-surface-2 border-line` (default) / outline `bg-transparent border-line` /
+ghost `bg-transparent border-transparent hover:bg-surface-2` — the shared form-control map (see
+Input). input: `min-w-0 flex-1 bg-transparent px-3
 text-text tabular-nums outline-none placeholder:text-text-faint`. decrement/increment:
 `grid w-9 place-items-center text-text-dim hover:bg-well hover:text-text
 data-[disabled]:opacity-45` (decrement gets a right border, increment a left border via
@@ -1456,7 +1510,7 @@ export interface ProgressProps {
   value?: number | null   // 0..max; null/omitted → indeterminate
   max?: number            // default 100
   label?: ReactNode
-  size?: 'sm' | 'md'      // default 'md'
+  size?: 'sm' | 'md' | 'lg'   // default 'md'
   className?: string
   'aria-label'?: string
 }
@@ -1464,7 +1518,7 @@ export interface ProgressProps {
 
 ## Variants & tokens
 
-track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2`. indicator:
+track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2` / lg `h-3`. indicator:
 `bg-accent rounded-pill transition-[width]`; indeterminate → `w-1/3 animate-pulse`. label:
 `text-sm text-text-dim`. Base UI sizes the indicator width from the value.
 
@@ -1506,14 +1560,14 @@ export interface RadioGroupProps {
   name?: string
   disabled?: boolean
   orientation?: 'vertical' | 'horizontal'   // default 'vertical'
-  size?: 'sm' | 'md'                          // default 'md'
+  size?: 'sm' | 'md' | 'lg'                   // default 'md'
   'aria-label'?: string
 }
 ```
 
 ## Variants & tokens
 
-group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
+group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5` / lg `size-6`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
 
 ## States
 
@@ -1614,7 +1668,8 @@ export interface SelectProps {
   disabled?: boolean
   name?: string             // form field name
   id?: string
-  size?: 'sm' | 'md'        // default 'md'
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
+  size?: 'sm' | 'md' | 'lg' // default 'md'
   'aria-label'?: string
 }
 ```
@@ -1624,8 +1679,10 @@ label, or the placeholder when empty.
 
 ## Variants & tokens
 
-- trigger: `bg-surface-2 text-text border border-line rounded-md`, `data-[popup-open]:border-accent`,
-  focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md`.
+- trigger: `text-text border rounded-md`, `data-[popup-open]:border-accent`, focus ring;
+  `variant` filled `bg-surface-2 border-line` (default) / outline `bg-transparent border-line` /
+  ghost `bg-transparent border-transparent hover:bg-surface-2` — the shared form-control map (see
+  Input); `size` sm `h-8 text-sm` / md `h-10 text-md` / lg `h-12 text-lg`.
 - popup: `min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto`
   `rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale; z-index on the positioner
   (`z-[var(--sk-z-popover)]`). Opens below the trigger (`alignItemWithTrigger={false}`, flips up
@@ -1749,18 +1806,27 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 export interface SkeletonProps extends ComponentPropsWithoutRef<'div'> {
   variant?: 'text' | 'rectangular' | 'circular'   // default 'rectangular'
+  animation?: 'pulse' | 'shimmer'                 // default 'pulse'
   // size comes from your className/style (e.g. className="h-4 w-40")
 }
 ```
 
 ## Variants & tokens
 
-Base: `animate-pulse bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular → `rounded-md`;
-circular → `rounded-full`.
+Base: `motion-reduce:animate-none bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular →
+`rounded-md`; circular → `rounded-full`.
+
+| animation | utilities |
+|---|---|
+| pulse | `animate-pulse` (default — the original) |
+| shimmer | `animate-shine-fast` (ShinyText's `sk-shine` keyframe) + `bg-linear-[110deg] from-transparent from-40% via-on-accent/15 via-50% to-transparent to-60% bg-[length:200%_100%]` — the band is `on-accent` (white in both themes) so it reads as a highlight on light and dark |
+
+The animation class lives in the variant, not the base, because tailwind-merge can't dedupe the
+custom `animate-shine-fast` against `animate-pulse`.
 
 ## States
 
-Static; always pulsing while mounted.
+Static; animating while mounted (pulse or shimmer), frozen under `prefers-reduced-motion`.
 
 ## Accessibility
 
@@ -1923,7 +1989,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 type Native = Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick' | 'value' | 'role' | 'aria-checked'>
 
 export interface SwitchProps extends Native {
-  size?: 'sm' | 'md'                    // default 'md'
+  size?: 'sm' | 'md' | 'lg'             // default 'md'
   checked?: boolean
   defaultChecked?: boolean              // default false
   onCheckedChange?: (checked: boolean) => void
@@ -1944,6 +2010,7 @@ Slots — `root` (the track/button) and `thumb`:
 |---|---|---|
 | sm | `h-5 w-9` | `size-4 group-aria-checked:translate-x-4` |
 | md | `h-6 w-11` | `size-5 group-aria-checked:translate-x-5` |
+| lg | `h-7 w-13` | `size-6 group-aria-checked:translate-x-6` |
 
 The thumb slides via `group-aria-checked` reading the track's `aria-checked`.
 
@@ -1979,6 +2046,11 @@ virtualization are out of scope (use a data-grid library for those).
 ## API
 
 ```ts
+export interface TableProps extends ComponentPropsWithoutRef<'table'> {
+  density?: 'comfortable' | 'compact'   // default 'comfortable'
+  striped?: boolean                     // even body rows get a line-soft background
+  hoverable?: boolean                   // every body row highlights on hover
+}
 export const Table: ForwardRefExoticComponent<TableProps> & {
   Header, Body, Row, HeaderCell, Cell   // thin styled wrappers over thead/tbody/tr/th/td
 }
@@ -1997,9 +2069,18 @@ wrapper: `w-full overflow-x-auto` (horizontal scroll on small screens). table: `
 text-sm text-text`. headerCell: `h-10 px-3 text-xs uppercase tracking-eyebrow text-text-dim border-b
 border-line`. row: `border-b border-line`, `data-[interactive]:hover:bg-line-soft`. cell: `h-11 px-3`.
 
+Root options are applied to the `<table>` through descendant selectors, so sub-parts need no
+context (and a descendant rule beats a cell's own `h-11` on specificity):
+
+| option | table utilities |
+|---|---|
+| density compact | `[&_th]:h-8 [&_th]:px-2 [&_td]:h-9 [&_td]:px-2` (comfortable = unchanged cell classes) |
+| striped | `[&_tbody_tr:nth-child(even)]:bg-line-soft` |
+| hoverable | `[&_tbody_tr:hover]:bg-line` — `line` (10%) rather than `line-soft` so it still reads over a stripe |
+
 ## States
 
-Static. Rows can opt into a hover with `data-interactive`.
+Static. Rows highlight on hover when the table is `hoverable`, or per row with `data-interactive`.
 
 ## Accessibility
 
@@ -2033,12 +2114,34 @@ export interface TabsProps {
   defaultValue?: string
   onValueChange?: (value: string) => void
   'aria-label'?: string
+  variant?: 'underline' | 'pill'   // default 'underline'
+  size?: 'sm' | 'md' | 'lg'        // default 'md'
+  fitted?: boolean                 // tabs share the list width equally
 }
 ```
 
 ## Variants & tokens
 
-list: `flex border-b border-line`. tab: `h-10 px-3 text-sm font-medium text-text-dim border-b-2 border-transparent -mb-px hover:text-text data-[selected]:text-text data-[selected]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow`. panel: `pt-4 text-text`.
+Shared: list `flex`; tab `inline-flex items-center font-medium text-text-dim hover:text-text
+focus-visible:ring-2 focus-visible:ring-focus-ring` (+ disabled dimming); panel `pt-4 text-text`.
+
+| variant | list | tab | selected |
+|---|---|---|---|
+| underline | `border-b border-line` | `border-b-2 border-transparent -mb-px rounded-t-sm` | `aria-selected:text-accent aria-selected:border-accent` |
+| pill | `w-fit gap-1 rounded-pill bg-well p-1` | `rounded-pill border border-transparent` | `aria-selected:bg-surface aria-selected:text-accent aria-selected:border-line` |
+
+The pill's selected segment (`surface`) is lighter than its `well` track in **both** themes
+(dark `#000 → #141416`, light `#E8E5DD → #FFFFFF`), so the segmented look holds without a
+theme-specific rule.
+
+| size | tab |
+|---|---|
+| sm | `h-8 px-2.5 text-sm` |
+| md | `h-10 px-3 text-sm` |
+| lg | `h-12 px-4 text-md` |
+
+`fitted`: list `w-full`, tab `flex-1 justify-center` (declared after `variant` so `w-full` beats the
+pill's `w-fit`).
 
 ## States
 
@@ -2141,7 +2244,13 @@ Transient notifications. Wrap the app in `ToastProvider`; call `useToast().toast
 export interface ToastProviderProps { children: ReactNode; timeout?: number; limit?: number }
 export function ToastProvider(props: ToastProviderProps): JSX.Element
 
-export interface ToastOptions { title?: ReactNode; description?: ReactNode; type?: string }
+export type ToastTone = 'info' | 'success' | 'warning' | 'danger'   // mirrors Alert
+export interface ToastOptions {
+  title?: ReactNode
+  description?: ReactNode
+  tone?: ToastTone        // left accent border like Alert; omit for a plain toast
+  type?: string           // free-form Base UI type when `tone` is unset (styled if it names a tone)
+}
 export function useToast(): { toast: (options: ToastOptions) => string }  // returns the toast id
 ```
 
@@ -2157,6 +2266,14 @@ toast({ title: 'Saved', description: 'Your changes were saved.' })
 ## Variants & tokens
 
 viewport: `fixed bottom-4 right-4 z-50 flex w-80 flex-col gap-2`. root: `rounded-md border border-line bg-surface p-4 shadow-card` + enter/exit slide/opacity. title `font-display font-bold text-sm`; description `text-sm text-text-dim`; close: top-right ghost button.
+
+| tone | root (mirrors Alert) |
+|---|---|
+| (none) | unchanged — plain toast |
+| info | `border-l-4 border-l-text-faint` |
+| success | `border-l-4 border-l-success` |
+| warning | `border-l-4 border-l-premium` |
+| danger | `border-l-4 border-l-accent` |
 
 ## States
 

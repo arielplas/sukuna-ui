@@ -20,3 +20,29 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {}
 export const WithDefault: Story = { args: { defaultValue: 'billing' } }
 export const DisabledTab: Story = {}
+
+export const Pill: Story = { args: { variant: 'pill' } }
+
+export const Sizes: Story = {
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 24 }}>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Tabs key={size} {...args} size={size} aria-label={`Settings ${size}`} />
+      ))}
+    </div>
+  ),
+}
+
+export const PillSizes: Story = {
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 24 }}>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Tabs key={size} {...args} variant="pill" size={size} aria-label={`Settings ${size}`} />
+      ))}
+    </div>
+  ),
+}
+
+export const Fitted: Story = { args: { fitted: true } }
+
+export const PillFitted: Story = { args: { variant: 'pill', fitted: true } }

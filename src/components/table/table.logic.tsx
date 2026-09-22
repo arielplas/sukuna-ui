@@ -1,20 +1,25 @@
 import { type ComponentPropsWithoutRef, forwardRef } from 'react'
-import { tableStyles } from './table.styles'
+import { type TableStyleProps, tableStyles } from './table.styles'
 
+// Sub-parts vary by nothing, so they share one static slot map.
 const styles = tableStyles()
+
+/** Props for {@link Table}: the native `<table>` attributes plus the root style options. */
+export interface TableProps extends ComponentPropsWithoutRef<'table'>, TableStyleProps {}
 
 /**
  * Table root: a `<table>` inside a full-width, horizontally scrolling `<div>`. Accepts every
  * native `<table>` attribute; `className` is merged into the table (not the wrapper) and the ref
  * points at the `<table>`.
  */
-const TableRoot = forwardRef<HTMLTableElement, ComponentPropsWithoutRef<'table'>>(function Table(
-  { className, children, ...rest },
+const TableRoot = forwardRef<HTMLTableElement, TableProps>(function Table(
+  { density, striped, hoverable, className, children, ...rest },
   ref,
 ) {
+  const root = tableStyles({ density, striped, hoverable })
   return (
-    <div className={styles.wrapper()}>
-      <table ref={ref} className={styles.table({ className })} {...rest}>
+    <div className={root.wrapper()}>
+      <table ref={ref} className={root.table({ className })} {...rest}>
         {children}
       </table>
     </div>
@@ -48,9 +53,6 @@ function Cell({ className, ...rest }: ComponentPropsWithoutRef<'td'>) {
   return <td className={styles.cell({ className })} {...rest} />
 }
 
-/** Props for {@link Table}: exactly the native `<table>` attributes (no extra props). */
-export type TableProps = ComponentPropsWithoutRef<'table'>
-
 /**
  * Presents tabular data with Sukuna styling as a compound of thin wrappers over the native table
  * elements: `Table` + `Table.Header` / `Table.Body` / `Table.Row` / `Table.HeaderCell` /
@@ -63,11 +65,18 @@ export type TableProps = ComponentPropsWithoutRef<'table'>
  *   `Table.HeaderCell` (never a styled `Table.Cell`) for headers and give it `scope`. Add a
  *   `<caption>` child or `aria-label` on `Table` to name it. The wrapper scrolls horizontally so a
  *   wide table never breaks the page layout.
- * - Variants: none. Each part takes its native props and a `className` merged after the base
- *   styles. Only the root is `forwardRef` (→ `HTMLTableElement`); sub-parts take no ref.
+ * - Variants (on the root only; applied to the `<table>` via descendant selectors so sub-parts
+ *   need no context):
+ *   - `density`: 'comfortable' (default — 40px header / 44px cells) | 'compact' (32px / 36px,
+ *     tighter padding).
+ *   - `striped`: boolean — even body rows get a `line-soft` background.
+ *   - `hoverable`: boolean — every body row highlights (`line`) on hover, without per-row
+ *     `data-interactive`.
+ *   Each part takes its native props and a `className` merged after the base styles. Only the
+ *   root is `forwardRef` (→ `HTMLTableElement`); sub-parts take no ref.
  * - Behaviour: renders every row you pass — no sorting, selection, virtualization or paging.
  *   Beyond a few hundred rows, paginate (compose with `Pagination`) or use a data grid.
- *   `data-interactive` on a `Table.Row` opts that row into a hover background.
+ *   `data-interactive` on a `Table.Row` opts that single row into a hover background.
  *
  * @example
  * ```tsx
