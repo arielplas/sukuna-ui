@@ -21,7 +21,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 type Native = Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick' | 'value' | 'role' | 'aria-checked'>
 
 export interface SwitchProps extends Native {
-  size?: 'sm' | 'md'                    // default 'md'
+  size?: 'sm' | 'md' | 'lg'             // default 'md'
   checked?: boolean
   defaultChecked?: boolean              // default false
   onCheckedChange?: (checked: boolean) => void
@@ -42,6 +42,7 @@ Slots — `root` (the track/button) and `thumb`:
 |---|---|---|
 | sm | `h-5 w-9` | `size-4 group-aria-checked:translate-x-4` |
 | md | `h-6 w-11` | `size-5 group-aria-checked:translate-x-5` |
+| lg | `h-7 w-13` | `size-6 group-aria-checked:translate-x-6` |
 
 The thumb slides via `group-aria-checked` reading the track's `aria-checked`.
 

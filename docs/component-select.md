@@ -34,7 +34,7 @@ export interface SelectProps {
   disabled?: boolean
   name?: string             // form field name
   id?: string
-  size?: 'sm' | 'md'        // default 'md'
+  size?: 'sm' | 'md' | 'lg' // default 'md'
   'aria-label'?: string
 }
 ```
@@ -45,7 +45,7 @@ label, or the placeholder when empty.
 ## 4. Variants → tokens
 
 - trigger: `bg-surface-2 text-text border border-line rounded-md`, `data-[popup-open]:border-accent`,
-  focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md`.
+  focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md` / lg `h-12 text-lg`.
 - popup: `min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto`
   `rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale; z-index on the positioner
   (`z-[var(--sk-z-popover)]`). Opens below the trigger (`alignItemWithTrigger={false}`, flips up

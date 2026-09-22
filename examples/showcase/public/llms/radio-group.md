@@ -25,14 +25,14 @@ export interface RadioGroupProps {
   name?: string
   disabled?: boolean
   orientation?: 'vertical' | 'horizontal'   // default 'vertical'
-  size?: 'sm' | 'md'                          // default 'md'
+  size?: 'sm' | 'md' | 'lg'                   // default 'md'
   'aria-label'?: string
 }
 ```
 
 ## Variants & tokens
 
-group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
+group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5` / lg `size-6`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
 
 ## States
 

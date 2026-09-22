@@ -546,7 +546,7 @@ type Native = Omit<
 >
 
 export interface CheckboxProps extends Native {
-  size?: 'sm' | 'md'                    // default 'md'
+  size?: 'sm' | 'md' | 'lg'             // default 'md'
   checked?: boolean                     // controlled
   defaultChecked?: boolean              // uncontrolled initial, default false
   onCheckedChange?: (checked: boolean) => void
@@ -569,6 +569,7 @@ Base: `accent-accent cursor-pointer rounded-sm focus-visible:outline-none focus-
 |---|---|
 | sm | `size-4` |
 | md | `size-5` |
+| lg | `size-6` |
 
 With `label`: wrapper `<label>` `inline-flex items-center gap-2 cursor-pointer select-none text-text
 has-[:disabled]:cursor-not-allowed has-[:disabled]:text-text-dim`; text `text-sm` (sm) / `text-md` (md).
@@ -1456,7 +1457,7 @@ export interface ProgressProps {
   value?: number | null   // 0..max; null/omitted → indeterminate
   max?: number            // default 100
   label?: ReactNode
-  size?: 'sm' | 'md'      // default 'md'
+  size?: 'sm' | 'md' | 'lg'   // default 'md'
   className?: string
   'aria-label'?: string
 }
@@ -1464,7 +1465,7 @@ export interface ProgressProps {
 
 ## Variants & tokens
 
-track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2`. indicator:
+track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2` / lg `h-3`. indicator:
 `bg-accent rounded-pill transition-[width]`; indeterminate → `w-1/3 animate-pulse`. label:
 `text-sm text-text-dim`. Base UI sizes the indicator width from the value.
 
@@ -1506,14 +1507,14 @@ export interface RadioGroupProps {
   name?: string
   disabled?: boolean
   orientation?: 'vertical' | 'horizontal'   // default 'vertical'
-  size?: 'sm' | 'md'                          // default 'md'
+  size?: 'sm' | 'md' | 'lg'                   // default 'md'
   'aria-label'?: string
 }
 ```
 
 ## Variants & tokens
 
-group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
+group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5` / lg `size-6`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
 
 ## States
 
@@ -1614,7 +1615,7 @@ export interface SelectProps {
   disabled?: boolean
   name?: string             // form field name
   id?: string
-  size?: 'sm' | 'md'        // default 'md'
+  size?: 'sm' | 'md' | 'lg' // default 'md'
   'aria-label'?: string
 }
 ```
@@ -1625,7 +1626,7 @@ label, or the placeholder when empty.
 ## Variants & tokens
 
 - trigger: `bg-surface-2 text-text border border-line rounded-md`, `data-[popup-open]:border-accent`,
-  focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md`.
+  focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md` / lg `h-12 text-lg`.
 - popup: `min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto`
   `rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale; z-index on the positioner
   (`z-[var(--sk-z-popover)]`). Opens below the trigger (`alignItemWithTrigger={false}`, flips up
@@ -1923,7 +1924,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 type Native = Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick' | 'value' | 'role' | 'aria-checked'>
 
 export interface SwitchProps extends Native {
-  size?: 'sm' | 'md'                    // default 'md'
+  size?: 'sm' | 'md' | 'lg'             // default 'md'
   checked?: boolean
   defaultChecked?: boolean              // default false
   onCheckedChange?: (checked: boolean) => void
@@ -1944,6 +1945,7 @@ Slots — `root` (the track/button) and `thumb`:
 |---|---|---|
 | sm | `h-5 w-9` | `size-4 group-aria-checked:translate-x-4` |
 | md | `h-6 w-11` | `size-5 group-aria-checked:translate-x-5` |
+| lg | `h-7 w-13` | `size-6 group-aria-checked:translate-x-6` |
 
 The thumb slides via `group-aria-checked` reading the track's `aria-checked`.
 

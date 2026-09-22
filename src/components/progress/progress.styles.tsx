@@ -12,6 +12,7 @@ export const progressStyles = tv({
     size: {
       sm: { track: 'h-1.5' },
       md: { track: 'h-2' },
+      lg: { track: 'h-3' },
     },
   },
   defaultVariants: { size: 'md' },

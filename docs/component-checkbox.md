@@ -31,7 +31,7 @@ type Native = Omit<
 >
 
 export interface CheckboxProps extends Native {
-  size?: 'sm' | 'md'                    // default 'md'
+  size?: 'sm' | 'md' | 'lg'             // default 'md'
   checked?: boolean                     // controlled
   defaultChecked?: boolean              // uncontrolled initial, default false
   onCheckedChange?: (checked: boolean) => void
@@ -54,6 +54,7 @@ Base: `accent-accent cursor-pointer rounded-sm focus-visible:outline-none focus-
 |---|---|
 | sm | `size-4` |
 | md | `size-5` |
+| lg | `size-6` |
 
 With `label`: wrapper `<label>` `inline-flex items-center gap-2 cursor-pointer select-none text-text
 has-[:disabled]:cursor-not-allowed has-[:disabled]:text-text-dim`; text `text-sm` (sm) / `text-md` (md).

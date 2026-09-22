@@ -28,6 +28,7 @@ export const Sizes: Story = {
     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
       <Select {...args} size="sm" />
       <Select {...args} size="md" />
+      <Select {...args} size="lg" />
     </div>
   ),
 }

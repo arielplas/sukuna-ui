@@ -19,6 +19,7 @@ export const radioGroupStyles = tv({
     size: {
       sm: { control: 'size-4', indicator: 'size-2' },
       md: { control: 'size-5', indicator: 'size-2.5' },
+      lg: { control: 'size-6', indicator: 'size-3' },
     },
   },
   defaultVariants: { orientation: 'vertical', size: 'md' },
