@@ -20,6 +20,7 @@ export const Sizes: Story = {
     <div style={row}>
       <Switch {...args} size="sm" />
       <Switch {...args} size="md" />
+      <Switch {...args} size="lg" />
     </div>
   ),
 }

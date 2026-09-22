@@ -46,7 +46,8 @@ export interface ProgressProps extends ProgressStyleProps {
  *   specific name ('Upload progress') over the fallback.
  * - Motion: the indicator's width transition and the indeterminate pulse are both disabled
  *   under `prefers-reduced-motion`.
- * - Variants: `size`: 'sm' (track `h-1.5`, 6px) | 'md' (track `h-2`, 8px, default). The track
+ * - Variants: `size`: 'sm' (track `h-1.5`, 6px) | 'md' (track `h-2`, 8px, default) | 'lg' (track
+ *   `h-3`, 12px). The track
  *   is `rounded-pill bg-surface-2`, the indicator `bg-accent`; while indeterminate the
  *   indicator is a `w-1/3` pulsing segment.
  * - Props do not extend a native element: only `value`, `max`, `label`, `size`, `className`

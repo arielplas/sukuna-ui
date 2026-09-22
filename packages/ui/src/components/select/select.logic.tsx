@@ -96,7 +96,8 @@ const check = (
  *   `aria-label` or point a `<label htmlFor>` at `id`. Arrow keys move the highlight, typing
  *   jumps by typeahead, `Enter`/`Space` select, `Escape` or an outside click closes and returns
  *   focus to the trigger. Disabled options are announced as disabled and skipped.
- * - Variants: `size` is `'sm'` (h-8, text-sm) or `'md'` (h-10, text-md); default `'md'`.
+ * - Variants: `size` is `'sm'` (h-8, text-sm), `'md'` (h-10, text-md) or `'lg'` (h-12, text-lg);
+ *   default `'md'`.
  * - Behaviour: uncontrolled with `defaultValue`, or controlled with `value` + `onValueChange`.
  *   Open state can likewise be controlled via `open` + `onOpenChange`. Values are strings only
  *   in v1 (no multi-select). The trigger shows the matching item's `label`, falling back to the

@@ -8,7 +8,7 @@ import { Checkbox } from './index'
 
 describe('Checkbox', () => {
   it('renders every size on the server', () => {
-    for (const size of ['sm', 'md'] as const)
+    for (const size of ['sm', 'md', 'lg'] as const)
       expect(renderServer(<Checkbox size={size} aria-label="c" />)).toContain('type="checkbox"')
   })
 

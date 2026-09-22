@@ -47,6 +47,7 @@ export const selectStyles = tv({
     size: {
       sm: { trigger: 'h-8 text-sm' },
       md: { trigger: 'h-10 text-md' },
+      lg: { trigger: 'h-12 text-lg' },
     },
   },
   defaultVariants: { size: 'md' },

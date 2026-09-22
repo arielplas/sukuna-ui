@@ -25,7 +25,7 @@ export interface ProgressProps {
   value?: number | null   // 0..max; null/omitted → indeterminate
   max?: number            // default 100
   label?: ReactNode
-  size?: 'sm' | 'md'      // default 'md'
+  size?: 'sm' | 'md' | 'lg'   // default 'md'
   className?: string
   'aria-label'?: string
 }
@@ -33,7 +33,7 @@ export interface ProgressProps {
 
 ## 4. Variants → tokens
 
-track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2`. indicator:
+track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2` / lg `h-3`. indicator:
 `bg-accent rounded-pill transition-[width]`; indeterminate → `w-1/3 animate-pulse`. label:
 `text-sm text-text-dim`. Base UI sizes the indicator width from the value.
 
