@@ -57,10 +57,18 @@ describe('Chip', () => {
   it('unset variant keeps the original per-tone look; the trio forces one', () => {
     render(
       <>
-        <Chip tone="accent" data-testid="accent-auto">x</Chip>
-        <Chip tone="accent" variant="soft" data-testid="accent-soft">x</Chip>
-        <Chip tone="premium" variant="solid" data-testid="premium-solid">x</Chip>
-        <Chip tone="neutral" variant="outline" data-testid="neutral-outline">x</Chip>
+        <Chip tone="accent" data-testid="accent-auto">
+          x
+        </Chip>
+        <Chip tone="accent" variant="soft" data-testid="accent-soft">
+          x
+        </Chip>
+        <Chip tone="premium" variant="solid" data-testid="premium-solid">
+          x
+        </Chip>
+        <Chip tone="neutral" variant="outline" data-testid="neutral-outline">
+          x
+        </Chip>
       </>,
     )
     const cls = (id: string) => screen.getByTestId(id).classList
