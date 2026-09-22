@@ -65,7 +65,9 @@ export interface NumberFieldProps
  *   carry `aria-label` ("Increase"/"Decrease") and decorative icons. Arrow keys step; `Shift`+Arrow
  *   and `PageUp`/`PageDown` use `largeStep`; `Home`/`End` jump to `min`/`max`. It renders no label —
  *   pass `aria-label`, `aria-labelledby`, or wrap it in `Field`.
- * - Variants: `size`: 'sm' (32px) | 'md' (40px, default) | 'lg' (48px).
+ * - Variants: `variant`: 'filled' (default — `surface-2` fill + `line` border) | 'outline'
+ *   (transparent, `line` border) | 'ghost' (borderless until hover/focus) — the same map as
+ *   Input. `size`: 'sm' (32px) | 'md' (40px, default) | 'lg' (48px).
  * - Behaviour: controlled via `value`/`onValueChange` or uncontrolled via `defaultValue`. The
  *   stepper at a reached `min`/`max` bound is disabled. Wheel scrubbing is opt-in
  *   (`allowWheelScrub`) to avoid changing the value while scrolling the page.
@@ -104,6 +106,7 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(functi
     step,
     largeStep,
     format,
+    variant,
     size,
     readOnly,
     allowWheelScrub,
@@ -116,7 +119,7 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(functi
   },
   ref,
 ) {
-  const styles = numberFieldStyles({ size })
+  const styles = numberFieldStyles({ variant, size })
   return (
     <Base.Root
       value={value}

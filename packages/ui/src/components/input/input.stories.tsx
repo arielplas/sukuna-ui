@@ -25,6 +25,16 @@ export const Sizes: Story = {
   ),
 }
 
+export const Variants: Story = {
+  render: (args) => (
+    <div style={col}>
+      {(['filled', 'outline', 'ghost'] as const).map((variant) => (
+        <Input key={variant} {...args} variant={variant} placeholder={variant} />
+      ))}
+    </div>
+  ),
+}
+
 export const Invalid: Story = { args: { invalid: true, defaultValue: 'not-an-email' } }
 
 export const Disabled: Story = { args: { disabled: true, defaultValue: 'locked' } }

@@ -33,6 +33,16 @@ export const Sizes: Story = {
   ),
 }
 
+export const Variants: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <Select {...args} variant="filled" placeholder="filled" />
+      <Select {...args} variant="outline" placeholder="outline" />
+      <Select {...args} variant="ghost" placeholder="ghost" />
+    </div>
+  ),
+}
+
 export const Disabled: Story = { args: { disabled: true, defaultValue: 'react' } }
 
 export const WithDisabledItem: Story = {}
