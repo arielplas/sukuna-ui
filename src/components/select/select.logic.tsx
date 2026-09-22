@@ -96,7 +96,9 @@ const check = (
  *   `aria-label` or point a `<label htmlFor>` at `id`. Arrow keys move the highlight, typing
  *   jumps by typeahead, `Enter`/`Space` select, `Escape` or an outside click closes and returns
  *   focus to the trigger. Disabled options are announced as disabled and skipped.
- * - Variants: `size` is `'sm'` (h-8, text-sm), `'md'` (h-10, text-md) or `'lg'` (h-12, text-lg);
+ * - Variants: `variant` is `'filled'` (default — `surface-2` fill + `line` border), `'outline'`
+ *   (transparent, `line` border) or `'ghost'` (borderless until hover/focus) — the same map as
+ *   Input. `size` is `'sm'` (h-8, text-sm), `'md'` (h-10, text-md) or `'lg'` (h-12, text-lg);
  *   default `'md'`.
  * - Behaviour: uncontrolled with `defaultValue`, or controlled with `value` + `onValueChange`.
  *   Open state can likewise be controlled via `open` + `onOpenChange`. Values are strings only
@@ -157,10 +159,11 @@ export function Select({
   disabled,
   name,
   id,
+  variant,
   size,
   'aria-label': ariaLabel,
 }: SelectProps) {
-  const styles = selectStyles({ size })
+  const styles = selectStyles({ variant, size })
   // O(1) value→label lookup for the trigger, instead of an O(n) `items.find` on every value render.
   const labelByValue = useMemo(() => new Map(items.map((i) => [i.value, i.label])), [items])
   return (

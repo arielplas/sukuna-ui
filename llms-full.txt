@@ -682,6 +682,8 @@ export interface ComboboxProps {
   disabled?: boolean
   emptyMessage?: string   // default 'No results'
   maxRenderedItems?: number // cap displayed suggestions (Base UI `limit`); search spans all items
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
+  size?: 'sm' | 'md' | 'lg'                   // default 'md'; same scale as Input
   'aria-label'?: string
 }
 ```
@@ -693,7 +695,10 @@ capped `items`.
 
 ## Variants & tokens
 
-input: same as Input (`bg-surface-2 border-line rounded-md`, focus ring). popup: `z-50 max-h-72
+input: same as Input — `variant` filled `bg-surface-2 border-line` (default) / outline
+`bg-transparent border-line` / ghost `bg-transparent border-transparent hover:bg-surface-2`; `size`
+sm `h-8 px-3 text-sm rounded-sm` / md `h-10 px-3 text-md rounded-md` / lg `h-12 px-4 text-lg
+rounded-lg`; focus ring. popup: `z-50 max-h-72
 overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale. item:
 `h-9 px-2.5 rounded-sm data-[highlighted]:bg-line-soft data-[selected]:text-accent`. empty:
 `text-sm text-text-dim`.
@@ -1235,6 +1240,7 @@ A single-line text input. Native `<input>` styled to Sukuna, with size and an in
 import type { ComponentPropsWithoutRef } from 'react'
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'size'> {
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look)
   size?: 'sm' | 'md' | 'lg'   // default 'md' (shadows the native numeric `size` attr — omitted)
   invalid?: boolean           // sets aria-invalid + crimson border
 }
@@ -1246,7 +1252,15 @@ native passes through (`type`, `value`, `defaultValue`, `onChange`, `placeholder
 
 ## Variants & tokens
 
-Base: `w-full bg-surface-2 text-text border border-line placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+Base: `w-full text-text border placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+
+| variant | utilities | use |
+|---|---|---|
+| filled | `bg-surface-2 border-line` | default — the original look |
+| outline | `bg-transparent border-line` | on busy/tinted surfaces |
+| ghost | `bg-transparent border-transparent hover:bg-surface-2` | inline edit; the border appears on focus (`border-accent`) or `invalid` |
+
+The same `variant` map is shared by Select, Combobox and NumberField so the form layer reads as one.
 
 | size | utilities |
 |---|---|
@@ -1361,6 +1375,7 @@ interface NumberFieldOwnProps {
   step?: number                   // default 1
   largeStep?: number              // Shift+Arrow / PageUp-Down; default 10
   format?: Intl.NumberFormatOptions   // e.g. { style: 'currency', currency: 'USD' }
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
   size?: 'sm' | 'md' | 'lg'       // default 'md'
   readOnly?: boolean
   allowWheelScrub?: boolean        // default false — scroll wheel over the input changes value
@@ -1380,8 +1395,10 @@ treatment, matching `Input`).
 
 ## Variants & tokens
 
-group: `inline-flex items-stretch rounded-md border border-line bg-surface-2
-focus-within:ring-2 focus-within:ring-focus-ring`. input: `min-w-0 flex-1 bg-transparent px-3
+group: `inline-flex items-stretch rounded-md border focus-within:ring-2 focus-within:ring-focus-ring`
++ `variant` filled `bg-surface-2 border-line` (default) / outline `bg-transparent border-line` /
+ghost `bg-transparent border-transparent hover:bg-surface-2` — the shared form-control map (see
+Input). input: `min-w-0 flex-1 bg-transparent px-3
 text-text tabular-nums outline-none placeholder:text-text-faint`. decrement/increment:
 `grid w-9 place-items-center text-text-dim hover:bg-well hover:text-text
 data-[disabled]:opacity-45` (decrement gets a right border, increment a left border via
@@ -1637,6 +1654,7 @@ export interface SelectProps {
   disabled?: boolean
   name?: string             // form field name
   id?: string
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
   size?: 'sm' | 'md' | 'lg' // default 'md'
   'aria-label'?: string
 }
@@ -1647,8 +1665,10 @@ label, or the placeholder when empty.
 
 ## Variants & tokens
 
-- trigger: `bg-surface-2 text-text border border-line rounded-md`, `data-[popup-open]:border-accent`,
-  focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md` / lg `h-12 text-lg`.
+- trigger: `text-text border rounded-md`, `data-[popup-open]:border-accent`, focus ring;
+  `variant` filled `bg-surface-2 border-line` (default) / outline `bg-transparent border-line` /
+  ghost `bg-transparent border-transparent hover:bg-surface-2` — the shared form-control map (see
+  Input); `size` sm `h-8 text-sm` / md `h-10 text-md` / lg `h-12 text-lg`.
 - popup: `min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto`
   `rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale; z-index on the positioner
   (`z-[var(--sk-z-popover)]`). Opens below the trigger (`alignItemWithTrigger={false}`, flips up

@@ -4,7 +4,7 @@ export const selectStyles = tv({
   slots: {
     trigger: [
       'inline-flex items-center justify-between gap-2 min-w-40',
-      'bg-surface-2 text-text border border-line rounded-md px-3 cursor-pointer',
+      'text-text border rounded-md px-3 cursor-pointer',
       'transition-[border-color,box-shadow] duration-fast ease-sukuna',
       'data-[popup-open]:border-accent',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring',
@@ -39,13 +39,19 @@ export const selectStyles = tv({
     placeholder: 'text-text-faint',
   },
   variants: {
+    // Shared form-control surface map (see Input). `filled` is the original look.
+    variant: {
+      filled: { trigger: 'bg-surface-2 border-line' },
+      outline: { trigger: 'bg-transparent border-line' },
+      ghost: { trigger: 'bg-transparent border-transparent hover:bg-surface-2' },
+    },
     size: {
       sm: { trigger: 'h-8 text-sm' },
       md: { trigger: 'h-10 text-md' },
       lg: { trigger: 'h-12 text-lg' },
     },
   },
-  defaultVariants: { size: 'md' },
+  defaultVariants: { variant: 'filled', size: 'md' },
 })
 
 export type SelectStyleProps = VariantProps<typeof selectStyles>
