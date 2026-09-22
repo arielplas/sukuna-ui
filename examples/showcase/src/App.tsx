@@ -244,31 +244,35 @@ function Example({ entry, item }: { entry: ComponentEntry; item: StoryEntry }) {
       </Text>
       <Card elevation="raised" padding="lg">
         <StoryBoundary>{renderStory(entry, item)}</StoryBoundary>
+        {/* Footer strip inside the card: negative margins cancel the card's `p-8` so the rule and
+            the code block run edge to edge; `rounded-b-lg` matches the card's own radius. */}
+        <div className="-mx-8 -mb-8 mt-6 border-t border-line">
+          <div className="flex items-center justify-between gap-2 px-3 py-1.5">
+            <Button
+              variant="ghost"
+              size="sm"
+              aria-expanded={open}
+              aria-controls={codeId}
+              onClick={() => setOpen((o) => !o)}
+            >
+              {open ? 'Hide code' : 'Show code'}
+            </Button>
+            {open ? (
+              <Button variant="ghost" size="sm" onClick={copy} aria-live="polite">
+                {copied ? 'Copied' : 'Copy'}
+              </Button>
+            ) : null}
+          </div>
+          {open ? (
+            <pre
+              id={codeId}
+              className="m-0 overflow-x-auto rounded-b-lg border-t border-line bg-well p-4 text-sm leading-relaxed text-text"
+            >
+              <code>{snippet}</code>
+            </pre>
+          ) : null}
+        </div>
       </Card>
-      <div className="mt-2 flex items-center justify-between gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          aria-expanded={open}
-          aria-controls={codeId}
-          onClick={() => setOpen((o) => !o)}
-        >
-          {open ? 'Hide code' : 'Show code'}
-        </Button>
-        {open ? (
-          <Button variant="ghost" size="sm" onClick={copy} aria-live="polite">
-            {copied ? 'Copied' : 'Copy'}
-          </Button>
-        ) : null}
-      </div>
-      {open ? (
-        <pre
-          id={codeId}
-          className="m-0 mt-2 overflow-x-auto rounded-md border border-line bg-well p-4 text-sm leading-relaxed text-text"
-        >
-          <code>{snippet}</code>
-        </pre>
-      ) : null}
     </section>
   )
 }
