@@ -27,6 +27,22 @@ export const Tones: Story = {
   ),
 }
 
+export const Variants: Story = {
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 12 }}>
+      {(['soft', 'solid', 'outline'] as const).map((variant) => (
+        <div key={variant} style={row}>
+          {(['neutral', 'accent', 'success', 'premium'] as const).map((tone) => (
+            <Badge key={tone} {...args} tone={tone} variant={variant}>
+              {variant} {tone}
+            </Badge>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
+}
+
 export const Sizes: Story = {
   render: (args) => (
     <div style={row}>

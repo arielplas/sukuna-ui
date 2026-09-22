@@ -30,12 +30,37 @@ describe('Badge', () => {
 
   it('does not leak variant props to the DOM', () => {
     render(
-      <Badge tone="accent" size="sm" dot data-testid="b">
+      <Badge tone="accent" variant="outline" size="sm" dot data-testid="b">
         x
       </Badge>,
     )
     const el = screen.getByTestId('b')
-    for (const attr of ['tone', 'size', 'dot']) expect(el.hasAttribute(attr)).toBe(false)
+    for (const attr of ['tone', 'variant', 'size', 'dot']) expect(el.hasAttribute(attr)).toBe(false)
+  })
+
+  it('unset variant keeps the original per-tone look; soft/solid/outline force one', () => {
+    render(
+      <>
+        <Badge tone="accent" data-testid="accent-auto">x</Badge>
+        <Badge tone="success" data-testid="success-auto">x</Badge>
+        <Badge tone="accent" variant="soft" data-testid="accent-soft">x</Badge>
+        <Badge tone="neutral" variant="solid" data-testid="neutral-solid">x</Badge>
+        <Badge tone="success" variant="outline" data-testid="success-outline">x</Badge>
+      </>,
+    )
+    const cls = (id: string) => screen.getByTestId(id).classList
+    // original looks: accent solid gradient, success soft
+    expect(cls('accent-auto').contains('bg-gradient-accent')).toBe(true)
+    expect(cls('success-auto').contains('bg-surface-2')).toBe(true)
+    expect(cls('success-auto').contains('text-success')).toBe(true)
+    // forced
+    expect(cls('accent-soft').contains('bg-surface-2')).toBe(true)
+    expect(cls('accent-soft').contains('text-accent')).toBe(true)
+    expect(cls('accent-soft').contains('bg-gradient-accent')).toBe(false)
+    expect(cls('neutral-solid').contains('bg-text-dim')).toBe(true)
+    expect(cls('neutral-solid').contains('text-bg')).toBe(true)
+    expect(cls('success-outline').contains('bg-transparent')).toBe(true)
+    expect(cls('success-outline').contains('border-success')).toBe(true)
   })
 
   it('forwards ref to the span', () => {

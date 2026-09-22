@@ -20,21 +20,27 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 export interface BadgeProps extends ComponentPropsWithoutRef<'span'> {
   tone?: 'neutral' | 'accent' | 'success' | 'premium'  // default 'neutral'
+  variant?: 'soft' | 'solid' | 'outline'                // unset = each tone's original look
   size?: 'sm' | 'md'                                    // default 'md'
   dot?: boolean   // leading status dot in currentColor
 }
 ```
 
-Extends `<span>`; adds only `tone`, `size`, `dot`. Pill radius is fixed (not a prop).
+Extends `<span>`; adds only `tone`, `variant`, `size`, `dot`. Pill radius is fixed (not a prop).
 
 ## Variants & tokens
 
-| tone | utilities |
-|---|---|
-| neutral | `bg-surface-2 text-text-dim border border-line` |
-| accent | `bg-gradient-accent text-text border border-transparent` |
-| success | `bg-surface-2 text-success border border-line` |
-| premium | `bg-surface-2 text-premium border border-line` |
+Base: `… border`. Each tone × variant is one literal compound class (below). **Unset `variant`**
+(internal `auto`) reproduces the original look exactly — `accent` solid, the others soft — so adding
+`variant` changed nothing. Solid fills use `text-bg` (the page-background token) for the label: it
+is dark on a light fill and light on a dark fill in both themes.
+
+| tone | soft | solid | outline |
+|---|---|---|---|
+| neutral | `bg-surface-2 text-text-dim border-line` | `bg-text-dim text-bg border-transparent` | `bg-transparent text-text-dim border-line` |
+| accent | `bg-surface-2 text-accent border-line` | `bg-gradient-accent text-text border-transparent` (original) | `bg-transparent text-accent border-accent` |
+| success | `bg-surface-2 text-success border-line` (original) | `bg-success text-bg border-transparent` | `bg-transparent text-success border-success` |
+| premium | `bg-surface-2 text-premium border-line` (original) | `bg-premium text-bg border-transparent` | `bg-transparent text-premium border-premium` |
 
 | size | utilities |
 |---|---|

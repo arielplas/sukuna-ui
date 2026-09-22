@@ -25,6 +25,39 @@ export const Tones: Story = {
   ),
 }
 
+export const Variants: Story = {
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 12 }}>
+      {(['soft', 'solid', 'outline'] as const).map((variant) => (
+        <div key={variant} style={row}>
+          {(['neutral', 'accent', 'success', 'premium'] as const).map((tone) => (
+            <Chip key={tone} {...args} tone={tone} variant={variant}>
+              {variant} {tone}
+            </Chip>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
+}
+
+export const FilterChips: Story = {
+  name: 'Selected (filter chips)',
+  render: (args) => (
+    <div style={row}>
+      <Chip {...args} variant="outline" selected>
+        All
+      </Chip>
+      <Chip {...args} variant="outline">
+        Open
+      </Chip>
+      <Chip {...args} variant="outline">
+        Closed
+      </Chip>
+    </div>
+  ),
+}
+
 export const Sizes: Story = {
   render: (args) => (
     <div style={row}>
