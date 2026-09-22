@@ -2,7 +2,7 @@
 
 import { Tabs as Base } from '@base-ui/react/tabs'
 import type { ReactNode } from 'react'
-import { tabsStyles } from './tabs.styles'
+import { type TabsStyleProps, tabsStyles } from './tabs.styles'
 
 /** One tab and its panel, as passed in {@link TabsProps.items}. */
 export interface TabItem {
@@ -20,8 +20,11 @@ export interface TabItem {
   disabled?: boolean
 }
 
-/** Props for {@link Tabs}. Prop-driven: no `children`, no native element passthrough. */
-export interface TabsProps {
+/**
+ * Props for {@link Tabs}. Prop-driven: no `children`, no native element passthrough.
+ */
+export interface TabsProps
+  extends Omit<TabsStyleProps, 'orientation' | 'variant' | 'size' | 'fitted'> {
   /** Tabs to render, in order; one `<button role="tab">` and one panel per item. */
   items: TabItem[]
   /** Selected tab's `value` for controlled usage; pair with `onValueChange`. */
@@ -41,6 +44,22 @@ export interface TabsProps {
    * @default 'horizontal'
    */
   orientation?: 'horizontal' | 'vertical'
+  /**
+   * `underline`: crimson text + a sliding underline. `pill`: a segmented control on a `well` track.
+   * Horizontal only; vertical tabs are always underline-style.
+   * @default 'underline'
+   */
+  variant?: 'underline' | 'pill'
+  /**
+   * Tab height and padding: `sm` 32px, `md` 40px (36px rows when vertical), `lg` 48px.
+   * @default 'md'
+   */
+  size?: 'sm' | 'md' | 'lg'
+  /**
+   * Tabs share the list width equally (horizontal only).
+   * @default false
+   */
+  fitted?: boolean
 }
 
 /**
@@ -53,15 +72,23 @@ export interface TabsProps {
  * - Accessibility: Base UI wires `role="tablist"` / `tab` / `tabpanel`, `aria-selected` and
  *   `aria-controls`. Manual activation: ArrowLeft/ArrowRight move focus (looping past the ends,
  *   Home/End jump to first/last; ArrowUp/ArrowDown when vertical) and Enter/Space selects; Tab then moves into the panel. Give the
- *   list an `aria-label`. The selected tab is marked by an accent underline + color, not color
- *   alone.
- * - Variants: `orientation` 'horizontal' (default; underline tabs) | 'vertical' (a navigation
- *   column beside the panel; ArrowUp/ArrowDown, `aria-orientation="vertical"`). Labels may hold an
- *   icon + text. `items[].disabled` tabs are dimmed (`data-disabled`, not the native attribute)
- *   and cannot be activated, but remain focusable.
+ *   list an `aria-label`. The selected tab is marked by an accent underline (pill: a lighter,
+ *   bordered segment) plus color, not color alone.
+ * - Variants:
+ *   - `orientation`: 'horizontal' (default; tabs above the panel) | 'vertical' (a navigation
+ *     column beside the panel; ArrowUp/ArrowDown, `aria-orientation="vertical"`).
+ *   - `variant` (horizontal only): 'underline' (default) — crimson text + underline on the
+ *     selected tab, over a `line` rule; 'pill' — a segmented control on a `well` track whose
+ *     selected segment is a lighter `surface` pill with crimson text (lighter than its track in
+ *     both themes). Vertical tabs are always underline-style.
+ *   - `size`: 'sm' (32px) | 'md' (40px; 36px rows when vertical, default) | 'lg' (48px).
+ *   - `fitted` (horizontal only): boolean — tabs share the list width equally.
+ *   Labels may hold an icon + text. `items[].disabled` tabs are dimmed (`data-disabled`, not the
+ *   native attribute) and cannot be activated, but remain focusable.
  * - Motion: the crimson underline (vertical: right-edge bar) slides to the selected tab with
  *   `ease-spring`; it jumps under `prefers-reduced-motion`. Before hydration the selected tab
- *   draws its own border, so the selection is visible without JS.
+ *   draws its own border, so the selection is visible without JS. The pill has no sliding
+ *   indicator: its selected segment is the tab itself.
  * - Behaviour: uncontrolled with `defaultValue`, controlled with `value` + `onValueChange`.
  *   Values are strings; Base UI's index fallback matches none of them, so pass a default.
  *   Only the selected panel is mounted: switching tabs unmounts the previous `content`, so any
@@ -100,8 +127,15 @@ export function Tabs({
   onValueChange,
   'aria-label': ariaLabel,
   orientation = 'horizontal',
+  variant = 'underline',
+  size,
+  fitted,
 }: TabsProps) {
-  const styles = tabsStyles({ orientation })
+  // The pill segmented control and `fitted` are horizontal treatments; a vertical column is always
+  // underline-style (right-edge bar) and already spans its own width.
+  const vertical = orientation === 'vertical'
+  const look = vertical ? 'underline' : variant
+  const styles = tabsStyles({ orientation, variant: look, size, fitted: vertical ? false : fitted })
   return (
     <Base.Root
       value={value}
@@ -123,7 +157,9 @@ export function Tabs({
             {item.label}
           </Base.Tab>
         ))}
-        <Base.Indicator data-sk-indicator="" className={styles.indicator()} />
+        {look === 'underline' ? (
+          <Base.Indicator data-sk-indicator="" className={styles.indicator()} />
+        ) : null}
       </Base.List>
       {items.map((item) => (
         <Base.Panel key={item.value} value={item.value} className={styles.panel()}>
