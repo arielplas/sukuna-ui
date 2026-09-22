@@ -48,9 +48,7 @@ describe('Tabs', () => {
     render(<Tabs items={items} aria-label="Settings" defaultValue="account" />)
     const underline = screen.getByRole('tablist')
     expect(underline.classList.contains('border-b')).toBe(true)
-    expect(screen.getByRole('tab', { name: 'Account' }).classList.contains('border-b-2')).toBe(
-      true,
-    )
+    expect(screen.getByRole('tab', { name: 'Account' }).classList.contains('border-b-2')).toBe(true)
   })
 
   it('size and fitted map to their utilities', () => {
