@@ -1,4 +1,4 @@
-import { tv } from '../../utils/tv'
+import { tv, type VariantProps } from '../../utils/tv'
 
 export const toastStyles = tv({
   slots: {
@@ -18,4 +18,16 @@ export const toastStyles = tv({
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring',
     ],
   },
+  variants: {
+    // Mirrors Alert's tone map exactly (left accent border) so a notification and an inline alert
+    // for the same event read the same. No default: an untoned toast is unchanged.
+    tone: {
+      info: { root: 'border-l-4 border-l-text-faint' },
+      success: { root: 'border-l-4 border-l-success' },
+      warning: { root: 'border-l-4 border-l-premium' },
+      danger: { root: 'border-l-4 border-l-accent' },
+    },
+  },
 })
+
+export type ToastStyleProps = VariantProps<typeof toastStyles>

@@ -16,6 +16,11 @@ virtualization are out of scope (use a data-grid library for those).
 ## API
 
 ```ts
+export interface TableProps extends ComponentPropsWithoutRef<'table'> {
+  density?: 'comfortable' | 'compact'   // default 'comfortable'
+  striped?: boolean                     // even body rows get a line-soft background
+  hoverable?: boolean                   // every body row highlights on hover
+}
 export const Table: ForwardRefExoticComponent<TableProps> & {
   Header, Body, Row, HeaderCell, Cell   // thin styled wrappers over thead/tbody/tr/th/td
 }
@@ -34,9 +39,18 @@ wrapper: `w-full overflow-x-auto` (horizontal scroll on small screens). table: `
 text-sm text-text`. headerCell: `h-10 px-3 text-xs uppercase tracking-eyebrow text-text-dim border-b
 border-line`. row: `border-b border-line`, `data-[interactive]:hover:bg-line-soft`. cell: `h-11 px-3`.
 
+Root options are applied to the `<table>` through descendant selectors, so sub-parts need no
+context (and a descendant rule beats a cell's own `h-11` on specificity):
+
+| option | table utilities |
+|---|---|
+| density compact | `[&_th]:h-8 [&_th]:px-2 [&_td]:h-9 [&_td]:px-2` (comfortable = unchanged cell classes) |
+| striped | `[&_tbody_tr:nth-child(even)]:bg-line-soft` |
+| hoverable | `[&_tbody_tr:hover]:bg-line` — `line` (10%) rather than `line-soft` so it still reads over a stripe |
+
 ## States
 
-Static. Rows can opt into a hover with `data-interactive`.
+Static. Rows highlight on hover when the table is `hoverable`, or per row with `data-interactive`.
 
 ## Accessibility
 

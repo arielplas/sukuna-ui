@@ -25,7 +25,13 @@ test/browser/toast.test.ts  # Playwright: show + auto-render
 export interface ToastProviderProps { children: ReactNode; timeout?: number; limit?: number }
 export function ToastProvider(props: ToastProviderProps): JSX.Element
 
-export interface ToastOptions { title?: ReactNode; description?: ReactNode; type?: string }
+export type ToastTone = 'info' | 'success' | 'warning' | 'danger'   // mirrors Alert
+export interface ToastOptions {
+  title?: ReactNode
+  description?: ReactNode
+  tone?: ToastTone        // left accent border like Alert; omit for a plain toast
+  type?: string           // free-form Base UI type when `tone` is unset (styled if it names a tone)
+}
 export function useToast(): { toast: (options: ToastOptions) => string }  // returns the toast id
 ```
 
@@ -42,6 +48,14 @@ toast({ title: 'Saved', description: 'Your changes were saved.' })
 
 viewport: `fixed bottom-4 right-4 z-50 flex w-80 flex-col gap-2`. root: `rounded-md border border-line bg-surface p-4 shadow-card` + enter/exit slide/opacity. title `font-display font-bold text-sm`; description `text-sm text-text-dim`; close: top-right ghost button.
 
+| tone | root (mirrors Alert) |
+|---|---|
+| (none) | unchanged — plain toast |
+| info | `border-l-4 border-l-text-faint` |
+| success | `border-l-4 border-l-success` |
+| warning | `border-l-4 border-l-premium` |
+| danger | `border-l-4 border-l-accent` |
+
 ## 5. States
 
 enter (slide/fade in) · visible · auto-dismiss after `timeout` · close (button/swipe from Base UI).
@@ -54,7 +68,9 @@ enter (slide/fade in) · visible · auto-dismiss after `timeout` · close (butto
 
 ## 7. Styles (`toast.styles.tsx`)
 
-`tv()` `slots` (no variants).
+`tv()` `slots` + a `tone` variant on `root` (no default, so untoned toasts are unchanged).
+`useToast` sends `tone ?? type` to Base UI as the toast `type`; `ToastList` maps a recognised tone
+name back to the variant.
 
 ## 8. Accessibility checklist
 
@@ -69,9 +85,12 @@ removes it. **Browser:** clicking a trigger shows the toast.
 
 ## 10. Stories
 
-`Default` (a Show button inside a provider), `WithDescription`.
+`Default` (a Show button inside a provider), `WithDescription`, `Tones` (one trigger per tone).
 
 ## 11. Decisions
 
-- Provider + `useToast` hook API (not a rendered element); string values via `type` for styling
-  hooks. No per-toast action button in v1 (Base UI supports it; can add).
+- Provider + `useToast` hook API (not a rendered element). No per-toast action button in v1
+  (Base UI supports it; can add).
+- `tone` mirrors Alert's map exactly (same tokens, same left border) and has **no default**, so
+  adding it changed nothing for existing toasts (minor). It rides on Base UI's `type` field, so a
+  free-form `type` that happens to name a tone is styled as that tone.

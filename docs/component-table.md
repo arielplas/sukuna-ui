@@ -22,6 +22,11 @@ src/components/table/
 ## 3. API
 
 ```ts
+export interface TableProps extends ComponentPropsWithoutRef<'table'> {
+  density?: 'comfortable' | 'compact'   // default 'comfortable'
+  striped?: boolean                     // even body rows get a line-soft background
+  hoverable?: boolean                   // every body row highlights on hover
+}
 export const Table: ForwardRefExoticComponent<TableProps> & {
   Header, Body, Row, HeaderCell, Cell   // thin styled wrappers over thead/tbody/tr/th/td
 }
@@ -40,9 +45,18 @@ wrapper: `w-full overflow-x-auto` (horizontal scroll on small screens). table: `
 text-sm text-text`. headerCell: `h-10 px-3 text-xs uppercase tracking-eyebrow text-text-dim border-b
 border-line`. row: `border-b border-line`, `data-[interactive]:hover:bg-line-soft`. cell: `h-11 px-3`.
 
+Root options are applied to the `<table>` through descendant selectors, so sub-parts need no
+context (and a descendant rule beats a cell's own `h-11` on specificity):
+
+| option | table utilities |
+|---|---|
+| density compact | `[&_th]:h-8 [&_th]:px-2 [&_td]:h-9 [&_td]:px-2` (comfortable = unchanged cell classes) |
+| striped | `[&_tbody_tr:nth-child(even)]:bg-line-soft` |
+| hoverable | `[&_tbody_tr:hover]:bg-line` — `line` (10%) rather than `line-soft` so it still reads over a stripe |
+
 ## 5. States
 
-Static. Rows can opt into a hover with `data-interactive`.
+Static. Rows highlight on hover when the table is `hoverable`, or per row with `data-interactive`.
 
 ## 6. Logic (`table.logic.tsx`)
 
@@ -51,7 +65,8 @@ Static. Rows can opt into a hover with `data-interactive`.
 
 ## 7. Styles
 
-`tv()` `slots` (no variants).
+`tv()` `slots` + root-only `density` / `striped` / `hoverable` variants on the `table` slot;
+`defaultVariants: { density: 'comfortable' }`. Sub-parts use a static slot map.
 
 ## 8. Accessibility checklist
 
@@ -66,9 +81,12 @@ on the table; className merges; the wrapper enables horizontal scroll; SSR; axe 
 
 ## 10. Stories
 
-`Default`, `Interactive` (hoverable rows), `Wide`.
+`Default`, `Compact`, `Striped`, `Hoverable`, `StripedHoverableCompact`, `Interactive` (per-row
+hover), `Wide`.
 
 ## 11. Decisions
 
 - Compound of styled native elements; no sorting/selection/pagination baked in (compose with
   Pagination; bring a data grid for heavy needs).
+- Root options (post-0.8.0) use descendant selectors instead of React context, keeping every
+  sub-part a stateless, context-free wrapper (RSC-safe, no re-render coupling).

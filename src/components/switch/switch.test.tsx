@@ -8,7 +8,7 @@ import { Switch } from './index'
 
 describe('Switch', () => {
   it('renders both sizes on the server with role switch', () => {
-    for (const size of ['sm', 'md'] as const)
+    for (const size of ['sm', 'md', 'lg'] as const)
       expect(renderServer(<Switch size={size} aria-label="s" />)).toContain('role="switch"')
   })
 

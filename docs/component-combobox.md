@@ -32,6 +32,8 @@ export interface ComboboxProps {
   disabled?: boolean
   emptyMessage?: string   // default 'No results'
   maxRenderedItems?: number // cap displayed suggestions (Base UI `limit`); search spans all items
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
+  size?: 'sm' | 'md' | 'lg'                   // default 'md'; same scale as Input
   'aria-label'?: string
 }
 ```
@@ -43,7 +45,10 @@ capped `items`.
 
 ## 4. Variants → tokens
 
-input: same as Input (`bg-surface-2 border-line rounded-md`, focus ring). popup: `z-50 max-h-72
+input: same as Input — `variant` filled `bg-surface-2 border-line` (default) / outline
+`bg-transparent border-line` / ghost `bg-transparent border-transparent hover:bg-surface-2`; `size`
+sm `h-8 px-3 text-sm rounded-sm` / md `h-10 px-3 text-md rounded-md` / lg `h-12 px-4 text-lg
+rounded-lg`; focus ring. popup: `z-50 max-h-72
 overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale. item:
 `h-9 px-2.5 rounded-sm data-[highlighted]:bg-line-soft data-[selected]:text-accent`. empty:
 `text-sm text-text-dim`.

@@ -12,6 +12,22 @@ describe('Combobox', () => {
     expect(screen.getByRole('combobox', { name: 'Fruit' })).toBeInTheDocument()
   })
 
+  it('maps variant and size onto the input; filled/md is the unchanged default', () => {
+    render(
+      <>
+        <Combobox items={items} aria-label="filled" />
+        <Combobox items={items} aria-label="ghost" variant="ghost" size="lg" />
+      </>,
+    )
+    const filled = screen.getByRole('combobox', { name: 'filled' }).classList
+    expect(filled.contains('bg-surface-2')).toBe(true)
+    expect(filled.contains('h-10')).toBe(true)
+    const ghost = screen.getByRole('combobox', { name: 'ghost' }).classList
+    expect(ghost.contains('border-transparent')).toBe(true)
+    expect(ghost.contains('h-12')).toBe(true)
+    expect(ghost.contains('bg-surface-2')).toBe(false)
+  })
+
   it('does not render options until typing', () => {
     render(<Combobox items={items} aria-label="Fruit" />)
     expect(screen.queryByRole('option', { name: 'Banana' })).toBeNull()

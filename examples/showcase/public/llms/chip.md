@@ -20,6 +20,8 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
   tone?: 'neutral' | 'accent' | 'success' | 'premium'   // default 'neutral'
+  variant?: 'soft' | 'solid' | 'outline'                 // unset = each tone's original look (same map as Badge)
+  selected?: boolean                                     // active filter: accent border + text (visual, via data-selected)
   size?: 'sm' | 'md'                                     // default 'md'
   leadingIcon?: ReactNode
   onDismiss?: () => void      // renders a × remove button
@@ -29,12 +31,18 @@ export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
 
 ## Variants & tokens
 
-Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap`.
-tone → same mapping as Badge (neutral/accent/success/premium). size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm text-current/70 hover:text-current focus-visible:ring-2 focus-visible:ring-accent-glow`.
+Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap` +
+`data-[selected]:border-accent data-[selected]:text-accent`. tone × variant → the same literal
+compound map as Badge (see `docs/component-badge.md` §4); unset `variant` keeps the original
+per-tone look. size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm
+opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring`.
 
 ## States
 
-Static; the dismiss button is a native `<button>` (keyboard/focus for free).
+| State | Behavior |
+|---|---|
+| default | static; the dismiss button is a native `<button>` (keyboard/focus for free) |
+| selected | `data-selected` → accent border + accent text; the attribute selector beats the tone colors. Visual only — the click/toggle lives on a wrapping Button/Link (or use `ToggleGroup`). |
 
 ## Accessibility
 
