@@ -1,8 +1,14 @@
-import { Component, type ErrorInfo, type ReactNode, useEffect, useState } from 'react'
+import { Component, type ErrorInfo, type ReactNode, useEffect, useId, useState } from 'react'
 // Consume the library from source so the explorer shares one module instance with the stories
 // (matters for context components like Toast) and always reflects the current code.
 import { Badge, Button, Card, Text, ToastProvider } from '../../../src/index'
-import { type ComponentEntry, components, renderStory } from './stories'
+import {
+  type ComponentEntry,
+  components,
+  renderStory,
+  type StoryEntry,
+  storySnippet,
+} from './stories'
 
 const GITHUB_URL = 'https://github.com/arielplas/sukuna-ui'
 const NPM_URL = 'https://www.npmjs.com/package/sukuna-ui'
@@ -205,6 +211,68 @@ function Overview() {
   )
 }
 
+/**
+ * One example: the live story, plus a "Show code" toggle revealing the import line and the
+ * story's own JSX (lifted from the stories source, see `stories.tsx`). Closed on the server, so
+ * the prerendered page stays lean; the toggle and Copy are plain client event handlers.
+ */
+function Example({ entry, item }: { entry: ComponentEntry; item: StoryEntry }) {
+  const [open, setOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const codeId = useId()
+  const snippet = storySnippet(item)
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(snippet)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1500)
+    } catch {}
+  }
+
+  return (
+    <section>
+      <Text
+        as="h2"
+        font="display"
+        size="md"
+        weight="bold"
+        className="mb-2"
+        style={{ letterSpacing: 'var(--sk-tracking-tight)' }}
+      >
+        {item.name}
+      </Text>
+      <Card elevation="raised" padding="lg">
+        <StoryBoundary>{renderStory(entry, item)}</StoryBoundary>
+      </Card>
+      <div className="mt-2 flex items-center justify-between gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          aria-expanded={open}
+          aria-controls={codeId}
+          onClick={() => setOpen((o) => !o)}
+        >
+          {open ? 'Hide code' : 'Show code'}
+        </Button>
+        {open ? (
+          <Button variant="ghost" size="sm" onClick={copy} aria-live="polite">
+            {copied ? 'Copied' : 'Copy'}
+          </Button>
+        ) : null}
+      </div>
+      {open ? (
+        <pre
+          id={codeId}
+          className="m-0 mt-2 overflow-x-auto rounded-md border border-line bg-well p-4 text-sm leading-relaxed text-text"
+        >
+          <code>{snippet}</code>
+        </pre>
+      ) : null}
+    </section>
+  )
+}
+
 function ComponentDetail({ entry }: { entry: ComponentEntry }) {
   return (
     <div className="mx-auto max-w-[900px]">
@@ -212,26 +280,13 @@ function ComponentDetail({ entry }: { entry: ComponentEntry }) {
         {entry.name}
       </Text>
       <Text tone="dim" size="sm" className="mt-1">
-        {entry.stories.length} example{entry.stories.length === 1 ? '' : 's'} · same as Storybook
+        {entry.stories.length} example{entry.stories.length === 1 ? '' : 's'} · same as Storybook ·
+        each with its code and import
       </Text>
 
       <div className="mt-6 flex flex-col gap-6">
         {entry.stories.map((item) => (
-          <section key={item.key}>
-            <Text
-              as="h2"
-              font="display"
-              size="md"
-              weight="bold"
-              className="mb-2"
-              style={{ letterSpacing: 'var(--sk-tracking-tight)' }}
-            >
-              {item.name}
-            </Text>
-            <Card elevation="raised" padding="lg">
-              <StoryBoundary>{renderStory(entry, item)}</StoryBoundary>
-            </Card>
-          </section>
+          <Example key={item.key} entry={entry} item={item} />
         ))}
       </div>
     </div>
