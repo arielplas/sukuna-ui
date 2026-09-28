@@ -11,3 +11,42 @@
 @import "../../../src/styles/theme.css";
 @source "../../../src/components";
 @source ".";
+
+/*
+ * Code-snippet syntax colours (see `src/highlight.tsx`). VS Code Dark+ on the dark well; a
+ * Light+-style palette, darkened where needed to keep AA contrast on the light well.
+ */
+[data-theme='dark'] {
+  --code-comment: #6a9955;
+  --code-string: #ce9178;
+  --code-number: #b5cea8;
+  --code-keyword: #569cd6;
+  --code-control: #c586c0;
+  --code-component: #4ec9b0;
+  --code-tag: #569cd6;
+  --code-attr: #9cdcfe;
+  --code-fn: #dcdcaa;
+  --code-punct: #808080;
+}
+[data-theme='light'] {
+  --code-comment: #0a6a0a;
+  --code-string: #a31515;
+  --code-number: #0d6e4f;
+  --code-keyword: #0000c8;
+  --code-control: #8a1c8a;
+  --code-component: #1b6478;
+  --code-tag: #7d1a1a;
+  --code-attr: #b30000;
+  --code-fn: #6b4f16;
+  --code-punct: #5a5a5a;
+}
+.tok-comment { color: var(--code-comment); font-style: italic; }
+.tok-string { color: var(--code-string); }
+.tok-number { color: var(--code-number); }
+.tok-keyword { color: var(--code-keyword); }
+.tok-control { color: var(--code-control); }
+.tok-component { color: var(--code-component); }
+.tok-tag { color: var(--code-tag); }
+.tok-attr { color: var(--code-attr); }
+.tok-fn { color: var(--code-fn); }
+.tok-punct { color: var(--code-punct); }
