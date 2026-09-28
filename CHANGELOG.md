@@ -1,5 +1,78 @@
 # sukuna-ui
 
+## 0.9.0
+
+### Minor Changes
+
+- 415693f: Counter: the count-up paints straight into its text node instead of setting React state every
+  frame (zero re-renders while animating, was ~60/s per counter). New `startOnView` prop (default
+  `false`) holds the count at `from` until the number scrolls into view.
+- ac23b32: Motion wave (CSS-only, see `docs/motion.md`): new tokens `--sk-duration-slow` / `duration-slow` and
+  `--sk-ease-spring` / `ease-spring`, plus an `animate-indeterminate` utility. Tabs get a sliding
+  indicator (horizontal and vertical); Accordion panels animate their height; Menu, ContextMenu,
+  Select, Combobox, Popover, Tooltip and HoverCard slide in from their trigger side; Toasts stack as a
+  deck that fans out on hover and can be swiped away; Meter and Progress bars grow in, and
+  indeterminate Progress slides instead of pulsing. Everything honors `prefers-reduced-motion`.
+  Adds tokens/utilities → minor.
+- 9630753: Table actions column. Menu and ContextMenu options accept an `icon` (decorative, `aria-hidden`
+  leading icon). New `RowActions` component: a square ghost ⋯ button that opens a Menu of row
+  actions (`items`, row-specific `aria-label`, opens aligned to the end). Table gains static
+  `Table.ActionsHeaderCell` (visually hidden "Actions" column name) and `Table.ActionsCell`
+  (narrow, right-aligned); Table itself stays a zero-JS server component. Adds props/parts/component
+  → minor.
+- f5f1ef6: Tabs: new `orientation="vertical"` — a navigation column beside the panel (settings pages, sidebars)
+  with ArrowUp/ArrowDown and `aria-orientation="vertical"`. Tab labels now lay out icon + text with a
+  gap. Default stays `horizontal` with identical styling. Adds a prop → minor.
+- eed0d23: Five new components: **Popover** (click-opened, non-modal floating panel), **AlertDialog**
+  (`role="alertdialog"` confirm that ignores outside clicks; `Cancel` + primary `Action` with
+  `preventDefault()` to stay open), **Textarea** (server component; sizes, `resize`, CSS-only
+  `autoResize`), **Collapsible** (single disclosure with animated height) and **Meter**
+  (`role="meter"` gauge with `tone`, `showValue`, `Intl` `format`). Adds components → minor.
+- 65a8a98: New variants (no new tokens): Button `variant="outline" | "link"` and `iconOnly` (square at every
+  size); Alert `onDismiss` + `dismissLabel` (close button, stays a server component); Card
+  `interactive` (hover lift + card-sized focus ring via `:has(:focus-visible)`); Avatar
+  `shape="square"`; Progress and Spinner `tone` (`accent` | `success` | `premium`, Spinner also
+  `current`). Adds props/variants → minor.
+- 454464b: New `VideoPlayer` (wave 1 of the Nuevo-parity plan, Q21–Q23): Sukuna-branded controls over the
+  native `<video>`, always-dark chrome, no player library. Chapter-segmented seek bar with sprite
+  thumbnail previews, quality menu from `sources`, speed, player-rendered captions with language and
+  style settings, ±10s, frame stepping, volume, picture-in-picture, AirPlay, fullscreen, touch
+  controls with double-tap seek, muted-autoplay chip, context menu, keyboard shortcuts (`?` sheet),
+  `labels` for i18n and a public `useVideoPlayer()` hook for custom parts.
+
+  Wave 2 adds opt-in parts (separate exports, tree-shaken when unused): `VideoPlayerPlaylist`,
+  `VideoPlayerPanel` (chapters / playlist / transcript), `VideoPlayerUpNext`,
+  `VideoPlayerEndScreen`, `VideoPlayerShare`, `VideoPlayerSkip`; and player props `resume`,
+  `syncGroup`, `floating` and `theater`.
+
+  Wave 3 adds gear rows `picture` (zoom, mirror, brightness/contrast/saturation), `sleep`, `loop`
+  (whole video, chapter, A–B), `snapshot` and `download`; props `watchLimit`, `live` (DVR window +
+  LIVE pill), `download`, `onSnapshot`; and parts `VideoPlayerOverlay` and `VideoPlayerAudio`
+  (Web Audio visualizer).
+
+  Wave 4 adds the `engine` prop (`VideoEngine` seam for streaming engines; their levels fill the
+  Quality menu) and a new entry point `sukuna-ui/video/hls` with `hlsEngine()`. hls.js is an
+  **optional** peer dependency (`>=1.5`), needed only by apps that import that entry. Adds a prop,
+  components and an export → minor.
+
+### Patch Changes
+
+- eed0d23: Accordion: a disabled item is now visibly dimmed. Base UI keeps a disabled trigger focusable with
+  `data-disabled`/`aria-disabled` and no native `disabled`, so the `disabled:` styles never applied
+  (same trap as Tabs, D27). Unit + Playwright guards added.
+- 415693f: Upgrade the headless layer from `@base-ui-components/react@1.0.0-rc.0` to the stable, renamed
+  `@base-ui/react@^1.8.0` (eight releases of fixes). No public API change; ScrollArea keeps its
+  scrollbars mounted (`keepMounted`) so layout matches the rc behavior. Internal headless-lib bump
+  → patch (breaking-change table).
+- 415693f: Button is now a server component: it had no hooks, so the `'use client'` directive only forced
+  hydration. Link and submit buttons now ship zero JS under RSC. A new RSC-boundary test fails if a
+  hook-free component is ever marked client again (or a hook-using one isn't).
+- ac23b32: Animation fixes: Tailwind v4 compiles `scale-*`/`translate-*` to the standalone `scale`/`translate`
+  properties, so transitions listed as `transform` never ran — popup and Dialog scale-in, the Button
+  press and the Card lift snapped instead of animating (11 components). Indeterminate Progress also
+  kept animating under `prefers-reduced-motion` (a `data-[indeterminate]` variant outranked
+  `motion-reduce:`). Both fixed; no API change.
+
 ## 0.8.0
 
 ### Minor Changes
