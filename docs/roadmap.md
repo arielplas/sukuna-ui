@@ -4,7 +4,7 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-27 — v1.3 wave (§D4) built on branch `feat/v1.3-wave`: Base UI stable, 5 components, variants, perf. 44 components.
+Last updated: 2026-09-27 — v1.3 wave (§D4) built on branch `feat/v1.3-wave`: Base UI stable, 5 components, variants, perf. 45 components.
 Current phase: **Phase 8 (1 of 4 examples) + Phase 9 (docs/CI done; publish pending owner).** Phases 0–7 done.
 Current version: none published. Target for first publish: `0.1.0`.
 
@@ -229,6 +229,8 @@ export → ≥90% → review.
 | Card | `interactive` (hover lift + focus ring for clickable cards) | [x] |
 | Progress / Spinner | `tone: 'accent' \| 'success' \| 'premium'` (+ `current` on Spinner) | [x] |
 | Avatar | `shape: 'circle' \| 'square'` | [x] |
+| Menu / ContextMenu | `MenuItemOption.icon` (leading, aria-hidden) | [x] |
+| Table + new RowActions | actions column: `Table.ActionsHeaderCell`/`ActionsCell` + `RowActions` (⋯ menu, icon options) — owner request 2026-09-27 (Q18) | [x] 100% cov + browser; Table still 0.56 kB static |
 | Accordion | fix: disabled items were never dimmed (`data-[disabled]`, found building Collapsible) | [x] |
 
 ---
@@ -295,3 +297,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-21 · Showcase: every example gets a Show code toggle (import line + the story's own JSX). The snippet is lifted from the stories source via a second `?raw` glob — `{...args}` is inlined as the literal props written in `args: { … }` (so `items={items}` stays a reference and its helper `const` is included above), explicit tag props beat expanded args, a `react` import is added when a story uses hooks, and the `import { … } from 'sukuna-ui'` line comes from the real exports in src/index.ts. Closed on the server (prerender unchanged); Copy uses the clipboard in a click handler. · (showcase-code-toggle branch)
 - 2026-09-27 · v1.3 wave (§D4, Q15/D33): Base UI rc.0 → stable `@base-ui/react@1.8` (ScrollArea keepMounted); Button → server component + RSC-boundary guard test; Counter paints via ref (0 re-renders/frame) + `startOnView`; size-limit budget per component (40 entries). New Popover, AlertDialog, Textarea, Collapsible, Meter (docs-first, 100% cov, browser specs). Variants: Button outline/link/iconOnly, Alert onDismiss, Card interactive, Avatar shape, Progress/Spinner tone. Fix: Accordion disabled items never dimmed. `danger` kept out (Q10). Virtualization waits on Q16 · (feat/v1.3-wave)
 - 2026-09-27 · Perf P4 (virtualization) → [-] deferred by owner (Q17); Q16 closed, no new dependency · (feat/v1.3-wave)
+- 2026-09-27 · Table actions column (Q18/D34): `MenuItemOption.icon` (Menu + ContextMenu), new `RowActions` (⋯ ghost icon Button + Menu, row-specific aria-label, align end), static `Table.ActionsHeaderCell` (sr-only "Actions") / `Table.ActionsCell`. Table stays server-only at 0.56 kB. 379 unit (100% cov) + 39 browser green. 45 components · (feat/v1.3-wave)

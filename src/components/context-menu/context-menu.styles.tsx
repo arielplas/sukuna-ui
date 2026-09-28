@@ -23,5 +23,6 @@ export const contextMenuStyles = tv({
       'data-[highlighted]:bg-surface-2 data-[highlighted]:ring-1 data-[highlighted]:ring-inset data-[highlighted]:ring-focus-ring',
       'data-[disabled]:opacity-45 data-[disabled]:cursor-not-allowed',
     ],
+    icon: 'inline-flex size-4 shrink-0 items-center justify-center text-text-dim [&>svg]:size-4',
   },
 })

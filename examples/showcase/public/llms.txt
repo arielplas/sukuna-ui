@@ -1,8 +1,8 @@
 # sukuna-ui
 
-> SSR-safe, accessible React component library — 44 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).
+> SSR-safe, accessible React component library — 45 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).
 
-sukuna-ui is a React 18/19 component library: 44 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 45 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -47,6 +47,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - [Popover](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/popover.md): Show a small, interactive panel next to the element that opened it — filters, quick settings, a share box, a date picker later.
 - [Progress](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/progress.md): A horizontal progress bar, determinate or indeterminate.
 - [RadioGroup](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/radio-group.md): Choose one option from a small set.
+- [RowActions](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/row-actions.md): Every data table eventually needs a per-row "Edit / Duplicate / Delete" menu.
 - [ScrollArea](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/scroll-area.md): Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in every browser and matches the Sukuna surface, instead of the OS default.
 - [Select](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/select.md): A single-select dropdown.
 - [ShinyText](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/shiny-text.md): Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis.

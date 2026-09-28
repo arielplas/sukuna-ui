@@ -9,7 +9,7 @@
 
 **SSR-safe, accessible React components for dark-first products — and for the AI agents that build them.**
 
-<!-- count -->44<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
+<!-- count -->45<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
 contrast in both themes, `prefers-reduced-motion` honored, zero runtime styling, React Server
 Components-ready, React 18 and 19. Dark is the identity; light is a mode.
 
@@ -112,6 +112,7 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `Popover` | Show a small, interactive panel next to the element that opened it — filters, quick settings, a share box, a date picker later. | [docs/llms/popover.md](docs/llms/popover.md) |
 | `Progress` | A horizontal progress bar, determinate or indeterminate. | [docs/llms/progress.md](docs/llms/progress.md) |
 | `RadioGroup` | Choose one option from a small set. | [docs/llms/radio-group.md](docs/llms/radio-group.md) |
+| `RowActions` | Every data table eventually needs a per-row "Edit / Duplicate / Delete" menu. | [docs/llms/row-actions.md](docs/llms/row-actions.md) |
 | `ScrollArea` | Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in every browser and matches the Sukuna surface, instead of the OS default. | [docs/llms/scroll-area.md](docs/llms/scroll-area.md) |
 | `Select` | A single-select dropdown. | [docs/llms/select.md](docs/llms/select.md) |
 | `ShinyText` | Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis. | [docs/llms/shiny-text.md](docs/llms/shiny-text.md) |

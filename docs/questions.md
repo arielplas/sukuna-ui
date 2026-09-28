@@ -217,6 +217,16 @@ Revisit when a real app has a large Table: option 2 first (no dep), option 3 if 
 
 ---
 
+## Q18. "add an actions column to columns that supports options + icons in the options"
+
+**Interpretation.** Table has no `columns` config (it is compositional), so "actions column" =
+a per-row ⋯ menu column. **Decision (agent, D34):** `MenuItemOption` gains `icon`; a new
+`RowActions` component (ghost icon `Button` + `Menu`) is the cell content; `Table` gains static
+`ActionsHeaderCell` (visually hidden "Actions" name) and `ActionsCell`. The menu is NOT built
+into `Table` so Table stays a zero-JS server component within its 2 kB size budget.
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |

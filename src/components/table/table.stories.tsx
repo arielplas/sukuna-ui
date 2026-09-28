@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { CopyIcon, PencilIcon, TrashIcon } from '../../stories/icons'
 import { Badge } from '../badge'
+import { RowActions } from '../row-actions'
 import { Table } from './index'
 
 const rows = [
@@ -56,6 +58,39 @@ export const Interactive: Story = {
           <Table.Row key={r.name} data-interactive>
             <Table.Cell>{r.name}</Table.Cell>
             <Table.Cell>{r.role}</Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  ),
+}
+
+/** Actions column: a hidden-label header plus a ⋯ menu per row, options with icons. */
+export const WithActions: Story = {
+  render: () => (
+    <Table aria-label="Team members">
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell scope="col">Name</Table.HeaderCell>
+          <Table.HeaderCell scope="col">Role</Table.HeaderCell>
+          <Table.ActionsHeaderCell scope="col" />
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {rows.map((r) => (
+          <Table.Row key={r.name}>
+            <Table.Cell>{r.name}</Table.Cell>
+            <Table.Cell>{r.role}</Table.Cell>
+            <Table.ActionsCell>
+              <RowActions
+                aria-label={`Actions for ${r.name}`}
+                items={[
+                  { label: 'Edit', icon: <PencilIcon />, onSelect: () => {} },
+                  { label: 'Duplicate', icon: <CopyIcon />, onSelect: () => {} },
+                  { label: 'Remove', icon: <TrashIcon />, onSelect: () => {} },
+                ]}
+              />
+            </Table.ActionsCell>
           </Table.Row>
         ))}
       </Table.Body>

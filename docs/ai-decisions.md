@@ -9,6 +9,17 @@ agent's own calls. Newest first.
 
 ---
 
+## D34 — Table actions column = static cells + a separate `RowActions`
+
+- **Decision:** Owner asked for "an actions column … options + icons in the options" (Q18). Built as
+  `MenuItemOption.icon` + new `RowActions` (client; Button + Menu) + static
+  `Table.ActionsHeaderCell`/`Table.ActionsCell`, rather than `Table.ActionsCell items={…}`.
+- **Why:** `Table` is a server component with a 2 kB "no Base UI" size budget. Putting Menu inside
+  it would make every Table import ship ~48 kB of Base UI and a `'use client'` boundary. As a
+  separate component, only tables that use row actions pay for them.
+- **Reverse:** Fold `RowActions` into `Table.ActionsCell` if the ergonomics matter more than the
+  budget (then raise the Table size limit and mark table.logic `'use client'`).
+
 ## D33 — v1.3 wave: Base UI stable, danger kept out, scope trims
 
 - **Decision:** (1) Migrate to `@base-ui/react@^1.8.0` (the rc package was renamed at 1.0) and

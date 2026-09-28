@@ -18,6 +18,7 @@ virtualization are out of scope (use a data-grid library for those).
 ```ts
 export const Table: ForwardRefExoticComponent<TableProps> & {
   Header, Body, Row, HeaderCell, Cell   // thin styled wrappers over thead/tbody/tr/th/td
+  ActionsHeaderCell, ActionsCell        // v1.3 — the actions column (see component-row-actions.md)
 }
 ```
 
@@ -27,6 +28,12 @@ export const Table: ForwardRefExoticComponent<TableProps> & {
   <Table.Body><Table.Row><Table.Cell>Ariel</Table.Cell></Table.Row></Table.Body>
 </Table>
 ```
+
+**Actions column (v1.3).** `Table.ActionsHeaderCell` is a `th` (`w-px text-right`) whose default
+content is a visually hidden "Actions" (`sr-only`) so the column keeps an accessible name; pass
+children to replace it. `Table.ActionsCell` is a `td` (`w-px text-right whitespace-nowrap`) that
+holds a `RowActions` (⋯ menu with icon options). Both stay static — the menu lives in
+`RowActions`, so `Table` never imports Base UI and keeps its 2 kB budget.
 
 ## Variants & tokens
 

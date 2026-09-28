@@ -26,6 +26,7 @@ import type { ReactElement, ReactNode } from 'react'
 
 export interface MenuItemOption {
   label: ReactNode
+  icon?: ReactNode        // v1.3 — decorative leading icon (aria-hidden, 16px, text-text-dim)
   onSelect?: () => void   // fires on click / Enter / Space; the menu then closes
   disabled?: boolean
   id?: string             // stable React key — set it for dynamic (filtered/reordered) menus;
@@ -72,7 +73,7 @@ closed · open (positioned popup) · item highlighted (keyboard) · disabled ite
 
 ## 10. Stories
 
-`Default`, `WithDisabled`, `Sides`.
+`Default`, `WithDisabled`, `Sides`, `WithIcons` (v1.3).
 
 ## 11. Decisions
 

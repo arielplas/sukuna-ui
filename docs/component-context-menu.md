@@ -85,7 +85,8 @@ runs `onSelect` and closes; Escape closes.
 
 ## 10. Stories
 
-`Default`, `WithDisabled`, `OnACard` (right-click a surface). Both `data-theme` values.
+`Default`, `WithDisabled`, `OnACard` (right-click a surface), `WithIcons` (v1.3 — `MenuItemOption.icon`).
+Both `data-theme` values.
 
 ## 11. Decisions
 

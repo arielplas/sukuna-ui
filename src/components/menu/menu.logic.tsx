@@ -8,6 +8,11 @@ import { menuStyles } from './menu.styles'
 export interface MenuItemOption {
   /** Visible content of the row (text, or text plus an icon). Also its accessible name if text. */
   label: ReactNode
+  /**
+   * Decorative leading icon (16px, tinted `text-text-dim`), hidden from assistive tech: the
+   * `label` stays the accessible name.
+   */
+  icon?: ReactNode
   /** Fires when the item is activated by click, `Enter` or `Space`; the menu then closes. */
   onSelect?: () => void
   /**
@@ -125,6 +130,11 @@ export function Menu({
                 onClick={item.onSelect}
                 className={styles.item()}
               >
+                {item.icon ? (
+                  <span aria-hidden="true" className={styles.icon()}>
+                    {item.icon}
+                  </span>
+                ) : null}
                 {item.label}
               </Base.Item>
             ))}

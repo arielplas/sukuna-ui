@@ -294,6 +294,13 @@
     "ignore": ["react", "react-dom", "react/jsx-runtime"]
   },
   {
+    "name": "RowActions + deps",
+    "path": "dist/index.js",
+    "import": "{ RowActions }",
+    "limit": "54 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
     "name": "ScrollArea + deps",
     "path": "dist/index.js",
     "import": "{ ScrollArea }",

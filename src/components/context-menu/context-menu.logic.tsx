@@ -70,6 +70,11 @@ export function ContextMenu({ children, items }: ContextMenuProps) {
                 onClick={item.onSelect}
                 className={styles.item()}
               >
+                {item.icon ? (
+                  <span aria-hidden="true" className={styles.icon()}>
+                    {item.icon}
+                  </span>
+                ) : null}
                 {item.label}
               </Base.Item>
             ))}
