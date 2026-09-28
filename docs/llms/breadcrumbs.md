@@ -6,7 +6,7 @@
 - **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
 - **Import:** `import { Breadcrumbs } from 'sukuna-ui'`
 - **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/breadcrumbs · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-breadcrumbs.md
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/packages/ui/src/components/breadcrumbs · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-breadcrumbs.md
 
 ## Purpose
 

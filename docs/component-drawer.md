@@ -11,7 +11,7 @@ come from Base UI Dialog; we anchor and animate it to a side.
 ## 2. Files
 
 ```
-src/components/drawer/
+packages/ui/src/components/drawer/
 ├── drawer.styles.tsx   # tv() slots (backdrop, popup, title, description, close) + `side` variant.
 ├── drawer.logic.tsx    # 'use client'; compound Drawer + sub-parts.
 ├── drawer.test.tsx

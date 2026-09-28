@@ -1,122 +1,30 @@
 {
-  "name": "sukuna-ui",
-  "version": "0.9.2",
-  "description": "SSR-safe, accessible React component library — 46 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).",
+  "name": "sukuna-ui-monorepo",
+  "private": true,
   "type": "module",
   "license": "MIT",
-  "author": "arielplas (https://github.com/arielplas)",
-  "keywords": [
-    "react",
-    "react-components",
-    "component-library",
-    "design-system",
-    "ui",
-    "ui-kit",
-    "typescript",
-    "tailwindcss",
-    "tailwind-v4",
-    "tailwind-variants",
-    "base-ui",
-    "headless-ui",
-    "accessible",
-    "a11y",
-    "wcag",
-    "ssr",
-    "rsc",
-    "react-server-components",
-    "nextjs",
-    "dark-mode",
-    "themeable",
-    "design-tokens",
-    "zero-runtime",
-    "llms-txt",
-    "ai-agents"
+  "workspaces": [
+    "packages/*"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arielplas/sukuna-ui.git"
-  },
-  "homepage": "https://github.com/arielplas/sukuna-ui#readme",
-  "bugs": {
-    "url": "https://github.com/arielplas/sukuna-ui/issues"
-  },
-  "sideEffects": [
-    "**/*.css"
-  ],
-  "files": [
-    "dist"
-  ],
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    },
-    "./video/hls": {
-      "import": {
-        "types": "./dist/video/hls.d.ts",
-        "default": "./dist/video/hls.js"
-      },
-      "require": {
-        "types": "./dist/video/hls.d.cts",
-        "default": "./dist/video/hls.cjs"
-      }
-    },
-    "./theme.css": "./dist/theme.css",
-    "./styles.css": "./dist/styles.css",
-    "./tokens.css": "./dist/tokens.css",
-    "./package.json": "./package.json"
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "video/hls": [
-        "./dist/video/hls.d.ts"
-      ]
-    }
-  },
   "scripts": {
-    "build": "bun run tokens:build && NODE_OPTIONS=\"--max-old-space-size=8192\" tsup && bun run scripts/fix-directives.ts && bun run css:build && bun run docs:build",
-    "tokens:build": "bun run scripts/build-tokens.ts",
-    "css:build": "bun run scripts/build-css.ts",
+    "build": "bun run --filter './packages/*' build",
+    "tokens:build": "bun run --filter sukuna-ui tokens:build",
     "docs:build": "bun run scripts/build-docs.ts",
     "docs:check": "bun run scripts/check-docs.ts",
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome format --write .",
     "check": "biome check . && tsc --noEmit",
-    "check:pkg": "publint --strict && attw --pack . --exclude-entrypoints theme.css styles.css tokens.css",
-    "test": "bun test src",
-    "test:coverage": "bun test src --coverage",
-    "test:watch": "bun test src --watch",
-    "test:react18": "bun run scripts/with-react.ts 18 -- bun test src",
+    "check:pkg": "bun run --filter './packages/*' check:pkg",
+    "test": "bun run --filter './packages/*' test",
+    "test:coverage": "bun run --filter './packages/*' test:coverage",
+    "test:react18": "bun run scripts/with-react.ts 18 -- bun run test",
     "test:browser": "bun run storybook:build && playwright test",
-    "size": "size-limit",
+    "size": "bun run --filter './packages/*' size",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build -o storybook-static",
     "changeset": "changeset",
     "version-packages": "changeset version"
-  },
-  "peerDependencies": {
-    "react": ">=18",
-    "react-dom": ">=18",
-    "tailwindcss": ">=4",
-    "hls.js": ">=1.5"
-  },
-  "peerDependenciesMeta": {
-    "tailwindcss": {
-      "optional": true
-    },
-    "hls.js": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
@@ -155,15 +63,5 @@
   "engines": {
     "node": ">=18",
     "bun": ">=1.1.0"
-  },
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
-  "dependencies": {
-    "@base-ui/react": "^1.8.0",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^3.7.0",
-    "tailwind-variants": "^3.3.1"
   }
 }

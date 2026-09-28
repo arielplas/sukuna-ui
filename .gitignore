@@ -18,3 +18,6 @@ playwright-report/
 # Next.js
 .next/
 next-env.d.ts
+
+# Generated at build time from the root README (scripts/build-docs.ts) for the npm tarball
+packages/ui/README.md

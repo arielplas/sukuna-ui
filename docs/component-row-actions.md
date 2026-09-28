@@ -16,7 +16,7 @@ kept out of `Table` itself so `Table` stays a zero-JS server component and never
 ## 2. Files
 
 ```
-src/components/row-actions/
+packages/ui/src/components/row-actions/
 ├── row-actions.styles.tsx   # tv() slot for the kebab icon.
 ├── row-actions.logic.tsx    # no directive (no hooks); renders client Menu. forwardRef to trigger.
 ├── row-actions.test.tsx

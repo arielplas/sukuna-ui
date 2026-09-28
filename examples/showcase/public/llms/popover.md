@@ -6,7 +6,7 @@
 - **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
 - **Import:** `import { Popover } from 'sukuna-ui'`
 - **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/popover · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-popover.md
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/packages/ui/src/components/popover · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-popover.md
 
 ## Purpose
 

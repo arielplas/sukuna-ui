@@ -12,7 +12,7 @@ enhancement that runs once on the client. Motion is decorative and never gates t
 ## 2. Files
 
 ```
-src/components/counter/
+packages/ui/src/components/counter/
 ├── counter.styles.tsx   # tv() variant map → Tailwind utilities. Pure. Server-safe.
 ├── counter.logic.tsx    # 'use client' — rAF count-up, forwardRef, a11y wiring.
 ├── counter.test.tsx

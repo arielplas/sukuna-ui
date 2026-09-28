@@ -8,8 +8,8 @@
  * markup, so it builds Tailwind here the same way Storybook does.)
  */
 @import "tailwindcss";
-@import "../../../src/styles/theme.css";
-@source "../../../src/components";
+@import "../../../packages/ui/src/styles/theme.css";
+@source "../../../packages/ui/src/components";
 @source ".";
 
 /*

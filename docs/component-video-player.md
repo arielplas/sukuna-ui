@@ -29,7 +29,7 @@ Three tiers keep that from becoming one heavy component:
 ## 2. Files
 
 ```
-src/components/video-player/
+packages/ui/src/components/video-player/
 ├── video-player.styles.tsx    # tv() slots + variants. Pure. Server-safe.
 ├── video-player.logic.tsx     # 'use client' — VideoPlayer: media state, hotkeys, auto-hide, menus, a11y
 ├── video-player.controls.tsx  # 'use client' — SeekBar (segments + preview), VolumeSlider, SettingsMenu
@@ -48,9 +48,9 @@ Parts live in the same folder (they only work inside a `VideoPlayer`):
 `video-player-parts.styles.tsx`, tests in `video-player-parts.test.tsx` (W2) and
 `video-player-w3.test.tsx` (W3). Each part is its own module, so an app that imports only
 `VideoPlayer` never loads them.
-W4 adapters get their own subpath entries, SDK as an optional peer: `src/video/hls.ts` →
+W4 adapters get their own subpath entries, SDK as an optional peer: `packages/ui/src/video/hls.ts` →
 `sukuna-ui/video/hls` (hls.js `>=1.5`, `peerDependenciesMeta.optional`, `typesVersions` for legacy
-`node10` resolution), tested with a mocked hls.js in `src/video/hls.test.ts`. The HLS fixture is
+`node10` resolution), tested with a mocked hls.js in `packages/ui/src/video/hls.test.ts`. The HLS fixture is
 `.storybook/public/video/hls/` (VP9 + Opus fMP4, 360p + 180p) — Playwright's Chromium has no H.264.
 
 ## 3. API
@@ -319,7 +319,7 @@ and stub `fetch` for VTTs. Real playback runs in the browser suite.
   in an effect; other URLs stay native; Quality menu from engine levels (Auto + highest first,
   labels, HD badge from the playing level), pinning and back to Auto; single level hides the row;
   fatal error → error state, Retry re-attaches, unmount destroys; `sources` pick decides.
-  `src/video/hls.test.ts`: URL claim, hls.js wiring (config, load/attach, levels, level switch,
+  `packages/ui/src/video/hls.test.ts`: URL claim, hls.js wiring (config, load/attach, levels, level switch,
   `currentLevel`, destroy), one-shot network/media recovery then fatal, native fallback without
   MSE and with `preferNative`.
 - `video-player-w3.test.tsx` (W3): picture chips + mirror toggle + reset (inline `scale`/`filter`),

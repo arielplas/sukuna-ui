@@ -47,16 +47,16 @@ Override any token by redefining `--sk-*` under your own selector.
 
 | File | Role |
 |---|---|
-| `src/tokens.ts` | Source of truth (typed). |
-| `src/styles/tokens.css` | **Generated.** Raw `--sk-*` palettes (dark + light). Plain CSS. |
-| `src/styles/theme.css` | **Generated.** Palettes + `@theme inline` mapping + `bg-gradient-accent` utility. Ships as `sukuna-ui/theme.css`. |
-| `src/styles/reset.css` | Minimal, `:where()`-scoped under `[data-theme]`. |
-| `src/styles/index.css` | Raw path aggregate: tokens + reset. |
-| `src/styles/fallback.css` | Compiled by `css:build` → `dist/styles.css`. |
-| `src/styles/storybook.css` | Tailwind + theme for the Storybook preview. |
-| `src/utils/tw-merge-config.ts` | Shared `tailwind-merge` extension (font-size group). |
-| `src/utils/cn.ts` | `twMerge(clsx(...))`. |
-| `src/utils/tv.ts` | `tailwind-variants` `tv` + `VariantProps`, using the same merge config. |
+| `packages/ui/src/tokens.ts` | Source of truth (typed). |
+| `packages/ui/src/styles/tokens.css` | **Generated.** Raw `--sk-*` palettes (dark + light). Plain CSS. |
+| `packages/ui/src/styles/theme.css` | **Generated.** Palettes + `@theme inline` mapping + `bg-gradient-accent` utility. Ships as `sukuna-ui/theme.css`. |
+| `packages/ui/src/styles/reset.css` | Minimal, `:where()`-scoped under `[data-theme]`. |
+| `packages/ui/src/styles/index.css` | Raw path aggregate: tokens + reset. |
+| `packages/ui/src/styles/fallback.css` | Compiled by `css:build` → `dist/styles.css`. |
+| `packages/ui/src/styles/storybook.css` | Tailwind + theme for the Storybook preview. |
+| `packages/ui/src/utils/tw-merge-config.ts` | Shared `tailwind-merge` extension (font-size group). |
+| `packages/ui/src/utils/cn.ts` | `twMerge(clsx(...))`. |
+| `packages/ui/src/utils/tv.ts` | `tailwind-variants` `tv` + `VariantProps`, using the same merge config. |
 
 `bun run tokens:build` regenerates `tokens.css` + `theme.css`; `bun run css:build` compiles the
 fallback and copies both to `dist/`. `bun run build` runs both.

@@ -12,7 +12,7 @@ description: >-
 # Keep README + agent docs current
 
 The README's component table and count, `llms.txt`, `llms-full.txt`, `docs/llms/<name>.md` and the
-showcase's `public/llms*` are **generated** from `docs/component-*.md` + `src/index.ts` +
+showcase's `public/llms*` are **generated** from `docs/component-*.md` + `packages/ui/src/index.ts` +
 `package.json` by `scripts/build-docs.ts`. Never hand-edit those generated blocks — regenerate them.
 
 ## Steps
@@ -23,11 +23,11 @@ showcase's `public/llms*` are **generated** from `docs/component-*.md` + `src/in
    ```
    Then look at what moved: `git status --short` and `git diff --stat -- README.md llms.txt llms-full.txt docs/llms examples/showcase/public`.
 
-2. **Verify nothing is missing from the source of truth.** Every directory in `src/components/`
-   must have a `docs/component-<name>.md` (docs-first rule) *and* be exported from `src/index.ts`
+2. **Verify nothing is missing from the source of truth.** Every directory in `packages/ui/src/components/`
+   must have a `docs/component-<name>.md` (docs-first rule) *and* be exported from `packages/ui/src/index.ts`
    — otherwise it silently won't appear in the README/llms. Check:
    ```bash
-   for d in src/components/*/; do n=$(basename "$d"); [ -f "docs/component-$n.md" ] || echo "MISSING DOC: $n"; grep -q "components/$n'" src/index.ts || echo "NOT EXPORTED: $n"; done
+   for d in packages/ui/src/components/*/; do n=$(basename "$d"); [ -f "docs/component-$n.md" ] || echo "MISSING DOC: $n"; grep -q "components/$n'" packages/ui/src/index.ts || echo "NOT EXPORTED: $n"; done
    ```
    If something is missing, write the doc (copy the section structure of `docs/component-button.md`)
    and/or add the export, then re-run step 1.

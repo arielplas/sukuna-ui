@@ -14,7 +14,7 @@ ToggleGroup is a compact button-style control, and `Toggle` is a single pressabl
 ## 2. Files
 
 ```
-src/components/toggle-group/
+packages/ui/src/components/toggle-group/
 ├── toggle-group.styles.tsx   # tv() slots: root, item + `size`/`orientation` variants.
 ├── toggle-group.logic.tsx    # 'use client'; prop-driven ToggleGroup + standalone Toggle.
 ├── toggle-group.test.tsx

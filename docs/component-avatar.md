@@ -11,7 +11,7 @@ A user/entity image with a graceful fallback (initials or icon) while loading or
 ## 2. Files
 
 ```
-src/components/avatar/
+packages/ui/src/components/avatar/
 ├── avatar.styles.tsx   # tv() slots: root, image, fallback.
 ├── avatar.logic.tsx    # composes Base UI parts; no 'use client'.
 ├── avatar.test.tsx

@@ -10,7 +10,7 @@ badge needs to be clickable it belongs inside a Button or Link.
 ## 2. Files
 
 ```
-src/components/badge/
+packages/ui/src/components/badge/
 ├── badge.styles.tsx
 ├── badge.logic.tsx   # forwardRef; NO 'use client'.
 ├── badge.test.tsx

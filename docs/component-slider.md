@@ -10,7 +10,7 @@ Pick a number from a range by dragging or with the keyboard.
 ## 2. Files
 
 ```
-src/components/slider/
+packages/ui/src/components/slider/
 ├── slider.styles.tsx   # tv() slots: root, control, track, indicator, thumb.
 ├── slider.logic.tsx    # 'use client'; prop-driven wrapper.
 ├── slider.test.tsx

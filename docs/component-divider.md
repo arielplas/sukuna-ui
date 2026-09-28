@@ -9,7 +9,7 @@ A thin rule that separates content, horizontally or vertically.
 ## 2. Files
 
 ```
-src/components/divider/
+packages/ui/src/components/divider/
 ├── divider.styles.tsx
 ├── divider.logic.tsx   # forwardRef; NO 'use client'.
 ├── divider.test.tsx

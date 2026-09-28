@@ -12,7 +12,7 @@ the box (rendered inside a `<label>`), or label the bare input yourself.
 ## 2. Files
 
 ```
-src/components/checkbox/
+packages/ui/src/components/checkbox/
 ├── checkbox.styles.tsx
 ├── checkbox.logic.tsx   # 'use client' (controllable state + indeterminate ref).
 ├── checkbox.test.tsx

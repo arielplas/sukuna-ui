@@ -13,7 +13,7 @@ of the plan. If the roadmap and the code disagree, the code is the truth — fix
    outside `useEffect` or event handlers.
 4. **Docs first.** A component's `docs/component-<name>.md` must exist and follow the
    `docs/component-button.md` template before its code is written.
-5. **Three files per component** in `src/components/<name>/`:
+5. **Three files per component** in `packages/ui/src/components/<name>/`:
    `<name>.styles.tsx` (pure variant/class map, server-safe, no hooks/DOM),
    `<name>.logic.tsx` (`forwardRef` component + hooks + a11y; `'use client'` **only** if stateful),
    `index.tsx` (re-exports component + `Props` type). Plus `<name>.test.tsx`, `<name>.stories.tsx`.
@@ -27,8 +27,8 @@ of the plan. If the roadmap and the code disagree, the code is the truth — fix
 9. **Document in the source.** Every exported component and every prop carries TSDoc per
    `docs/tsdoc.md` (purpose, `@remarks` for SSR/a11y/variants, `@default`, a copy-pasteable
    `@example`). The README component table, `llms.txt`, `llms-full.txt` and `docs/llms/*.md` are
-   **generated** by `bun run docs:build` from `docs/component-*.md` + `src/index.ts` — never edit
-   them by hand; `bun run docs:check` fails CI if they drift.
+   **generated** by `bun run docs:build` from `docs/component-*.md` + `packages/ui/src/index.ts` —
+   never edit them by hand; `bun run docs:check` fails CI if they drift.
 
 ## Every unit of work ends green
 
@@ -36,11 +36,16 @@ of the plan. If the roadmap and the code disagree, the code is the truth — fix
 bun run check && bun run test:coverage && bun run build && bun run check:pkg
 ```
 
-(`test:coverage` = `bun test src --coverage`; the unit suite lives under `src/`. Real-browser
-tests are `bun run test:browser`, run against a built Storybook — not part of coverage.)
+(Run from the repo root: each script fans out to every workspace package via `bun run --filter`.
+`test:coverage` = `bun test src --coverage` inside each `packages/<pkg>/`. Real-browser tests are
+`bun run test:browser`, run against a built Storybook — not part of coverage.)
 
-Coverage floor is **90%** on lines, functions, and statements (enforced by `bunfig.toml`), per
-component's own files. Never raise coverage by excluding component code. If a branch is
+**Repo layout (Bun workspaces, Q27):** publishable packages live in `packages/*` — `packages/ui`
+is `sukuna-ui`. Repo-level tooling stays at the root: `docs/`, `.storybook/`, `test/` (shared
+unit helpers + `test/browser`), `scripts/` (shared build/docs scripts), `examples/`, `.changeset/`.
+
+Coverage floor is **90%** on lines, functions, and statements (enforced by each package's
+`bunfig.toml`), per component's own files. Never raise coverage by excluding component code. If a branch is
 unreachable from the public API, delete the branch.
 
 ## Roadmap & questions discipline

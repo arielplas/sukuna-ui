@@ -9,7 +9,7 @@ Triggers an action. Crimson is reserved for the one primary action on a surface;
 ## 2. Files
 
 ```
-src/components/button/
+packages/ui/src/components/button/
 ├── button.styles.tsx   # tv() variant map → Tailwind utilities. Pure. Server-safe.
 ├── button.logic.tsx    # server component — forwardRef, loading/disabled wiring, a11y. No hooks.
 ├── button.test.tsx
@@ -86,7 +86,7 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 
 - **No `'use client'`** (v1.3): it has no hooks and no DOM access, so it is a server component and
   a link/submit button ships zero JS. `loading` is pure props → attributes. Guarded by the RSC
-  boundary test in `src/index.test.ts`.
+  boundary test in `packages/ui/src/index.test.ts`.
 - `forwardRef<HTMLButtonElement, ButtonProps>`.
 - Default `type="button"` (native default is `submit`, which surprises people inside forms).
 - If `loading`, set `disabled` and `aria-busy`; swallow `onClick`.
@@ -127,7 +127,7 @@ export const buttonStyles = tv({
 export type ButtonStyleProps = VariantProps<typeof buttonStyles>
 ```
 
-All color/radius/duration names above resolve through `@theme` in `src/styles/theme.css`; `bg-gradient-accent` is a `@utility` defined there.
+All color/radius/duration names above resolve through `@theme` in `packages/ui/src/styles/theme.css`; `bg-gradient-accent` is a `@utility` defined there.
 
 ## 8. Accessibility checklist
 

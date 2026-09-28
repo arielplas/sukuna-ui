@@ -137,7 +137,7 @@ Fonts: the library does **not** bundle Archivo. Load it yourself (`@import` or `
 ## Accessibility
 
 - WCAG AA contrast for every text/UI token pair in both themes, **enforced by a test**
-  (`src/tokens.contrast.test.ts`) so it can't regress.
+  (`packages/ui/src/tokens.contrast.test.ts`) so it can't regress.
 - Solid focus rings (≥3:1), visible keyboard highlights, tone-derived live-region roles on alerts,
   `prefers-reduced-motion` respected across all animated components.
 - Built on Base UI for focus management, ARIA wiring and keyboard interaction; every component ships

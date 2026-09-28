@@ -13,7 +13,7 @@ none of that and formats inconsistently across browsers.
 ## 2. Files
 
 ```
-src/components/number-field/
+packages/ui/src/components/number-field/
 ├── number-field.styles.tsx   # tv() slots: group, decrement, input, increment + `size` variant.
 ├── number-field.logic.tsx    # 'use client'; forwardRef to the <input>.
 ├── number-field.test.tsx

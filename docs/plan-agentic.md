@@ -10,7 +10,8 @@
 
 | Key | Value |
 |---|---|
-| Package name | `sukuna-ui` |
+| Package name | `sukuna-ui` (`packages/ui`); standalone player `@sukuna-ui/video` (`packages/video`, Q27) |
+| Repo layout | Bun workspaces: publishable packages in `packages/*`; docs, Storybook, shared `test/` + `scripts/`, examples at the root. Older phase notes below say `src/…` — read it as `packages/ui/src/…`. |
 | Runtime / PM / tests | Bun (never Node scripts, never npm/pnpm) |
 | Language | TypeScript, `strict: true` |
 | UI | React, peer range `>=18` (must work on 18 and 19) |
@@ -19,13 +20,13 @@
 | Theming | `data-theme="dark"` (default, brand) and `data-theme="light"` via CSS custom properties |
 | Design source | Sukuna design system (see `docs/tokens.md`) |
 | Docs location | `docs/*` only. One `docs/component-<name>.md` per component. Q&A log in `docs/questions.md`. Status board in `docs/roadmap.md`. |
-| Component layout | `src/components/<name>/{<name>.styles.tsx, <name>.logic.tsx, index.tsx}` |
+| Component layout | `packages/ui/src/components/<name>/{<name>.styles.tsx, <name>.logic.tsx, index.tsx}` |
 | Publishing | npm, public, ESM + CJS + `.d.ts`, `sideEffects` only for CSS |
 
 ### Component file contract
 
 ```
-src/components/button/
+packages/ui/src/components/button/
 ├── button.styles.tsx   # class-name / variant map ONLY. No hooks, no state, no DOM.
 ├── button.logic.tsx    # hook(s) + the React component. Imports from .styles. Owns behavior + a11y.
 ├── button.test.tsx     # bun test; must cover the 8 points in docs/testing.md

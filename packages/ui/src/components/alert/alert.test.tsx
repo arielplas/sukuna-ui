@@ -1,0 +1,115 @@
+import { describe, expect, it, mock } from 'bun:test'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { createRef } from 'react'
+import { expectAccessible } from '../../../../../test/axe'
+import { renderServer } from '../../../../../test/ssr'
+import { Alert } from './index'
+
+const tones = ['info', 'success', 'warning', 'danger'] as const
+
+describe('Alert', () => {
+  it('renders every tone on the server', () => {
+    for (const tone of tones) expect(renderServer(<Alert tone={tone}>msg</Alert>)).toContain('msg')
+  })
+
+  it('derives role from tone: assertive for danger/warning, polite otherwise', () => {
+    const { rerender } = render(<Alert data-testid="a">hi</Alert>)
+    // undefined tone → polite
+    expect(screen.getByTestId('a')).toHaveAttribute('role', 'status')
+    for (const tone of ['info', 'success'] as const) {
+      rerender(
+        <Alert data-testid="a" tone={tone}>
+          hi
+        </Alert>,
+      )
+      expect(screen.getByTestId('a')).toHaveAttribute('role', 'status')
+    }
+    for (const tone of ['warning', 'danger'] as const) {
+      rerender(
+        <Alert data-testid="a" tone={tone}>
+          hi
+        </Alert>,
+      )
+      expect(screen.getByTestId('a')).toHaveAttribute('role', 'alert')
+    }
+  })
+
+  it('lets an explicit role prop win over the tone-derived default', () => {
+    const { rerender } = render(
+      <Alert data-testid="a" tone="danger" role="status">
+        hi
+      </Alert>,
+    )
+    expect(screen.getByTestId('a')).toHaveAttribute('role', 'status')
+    rerender(
+      <Alert data-testid="a" tone="info" role="alert">
+        hi
+      </Alert>,
+    )
+    expect(screen.getByTestId('a')).toHaveAttribute('role', 'alert')
+  })
+
+  it('applies the tone border color', () => {
+    render(
+      <Alert tone="danger" data-testid="a">
+        boom
+      </Alert>,
+    )
+    expect(screen.getByTestId('a').classList.contains('border-l-accent')).toBe(true)
+  })
+
+  it('renders title and body; icon only when provided', () => {
+    const { rerender, container } = render(<Alert title="Heads up">body text</Alert>)
+    expect(screen.getByText('Heads up')).toBeInTheDocument()
+    expect(screen.getByText('body text')).toBeInTheDocument()
+    expect(container.querySelector('[aria-hidden="true"]')).toBeNull()
+    rerender(
+      <Alert title="Heads up" icon={<svg data-testid="ic" />}>
+        body text
+      </Alert>,
+    )
+    expect(screen.getByTestId('ic')).toBeInTheDocument()
+  })
+
+  it('renders a labelled dismiss button only with onDismiss, and calls it', async () => {
+    const { unmount } = render(<Alert>Saved</Alert>)
+    expect(screen.queryByRole('button')).toBeNull()
+    unmount()
+    const onDismiss = mock(() => {})
+    render(
+      <Alert onDismiss={onDismiss} dismissLabel="Close notice">
+        Saved
+      </Alert>,
+    )
+    await userEvent.click(screen.getByRole('button', { name: 'Close notice' }))
+    expect(onDismiss).toHaveBeenCalledTimes(1)
+  })
+
+  it('forwards ref and merges className', () => {
+    const ref = createRef<HTMLDivElement>()
+    render(
+      <Alert ref={ref} className="mt-8" data-testid="a">
+        x
+      </Alert>,
+    )
+    expect(ref.current).toBeInstanceOf(HTMLDivElement)
+    expect(screen.getByTestId('a').classList.contains('mt-8')).toBe(true)
+  })
+
+  it('is accessible in both themes', async () => {
+    for (const theme of ['dark', 'light'] as const) {
+      const { container, unmount } = render(
+        <div data-theme={theme}>
+          {tones.map((tone) => (
+            <Alert key={tone} tone={tone} title={tone}>
+              {tone} message
+            </Alert>
+          ))}
+        </div>,
+      )
+      await expectAccessible(container)
+      unmount()
+    }
+  })
+})

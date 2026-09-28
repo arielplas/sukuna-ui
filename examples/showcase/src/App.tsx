@@ -1,7 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode, useEffect, useId, useState } from 'react'
 // Consume the library from source so the explorer shares one module instance with the stories
 // (matters for context components like Toast) and always reflects the current code.
-import { Badge, Button, Card, Text, ToastProvider } from '../../../src/index'
+import { Badge, Button, Card, Text, ToastProvider } from '../../../packages/ui/src/index'
 import { Highlight } from './highlight'
 import {
   type ComponentEntry,

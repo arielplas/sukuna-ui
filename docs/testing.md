@@ -4,7 +4,7 @@
 
 | Suite | Files | Environment | Covers |
 |---|---|---|---|
-| Unit | `src/components/**/*.test.tsx` | happy-dom | Props, logic, a11y attributes, SSR render, hydration, axe |
+| Unit | `packages/ui/src/components/**/*.test.tsx` | happy-dom | Props, logic, a11y attributes, SSR render, hydration, axe |
 | Browser | `test/browser/**/*.test.ts` | `@playwright/test` (Node) driving `storybook-static` in Chromium | Focus traps, portals, keyboard choreography for Dialog/Select/Tooltip |
 
 The unit suite is `bun test`. The browser suite runs under **`@playwright/test` via Node** (`playwright.config.ts`; Storybook served by `scripts/serve-storybook.ts`), because Playwright's browser transport hangs under Bun — see `docs/ai-decisions.md` D16. `bun run test:browser` = `storybook:build` then `playwright test`. Visual regression is Chromatic on the Storybook build; it is not a test runner.
@@ -31,13 +31,15 @@ bun add -d @happy-dom/global-registrator @testing-library/react @testing-library
 
 ## Harness
 
-`bunfig.toml` — **two** preloads, in order. `register-dom.ts` registers happy-dom BEFORE
+Each workspace package has its own `bunfig.toml` (`packages/<pkg>/bunfig.toml`) that preloads the
+shared helpers in the repo-root `test/`, so run `bun test` from the package directory (the root
+`bun run test` / `test:coverage` do that for every package). **Two** preloads, in order. `register-dom.ts` registers happy-dom BEFORE
 `setup.ts` imports Testing Library, which binds `screen` to `document.body` at import time; a
 single file would bind `screen` before `document` existed (ES imports hoist) and every `screen.*`
 query would throw "a global document has to be available".
 ```toml
 [test]
-preload = ["./test/register-dom.ts", "./test/setup.ts"]
+preload = ["../../test/register-dom.ts", "../../test/setup.ts"]
 coverage = true
 coverageReporter = ["text", "lcov"]
 coverageDir = "coverage"
@@ -54,7 +56,8 @@ coveragePathIgnorePatterns = [
   "src/**/index.tsx",
   "src/index.ts",
   "src/tokens.ts",
-  "test/**",
+  "../../test/**",
+  "../../scripts/**",
   "scripts/**",
 ]
 ```
@@ -115,7 +118,7 @@ Scripts:
   "test": "bun test",
   "test:coverage": "bun test --coverage",
   "test:watch": "bun test --watch",
-  "test:react18": "bun run scripts/with-react.ts 18 -- bun test src",
+  "test:react18": "bun run scripts/with-react.ts 18 -- bun run test",
   "test:browser": "bun run storybook:build && bun test test/browser"
 }
 ```
@@ -124,9 +127,9 @@ Scripts:
 ## Coverage policy
 
 - **Floor: 90% lines and functions**, enforced by `coverageThreshold = 0.9` (scalar) in `bunfig.toml`. `bun test` exits non-zero below it, locally and in CI. Bun tracks functions + lines (statements fold into lines). **Gotcha:** the per-metric object form is silently ignored by Bun 1.3.12 — use the scalar form, which was verified to fail on either metric.
-- Measured on `src/components/**/*.logic.tsx`, `src/components/**/*.styles.tsx`, `src/hooks/**`, `src/utils/**`. Stories, barrel `index` files, the token table, and test helpers are excluded because they contain no branches worth measuring; excluding them keeps the number honest instead of inflating it.
-- Per-component rule: a new component may not merge below 90% on its own files, regardless of the repo total. Check with `bun test src/components/<name> --coverage`.
-- Coverage counts the unit suite only (`bun test src`). The browser suite runs against a built bundle and is not instrumented. Branches that only a real browser exercises must still be reachable from a unit test where possible (e.g. call the hook directly with `renderHook`, or drive the logic with a fake portal target).
+- Measured on `packages/ui/src/components/**/*.logic.tsx`, `packages/ui/src/components/**/*.styles.tsx`, `packages/ui/src/hooks/**`, `packages/ui/src/utils/**`. Stories, barrel `index` files, the token table, and test helpers are excluded because they contain no branches worth measuring; excluding them keeps the number honest instead of inflating it.
+- Per-component rule: a new component may not merge below 90% on its own files, regardless of the repo total. Check with `bun test src/components/<name> --coverage` from `packages/ui/`.
+- Coverage counts the unit suite only (`bun test src` in each package). The browser suite runs against a built bundle and is not instrumented. Branches that only a real browser exercises must still be reachable from a unit test where possible (e.g. call the hook directly with `renderHook`, or drive the logic with a fake portal target).
 - Never raise coverage by testing implementation details or by adding `/* istanbul ignore */`-style exclusions to component code. If a branch cannot be reached from the public API, delete the branch.
 - CI uploads `coverage/lcov.info` (Codecov or the GitHub summary action) so the PR shows the delta; a drop of more than 1 point on a touched file needs a justification in the PR.
 

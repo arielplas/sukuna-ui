@@ -70,7 +70,7 @@ config (`system: { dark: 'midnight', light: 'paper' }`). CSS only: a
 ```
 src/themes/
 ├── types.ts        # ThemeDefinition, ColorTokens, ThemeName, defineThemes() (identity + types)
-├── dark.ts         # complete palette (moved from src/tokens.ts `colors.*.dark`)
+├── dark.ts         # complete palette (moved from packages/ui/src/tokens.ts `colors.*.dark`)
 ├── light.ts        # complete palette
 ├── midnight.ts     # { scheme: 'dark', extends: 'dark', colors: {…}, shadows: {…} }
 ├── paper.ts        # { scheme: 'light', extends: 'light', colors: {…}, shadows: {…} }
@@ -79,14 +79,14 @@ src/themes/
 └── index.ts        # builtInThemes registry + public exports
 ```
 
-- `src/tokens.ts` keeps the theme-independent tokens (type, spacing, radius, motion, z-index); the
+- `packages/ui/src/tokens.ts` keeps the theme-independent tokens (type, spacing, radius, motion, z-index); the
   `colors` / `shadows` `Themed` records move into the theme files.
 - `scripts/build-tokens.ts` emits, for `tokens.css` and `theme.css`: the default block
   `:root, [data-theme='dark']` (static tokens + dark colors), then one **fully resolved** block per
   other theme (`[data-theme='light'] { color-scheme: light; … }`, `midnight`, `paper`), then the
   `system` media block. Resolved blocks (not cascade-dependent) so nested `data-theme` regions
   always work. The Tailwind `@theme inline` mapping is unchanged.
-- `src/tokens.contrast.test.ts` iterates `builtInThemes` instead of `['dark', 'light']`.
+- `packages/ui/src/tokens.contrast.test.ts` iterates `builtInThemes` instead of `['dark', 'light']`.
 
 ## Custom themes (apps)
 

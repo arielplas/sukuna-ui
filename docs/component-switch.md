@@ -10,7 +10,7 @@ so it's a `<button role="switch">` with a sliding thumb; keyboard and semantics 
 ## 2. Files
 
 ```
-src/components/switch/
+packages/ui/src/components/switch/
 ├── switch.styles.tsx   # tv() with slots: root (track) + thumb.
 ├── switch.logic.tsx    # 'use client' (controllable state).
 ├── switch.test.tsx

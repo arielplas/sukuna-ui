@@ -11,7 +11,7 @@ from Base UI (`@base-ui/react/dialog`); we style backdrop, popup, title, etc.
 ## 2. Files
 
 ```
-src/components/dialog/
+packages/ui/src/components/dialog/
 ├── dialog.styles.tsx   # tv() slots: backdrop, popup, title, description, close.
 ├── dialog.logic.tsx    # 'use client'; compound Dialog + sub-parts.
 ├── dialog.test.tsx

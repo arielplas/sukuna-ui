@@ -13,7 +13,7 @@ panel.
 ## 2. Files
 
 ```
-src/components/collapsible/
+packages/ui/src/components/collapsible/
 ├── collapsible.styles.tsx   # tv() slots: root, trigger, icon, panel, content.
 ├── collapsible.logic.tsx    # 'use client'; compound Collapsible + Trigger + Content.
 ├── collapsible.test.tsx

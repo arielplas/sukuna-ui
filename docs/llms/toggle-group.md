@@ -6,7 +6,7 @@
 - **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
 - **Import:** `import { Toggle, ToggleGroup } from 'sukuna-ui'`
 - **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/toggle-group · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-toggle-group.md
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/packages/ui/src/components/toggle-group · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-toggle-group.md
 
 ## Purpose
 

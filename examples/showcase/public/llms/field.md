@@ -6,7 +6,7 @@
 - **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
 - **Import:** `import { Field } from 'sukuna-ui'`
 - **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/field · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-field.md
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/packages/ui/src/components/field · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-field.md
 
 ## Purpose
 
@@ -61,7 +61,7 @@ No visual variants. Slots map straight to type/spacing tokens:
 | description | `text-sm text-text-dim` | `--sk-text-dim` |
 | error | `text-sm text-accent` | `--sk-accent` (Sukuna's one red, used as the danger tone) |
 
-No raw hex; all colors resolve through `@theme` in `src/styles/theme.css`.
+No raw hex; all colors resolve through `@theme` in `packages/ui/src/styles/theme.css`.
 
 ## States
 

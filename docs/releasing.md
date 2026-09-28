@@ -21,7 +21,8 @@ never publish; a human merges the Version Packages PR and creates the release ta
 
 ## Every PR
 
-1. `bun run changeset` — pick the bump using the table above; write a one-line reason. Docs/CI-only
+1. `bun run changeset` — select the package(s) the change ships in (`sukuna-ui`,
+   `@sukuna-ui/video`; the repo is a Bun workspace, Q27), then pick the bump using the table above; write a one-line reason. Docs/CI-only
    PRs may use an empty changeset or the `no-release` label.
 2. Classify **before** writing the changeset. If a CI classifier disagrees, CI is right — raise the
    bump or fix the regression; never edit the check.

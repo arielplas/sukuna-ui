@@ -4,8 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
 
-// The explorer imports the library + its stories from source (../../../src) and builds Tailwind so
-// every story utility renders (see src/styles.css). Storybook does the same.
+// The explorer imports the library + its stories from source (../../../packages/ui/src) and
+// builds Tailwind so every story utility renders (see src/styles.css). Storybook does the same.
 const repoRoot = resolve(import.meta.dirname, '..', '..')
 
 // VideoPlayer stories load media fixtures from `video/…`. Storybook serves them from

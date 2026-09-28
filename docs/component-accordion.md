@@ -10,7 +10,7 @@ Vertically stacked, expandable sections. Keyboard + `aria` wiring from Base UI.
 ## 2. Files
 
 ```
-src/components/accordion/
+packages/ui/src/components/accordion/
 ├── accordion.styles.tsx   # tv() slots: root, item, header, trigger, icon, panel.
 ├── accordion.logic.tsx    # 'use client'; prop-driven wrapper.
 ├── accordion.test.tsx

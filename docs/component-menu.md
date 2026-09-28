@@ -10,7 +10,7 @@ Base UI.
 ## 2. Files
 
 ```
-src/components/menu/
+packages/ui/src/components/menu/
 ├── menu.styles.tsx   # tv() slots: popup, item.
 ├── menu.logic.tsx    # 'use client'; trigger + prop-driven items.
 ├── menu.test.tsx

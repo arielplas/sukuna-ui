@@ -11,7 +11,7 @@ status pill, use Badge.)
 ## 2. Files
 
 ```
-src/components/chip/
+packages/ui/src/components/chip/
 ├── chip.styles.tsx   # tv() slots: root, dismiss.
 ├── chip.logic.tsx    # forwardRef; NO 'use client'.
 ├── chip.test.tsx

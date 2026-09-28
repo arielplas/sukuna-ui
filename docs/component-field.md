@@ -13,7 +13,7 @@ bookkeeping so the wrapper stays thin.
 ## 2. Files
 
 ```
-src/components/field/
+packages/ui/src/components/field/
 ├── field.styles.tsx   # tv() slots (root, label, control, description, error). Pure. Server-safe.
 ├── field.logic.tsx    # 'use client' — compound Field over Base UI Field parts.
 ├── field.test.tsx
@@ -66,7 +66,7 @@ No visual variants. Slots map straight to type/spacing tokens:
 | description | `text-sm text-text-dim` | `--sk-text-dim` |
 | error | `text-sm text-accent` | `--sk-accent` (Sukuna's one red, used as the danger tone) |
 
-No raw hex; all colors resolve through `@theme` in `src/styles/theme.css`.
+No raw hex; all colors resolve through `@theme` in `packages/ui/src/styles/theme.css`.
 
 ## 5. States
 

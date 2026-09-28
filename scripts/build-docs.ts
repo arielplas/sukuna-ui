@@ -33,11 +33,13 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
+/** The published `sukuna-ui` package inside the Bun workspace. */
+const PKG = join(ROOT, 'packages/ui')
 const REPO_URL = 'https://github.com/arielplas/sukuna-ui'
 /** Raw file base — real Markdown over HTTP, live today, no deployment required. */
 const RAW_URL = 'https://raw.githubusercontent.com/arielplas/sukuna-ui/main'
 
-const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as {
+const pkg = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')) as {
   name: string
   version: string
   description: string
@@ -47,7 +49,7 @@ const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as {
 
 /** `export { A, B } from './components/<dir>'` lines in src/index.ts → dir → export names. */
 function readExportNames(): Map<string, string[]> {
-  const src = readFileSync(join(ROOT, 'src/index.ts'), 'utf8')
+  const src = readFileSync(join(PKG, 'src/index.ts'), 'utf8')
   const map = new Map<string, string[]>()
   const re = /^export \{([^}]+)\} from '\.\/components\/([a-z0-9-]+)'/gm
   for (const m of src.matchAll(re)) {
@@ -168,7 +170,7 @@ function renderComponentPage(doc: ComponentDoc): string {
     `- **Package:** \`${pkg.name}\` — \`bun add ${pkg.name}\` (or \`npm i ${pkg.name}\`)`,
     `- **Import:** \`${importLine}\``,
     `- **Styles:** \`@import "${pkg.name}/theme.css"\` (Tailwind v4) or \`import "${pkg.name}/styles.css"\` (no Tailwind) — see [Getting started](${RAW_URL}/llms.txt)`,
-    `- **Source:** ${REPO_URL}/tree/main/src/components/${doc.name} · **Spec:** ${REPO_URL}/blob/main/docs/component-${doc.name}.md`,
+    `- **Source:** ${REPO_URL}/tree/main/packages/ui/src/components/${doc.name} · **Spec:** ${REPO_URL}/blob/main/docs/component-${doc.name}.md`,
     '',
   ]
   for (const num of [1, 3, 4, 5, 8]) {
@@ -276,6 +278,8 @@ function updateReadme(docs: ComponentDoc[]): void {
     `<!-- count -->${docs.length}<!-- /count -->`,
   )
   writeFileSync(path, readme)
+  // npm publishes the README that sits next to the package's package.json (gitignored copy).
+  writeFileSync(join(PKG, 'README.md'), readme)
 }
 
 // --- Run ----------------------------------------------------------------------------------------

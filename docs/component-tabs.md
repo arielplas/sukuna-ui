@@ -9,7 +9,7 @@ Switch between panels of related content. Roving focus + arrow-key navigation fr
 ## 2. Files
 
 ```
-src/components/tabs/
+packages/ui/src/components/tabs/
 ├── tabs.styles.tsx   # tv() slots: root, list, tab, panel.
 ├── tabs.logic.tsx    # 'use client'; prop-driven wrapper.
 ├── tabs.test.tsx

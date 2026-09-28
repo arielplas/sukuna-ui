@@ -22,6 +22,14 @@
     "noEmit": true,
     "types": ["react", "react-dom", "bun"]
   },
-  "include": ["src", "test", "*.config.ts", "scripts", ".storybook"],
+  "include": [
+    "packages/*/src",
+    "packages/*/scripts",
+    "packages/*/*.config.ts",
+    "test",
+    "*.config.ts",
+    "scripts",
+    ".storybook"
+  ],
   "exclude": ["node_modules", "dist", "storybook-static", "coverage"]
 }

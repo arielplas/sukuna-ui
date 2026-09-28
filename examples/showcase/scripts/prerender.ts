@@ -5,7 +5,7 @@
  *   1. imports dist-ssr/entry-server.js and renders <App /> with react-dom/server;
  *   2. injects that markup into dist/index.html's `<div id="root">`;
  *   3. rewrites the default site origin with SITE_URL (canonical, OG, JSON-LD, robots.txt);
- *   4. injects the library version from the root package.json into JSON-LD `softwareVersion`;
+ *   4. injects the library version from packages/ui/package.json into JSON-LD `softwareVersion`;
  *   5. writes dist/sitemap.xml;
  *   6. removes dist-ssr.
  *
@@ -23,7 +23,7 @@ const SITE_URL = (process.env.SITE_URL ?? DEFAULT_SITE_URL).replace(/\/+$/, '')
 const showcaseDir = resolve(import.meta.dir, '..')
 const distDir = resolve(showcaseDir, 'dist')
 const ssrDir = resolve(showcaseDir, 'dist-ssr')
-const rootPackageJson = resolve(showcaseDir, '..', '..', 'package.json')
+const libPackageJson = resolve(showcaseDir, '..', '..', 'packages', 'ui', 'package.json')
 
 const fail = (message: string): never => {
   console.error(`[prerender] ${message}`)
@@ -50,8 +50,8 @@ html = html.replace(rootPattern, () => `<div id="root">${appHtml}</div>`)
 if (SITE_URL !== DEFAULT_SITE_URL) html = html.replaceAll(DEFAULT_SITE_URL, SITE_URL)
 
 // 4. softwareVersion from the library's package.json.
-const { version } = JSON.parse(await readFile(rootPackageJson, 'utf8')) as { version?: string }
-if (!version) fail(`no "version" in ${rootPackageJson}`)
+const { version } = JSON.parse(await readFile(libPackageJson, 'utf8')) as { version?: string }
+if (!version) fail(`no "version" in ${libPackageJson}`)
 html = html.replace(/"softwareVersion":\s*"[^"]*"/, `"softwareVersion": "${version}"`)
 
 // OG image: prefer the PNG (widest crawler support); fall back to the SVG if none was shipped.

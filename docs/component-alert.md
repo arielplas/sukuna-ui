@@ -9,7 +9,7 @@ An inline message that draws attention to information, success, a caution, or an
 ## 2. Files
 
 ```
-src/components/alert/
+packages/ui/src/components/alert/
 ├── alert.styles.tsx   # tv() slots: root, icon, title, body.
 ├── alert.logic.tsx    # forwardRef; NO 'use client'.
 ├── alert.test.tsx

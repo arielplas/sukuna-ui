@@ -13,7 +13,7 @@ screen-reader users what the bar means.
 ## 2. Files
 
 ```
-src/components/meter/
+packages/ui/src/components/meter/
 ├── meter.styles.tsx   # tv() slots root/header/label/value/track/indicator + size & tone.
 ├── meter.logic.tsx    # Base UI Meter parts. No hooks → no 'use client'.
 ├── meter.test.tsx

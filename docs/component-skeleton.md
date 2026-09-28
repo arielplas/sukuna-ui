@@ -9,7 +9,7 @@ A placeholder shimmer shown while content loads.
 ## 2. Files
 
 ```
-src/components/skeleton/
+packages/ui/src/components/skeleton/
 ├── skeleton.styles.tsx
 ├── skeleton.logic.tsx   # forwardRef; NO 'use client'.
 ├── skeleton.test.tsx

@@ -14,7 +14,7 @@ can't get another way.
 ## 2. Files
 
 ```
-src/components/hover-card/
+packages/ui/src/components/hover-card/
 ├── hover-card.styles.tsx   # tv() slots: trigger, positioner, popup.
 ├── hover-card.logic.tsx    # 'use client'; compound HoverCard + sub-parts.
 ├── hover-card.test.tsx

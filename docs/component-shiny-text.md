@@ -12,7 +12,7 @@ the sheen is decorative and honors `prefers-reduced-motion`.
 ## 2. Files
 
 ```
-src/components/shiny-text/
+packages/ui/src/components/shiny-text/
 ├── shiny-text.styles.tsx   # tv() variant map → Tailwind utilities. Pure. Server-safe.
 ├── shiny-text.logic.tsx    # forwardRef; NO 'use client' (CSS-only animation, RSC-safe).
 ├── shiny-text.test.tsx

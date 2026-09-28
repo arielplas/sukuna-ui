@@ -14,7 +14,7 @@ family.
 ## 2. Files
 
 ```
-src/components/context-menu/
+packages/ui/src/components/context-menu/
 ├── context-menu.styles.tsx   # tv() slots: trigger (iOS long-press fixes), popup, item (mirrors menu.styles).
 ├── context-menu.logic.tsx    # 'use client'; trigger area + prop-driven items.
 ├── context-menu.test.tsx

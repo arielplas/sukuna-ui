@@ -9,7 +9,7 @@ An indeterminate loading indicator (CSS spin).
 ## 2. Files
 
 ```
-src/components/spinner/
+packages/ui/src/components/spinner/
 ├── spinner.styles.tsx
 ├── spinner.logic.tsx   # forwardRef; NO 'use client'.
 ├── spinner.test.tsx

@@ -10,7 +10,7 @@ interactive. A clickable card is a Button or Link wrapping a Card, not a Card wi
 ## 2. Files
 
 ```
-src/components/card/
+packages/ui/src/components/card/
 ├── card.styles.tsx
 ├── card.logic.tsx   # forwardRef; NO 'use client'.
 ├── card.test.tsx

@@ -14,7 +14,7 @@ from Base UI and matches Dialog.
 ## 2. Files
 
 ```
-src/components/alert-dialog/
+packages/ui/src/components/alert-dialog/
 ├── alert-dialog.styles.tsx   # tv() slots: backdrop, popup, title, description, footer, cancel.
 ├── alert-dialog.logic.tsx    # 'use client'; compound AlertDialog + sub-parts.
 ├── alert-dialog.test.tsx

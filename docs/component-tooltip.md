@@ -11,7 +11,7 @@ comes from Base UI (`@base-ui/react/tooltip`); we style the popup.
 ## 2. Files
 
 ```
-src/components/tooltip/
+packages/ui/src/components/tooltip/
 ├── tooltip.styles.tsx   # tv() popup classes. Pure.
 ├── tooltip.logic.tsx    # 'use client'; composes Base UI parts.
 ├── tooltip.test.tsx     # unit: trigger render + SSR (popup absent)
