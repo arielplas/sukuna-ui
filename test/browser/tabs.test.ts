@@ -32,3 +32,25 @@ test('a disabled tab is visibly dimmed (Base UI uses data-disabled)', async ({ p
   expect(await team.evaluate((el) => getComputedStyle(el).opacity)).toBe('0.45')
   expect(await team.evaluate((el) => getComputedStyle(el).cursor)).toBe('not-allowed')
 })
+
+test('vertical tabs: ArrowDown moves focus, Enter selects, panel sits beside the list', async ({
+  page,
+}) => {
+  await page.goto(story('components-tabs--vertical'))
+  const list = page.getByRole('tablist', { name: 'Project settings' })
+  await expect(list).toHaveAttribute('aria-orientation', 'vertical')
+
+  await page.getByRole('tab', { name: 'General' }).focus()
+  await page.keyboard.press('ArrowDown')
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('tab', { name: 'Integrations' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+  await expect(page.getByText('Connect GitHub, Slack and webhooks.')).toBeVisible()
+
+  const listBox = await list.boundingBox()
+  const panelBox = await page.getByRole('tabpanel').boundingBox()
+  if (!listBox || !panelBox) throw new Error('missing boxes')
+  expect(panelBox.x).toBeGreaterThan(listBox.x + listBox.width - 1)
+})

@@ -32,6 +32,25 @@ describe('Tabs', () => {
     expect(screen.getByText('Billing details')).toBeVisible()
   })
 
+  it('is horizontal by default with the underline styling', () => {
+    render(<Tabs items={items} defaultValue="a" aria-label="Sections" />)
+    expect(screen.getByRole('tablist')).not.toHaveAttribute('aria-orientation', 'vertical')
+    expect(screen.getAllByRole('tab')[0]?.classList.contains('border-b-2')).toBe(true)
+  })
+
+  it('orientation="vertical" lays out a navigation column and moves with ArrowDown', async () => {
+    render(<Tabs items={items} defaultValue="a" aria-label="Sections" orientation="vertical" />)
+    const list = screen.getByRole('tablist')
+    expect(list).toHaveAttribute('aria-orientation', 'vertical')
+    expect(list.classList.contains('flex-col')).toBe(true)
+    const [first, second] = screen.getAllByRole('tab') as [HTMLElement, HTMLElement]
+    expect(first.classList.contains('border-r-2')).toBe(true)
+    expect(first.classList.contains('border-b-2')).toBe(false)
+    first.focus()
+    await userEvent.keyboard('[ArrowDown]')
+    expect(second).toHaveFocus()
+  })
+
   it('renders on the server with the tabs', () => {
     const html = renderServer(<Tabs items={items} aria-label="Settings" defaultValue="account" />)
     expect(html).toContain('Account')

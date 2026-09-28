@@ -227,6 +227,16 @@ into `Table` so Table stays a zero-JS server component within its 2 kB size budg
 
 ---
 
+## Q19. "add a vertical tabs too for navigation"
+
+**Answer / decision.** `Tabs` gains `orientation?: 'horizontal' | 'vertical'` (default horizontal,
+so nothing changes for existing users). Vertical renders the tab list as a left-hand navigation
+column beside the panel, with a crimson bar on the list's right border plus a `surface-2` fill for
+the selected row; Base UI provides ArrowUp/ArrowDown and `aria-orientation="vertical"`. Labels
+can carry an icon + text. Same component, not a new one, so the API and a11y stay shared.
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |

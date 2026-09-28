@@ -231,6 +231,7 @@ export → ≥90% → review.
 | Avatar | `shape: 'circle' \| 'square'` | [x] |
 | Menu / ContextMenu | `MenuItemOption.icon` (leading, aria-hidden) | [x] |
 | Table + new RowActions | actions column: `Table.ActionsHeaderCell`/`ActionsCell` + `RowActions` (⋯ menu, icon options) — owner request 2026-09-27 (Q18) | [x] 100% cov + browser; Table still 0.56 kB static |
+| Tabs | `orientation: 'vertical'` — navigation column beside the panel (owner request, Q19) | [x] |
 | Accordion | fix: disabled items were never dimmed (`data-[disabled]`, found building Collapsible) | [x] |
 
 ---
@@ -298,3 +299,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-27 · v1.3 wave (§D4, Q15/D33): Base UI rc.0 → stable `@base-ui/react@1.8` (ScrollArea keepMounted); Button → server component + RSC-boundary guard test; Counter paints via ref (0 re-renders/frame) + `startOnView`; size-limit budget per component (40 entries). New Popover, AlertDialog, Textarea, Collapsible, Meter (docs-first, 100% cov, browser specs). Variants: Button outline/link/iconOnly, Alert onDismiss, Card interactive, Avatar shape, Progress/Spinner tone. Fix: Accordion disabled items never dimmed. `danger` kept out (Q10). Virtualization waits on Q16 · (feat/v1.3-wave)
 - 2026-09-27 · Perf P4 (virtualization) → [-] deferred by owner (Q17); Q16 closed, no new dependency · (feat/v1.3-wave)
 - 2026-09-27 · Table actions column (Q18/D34): `MenuItemOption.icon` (Menu + ContextMenu), new `RowActions` (⋯ ghost icon Button + Menu, row-specific aria-label, align end), static `Table.ActionsHeaderCell` (sr-only "Actions") / `Table.ActionsCell`. Table stays server-only at 0.56 kB. 379 unit (100% cov) + 39 browser green. 45 components · (feat/v1.3-wave)
+- 2026-09-27 · Tabs `orientation="vertical"` (Q19): navigation column (flex-col list, right-edge crimson bar + surface fill), ArrowUp/Down + aria-orientation via Base UI; Vertical story with icon labels; unit + Playwright guards · (feat/v1.3-wave)

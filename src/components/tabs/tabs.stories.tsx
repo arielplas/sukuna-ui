@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { ArchiveIcon, LinkIcon, PencilIcon } from '../../stories/icons'
 import { Tabs } from './index'
 
 const items = [
@@ -20,3 +21,37 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {}
 export const WithDefault: Story = { args: { defaultValue: 'billing' } }
 export const DisabledTab: Story = {}
+
+const Label = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
+  <>
+    {icon}
+    {text}
+  </>
+)
+
+/** Vertical navigation: a settings sidebar beside its panel. ArrowUp/ArrowDown move between tabs. */
+export const Vertical: Story = {
+  args: {
+    orientation: 'vertical',
+    'aria-label': 'Project settings',
+    defaultValue: 'general',
+    items: [
+      {
+        value: 'general',
+        label: <Label icon={<PencilIcon />} text="General" />,
+        content: 'Name, description and visibility of the project.',
+      },
+      {
+        value: 'integrations',
+        label: <Label icon={<LinkIcon />} text="Integrations" />,
+        content: 'Connect GitHub, Slack and webhooks.',
+      },
+      {
+        value: 'archive',
+        label: <Label icon={<ArchiveIcon />} text="Archive" />,
+        content: 'Archive or transfer this project.',
+      },
+      { value: 'danger', label: 'Legacy', content: 'Unavailable.', disabled: true },
+    ],
+  },
+}

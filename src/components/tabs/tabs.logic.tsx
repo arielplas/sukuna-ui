@@ -35,6 +35,12 @@ export interface TabsProps {
   onValueChange?: (value: string) => void
   /** Accessible name for the `tablist` (e.g. 'Settings'); always provide one. */
   'aria-label'?: string
+  /**
+   * `horizontal`: underlined tabs above the panel. `vertical`: a navigation column to the left of
+   * the panel (settings pages, sidebars); arrow keys become Up/Down.
+   * @default 'horizontal'
+   */
+  orientation?: 'horizontal' | 'vertical'
 }
 
 /**
@@ -46,11 +52,13 @@ export interface TabsProps {
  *   outside events.
  * - Accessibility: Base UI wires `role="tablist"` / `tab` / `tabpanel`, `aria-selected` and
  *   `aria-controls`. Manual activation: ArrowLeft/ArrowRight move focus (looping past the ends,
- *   Home/End jump to first/last) and Enter/Space selects; Tab then moves into the panel. Give the
+ *   Home/End jump to first/last; ArrowUp/ArrowDown when vertical) and Enter/Space selects; Tab then moves into the panel. Give the
  *   list an `aria-label`. The selected tab is marked by an accent underline + color, not color
  *   alone.
- * - Variants: none — horizontal only. `items[].disabled` tabs are dimmed (`data-disabled`,
- *   not the native attribute) and cannot be activated, but remain focusable.
+ * - Variants: `orientation` 'horizontal' (default; underline tabs) | 'vertical' (a navigation
+ *   column beside the panel; ArrowUp/ArrowDown, `aria-orientation="vertical"`). Labels may hold an
+ *   icon + text. `items[].disabled` tabs are dimmed (`data-disabled`, not the native attribute)
+ *   and cannot be activated, but remain focusable.
  * - Behaviour: uncontrolled with `defaultValue`, controlled with `value` + `onValueChange`.
  *   Values are strings; Base UI's index fallback matches none of them, so pass a default.
  *   Only the selected panel is mounted: switching tabs unmounts the previous `content`, so any
@@ -88,8 +96,9 @@ export function Tabs({
   defaultValue,
   onValueChange,
   'aria-label': ariaLabel,
+  orientation = 'horizontal',
 }: TabsProps) {
-  const styles = tabsStyles()
+  const styles = tabsStyles({ orientation })
   return (
     <Base.Root
       value={value}
@@ -97,6 +106,7 @@ export function Tabs({
       onValueChange={(next) => {
         if (typeof next === 'string') onValueChange?.(next)
       }}
+      orientation={orientation}
       className={styles.root()}
     >
       <Base.List aria-label={ariaLabel} className={styles.list()}>
