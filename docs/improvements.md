@@ -44,6 +44,8 @@ Tabs/RadioGroup fixes, the no-dep perf stopgap). This is a menu of options, not 
 11. **Opt-in virtualization (the deferred real fix).** `Table.Virtualized` + virtualized
     Select/Combobox via `@tanstack/react-virtual` (Base UI already exposes a `virtualized` flag) —
     constant mount/scroll cost at any N, versus today's `content-visibility` paint-only stopgap. — P1 / L
+    _Deferred 2026-09-27 (Q17): revisit for a real large-Table need; try a hand-rolled fixed-height
+    virtualizer before adding the dependency._
 12. **Async `filterFn` for Combobox.** A debounced server-search hook feeding a capped list, so
     keystroke cost is O(rendered) not O(items). — P2 / M
 13. **Memoized rows + `renderRow` for Table.** `React.memo` row wrappers so a parent re-render

@@ -194,7 +194,26 @@ Avatar shape, Progress/Spinner tone, Skeleton animation. Performance: (1) Base U
 virtualizer. It is the only perf item that adds a dependency (~5 kB gz, only paid by consumers who
 import the virtualized parts).
 
-**Status:** waiting on owner.
+**Status:** answered in Q17: **no, deferred.**
+
+---
+
+## Q17. "what do we need '@tanstack/react-virtual' for?" → "lets go with recommendations"
+
+**Answer given.** Select, Combobox, Menu and Table mount every item, so thousands of options or
+rows cost thousands of DOM nodes on open, filter and re-render. The `content-visibility` stopgap
+only skips paint. Virtualization renders only the visible rows (~20) and recycles them, so cost
+stays flat at any N. Base UI's `virtualized` flag only coordinates keyboard/highlight with an
+*external* virtualizer; it doesn't virtualize by itself. `@tanstack/react-virtual` is that
+virtualizer (~5 kB gz, headless, SSR-safe).
+
+Options offered: (1) skip for now (recommended): no reported slow lists, Combobox already caps
+rendered results with `maxRenderedItems`, a 1,000-option Select is a UX smell (use Combobox), and
+Table is the only real case; (2) hand-roll a ~50-line fixed-row-height virtualizer for Table only;
+(3) add the dependency and ship `Table.Virtualized` plus `virtualized` on Select/Combobox.
+
+**Decision.** Option 1: **virtualization deferred**, no new dependency. Roadmap §D4 P4 → `[-]`.
+Revisit when a real app has a large Table: option 2 first (no dep), option 3 if rows vary in height.
 
 ---
 
@@ -217,6 +236,7 @@ import the virtualized parts).
 | Button variants | `primary`, `secondary`, `ghost` (+ `outline`, `link` in v1.3, Q15); no `premium`, no `danger` (Q10, reaffirmed Q15) |
 | Popover | In scope from v1.3 (Q15) — reverses roadmap §D |
 | Headless base | `@base-ui/react` stable (1.8+) since v1.3 (Q15, D33) |
+| Virtualization | Deferred, no `@tanstack/react-virtual` for now; revisit on a real large-Table need (Q17) |
 | Light palette | Approved as proposed in `tokens.md` (Q10) |
 | Status tracking | `docs/roadmap.md` living board; agents update it in the same commit as the work (rule 9) |
 | Versioning enforcement | CLAUDE.md + CI classifiers (API diff, visual, token, peer) + human-only merge/publish (Q7) |
@@ -228,4 +248,3 @@ import the virtualized parts).
 | Q12 | Light-mode `--sk-shadow-card` value — approve the proposed softer shadow or supply one? | Proposed value in use; awaiting approval. Non-blocking (patch to change pre-1.0). |
 | Q13 | Approve `--sk-gradient-premium` token + `bg-gradient-premium` and the `sk-shine` keyframe + `animate-shine*` utilities for the React Bits-inspired wave? | Specs written; blocks only GradientText `premium` + ShinyText. Proposed values in Q13. |
 | Q14 | Confirm Counter's SSR-final-value strategy and defaults (1200ms, easeOutCubic)? | Spec written; non-blocking, sensible defaults. |
-| Q16 | Add `@tanstack/react-virtual` for virtualized Select/Combobox/Table? | Blocks perf P4 only. |

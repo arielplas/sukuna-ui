@@ -18,7 +18,7 @@ agent's own calls. Newest first.
   inventing `--sk-danger`. (3) Build variants that need no tokens: Button `outline`/`link`/
   `iconOnly`, Badge `dot`, Alert `onDismiss`, Card `interactive`, Progress/Spinner `tone`,
   Avatar `shape`. (4) Defer Input slots (DOM/`className` target change needs its own spec),
-  Skeleton `wave` (new keyframe = token-level approval) and virtualization (new dep, Q16).
+  Skeleton `wave` (new keyframe = token-level approval) and virtualization (new dep, Q16; owner then deferred it, Q17).
 - **Why:** "go for it" approved the list, but an earlier explicit owner decision (Q10) and a
   standing rule (8) outrank a list the agent proposed. Everything else ships as proposed.
 - **Reverse:** Approve a `--sk-danger` token (and a hue) → `danger` becomes a one-line variant on
