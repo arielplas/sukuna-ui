@@ -51,6 +51,7 @@ export interface ProgressProps extends ProgressStyleProps {
  *   indicator is a `w-1/3` pulsing segment.
  * - Props do not extend a native element: only `value`, `max`, `label`, `size`, `className`
  *   and `aria-label` are accepted, and no ref is exposed.
+ * - `tone` (v1.3): 'accent' (default) | 'success' | 'premium', the indicator color.
  *
  * @example
  * ```tsx
@@ -71,10 +72,11 @@ export function Progress({
   max = 100,
   label,
   size,
+  tone,
   className,
   'aria-label': ariaLabel,
 }: ProgressProps) {
-  const styles = progressStyles({ size })
+  const styles = progressStyles({ size, tone })
   return (
     <Base.Root
       value={value ?? null}

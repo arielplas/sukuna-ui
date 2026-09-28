@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { useState } from 'react'
 import { Alert } from './index'
 
 const meta = {
@@ -26,3 +27,19 @@ export const Danger: Story = { args: { tone: 'danger', role: 'alert' } }
 export const WithIcon: Story = { args: { tone: 'info', icon: <InfoIcon /> } }
 
 export const TitleOnly: Story = { args: { title: undefined, children: 'Just a one-line note.' } }
+
+/** Renders a close button; the parent removes the Alert in the handler. */
+export const Dismissible: Story = {
+  render: function DismissibleStory() {
+    const [open, setOpen] = useState(true)
+    return open ? (
+      <Alert tone="success" title="Saved" onDismiss={() => setOpen(false)}>
+        Your changes are live.
+      </Alert>
+    ) : (
+      <button type="button" onClick={() => setOpen(true)}>
+        Show again
+      </button>
+    )
+  },
+}

@@ -8,6 +8,16 @@ export interface AlertProps
   title?: ReactNode
   /** Decorative icon shown at the leading edge, tinted by `tone` and hidden from AT. */
   icon?: ReactNode
+  /**
+   * Renders a close button at the trailing edge that calls this handler. The Alert does not hide
+   * itself: remove it in the handler (it stays a server component with no state).
+   */
+  onDismiss?: () => void
+  /**
+   * Accessible name of the close button.
+   * @default 'Dismiss'
+   */
+  dismissLabel?: string
 }
 
 /**
@@ -25,6 +35,8 @@ export interface AlertProps
  * - Children render in the body slot (`text-sm`, dim). `className` merges into the root slot.
  * - Theming: border, surface and text colors come from `--sk-*` tokens and flip with
  *   `data-theme`.
+ * - Dismiss (v1.3): pass `onDismiss` to render a labelled close button (`dismissLabel`,
+ *   default "Dismiss"); hide the Alert yourself in the handler.
  *
  * @example
  * ```tsx
@@ -39,7 +51,7 @@ export interface AlertProps
  * ```
  */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  { tone, title, icon, role, className, children, ...rest },
+  { tone, title, icon, onDismiss, dismissLabel = 'Dismiss', role, className, children, ...rest },
   ref,
 ) {
   // Announce urgent tones assertively; consumer `role` always wins.
@@ -52,10 +64,27 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
           {icon}
         </span>
       ) : null}
-      <div>
+      <div className={styles.content()}>
         {title ? <div className={styles.title()}>{title}</div> : null}
         <div className={styles.body()}>{children}</div>
       </div>
+      {onDismiss ? (
+        <button
+          type="button"
+          aria-label={dismissLabel}
+          onClick={onDismiss}
+          className={styles.dismiss()}
+        >
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M6 6l12 12M18 6L6 18"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+      ) : null}
     </div>
   )
 })

@@ -67,7 +67,11 @@ axe both themes.
 
 ## 10. Stories
 
-`Info`, `Success`, `Warning`, `Danger`, `WithIcon`, `TitleOnly`.
+`Info`, `Success`, `Warning`, `Danger`, `WithIcon`, `TitleOnly`, `Dismissible` (v1.3).
+
+**v1.3:** `onDismiss?: () => void` renders a 32px ghost close button (`aria-label` =
+`dismissLabel`, default "Dismiss") at the trailing edge. The Alert stays stateless (server
+component); the parent removes it in the handler.
 
 ## 11. Decisions
 

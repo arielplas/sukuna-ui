@@ -4,7 +4,7 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phases 0–7 done; 8 & 9 in progress. Library feature-complete; publish gated on owner.
+Last updated: 2026-09-27 — v1.3 wave (§D4) built on branch `feat/v1.3-wave`: Base UI stable, 5 components, variants, perf. 44 components.
 Current phase: **Phase 8 (1 of 4 examples) + Phase 9 (docs/CI done; publish pending owner).** Phases 0–7 done.
 Current version: none published. Target for first publish: `0.1.0`.
 
@@ -213,22 +213,23 @@ export → ≥90% → review.
 
 | Component | Kind | Backing | Doc | Code |
 |---|---|---|---|---|
-| Popover | interactive | Base UI `popover` | [x] | [ ] |
-| AlertDialog | interactive | Base UI `alert-dialog` | [x] | [ ] |
-| Textarea | native (server) | `<textarea>` | [x] | [ ] |
-| Collapsible | interactive | Base UI `collapsible` | [x] | [ ] |
-| Meter | static | Base UI `meter` | [x] | [ ] |
+| Popover | interactive | Base UI `popover` | [x] | [x] 100% cov + browser |
+| AlertDialog | interactive | Base UI `alert-dialog` | [x] | [x] 100% cov + browser |
+| Textarea | native (server) | `<textarea>` | [x] | [x] 100% cov |
+| Collapsible | interactive | Base UI `collapsible` | [x] | [x] 100% cov + browser |
+| Meter | static | Base UI `meter` | [x] | [x] 100% cov |
 
 ### Variants on existing components (no new tokens)
 
 | Component | Addition | Status |
 |---|---|---|
-| Button | `variant: 'outline' \| 'link'`, `iconOnly` (square) | [ ] |
-| Badge | `dot` (leading status dot) | [ ] |
-| Alert | `onDismiss` (renders a close button; stays a server component) | [ ] |
-| Card | `interactive` (hover lift + focus ring for clickable cards) | [ ] |
-| Progress / Spinner | `tone: 'accent' \| 'success' \| 'premium'` (+ `current` on Spinner) | [ ] |
-| Avatar | `shape: 'circle' \| 'square'` | [ ] |
+| Button | `variant: 'outline' \| 'link'`, `iconOnly` (square) | [x] |
+| Badge | `dot` (leading status dot) | [-] already shipped (analysis missed it) |
+| Alert | `onDismiss` (renders a close button; stays a server component) | [x] |
+| Card | `interactive` (hover lift + focus ring for clickable cards) | [x] |
+| Progress / Spinner | `tone: 'accent' \| 'success' \| 'premium'` (+ `current` on Spinner) | [x] |
+| Avatar | `shape: 'circle' \| 'square'` | [x] |
+| Accordion | fix: disabled items were never dimmed (`data-[disabled]`, found building Collapsible) | [x] |
 
 ---
 
@@ -292,3 +293,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-21 · v1.2 polish: (1) halved default open delay to 300ms on Tooltip (was Base 600) and HoverCard.Trigger — snappier hover reveal; Tooltip default change = minor (breaking on 0.x), HoverCard folded in pre-release. (2) ContextMenu iOS long-press fix: children now wrapped in Base UI's `display:contents` trigger with `user-select:none` + `-webkit-touch-callout:none` (Base only sets the callout; without user-select:none an iOS long-press starts text selection and the menu never opens). Verified desktop right-click still opens; child inherits user-select:none. 313 tests green · (v1.2 polish)
 - 2026-09-21 · Showcase rebuilt as an auto-driven component explorer (examples/showcase): left-nav routing (hash) over all 39 components, right pane renders every Storybook story per component (examples/showcase/src/stories.tsx globs src/components/*/*.stories.tsx and renders meta+story args / render fns, like Storybook). Added Tailwind v4 to the showcase build (mirrors .storybook: @tailwindcss/vite + a styles.css that @imports theme.css and @sources the components+stories) so story-only utilities render; imports library+stories from source so context components (Toast) share one instance. Overview page kept as the default route (SEO + prerender <h1>). Component count is now dynamic (components.length) — no more hard-coded/stale count. Prerender build green; verified dark+light, story rendering, Toast context. `update-showcase` skill rewritten (showcase is auto-driven now; no manual demo/count upkeep) · (showcase explorer)
 - 2026-09-21 · Showcase: every example gets a Show code toggle (import line + the story's own JSX). The snippet is lifted from the stories source via a second `?raw` glob — `{...args}` is inlined as the literal props written in `args: { … }` (so `items={items}` stays a reference and its helper `const` is included above), explicit tag props beat expanded args, a `react` import is added when a story uses hooks, and the `import { … } from 'sukuna-ui'` line comes from the real exports in src/index.ts. Closed on the server (prerender unchanged); Copy uses the clipboard in a click handler. · (showcase-code-toggle branch)
+- 2026-09-27 · v1.3 wave (§D4, Q15/D33): Base UI rc.0 → stable `@base-ui/react@1.8` (ScrollArea keepMounted); Button → server component + RSC-boundary guard test; Counter paints via ref (0 re-renders/frame) + `startOnView`; size-limit budget per component (40 entries). New Popover, AlertDialog, Textarea, Collapsible, Meter (docs-first, 100% cov, browser specs). Variants: Button outline/link/iconOnly, Alert onDismiss, Card interactive, Avatar shape, Progress/Spinner tone. Fix: Accordion disabled items never dimmed. `danger` kept out (Q10). Virtualization waits on Q16 · (feat/v1.3-wave)

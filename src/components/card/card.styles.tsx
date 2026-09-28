@@ -18,6 +18,16 @@ export const cardStyles = tv({
       md: 'rounded-md',
       lg: 'rounded-lg',
     },
+    // A clickable card: lifts on hover, and rings when it (or a link/button inside it) has
+    // keyboard focus, so a card wrapping one <a> gets a card-sized focus indicator.
+    interactive: {
+      true: [
+        'cursor-pointer transition-[border-color,box-shadow,transform] motion-reduce:transition-none duration-fast ease-sukuna',
+        'hover:border-text-faint hover:shadow-card hover:-translate-y-0.5 motion-reduce:hover:translate-y-0',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+        'has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-focus-ring has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-bg',
+      ],
+    },
   },
   defaultVariants: { elevation: 'flat', padding: 'md', radius: 'lg' },
 })

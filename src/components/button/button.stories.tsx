@@ -38,6 +38,12 @@ export const Variants: Story = {
       <Button {...args} variant="ghost">
         Ghost
       </Button>
+      <Button {...args} variant="outline">
+        Outline
+      </Button>
+      <Button {...args} variant="link">
+        Link
+      </Button>
     </div>
   ),
 }
@@ -85,8 +91,14 @@ export const FullWidth: Story = {
 }
 
 export const IconOnly: Story = {
-  args: { 'aria-label': 'Next', children: undefined, leadingIcon: <ArrowIcon /> },
-  render: (args) => <Button {...args} />,
+  args: { 'aria-label': 'Next', children: undefined, leadingIcon: <ArrowIcon />, iconOnly: true },
+  render: (args) => (
+    <div style={row}>
+      <Button {...args} size="sm" />
+      <Button {...args} variant="secondary" />
+      <Button {...args} variant="outline" size="lg" />
+    </div>
+  ),
 }
 
 export const AsLink: Story = {

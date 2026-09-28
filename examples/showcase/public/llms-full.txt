@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
 
-sukuna-ui is a React 18/19 component library: 39 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 44 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -15,6 +15,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 
 - Accordion: Vertically stacked, expandable sections.
 - Alert: An inline message that draws attention to information, success, a caution, or an error.
+- AlertDialog: Ask the user to confirm something that is hard to undo ("Delete project?", "Discard changes?").
 - Avatar: A user/entity image with a graceful fallback (initials or icon) while loading or on error.
 - Badge: A small, pill-shaped label for status and metadata — "LIVE", counts, tags.
 - Breadcrumbs: Show the path to the current page and let users jump back up it.
@@ -23,6 +24,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Carousel: A horizontal, one-slide-at-a-time content carousel for images, cards, or arbitrary nodes — the gap Slider (a range input) doesn't fill.
 - Checkbox: A boolean checkbox.
 - Chip: A compact token for filters, selections, or tags — optionally removable.
+- Collapsible: A single disclosure: "Show advanced options", "Read more", a sidebar group.
 - Combobox: A text input with a filtered list of suggestions (free-text autocomplete).
 - ContextMenu: Offer contextual actions where the pointer is — right-click on desktop, long-press on touch.
 - Counter: Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
@@ -34,8 +36,10 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - HoverCard: Preview richer context for a link without a click — a user card, a repo summary, a footnote.
 - Input: A single-line text input.
 - Menu: A dropdown menu of actions triggered by a button.
+- Meter: Show a scalar measurement within a known range: storage used, quota, password strength, a score.
 - NumberField: Enter a number precisely.
 - Pagination: Navigate between pages of results, with first/last always shown and ellipses in between.
+- Popover: Show a small, interactive panel next to the element that opened it — filters, quick settings, a share box, a date picker later.
 - Progress: A horizontal progress bar, determinate or indeterminate.
 - RadioGroup: Choose one option from a small set.
 - ScrollArea: Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in every browser and matches the Sukuna surface, instead of the OS default.
@@ -49,6 +53,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Table: Present tabular data with Sukuna styling.
 - Tabs: Switch between panels of related content.
 - Text: The typographic primitive.
+- Textarea: Multi-line free text: comments, descriptions, messages.
 - Toast: Transient notifications.
 - ToggleGroup: Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
 - Tooltip: A hover/focus tooltip for supplementary text.
@@ -144,6 +149,73 @@ Static; no interactive states. (No built-in dismiss in v1 — see Decisions.)
   not read aloud — the assertive announcement applies to alerts that appear after load.
 - [ ] Tone is reinforced by the title/text, never color alone.
 - [ ] Icon is decorative; the message text carries the meaning.
+
+---
+
+# AlertDialog — sukuna-ui
+
+> Ask the user to confirm something that is hard to undo ("Delete project?", "Discard changes?").
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { AlertDialog } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/alert-dialog · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-alert-dialog.md
+
+## Purpose
+
+Ask the user to confirm something that is hard to undo ("Delete project?", "Discard changes?").
+It differs from `Dialog` in the ways that matter for safety: it is `role="alertdialog"`, it does
+**not** close on an outside click (the user must pick an answer), and it offers explicit
+`Cancel` / `Action` parts. Everything else (focus trap, scroll lock, `Escape`, focus return) comes
+from Base UI and matches Dialog.
+
+## API
+
+```ts
+import type { ReactNode } from 'react'
+
+export interface AlertDialogProps {
+  children: ReactNode          // Trigger + Content
+  open?: boolean
+  defaultOpen?: boolean        // default false
+  onOpenChange?: (open: boolean) => void
+}
+```
+
+Compound: `AlertDialog` (state) · `AlertDialog.Trigger` (wraps one element, like `Dialog.Trigger`)
+· `AlertDialog.Content` (backdrop + centered popup; `div` props) · `AlertDialog.Title` (`h2`,
+required for a name) · `AlertDialog.Description` (`p`, the consequence) · `AlertDialog.Footer`
+(right-aligned action row) · `AlertDialog.Cancel` (ghost button that closes) ·
+`AlertDialog.Action` (a **primary Button** that runs `onClick` and then closes).
+
+`Action` accepts every `Button` prop except `as` (it must stay a `<button>`), including `loading`.
+Deliberately **not** in v1: a `danger` look (Q10 — one red; the primary crimson already marks the
+consequential action), `closeOnOutsideClick` (an alert dialog must never allow it).
+
+## Variants & tokens
+
+No visual variants. Backdrop/popup reuse Dialog's recipe (`bg-black/60 backdrop-blur-sm`;
+`max-w-md rounded-lg border border-line bg-surface p-6 shadow-card`), `z-[var(--sk-z-dialog)]`.
+`Action` uses `buttonStyles({ variant: 'primary' })`; `Cancel` is `buttonStyles({ variant:
+'ghost' })` so both line up at 40px. Footer: `mt-6 flex justify-end gap-2`.
+
+No new tokens.
+
+## States
+
+closed (server renders only the trigger) · open (backdrop fade + popup scale) · closing. Outside
+press: **ignored**. `Escape` and `Cancel` close without acting; `Action` runs its `onClick` and closes.
+Initial focus lands on `Cancel` when present (the safe choice) — Base UI's default is the first
+focusable, and `Cancel` comes first in the footer. Reduced motion: transitions off.
+
+## Accessibility
+
+- [ ] Popup is `role="alertdialog"` with `aria-modal`, `aria-labelledby` → Title,
+      `aria-describedby` → Description.
+- [ ] Focus trapped while open; returns to the trigger on close.
+- [ ] Outside click never dismisses; `Escape` does.
+- [ ] Both buttons are native `<button>`s with visible focus rings.
+- [ ] Contrast ≥4.5:1 both themes; `prefers-reduced-motion` honored.
 
 ---
 
@@ -309,10 +381,11 @@ Triggers an action. Crimson is reserved for the one primary action on a surface;
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 interface ButtonOwnProps {
-  variant?: 'primary' | 'secondary' | 'ghost'   // default 'primary'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'link'   // default 'primary' (outline/link: v1.3)
   size?: 'sm' | 'md' | 'lg'                    // default 'md'
   loading?: boolean        // shows spinner, sets aria-busy, blocks clicks; keeps width
   fullWidth?: boolean
+  iconOnly?: boolean       // v1.3 — square (w = h) at every size; pair with aria-label
   leadingIcon?: ReactNode
   trailingIcon?: ReactNode
 }
@@ -341,6 +414,10 @@ scope for v1).
 | primary | `--sk-gradient-accent` | `--sk-text` | none | brighten + `--sk-accent-glow` shadow |
 | secondary | `--sk-surface-2` | `--sk-text` | `--sk-line` | bg `--sk-well` |
 | ghost | transparent | `--sk-text-dim` | none | text `--sk-text`, bg `--sk-line-soft` |
+| outline (v1.3) | transparent | `--sk-text` | `--sk-line` | bg `--sk-line-soft` |
+| link (v1.3) | transparent | `--sk-accent` | none | underline (offset 4); `h-auto px-0` via compound variant |
+
+`iconOnly` (v1.3): `px-0` + `w-8`/`w-10`/`w-12` per size (compound variants) → a square control.
 
 | Size | Height | Padding-x | Font | Radius |
 |---|---|---|---|---|
@@ -630,6 +707,61 @@ Static; the dismiss button is a native `<button>` (keyboard/focus for free).
 - [ ] Remove button has an `aria-label` (default "Remove"); it's a real `<button>`.
 - [ ] Tone conveyed by text, not color alone.
 - [ ] Text/border contrast ≥ 4.5:1 / 3:1 in both themes.
+
+---
+
+# Collapsible — sukuna-ui
+
+> A single disclosure: "Show advanced options", "Read more", a sidebar group.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Collapsible } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/collapsible · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-collapsible.md
+
+## Purpose
+
+A single disclosure: "Show advanced options", "Read more", a sidebar group. `Accordion` is for a
+*set* of sections; using a one-item Accordion for this adds a heading level and item chrome you
+don't want. Collapsible is the unstyled-by-default primitive with a styled trigger and an animated
+panel.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+export interface CollapsibleProps extends Omit<ComponentPropsWithoutRef<'div'>, 'onChange'> {
+  open?: boolean
+  defaultOpen?: boolean                 // default false
+  onOpenChange?: (open: boolean) => void
+  disabled?: boolean                    // default false
+}
+```
+
+Compound: `Collapsible` (a `div`; state) · `Collapsible.Trigger` (a `button` with a rotating
+chevron; `hideIcon` to drop it; Base UI `render` to swap the element) · `Collapsible.Content` (the
+panel; `keepMounted` to keep it in the DOM while closed, e.g. for find-in-page).
+
+## Variants & tokens
+
+No variants. trigger: `inline-flex items-center gap-2 text-sm font-medium text-text` + focus ring;
+icon: `text-text-dim` rotating 180° on `data-[panel-open]`. panel: height animates via Base UI's
+`--collapsible-panel-height` (`h-[var(--collapsible-panel-height)]`, `data-[starting-style]:h-0`,
+`data-[ending-style]:h-0`), `overflow-hidden`. content: `pt-2 text-sm text-text-dim`. No new tokens.
+
+## States
+
+closed · open · disabled (trigger `opacity-45`, `cursor-not-allowed` via `data-[disabled]` — Base UI keeps a
+disabled trigger focusable with `aria-disabled`, no native `disabled`, same as Tabs D27). Reduced motion: no height
+transition, no chevron rotation transition.
+
+## Accessibility
+
+- [ ] Trigger is a native `<button>` with `aria-expanded` + `aria-controls` → panel.
+- [ ] Enter/Space toggle (native).
+- [ ] Hidden panel content is not in the tab order.
+- [ ] Focus ring visible both themes; `prefers-reduced-motion` honored.
 
 ---
 
@@ -1310,6 +1442,71 @@ closed · open (positioned popup) · item highlighted (keyboard) · disabled ite
 
 ---
 
+# Meter — sukuna-ui
+
+> Show a scalar measurement within a known range: storage used, quota, password strength, a score.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Meter } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/meter · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-meter.md
+
+## Purpose
+
+Show a scalar measurement within a known range: storage used, quota, password strength, a score.
+`Progress` is for *task completion over time* (`role="progressbar"`, has an indeterminate state);
+Meter is a *static gauge* (`role="meter"`) and is announced as such. Using the right one tells
+screen-reader users what the bar means.
+
+## API
+
+```ts
+import type { ReactNode } from 'react'
+
+export interface MeterProps {
+  value: number                         // required — a meter always has a value
+  min?: number                          // default 0
+  max?: number                          // default 100
+  label?: ReactNode                     // visible caption; also names the meter
+  showValue?: boolean                   // default false — prints the formatted value on the right
+  format?: Intl.NumberFormatOptions     // e.g. { style: 'percent' } or { style: 'unit', unit: 'gigabyte' }
+  size?: 'sm' | 'md'                    // default 'md'
+  tone?: 'accent' | 'success' | 'premium'   // default 'accent'
+  className?: string
+  'aria-label'?: string                 // required when there is no `label`
+  'aria-valuetext'?: string             // override the spoken value ("3 of 5 GB")
+}
+```
+
+Deliberately **not** in v1: low/high/optimum thresholds that auto-switch the tone (pick `tone`
+yourself), segmented meters, a vertical orientation.
+
+## Variants & tokens
+
+Track `bg-surface-2 rounded-pill w-full overflow-hidden`; indicator `h-full rounded-pill`.
+
+| size | track height | | tone | indicator |
+|---|---|---|---|---|
+| sm | `h-1.5` | | accent | `bg-accent` |
+| md | `h-2` | | success | `bg-success` |
+| | | | premium | `bg-premium` |
+
+Header row: `mb-1 flex justify-between text-sm`; label `text-text-dim`, value
+`text-text tabular-nums`. No new tokens (success/premium already exist and pass AA for UI, D22).
+
+## States
+
+Static — no hover/focus (not interactive). Indicator width transition on value change
+(`transition-[width] motion-reduce:transition-none`).
+
+## Accessibility
+
+- [ ] `role="meter"` with `aria-valuenow/min/max`; `aria-valuetext` from `format` or override.
+- [ ] Named by `label` (`aria-labelledby`) or `aria-label`.
+- [ ] Indicator color is not the only signal — pair with `showValue` or text when tone matters.
+
+---
+
 # NumberField — sukuna-ui
 
 > Enter a number precisely.
@@ -1434,6 +1631,76 @@ page: default · hover · active (`aria-current="page"`). prev/next disabled at 
 - [ ] `<nav aria-label="Pagination">`; current page `aria-current="page"`.
 - [ ] Prev/Next have labels and are `disabled` at the ends.
 - [ ] Ellipses are inert text, not buttons.
+
+---
+
+# Popover — sukuna-ui
+
+> Show a small, interactive panel next to the element that opened it — filters, quick settings, a share box, a date picker later.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Popover } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/popover · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-popover.md
+
+## Purpose
+
+Show a small, interactive panel next to the element that opened it — filters, quick settings, a
+share box, a date picker later. Opens on **click** (not hover) and holds real controls, which is
+what separates it from `Tooltip` (hover, text only) and `HoverCard` (hover, preview only). Unlike
+`Dialog` it is non-modal by default: the page stays interactive and scrollable. Positioning,
+flipping, focus management, outside-press and `Escape` dismiss come from Base UI Popover.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from 'react'
+
+export interface PopoverProps {
+  children: ReactNode                 // Trigger + Content
+  open?: boolean
+  defaultOpen?: boolean               // default false
+  onOpenChange?: (open: boolean) => void
+  modal?: boolean | 'trap-focus'      // default false — page stays interactive
+}
+
+export interface PopoverContentProps extends ComponentPropsWithoutRef<'div'> {
+  side?: 'top' | 'right' | 'bottom' | 'left'   // default 'bottom'
+  align?: 'start' | 'center' | 'end'           // default 'center'
+  sideOffset?: number                          // default 8
+}
+```
+
+Compound: `Popover` (state) · `Popover.Trigger` (wraps **one** element, e.g. a `Button`; Base UI
+merges `onClick`/`aria-expanded`/`aria-haspopup`/ref onto it — same contract as `Dialog.Trigger`) ·
+`Popover.Content` (portal + positioner + popup) · `Popover.Title` (`h2`, names the popup) ·
+`Popover.Description` (`p`) · `Popover.Close` (ghost `button`; Base UI `render` to swap it).
+
+Deliberately **not** in v1: an arrow (Tooltip/Menu/HoverCard have none), `openOnHover` (that is
+`HoverCard`), a backdrop, anchoring to a non-trigger element.
+
+## Variants & tokens
+
+No visual variants. popup: `w-72 max-w-[calc(100vw-2rem)] rounded-md border border-line bg-surface
+p-4 text-sm text-text shadow-card`, fade + scale from `var(--transform-origin)` via
+`data-[starting-style]`/`data-[ending-style]`. positioner: `z-[var(--sk-z-popover)]` (60 — above a
+Dialog at 50, so a Popover inside a Dialog renders on top). title/description/close mirror Dialog.
+
+No new tokens — `--sk-surface`, `--sk-line`, `--sk-shadow-card`, `--sk-focus-ring`, `--sk-z-popover`.
+
+## States
+
+closed (server renders only the trigger) · open (fades/scales in) · closing. `Escape`, outside press
+and `Popover.Close` close it; focus returns to the trigger. Reduced motion: transitions off.
+
+## Accessibility
+
+- [ ] Trigger gets `aria-expanded` + `aria-haspopup="dialog"`; popup is `role="dialog"`.
+- [ ] `Popover.Title` / `Popover.Description` wire `aria-labelledby` / `aria-describedby`.
+- [ ] Focus moves into the popup on open and returns to the trigger on close.
+- [ ] `Escape` closes; outside press closes.
+- [ ] Text contrast ≥4.5:1 both themes; focus ring on `Popover.Close`.
+- [ ] `prefers-reduced-motion` honored.
 
 ---
 
@@ -2120,6 +2387,65 @@ Static; no interactive states. It inherits nothing that changes on hover/focus.
 - [ ] `default`/`dim` tones meet 4.5:1 on `--sk-bg`/`--sk-surface` in both themes.
 - [ ] `eyebrow` conveys style, not meaning; don't rely on uppercase to carry information.
 - [ ] `label` usage associates with a control via `htmlFor`.
+
+---
+
+# Textarea — sukuna-ui
+
+> Multi-line free text: comments, descriptions, messages.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { Textarea } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/textarea · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-textarea.md
+
+## Purpose
+
+Multi-line free text: comments, descriptions, messages. Same surface, border, focus ring and
+`invalid` treatment as `Input`, so forms look uniform, and it drops into `Field.Control` the same
+way. Optional content-based auto-grow uses the CSS `field-sizing: content` property — no JS.
+
+## API
+
+```ts
+import type { ComponentPropsWithoutRef } from 'react'
+
+export interface TextareaProps extends ComponentPropsWithoutRef<'textarea'> {
+  size?: 'sm' | 'md' | 'lg'                  // default 'md' — text size + padding, like Input
+  invalid?: boolean                           // crimson border + aria-invalid
+  resize?: 'none' | 'vertical' | 'both'       // default 'vertical'
+  autoResize?: boolean                        // default false — grows with content (field-sizing)
+}
+```
+
+`rows` stays native (default 3 via the attribute). `ref` → `HTMLTextAreaElement`.
+Deliberately **not** in v1: a character counter (compose with `Field.Description`), JS auto-grow
+for browsers without `field-sizing` (they keep a fixed, resizable box — graceful fallback).
+
+## Variants & tokens
+
+Base mirrors Input: `w-full bg-surface-2 text-text border border-line placeholder:text-text-faint`,
+`focus-visible:ring-2 ring-focus-ring border-accent`, `disabled:opacity-45`.
+
+| Size | Padding | Font | Radius | Min height |
+|---|---|---|---|---|
+| sm | `px-3 py-1.5` | `text-sm` | `rounded-sm` | 64px |
+| md | `px-3 py-2` | `text-md` | `rounded-md` | 80px |
+| lg | `px-4 py-3` | `text-lg` | `rounded-lg` | 96px |
+
+resize: `resize-none` / `resize-y` / `resize`. autoResize: `[field-sizing:content]` (+ a
+`max-h-80` cap so it never eats the page). invalid: `border-accent`. No new tokens.
+
+## States
+
+default · hover (none — text fields don't lift) · focus-visible (ring + crimson border) · invalid ·
+disabled · readOnly (native). Reduced motion: only a color transition, no motion.
+
+## Accessibility
+
+- [ ] Native `<textarea>`; name from `<label htmlFor>`, `Field.Label` or `aria-label`.
+- [ ] `invalid` → `aria-invalid="true"`; pair with `Field.Error` for the message.
+- [ ] Focus ring ≥3:1 both themes; text/placeholder contrast per tokens.
 
 ---
 

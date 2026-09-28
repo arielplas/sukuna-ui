@@ -39,6 +39,7 @@ export interface AvatarProps extends ComponentPropsWithoutRef<'span'>, AvatarSty
  *   `object-cover`, so any aspect ratio is cropped to fit.
  * - Not `forwardRef` (matches the other headless-backed wrappers). Remaining props go to the
  *   root `<span>`, so `className` (merged last), `title`, `data-*` and event handlers work.
+ * - `shape` (v1.3): 'circle' (default, people) | 'square' (`rounded-md`; teams, orgs, apps).
  *
  * @example
  * ```tsx
@@ -57,8 +58,8 @@ export interface AvatarProps extends ComponentPropsWithoutRef<'span'>, AvatarSty
  * </div>
  * ```
  */
-export function Avatar({ src, alt, fallback, size, className, ...rest }: AvatarProps) {
-  const styles = avatarStyles({ size })
+export function Avatar({ src, alt, fallback, size, shape, className, ...rest }: AvatarProps) {
+  const styles = avatarStyles({ size, shape })
   return (
     <Base.Root className={styles.root({ className })} {...rest}>
       {/* Default alt="" so an image with no caption is treated as decorative (a fallback exists)

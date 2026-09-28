@@ -21,6 +21,13 @@
     ]
   },
   {
+    "name": "AlertDialog + deps",
+    "path": "dist/index.js",
+    "import": "{ AlertDialog }",
+    "limit": "33 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
     "name": "Avatar + deps",
     "path": "dist/index.js",
     "import": "{ Avatar }",
@@ -124,6 +131,13 @@
       "tailwind-variants",
       "clsx"
     ]
+  },
+  {
+    "name": "Collapsible + deps",
+    "path": "dist/index.js",
+    "import": "{ Collapsible }",
+    "limit": "19 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
   },
   {
     "name": "Combobox + deps",
@@ -231,6 +245,13 @@
     "ignore": ["react", "react-dom", "react/jsx-runtime"]
   },
   {
+    "name": "Meter + deps",
+    "path": "dist/index.js",
+    "import": "{ Meter }",
+    "limit": "16 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
     "name": "NumberField + deps",
     "path": "dist/index.js",
     "import": "{ NumberField }",
@@ -250,6 +271,13 @@
       "tailwind-variants",
       "clsx"
     ]
+  },
+  {
+    "name": "Popover + deps",
+    "path": "dist/index.js",
+    "import": "{ Popover }",
+    "limit": "46 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
   },
   {
     "name": "Progress + deps",
@@ -381,6 +409,20 @@
     "name": "Text (static, our code only — must NOT pull Base UI)",
     "path": "dist/index.js",
     "import": "{ Text }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Textarea (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Textarea }",
     "limit": "2 kB",
     "ignore": [
       "react",

@@ -9,7 +9,7 @@
 
 **SSR-safe, accessible React components for dark-first products — and for the AI agents that build them.**
 
-<!-- count -->39<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
+<!-- count -->44<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
 contrast in both themes, `prefers-reduced-motion` honored, zero runtime styling, React Server
 Components-ready, React 18 and 19. Dark is the identity; light is a mode.
 
@@ -85,6 +85,7 @@ Every row links to that component's generated Markdown page (full API, variants,
 |---|---|---|
 | `Accordion` | Vertically stacked, expandable sections. | [docs/llms/accordion.md](docs/llms/accordion.md) |
 | `Alert` | An inline message that draws attention to information, success, a caution, or an error. | [docs/llms/alert.md](docs/llms/alert.md) |
+| `AlertDialog` | Ask the user to confirm something that is hard to undo ("Delete project?", "Discard changes?"). | [docs/llms/alert-dialog.md](docs/llms/alert-dialog.md) |
 | `Avatar` | A user/entity image with a graceful fallback (initials or icon) while loading or on error. | [docs/llms/avatar.md](docs/llms/avatar.md) |
 | `Badge` | A small, pill-shaped label for status and metadata — "LIVE", counts, tags. | [docs/llms/badge.md](docs/llms/badge.md) |
 | `Breadcrumbs` | Show the path to the current page and let users jump back up it. | [docs/llms/breadcrumbs.md](docs/llms/breadcrumbs.md) |
@@ -93,6 +94,7 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `Carousel` | A horizontal, one-slide-at-a-time content carousel for images, cards, or arbitrary nodes — the gap Slider (a range input) doesn't fill. | [docs/llms/carousel.md](docs/llms/carousel.md) |
 | `Checkbox` | A boolean checkbox. | [docs/llms/checkbox.md](docs/llms/checkbox.md) |
 | `Chip` | A compact token for filters, selections, or tags — optionally removable. | [docs/llms/chip.md](docs/llms/chip.md) |
+| `Collapsible` | A single disclosure: "Show advanced options", "Read more", a sidebar group. | [docs/llms/collapsible.md](docs/llms/collapsible.md) |
 | `Combobox` | A text input with a filtered list of suggestions (free-text autocomplete). | [docs/llms/combobox.md](docs/llms/combobox.md) |
 | `ContextMenu` | Offer contextual actions where the pointer is — right-click on desktop, long-press on touch. | [docs/llms/context-menu.md](docs/llms/context-menu.md) |
 | `Counter` | Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards. | [docs/llms/counter.md](docs/llms/counter.md) |
@@ -104,8 +106,10 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `HoverCard` | Preview richer context for a link without a click — a user card, a repo summary, a footnote. | [docs/llms/hover-card.md](docs/llms/hover-card.md) |
 | `Input` | A single-line text input. | [docs/llms/input.md](docs/llms/input.md) |
 | `Menu` | A dropdown menu of actions triggered by a button. | [docs/llms/menu.md](docs/llms/menu.md) |
+| `Meter` | Show a scalar measurement within a known range: storage used, quota, password strength, a score. | [docs/llms/meter.md](docs/llms/meter.md) |
 | `NumberField` | Enter a number precisely. | [docs/llms/number-field.md](docs/llms/number-field.md) |
 | `Pagination`, `paginationRange` | Navigate between pages of results, with first/last always shown and ellipses in between. | [docs/llms/pagination.md](docs/llms/pagination.md) |
+| `Popover` | Show a small, interactive panel next to the element that opened it — filters, quick settings, a share box, a date picker later. | [docs/llms/popover.md](docs/llms/popover.md) |
 | `Progress` | A horizontal progress bar, determinate or indeterminate. | [docs/llms/progress.md](docs/llms/progress.md) |
 | `RadioGroup` | Choose one option from a small set. | [docs/llms/radio-group.md](docs/llms/radio-group.md) |
 | `ScrollArea` | Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in every browser and matches the Sukuna surface, instead of the OS default. | [docs/llms/scroll-area.md](docs/llms/scroll-area.md) |
@@ -119,6 +123,7 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `Table` | Present tabular data with Sukuna styling. | [docs/llms/table.md](docs/llms/table.md) |
 | `Tabs` | Switch between panels of related content. | [docs/llms/tabs.md](docs/llms/tabs.md) |
 | `Text` | The typographic primitive. | [docs/llms/text.md](docs/llms/text.md) |
+| `Textarea` | Multi-line free text: comments, descriptions, messages. | [docs/llms/textarea.md](docs/llms/textarea.md) |
 | `ToastProvider`, `useToast` | Transient notifications. | [docs/llms/toast.md](docs/llms/toast.md) |
 | `Toggle`, `ToggleGroup` | Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar). | [docs/llms/toggle-group.md](docs/llms/toggle-group.md) |
 | `Tooltip` | A hover/focus tooltip for supplementary text. | [docs/llms/tooltip.md](docs/llms/tooltip.md) |

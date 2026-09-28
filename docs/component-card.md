@@ -82,7 +82,13 @@ Static; no interactive states. (`raised` is a resting elevation, not a hover eff
 
 ## 10. Stories
 
-`Playground`, `Elevations`, `Padding`, `Radius`, `Composed` (Text + Badge inside). Both themes.
+`Playground`, `Elevations`, `Padding`, `Radius`, `Composed` (Text + Badge inside), `Interactive`
+(v1.3). Both themes.
+
+**v1.3:** `interactive?: boolean` adds `cursor-pointer`, a hover lift (`-translate-y-0.5` +
+`shadow-card` + `border-text-faint`, off under reduced motion) and a focus ring when the card or
+any descendant is `:focus-visible` (`has-[:focus-visible]:ring-2`). Styling only: the action
+must be a real `<a>`/`<button>` inside.
 
 ## 11. Decisions
 

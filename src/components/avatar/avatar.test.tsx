@@ -28,6 +28,15 @@ describe('Avatar', () => {
     expect(screen.getByTestId('a').classList.contains('size-12')).toBe(true)
   })
 
+  it('is a circle by default and a rounded square with shape="square"', () => {
+    const { container, unmount } = render(<Avatar fallback="SK" />)
+    expect(container.firstElementChild?.classList.contains('rounded-full')).toBe(true)
+    unmount()
+    const sq = render(<Avatar fallback="SK" shape="square" />)
+    expect(sq.container.firstElementChild?.classList.contains('rounded-md')).toBe(true)
+    expect(sq.container.firstElementChild?.classList.contains('rounded-full')).toBe(false)
+  })
+
   it('merges className', () => {
     render(<Avatar fallback="AR" className="ring-2" data-testid="a" />)
     expect(screen.getByTestId('a').classList.contains('ring-2')).toBe(true)

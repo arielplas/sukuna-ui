@@ -63,7 +63,10 @@ axe both themes.
 
 ## 10. Stories
 
-`Determinate`, `Indeterminate`, `WithLabel`, `Sizes`.
+`Determinate`, `Indeterminate`, `WithLabel`, `Sizes`, `Tones` (v1.3).
+
+**v1.3:** `tone?: 'accent' | 'success' | 'premium'` (default `'accent'`) colors the indicator
+(`bg-accent` / `bg-success` / `bg-premium`). Same scale as `Meter`.
 
 ## 11. Decisions
 

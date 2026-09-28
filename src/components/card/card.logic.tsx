@@ -1,7 +1,16 @@
 import { type ComponentPropsWithoutRef, forwardRef } from 'react'
 import { type CardStyleProps, cardStyles } from './card.styles'
 
-export interface CardProps extends ComponentPropsWithoutRef<'div'>, CardStyleProps {}
+export interface CardProps
+  extends ComponentPropsWithoutRef<'div'>,
+    Omit<CardStyleProps, 'interactive'> {
+  /**
+   * Clickable-card affordance: hover lift, and a card-sized focus ring when the card or a link or
+   * button inside it has keyboard focus. Styling only; put a real `<a>`/`<button>` inside.
+   * @default false
+   */
+  interactive?: boolean
+}
 
 /**
  * Surface container that groups related content on a chosen elevation.
@@ -18,6 +27,9 @@ export interface CardProps extends ComponentPropsWithoutRef<'div'>, CardStylePro
  *   - `radius`: 'md' | 'lg' (default).
  * - Props extend `<div>`; `className` merges last and wins over a conflicting utility.
  * - Theming: surface, border and shadow come from `--sk-*` tokens and flip with `data-theme`.
+ * - `interactive` (v1.3): hover lift + pointer, and a focus ring when the card or anything
+ *   inside it has keyboard focus. Put a real `<a>`/`<button>` inside for the action; the class
+ *   alone does not make a `div` operable.
  *
  * @example
  * ```tsx
@@ -33,10 +45,14 @@ export interface CardProps extends ComponentPropsWithoutRef<'div'>, CardStylePro
  * ```
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-  { elevation, padding, radius, className, ...rest },
+  { elevation, padding, radius, interactive, className, ...rest },
   ref,
 ) {
   return (
-    <div ref={ref} className={cardStyles({ elevation, padding, radius, className })} {...rest} />
+    <div
+      ref={ref}
+      className={cardStyles({ elevation, padding, radius, interactive, className })}
+      {...rest}
+    />
   )
 })

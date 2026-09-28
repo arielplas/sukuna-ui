@@ -4,10 +4,11 @@ import { buttonStyles } from './button.styles'
 interface ButtonOwnProps {
   /**
    * Visual weight. `primary` is the crimson CTA (use once per surface), `secondary` is a quiet
-   * bordered button, `ghost` has no background until hovered.
+   * bordered button, `ghost` has no background until hovered, `outline` is border-only, and
+   * `link` is an inline crimson text action (no control height or padding).
    * @default 'primary'
    */
-  variant?: 'primary' | 'secondary' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'link'
   /**
    * Height/padding/font scale: `sm` = 32px, `md` = 40px, `lg` = 48px.
    * @default 'md'
@@ -24,6 +25,12 @@ interface ButtonOwnProps {
    * @default false
    */
   fullWidth?: boolean
+  /**
+   * Square button for a single icon (width = height at every `size`). Pair with an `aria-label`
+   * and pass the icon as `leadingIcon` or `children`.
+   * @default false
+   */
+  iconOnly?: boolean
   /** Icon rendered before the label. Replaced by the spinner while `loading`. */
   leadingIcon?: ReactNode
   /** Icon rendered after the label. Stays visible while `loading`. */
@@ -97,8 +104,8 @@ type ButtonImplProps = ButtonOwnProps & {
  *   activation, focus and the `button`/`link` role come from the platform. Icon-only usage
  *   requires `aria-label` (the type will not compile without it). `loading` sets
  *   `aria-busy="true"` and the spinner is `aria-hidden`. A visible focus ring is always rendered.
- * - Variants: `variant`: 'primary' (default) | 'secondary' | 'ghost'; `size`: 'sm' | 'md'
- *   (default) | 'lg'; `fullWidth`: boolean (default false).
+ * - Variants: `variant`: 'primary' (default) | 'secondary' | 'ghost' | 'outline' | 'link';
+ *   `size`: 'sm' | 'md' (default) | 'lg'; `fullWidth`, `iconOnly` (square): boolean (default false).
  * - `type` defaults to `'button'` (not the native `'submit'`); pass `type="submit"` explicitly
  *   inside forms.
  * - `disabled` and `loading` both block `onClick`. On `as="a"` there is no native `disabled`, so
@@ -119,7 +126,7 @@ type ButtonImplProps = ButtonOwnProps & {
  * </Button>
  *
  * // Icon-only: `aria-label` is required by the type.
- * <Button variant="ghost" size="sm" aria-label="Close" leadingIcon={<CloseIcon />} />
+ * <Button variant="ghost" size="sm" iconOnly aria-label="Close" leadingIcon={<CloseIcon />} />
  * ```
  *
  * @example
@@ -138,6 +145,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
       variant,
       size,
       fullWidth,
+      iconOnly,
       loading = false,
       leadingIcon,
       trailingIcon,
@@ -149,7 +157,7 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
       ...rest
     } = props as ButtonImplProps
 
-    const classes = buttonStyles({ variant, size, fullWidth, className })
+    const classes = buttonStyles({ variant, size, fullWidth, iconOnly, className })
     const content = (
       <>
         {loading ? <Spinner /> : leadingIcon}
