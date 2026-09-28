@@ -348,6 +348,92 @@ optional peer and needs its own yes:
 
 ---
 
+## Q27. "thoughts on separating video player as its own dependency? but keeping same branding + configurable" → "I wanna share the video player to other projects, but not necessarily use sukuna's components — sometimes I just need the videoplayer"
+
+**Answer.** Bundle size is not the reason: consumers already tree-shake, and size-limit budgets
+each export. The real reasons are reuse in apps that don't use Sukuna, plus release churn (each
+player wave bumps `sukuna-ui`). The player's coupling is small: `Button`, `Spinner`, `tv`,
+`useControllableState` and 13 `--sk-*` tokens. So it can stand alone with **no dependency on
+`sukuna-ui`**:
+
+- Small copies of the icon button, spinner, `tv` and `useControllableState` move into the player
+  package.
+- It has its own `--vp-*` CSS variables. Each defaults to today's Sukuna dark value, so the
+  player looks the same out of the box. Other apps override a few of them (the proposed set is
+  in Q28).
+- It ships a **precompiled, prefixed `video.css`** (Tailwind `prefix(vp)`), so the host app needs
+  neither Tailwind nor Sukuna, and the player's classes can't clash with the host's.
+- A `classNames` prop takes one class per part of the player, for one-off overrides. `labels`
+  and `engine` move over unchanged.
+- `sukuna-ui` re-exports `VideoPlayer` from the new package, so today's imports keep working
+  (no breaking change).
+
+**Owner answers:**
+
+1. Package name `@sukuna-ui/video`: **yes**.
+2. New `--vp-*` variables need approval: **sure**. The exact list and values are in Q28.
+3. Default look: **dark** (Sukuna dark values, same as today's always-dark chrome).
+
+**Decision.** Move to a Bun-workspaces monorepo: `packages/ui` (`sukuna-ui`) and
+`packages/video` (`@sukuna-ui/video`, with hls moving to `@sukuna-ui/video/hls`). This reverses
+Q3's single-package decision for the player only. Phased plan (each phase is its own PR, ends
+green, no code until approved):
+
+1. **Workspace:** set up Bun workspaces, move the library into `packages/ui` unchanged, make
+   Changesets, size-limit, api-diff, coverage, `docs:build` and the showcase run per package.
+   No API change.
+2. **Detach:** give the player its own copies of the icon button, spinner, `tv` and
+   `useControllableState`, with no imports from `sukuna-ui`, and move it plus the hls adapter
+   into `packages/video`.
+3. **Theme layer:** swap the `--sk-*` utilities in the player for `--vp-*` (Q28), build the
+   prefixed `video.css`, and add the `classNames` slots. Keep the `sk-video:` / `sk-playlist:`
+   localStorage keys so saved resume points survive.
+4. **Re-export:** `sukuna-ui` depends on `@sukuna-ui/video`. It keeps exporting `VideoPlayer`,
+   its parts and `sukuna-ui/video/hls` as aliases. Docs, llms and the README get a "use it
+   standalone" section.
+
+Semver: phases 1, 2 and 4 are no-change for `sukuna-ui` consumers (patch). `@sukuna-ui/video`
+starts at `0.1.0`. Standalone consumers must import `@sukuna-ui/video/video.css`, which goes in
+its README.
+
+---
+
+## Q28. (Agent → owner) Approve the `--vp-*` variable set for `@sukuna-ui/video`?
+
+**Context.** These replace the 13 `--sk-*` colors, plus the fonts, radii and shadow the player
+uses today. The defaults are the current Sukuna **dark** values, so nothing changes visually.
+`--vp-*` is the player's own public theming surface (it is not a `--sk-*` token). Renaming one
+later is a major bump for `@sukuna-ui/video`.
+
+| Variable | Default (Sukuna dark) | Used for |
+|---|---|---|
+| `--vp-accent` | `#FF3B4E` | progress, active items, focus ring |
+| `--vp-accent-deep` | `#B01221` | audio-mode backdrop + visualizer |
+| `--vp-accent-glow` | `rgba(255, 59, 78, 0.6)` | play-button, seek-thumb and edge glows |
+| `--vp-on-accent` | `#FFFFFF` | text/icons on accent |
+| `--vp-gradient-accent` | `linear-gradient(135deg, #D8253A, #B01221)` | big play button, action buttons, audio art |
+| `--vp-premium` | `#E8DCC4` | loop A–B range, "champagne" caption colour |
+| `--vp-well` | `#000000` | player background, thumbnails, scrims |
+| `--vp-surface` | `#141416` | menus, toasts, panels (at 95%) |
+| `--vp-surface-2` | `#1C1C20` | inputs, audio art frame |
+| `--vp-line` | `rgba(255, 255, 255, 0.1)` | borders |
+| `--vp-line-soft` | `rgba(255, 255, 255, 0.06)` | dividers, rail tracks |
+| `--vp-text` | `#F4F1EC` | primary text/icons |
+| `--vp-text-dim` | `#9A948A` | time, secondary labels |
+| `--vp-font-sans` | system stack (`-apple-system, …, sans-serif`) | UI text |
+| `--vp-font-display` | `"Archivo", var(--vp-font-sans)` | titles, big numbers |
+| `--vp-font-mono` | Tailwind default mono stack (`ui-monospace, SFMono-Regular, …`); Sukuna has no mono token today | embed-code box, hotkey keys |
+| `--vp-radius-sm` / `-md` / `-lg` / `-pill` | `8px` / `12px` / `16px` / `999px` | controls / menus / player / pills |
+| `--vp-shadow` | `0 30px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06)` | player, menus, tooltips |
+
+Inside `sukuna-ui`, `theme.css` sets these from the dark `--sk-*` tokens, scoped to the player
+root and not `:root`, so the player stays on the dark palette in light apps, as now. A custom
+Sukuna accent then flows into the player automatically.
+
+**Status:** waiting on owner (blocks phase 3 of Q27 only).
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |
@@ -356,7 +442,7 @@ optional peer and needs its own yes:
 | Package name | `sukuna-ui` |
 | v1 components | Text, Badge, Card, Button, Input, Checkbox, Switch, Tooltip, Dialog, Select |
 | Docs language | English |
-| Package layout | Single package |
+| Package layout | Single package; **except** the VideoPlayer, which becomes standalone `@sukuna-ui/video` in a Bun-workspaces monorepo (no `sukuna-ui` dependency, `--vp-*` vars, dark default; `sukuna-ui` re-exports it) (Q3, Q27) |
 | Theming | `data-theme="dark"` (default) / `"light"` via CSS vars |
 | Consumer target | Any React 18+ app (Vite, Remix, Next) |
 | Styling engine | Tailwind v4 + `tailwind-variants` |
@@ -384,3 +470,4 @@ optional peer and needs its own yes:
 | Q14 | Confirm Counter's SSR-final-value strategy and defaults (1200ms, easeOutCubic)? | Spec written; non-blocking, sensible defaults. |
 | Q25 | `sk-ticker` keyframe + `animate-ticker` utility for the VideoPlayer news-ticker overlay? | Proposed; blocks only the ticker variant. |
 | Q26 | Next VideoPlayer SDK adapter (dash.js, IMA/VAST ads, Cast, three.js VR) — each a separate optional peer? | Waiting; hls.js shipped. |
+| Q28 | Approve the `--vp-*` variable set (names + Sukuna-dark defaults) for `@sukuna-ui/video`? | Proposed in Q28; blocks only phase 3 of the split (Q27). |
