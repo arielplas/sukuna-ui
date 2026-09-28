@@ -462,6 +462,41 @@
     "ignore": ["react", "react-dom", "react/jsx-runtime"]
   },
   {
+    "name": "VideoPlayer (our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ VideoPlayer }",
+    "limit": "18 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "VideoPlayer + every part (our code only)",
+    "path": "dist/index.js",
+    "import": "{ VideoPlayer, VideoPlayerPlaylist, VideoPlayerPanel, VideoPlayerUpNext, VideoPlayerEndScreen, VideoPlayerShare, VideoPlayerSkip, VideoPlayerOverlay, VideoPlayerAudio }",
+    "limit": "23 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "sukuna-ui/video/hls adapter (our code only; hls.js is the app's peer)",
+    "path": "dist/video/hls.js",
+    "import": "{ hlsEngine }",
+    "limit": "1 kB",
+    "ignore": ["hls.js"]
+  },
+  {
     "name": "Button + deps (must NOT pull Base UI ~tens of kB)",
     "path": "dist/index.js",
     "import": "{ Button }",

@@ -4,7 +4,7 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-27 — v1.3 wave (§D4) built on branch `feat/v1.3-wave`: Base UI stable, 5 components, variants, perf. 45 components.
+Last updated: 2026-09-27 — v1.3 wave (§D4) + VideoPlayer W1 (§D6) on branch `feat/v1.3-wave`. 46 components.
 Current phase: **Phase 8 (1 of 4 examples) + Phase 9 (docs/CI done; publish pending owner).** Phases 0–7 done.
 Current version: none published. Target for first publish: `0.1.0`.
 
@@ -249,6 +249,23 @@ Spec: `docs/motion.md` (owner request Q20). CSS-only, zero bundle cost, reduced-
 | M6 | Fix: scale/translate never transitioned (`transition-[…transform]`) in 11 components | [x] |
 | M7 | Fix: indeterminate Progress kept animating under reduced motion (`data-[…]` outranked `motion-reduce:`) | [x] |
 
+## D6. VideoPlayer (Q21–Q23)
+
+Spec: `docs/component-video-player.md` (Nuevo parity in three tiers, waves W1–W4 in Appendix B).
+Client component over native `<video>`, in-house seek/volume/menu, no new dependencies. Approved in
+Q23; Review column waits on the owner's visual pass.
+
+| Component | Doc | Styles | Logic | Index | Tests | Stories | Browser | Export | ≥90% | Review |
+|---|---|---|---|---|---|---|---|---|---|---|
+| VideoPlayer (W1 core) | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [ ] |
+
+| Wave | Scope (spec Appendix B) | Status |
+|---|---|---|
+| W1 | Core + chapters + thumbnails + settings (quality/speed/captions/style) + touch + context menu + hotkeys + `useVideoPlayer` | [x] |
+| W2 | Panel (chapters/playlist/transcript), Playlist, UpNext, EndScreen, Share, Skip, resume, startTime, syncGroup, theater, floating | [x] |
+| W3 | Picture tools, snapshot, download, loop section, sleep timer, watch limit, live UI, overlays, audio + visualizer | [x] (ticker overlay waits on Q25) |
+| W4 | Adapters, one dependency approval each: hls.js → dash.js → IMA/VAST → Cast → VR | [~] engine seam + hls.js done; rest wait on Q26 |
+
 ## D7. Theming — multiple themes + app config (designed, not built)
 
 Spec: `docs/theming.md` (owner request Q24: Midnight + Paper, TS config + CLI, `system` mode).
@@ -330,4 +347,10 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-27 · Table actions column (Q18/D34): `MenuItemOption.icon` (Menu + ContextMenu), new `RowActions` (⋯ ghost icon Button + Menu, row-specific aria-label, align end), static `Table.ActionsHeaderCell` (sr-only "Actions") / `Table.ActionsCell`. Table stays server-only at 0.56 kB. 379 unit (100% cov) + 39 browser green. 45 components · (feat/v1.3-wave)
 - 2026-09-27 · Tabs `orientation="vertical"` (Q19): navigation column (flex-col list, right-edge crimson bar + surface fill), ArrowUp/Down + aria-orientation via Base UI; Vertical story with icon labels; unit + Playwright guards · (feat/v1.3-wave)
 - 2026-09-27 · Motion wave (§D5, Q20, `docs/motion.md`): tokens `--sk-duration-slow`/`--sk-ease-spring` + `animate-indeterminate`; Tabs sliding indicator (both orientations, SSR fallback border); Accordion height; directional popup entrance ×7; Toast stacked deck + expand + swipe; Meter/Progress grow-in + sliding indeterminate. Fixes: scale/translate never transitioned in 11 components (Tailwind v4 props ≠ `transform`); indeterminate Progress ignored reduced motion. New `test/browser/motion.test.ts`; Tabs budget 22→25 kB (Indicator). 381 unit / 100% cov, 46 browser ×3 stable · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer design (Q21, §D6): `docs/component-video-player.md` + interactive mockup; Doc [~] awaiting owner approval, no code · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer scope → Nuevo parity (Q22): scouted nuevodevel.com; parity map + three tiers + waves in the spec; mockup v2 (chapters, thumbnails, settings, panel, playlist, ads, live, 29 states). Doc still [~] · (feat/v1.3-wave)
 - 2026-09-27 · Theming DESIGN ONLY (§D7, Q24): `docs/theming.md` — Midnight + Paper palettes (AA-verified), theme registry + resolver, `system` mode (opt-in, no-attribute stays dark), `sukuna.themes.ts` + `sukuna-ui themes init|build` CLI. Code pending · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer W1 (§D6, Q23 approval): core player on native `<video>` — chapter-segmented seek + sprite thumbnails, quality/speed/captions/caption-style settings, player-rendered captions, touch + double-tap, context menu, hotkeys + `?` sheet, `labels`, `useVideoPlayer`. In-house seek/volume/menu (Base UI Slider can't host segments + preview). 12.1 kB brotli (budget 13 kB), no new deps. 30s WebM fixture in `.storybook/public/video`; 42 unit (≥91% funcs / 100% lines per file) + 5 Playwright. 46 components · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer W2 (§D6): parts `VideoPlayerPlaylist` (item media drives the player, prev/next, Shift+N/P, auto-advance, repeat, rememberKey), `VideoPlayerPanel` (chapters / playlist / transcript, in-house tablist, stops above the bar), `VideoPlayerUpNext`, `VideoPlayerEndScreen`, `VideoPlayerShare`, `VideoPlayerSkip`; core `resume`, `syncGroup`, `floating` mini player, `theater`. Context registry for parts. Core 14.4 kB (budget 15), all parts 17.4 kB (budget 19). 65 unit (100% on every part file, core 93.6% funcs) + 8 Playwright · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer W3 (§D6): gear rows picture (zoom/mirror/brightness/contrast/saturation chips), sleep timer, loop (video / chapter / A–B, champagne range on the bar), snapshot (callback or PNG, blocked-media toast), download; props `watchLimit`, `live` (DVR window, LIVE pill), `download`, `onSnapshot`; parts `VideoPlayerOverlay` (card/banner/plain, on pause, dismissible) and `VideoPlayerAudio` (art + Web Audio visualizer). Ticker variant → Q25. Core 16.6 kB (budget 17; the gear-row tools live in core and can't tree-shake — a later split is possible), all parts 20.7 kB (budget 23). 83 unit (100% on every part, core ≥94% funcs) + 12 Playwright · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer W4 (§D6, Q23 approved hls.js): `engine` seam (`VideoEngine` claims URLs at render, attaches in an effect, reports levels → Quality menu; Retry re-attaches) + `sukuna-ui/video/hls` (`hlsEngine()`, hls.js `>=1.5` optional peer, `typesVersions` for node10; 434 B). HLS fixture (VP9/Opus fMP4) + `HlsStream` story. Core 17.05 kB (budget 18). 93 unit + 13 Playwright. Remaining adapters → Q26 · (feat/v1.3-wave)

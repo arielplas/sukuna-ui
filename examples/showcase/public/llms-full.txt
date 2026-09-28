@@ -1,8 +1,8 @@
 # sukuna-ui — full documentation
 
-> SSR-safe, accessible React component library — 45 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
+> SSR-safe, accessible React component library — 46 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
 
-sukuna-ui is a React 18/19 component library: 45 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 46 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -58,6 +58,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Toast: Transient notifications.
 - ToggleGroup: Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
 - Tooltip: A hover/focus tooltip for supplementary text.
+- VideoPlayer: Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library.
 
 ---
 
@@ -2775,6 +2776,215 @@ closed (nothing rendered) · open (popup, positioned by Base UI) · enter/leave 
 - [ ] Popup wired as the trigger's description by Base UI; content is supplementary, not essential.
 - [ ] Opens on hover AND keyboard focus; dismiss on Escape / blur (Base UI).
 - [ ] Not a replacement for a label; don't put interactive content inside a tooltip.
+
+---
+
+# VideoPlayer — sukuna-ui
+
+> Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library.
+
+- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
+- **Import:** `import { useVideoPlayer, VideoPlayer, VideoPlayerAudio, VideoPlayerEndScreen, VideoPlayerOverlay, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerShare, VideoPlayerSkip, VideoPlayerUpNext } from 'sukuna-ui'`
+- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/video-player · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-video-player.md
+
+## Purpose
+
+Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video
+looks the same in Chrome, Safari and Firefox and matches the rest of the library. It covers the
+basics people expect from any player — play/pause, seek, time, volume, speed, captions,
+picture-in-picture, fullscreen and keyboard shortcuts — and, per owner request Q22, the feature set
+of the Nuevo plugin for Video.js: chapters, preview thumbnails, quality, playlists, transcript,
+end screens, share, overlays, live, ads, cast and more.
+
+Three tiers keep that from becoming one heavy component:
+
+- **Tier 1 — core** (in `VideoPlayer`): everything a viewer expects on every video.
+- **Tier 2 — parts** (separate named exports rendered as children): opt-in features; unused parts
+  are tree-shaken.
+- **Tier 3 — adapters** (subpath entries, vendor SDK as an optional peer): streaming engines, ads,
+  Cast, DRM, VR. We ship the interface and all the chrome; the app installs the SDK.
+
+## API
+
+The root renders the frame, the `<video>` and all Tier 1 controls. **Children are parts** (Tier 2).
+Media comes in through `src` / `sources` and `tracks` props (arrays, like Nuevo's playlist items),
+because the player must know resolutions, chapters and thumbnails up front, and playlist items reuse
+the same shape. Tracks are fetched and rendered by the player (not the browser's `::cue`), which is
+what makes caption styling, the transcript and chapter segments possible; `<track>` children are
+therefore not used.
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+interface VideoPlayerProps extends Omit<ComponentPropsWithoutRef<'video'>, 'controls'> {
+  title?: string                    // shown top-left while controls are visible; also names the region
+  'aria-label'?: string             // region name when there is no `title`; one of the two is required
+  aspectRatio?: '16/9' | '4/3' | '1/1' | '21/9' | '9/16'   // default '16/9'; literal classes, no interpolation
+  playbackRates?: number[]          // speed menu entries; default [0.5, 0.75, 1, 1.25, 1.5, 2]
+  autoHide?: boolean                // hide controls after 2.5s idle while playing; default true
+  hotkeys?: boolean                 // keyboard shortcuts while focus is inside the player; default true
+  children?: ReactNode              // parts (Tier 2) and useVideoPlayer() consumers
+
+  // ── Tier 1 additions (Q22) — shipped in W1 ──
+  sources?: VideoSource[]           // { src, type?, res?: number | 'SD' | 'HD', label?, default? } → quality menu
+  tracks?: VideoTrack[]             // { kind: 'captions'|'subtitles'|'chapters', src, srclang?, label?, default? }
+  chapters?: Chapter[]              // { start, title, thumb? } — alternative to a chapters VTT
+  thumbnails?: string | ThumbnailCue[]   // sprite VTT url (#xywh=) or explicit cues → hover preview
+  startTime?: number                // seconds
+  logo?: { src: string; alt: string; href?: string }   // watermark, top-right
+  info?: ReactNode                  // line under the title (series, episode…)
+  skipSeconds?: number              // rewind/forward buttons + J/L; default 10
+  frameRate?: number                // for , / . frame stepping; default 24
+  settings?: Array<'quality' | 'speed' | 'captions' | 'picture' | 'sleep' | 'loop' | 'snapshot' | 'download'>
+                                    // gear rows; default ['quality', 'speed', 'captions']
+  contextMenu?: boolean             // default true
+  touchControls?: boolean           // back/play/forward row + double-tap seek on coarse pointers; default true
+  autoplayPolicy?: 'muted' | 'none' // 'muted' → autoplay muted + "Tap to unmute" chip; default 'none'
+  labels?: Partial<VideoPlayerLabels>   // every visible and aria string (i18n)
+
+  // ── Tier 2 behaviours that are only props — W2/W3 ──
+  resume?: string                   // storage key; restores position, shows the Resume prompt (W2)
+  watchLimit?: { seconds: number; content: ReactNode }   // stop + cover at the limit; seeking past it blocked (W3)
+  syncGroup?: string                // players in the same group pause each other
+  floating?: boolean                // dock to a corner when scrolled out of view
+  theater?: boolean                 // controlled; also defaultTheater. The app owns layout; we own the button + T key (W2)
+  onTheaterChange?: (on: boolean) => void
+  live?: boolean | { dvrWindow?: number }   // LIVE pill, DVR seek, "jump to live" (W3)
+  download?: string | { src: string; filename?: string }   // gear → Download (W3)
+  onSnapshot?: (image: Blob, time: number) => void         // gear → Snapshot; else a PNG download (W3)
+
+  // ── Tier 3 seams — W4 ──
+  engine?: VideoEngine              // shipped: { name, handles(src), attach(video, src, callbacks) → { setLevel, destroy } }
+                                    // hlsEngine() from 'sukuna-ui/video/hls'; dash.js / Shaka / DRM next (Q26)
+  ads?: AdAdapter                   // Q26: VAST / VMAP / IMA / DAI → our ad chrome
+  cast?: CastAdapter                // Q26: Chromecast (AirPlay is native, Tier 1)
+  renderer?: Renderer               // Q26: e.g. VR/360 WebGL canvas
+  onAnalytics?: (e: PlayerEvent) => void   // Q26: one normalized event stream for any tracker
+
+  // ── events ──
+  onChapterChange?: (chapter: Chapter, index: number) => void
+  onQualityChange?: (source: VideoSource) => void
+}
+```
+
+**Parts** (Tier 2) are separate named exports so unused ones tree-shake (approved, Q23). A part
+registers itself through the context registry; the core then shows its buttons (list, share,
+previous/next) and hotkeys.
+
+| Export | Renders | Key props |
+|---|---|---|
+| `VideoPlayerPanel` | right-side drawer with tabs: chapters list (thumbs, durations), playlist, transcript | `tabs`, `defaultOpen` |
+| `VideoPlayerPlaylist` | renders nothing; the current item's media drives the player; prev/next buttons; `Shift+N/P`; auto-advance | `items`, `index` / `defaultIndex`, `onIndexChange`, `autoAdvance` (true), `repeat`, `rememberKey` |
+| `VideoPlayerUpNext` | countdown card for the playlist's next item; Cancel stops auto-advance | `countdown` (default 10) |
+| `VideoPlayerEndScreen` | replay, share (when `VideoPlayerShare` is mounted), related grid (links or buttons) | `related` |
+| `VideoPlayerShare` | link (optionally at current time), embed code; opened from the top-right share button | `url`, `embed` |
+| `VideoPlayerSkip` | "Skip intro" / "Skip recap" button for a time range | `start`, `end`, `label` |
+| `VideoPlayerOverlay` (W3) | timed card / banner / plain content; `showOn="pause"` for a banner on pause; dismissible. News-ticker variant waits on Q25 | `aria-label`, `start`, `end`, `showOn`, `variant`, `placement`, `dismissible` |
+| `VideoPlayerAudio` (W3) | audio mode: cover art (or initials tile), title, artist, Web Audio frequency visualizer | `art`, `title`, `artist`, `visualizer` |
+
+`useVideoPlayer()` exposes state and actions (`play`, `seek`, `setQuality`, `chapters`, …) so apps
+can build their own parts or a fully chromeless UI (Nuevo's "chromeless player" demo).
+
+- **`ref` → the `<video>` element**, so consumers can call `play()`, read `currentTime`, etc.
+- Every native media prop and event (`src`, `poster`, `autoPlay`, `muted`, `loop`, `preload`,
+  `playsInline`, `onPlay`, `onTimeUpdate`, `onRateChange`, …) passes straight to `<video>`.
+- `className` and `style` go to the **root frame** (layout: width, max-width, margins); everything
+  else goes to `<video>`. `// DECISION(open): className → root` (a video-level class has no use when
+  the player owns the chrome).
+- `controls` is omitted: the native chrome is always off; ours replaces it.
+- Type-level: `title` or `aria-label` is required (same overload trick as icon-only Button).
+
+**Not planned** (Q22 recommendation): VPAID (runs third-party JS in the page; IAB-deprecated),
+YouTube tech (iframe; can't be styled), automatic subtitle translation (needs a translation
+service), Nuevo's WordPress plugin and dev tools (stream tester, sprite generator).
+
+## Variants & tokens
+
+**The player chrome is always dark.** The root sets `data-theme="dark"`, so every `--sk-*` token
+inside it resolves to the dark palette even in a light app. Video frames are dark-dominant and the
+controls sit on a black scrim; light-theme text (`#141413`) would be unreadable there. No new tokens.
+The focus ring (`--sk-focus-ring`) stays crimson in both.
+
+| Slot | Utilities → tokens |
+|---|---|
+| root | `@container relative overflow-hidden rounded-lg bg-well shadow-card` · `--sk-radius-lg`, `--sk-well` (#000), `--sk-shadow-card` |
+| video | `size-full object-contain` |
+| scrim (bottom) | `bg-linear-to-t from-well/85 via-well/40 to-transparent`, ~45% of height |
+| scrim (top, with `title`) | `bg-linear-to-b from-well/70 to-transparent`, ~25% of height |
+| title | `font-display font-bold tracking-tight text-lg text-text`, truncates |
+| bigPlay | 64px circle, `bg-gradient-accent text-on-accent` + `shadow-[0_0_28px_6px_var(--sk-accent-glow)]` — the one crimson primary on the surface |
+| controlButton | 36px square (`size-9 rounded-md`), `text-text hover:bg-line-soft`, 20px icon — ghost icon Button look |
+| time | `font-sans text-sm tabular-nums text-text` + `text-text-dim` for the duration |
+| seek track | 4px → 6px on hover/drag, `rounded-pill bg-text/20` |
+| seek buffered | `bg-text/35` (inline `width` %, positional) |
+| seek played | `bg-accent` (`--sk-accent`) |
+| seek thumb | 14px `bg-accent`, `ring-4 ring-accent-glow` on drag; scales in on hover (`scale-0 → scale-100`) |
+| seek hover time | small chip `bg-surface-2 border border-line rounded-sm text-xs tabular-nums` above the pointer |
+| volume slider | 72px track, same as seek but `bg-text` fill (volume isn't a brand moment); expands from `w-0` on hover/focus of the mute group |
+| settings menu | in-house paged menu (`role="menu"`), `bg-surface/95 border-line rounded-md shadow-card`; radio rows show a crimson tick |
+| spinner | our `Spinner` (lg) centered while `waiting` |
+| error panel | centered `text-text` message + `text-text-dim` detail, `Retry` secondary Button |
+
+**Q22 additions** (all existing tokens):
+
+| Slot | Utilities → tokens |
+|---|---|
+| seek segments (chapters) | one `seg` per chapter, `gap-[3px]`, each `rounded-pill bg-text/20`; hovered segment `h-2`; played `bg-accent` per segment |
+| thumbnail preview | 160×90 frame `rounded-sm shadow-card`, chapter title (`font-display font-bold text-sm`) above, time chip below |
+| chapter label | beside the time: `· Chapter name ›` `text-sm`, truncates; opens the panel |
+| settings menu | `bg-surface/95 border-line rounded-md shadow-card`, 260px; rows show current value in `text-text-dim` + chevron; sub-pages have a back header; toggles use our Switch look; chips use `border-accent bg-accent/14` when checked |
+| side panel | `w-[min(340px,44%)]` right drawer, `bg-surface/95 backdrop-blur`, tabs with crimson underline (Tabs look); current item `bg-accent/10` + 3px crimson left rail; slides with `translate` `duration-slow` |
+| skip intro / resume / up next | floating cards `bg-surface/95 border-line rounded-md`; ride above the bar and drop to the edge when controls hide; up-next countdown ring stroke `--sk-accent` |
+| end screen / share / watch limit | full-frame cover `bg-well/70 backdrop-blur-sm`; primary action is the crimson Button, the rest secondary |
+| loop range | `border-x-2 border-premium bg-premium/15` over the bar |
+| ad chrome | `AD` badge `bg-premium text-bg`, pod position + countdown, "Skip in 5" → "Skip ad" tab on the right edge; ad progress `bg-premium` |
+| live | `LIVE` pill: dot `bg-accent` pulsing at the live edge (static under reduced motion), `text-text-dim` when behind + `−0:42` |
+| context menu | Menu popup look at the pointer |
+| touch row | 48px round back/forward (`bg-well/45`) around the 64px crimson play; double-tap flashes a side ripple with "+10 seconds" |
+
+Aspect ratio: `aspect-video` / `aspect-[4/3]` / `aspect-square` / `aspect-[21/9]` / `aspect-[9/16]`
+as literal `tv()` variant strings.
+
+**Compact layout** (container < 480px, `@max-[30rem]:` literal): 32px buttons, volume slider and PiP
+hidden (mute stays), time shows `current / duration` in `text-xs`, bigPlay 52px. No JS measuring.
+
+## States
+
+| State | Behavior |
+|---|---|
+| idle (not started) | poster (or first frame) + big crimson play button centered; bottom bar visible; title visible. |
+| playing | big play hides; controls fade out after 2.5s without pointer movement (`autoHide`); cursor hides with them. |
+| controls shown | pointer move, touch, or keyboard focus inside the player; stays shown while paused, while a menu is open, while dragging, and while focus is in the control bar. |
+| paused | pause icon → play icon; controls pinned; big play does **not** return (it's a start affordance only). |
+| waiting / buffering | centered Spinner after a 200ms delay (no flash on quick seeks); controls stay usable. |
+| seeking (drag) | segments grow to 5px (hovered chapter 8px), thumb shown with glow, preview follows the pointer, video scrubs live. |
+| ended | play icon becomes **replay**; controls pinned. |
+| muted / volume 0 | volume icon shows the muted glyph; unmuting restores the previous level (min 0.1). |
+| captions on | CC button `aria-pressed="true"` + a 2px crimson underline; only rendered when the video has ≥1 `captions`/`subtitles` track. |
+| picture-in-picture | PiP button `aria-pressed`; `I` toggles. Hidden where unsupported (Firefox). |
+| fullscreen | root goes fullscreen (not the `<video>`, so our controls come too); icon flips to exit. iOS Safari falls back to `video.webkitEnterFullscreen()` (native chrome there). |
+| error | video `error` → error panel with the media error in plain words ("This video couldn't be loaded. Check the link or your connection.") + Retry (`load()`). |
+| focus-visible | solid `--sk-focus-ring` on every control; the root gets a ring when focused directly. |
+| reduced motion | controls hide/show instantly (no fade); thumb appears without scale; no glow pulse. |
+
+**Motion (`docs/motion.md`):** controls fade (`opacity`, `duration-base`); seek track height and
+thumb `scale` (`duration-fast`, listed explicitly — rule 3); volume slider width expand
+(`duration-base ease-sukuna`). All with `motion-reduce:` fallbacks.
+
+## Accessibility
+
+- [x] Root: labelled `<section>` (role `region`) named by `title` or `aria-label`; `aria-roledescription="video player"`; focusable (`tabIndex={0}`) so hotkeys work after a click.
+- [x] Every control is a native `<button>` with an `aria-label` that says what happens now ("Play", "Pause", "Mute", "Unmute", "Enter fullscreen", "Turn on captions"); icons `aria-hidden`.
+- [x] Toggle buttons (captions, PiP) use `aria-pressed`; play/mute/fullscreen swap their label instead (the action changes).
+- [x] Seek and volume are `role="slider"` with `aria-label` ("Seek", "Volume") and spoken `aria-valuetext` (seek includes the chapter).
+- [x] Settings: gear `aria-haspopup="menu"` + `aria-expanded`; pages are `role="menu"`, choices `menuitemradio` + `aria-checked`; caption-style chips are named "Size: Large".
+- [x] Controls never hide while focus is inside them (WCAG 2.4.7/2.4.11 — focus stays visible).
+- [x] Hotkeys only fire with focus inside the player and never steal keys from sliders, menus or text inputs; `?` opens a shortcuts sheet (`role="dialog"`, focus on Close, Escape closes).
+- [x] Buffering spinner: `role="status"` + "Loading"; error panel: `role="alert"`.
+- [ ] Contrast (owner visual pass): control icons `--sk-text` on the scrim ≥ 4.5:1 over a bright frame; crimson played bar ≥ 3:1 against the `bg-text/20` track.
+- [x] Autoplay is the consumer's choice; `autoplayPolicy="muted"` is the only autoplay mode and always shows "Tap to unmute". Caption tracks are the consumer's responsibility (WCAG 1.2.2).
+- [x] Touch targets ≥ 32px in compact, 36px otherwise; touch row 48px.
 
 ---
 

@@ -1,8 +1,8 @@
 # sukuna-ui
 
-> SSR-safe, accessible React component library — 45 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).
+> SSR-safe, accessible React component library — 46 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).
 
-sukuna-ui is a React 18/19 component library: 45 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+sukuna-ui is a React 18/19 component library: 46 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
 
@@ -63,6 +63,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - [Toast](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/toast.md): Transient notifications.
 - [ToggleGroup](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/toggle-group.md): Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
 - [Tooltip](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/tooltip.md): A hover/focus tooltip for supplementary text.
+- [VideoPlayer](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/video-player.md): Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library.
 
 ## Theming
 

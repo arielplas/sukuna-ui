@@ -9,7 +9,7 @@
 
 **SSR-safe, accessible React components for dark-first products — and for the AI agents that build them.**
 
-<!-- count -->45<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
+<!-- count -->46<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
 contrast in both themes, `prefers-reduced-motion` honored, zero runtime styling, React Server
 Components-ready, React 18 and 19. Dark is the identity; light is a mode.
 
@@ -128,6 +128,7 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `ToastProvider`, `useToast` | Transient notifications. | [docs/llms/toast.md](docs/llms/toast.md) |
 | `Toggle`, `ToggleGroup` | Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar). | [docs/llms/toggle-group.md](docs/llms/toggle-group.md) |
 | `Tooltip` | A hover/focus tooltip for supplementary text. | [docs/llms/tooltip.md](docs/llms/tooltip.md) |
+| `useVideoPlayer`, `VideoPlayer`, `VideoPlayerAudio`, `VideoPlayerEndScreen`, `VideoPlayerOverlay`, `VideoPlayerPanel`, `VideoPlayerPlaylist`, `VideoPlayerShare`, `VideoPlayerSkip`, `VideoPlayerUpNext` | Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library. | [docs/llms/video-player.md](docs/llms/video-player.md) |
 <!-- components:end -->
 
 Fonts: the library does **not** bundle Archivo. Load it yourself (`@import` or `next/font`) so
