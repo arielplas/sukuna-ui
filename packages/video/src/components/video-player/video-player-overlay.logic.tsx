@@ -51,12 +51,12 @@ export interface VideoPlayerOverlayProps {
  *
  * @example
  * ```tsx
- * import { Button, VideoPlayer, VideoPlayerOverlay } from 'sukuna-ui'
+ * import { VideoPlayer, VideoPlayerOverlay } from '@sukuna-ui/video'
  *
  * <VideoPlayer title="Night food walk" src="/v/food.mp4">
  *   <VideoPlayerOverlay aria-label="Tour offer" start={30} end={45} dismissible>
  *     Book this walk with a local guide.{' '}
- *     <Button as="a" href="/tours/night-food" size="sm">See tours</Button>
+ *     <a href="/tours/night-food">See tours</a>
  *   </VideoPlayerOverlay>
  *   <VideoPlayerOverlay aria-label="Sponsor" showOn="pause" variant="banner">
  *     Brought to you by Sukuna Sound.

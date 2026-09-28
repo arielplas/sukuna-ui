@@ -15,7 +15,6 @@ import {
   useState,
 } from 'react'
 import { useControllableState } from '../../hooks/use-controllable-state'
-import { Spinner } from '../spinner'
 import {
   type PlaylistRegistration,
   type VideoEngine,
@@ -55,6 +54,7 @@ import {
   ShareIcon,
   SkipIcon,
   SpeedIcon,
+  SpinnerIcon,
   SunIcon,
   TheaterIcon,
   TypeIcon,
@@ -207,7 +207,7 @@ export interface VideoPlayerOwnProps extends Native {
   live?: boolean | { dvrWindow?: number }
   /**
    * Streaming engine for sources the browser can't play natively, e.g. `hlsEngine()` from
-   * `sukuna-ui/video/hls`. Its quality levels replace `sources` in the Quality menu. Create it
+   * `@sukuna-ui/video/hls`. Its quality levels replace `sources` in the Quality menu. Create it
    * once (module scope or `useMemo`), not inline on every render.
    */
   engine?: VideoEngine
@@ -353,7 +353,7 @@ type WebkitVideo = HTMLVideoElement & {
  *
  * @example
  * ```tsx
- * import { VideoPlayer } from 'sukuna-ui'
+ * import { VideoPlayer } from '@sukuna-ui/video'
  *
  * <VideoPlayer
  *   title="Last Train, Shibuya"
@@ -382,7 +382,7 @@ type WebkitVideo = HTMLVideoElement & {
  *   VideoPlayerShare,
  *   VideoPlayerSkip,
  *   VideoPlayerUpNext,
- * } from 'sukuna-ui'
+ * } from '@sukuna-ui/video'
  *
  * <VideoPlayer title="Night walks" floating>
  *   <VideoPlayerPlaylist items={episodes} />
@@ -1678,7 +1678,9 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
               </button>
             </div>
           ) : spinner ? (
-            <Spinner size="lg" label={labels.loading} className={s.spinner()} />
+            <span role="status" aria-label={labels.loading} className={s.spinner()}>
+              <SpinnerIcon />
+            </span>
           ) : showTouch && !hidden ? (
             <div className={s.touchRow()}>
               <button

@@ -27,7 +27,7 @@ export interface VideoPlayerShareProps {
  *
  * @example
  * ```tsx
- * import { VideoPlayer, VideoPlayerShare } from 'sukuna-ui'
+ * import { VideoPlayer, VideoPlayerShare } from '@sukuna-ui/video'
  *
  * <VideoPlayer title="Last Train, Shibuya" src="/v/shibuya.mp4">
  *   <VideoPlayerShare

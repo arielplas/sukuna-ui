@@ -27,7 +27,7 @@ export interface VideoPlayerSkipProps {
  *
  * @example
  * ```tsx
- * import { VideoPlayer, VideoPlayerSkip } from 'sukuna-ui'
+ * import { VideoPlayer, VideoPlayerSkip } from '@sukuna-ui/video'
  *
  * <VideoPlayer title="Episode 3" src="/v/ep3.mp4">
  *   <VideoPlayerSkip start={0} end={42} />

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { type ComponentType, useRef, useState } from 'react'
-import { hlsEngine } from '../../video/hls'
-import { Button } from '../button'
+import { type ComponentPropsWithoutRef, type ComponentType, useRef, useState } from 'react'
+import { hlsEngine } from '../../hls'
 import {
   useVideoPlayer,
   VideoPlayer,
@@ -34,6 +33,31 @@ const tracks: VideoPlayerProps['tracks'] = [
 // for Storybook's arg inference.
 type Args = Extract<VideoPlayerProps, { title: string }>
 const Player = VideoPlayer as unknown as ComponentType<Args>
+
+// Story-only button: the player package doesn't depend on sukuna-ui, so demos that need a plain
+// call-to-action style one inline instead of importing Button.
+const StoryButton = ({
+  primary,
+  style,
+  ...rest
+}: ComponentPropsWithoutRef<'button'> & { primary?: boolean }) => (
+  <button
+    type="button"
+    style={{
+      height: 36,
+      padding: '0 14px',
+      borderRadius: 10,
+      border: primary ? 0 : '1px solid rgba(255, 255, 255, 0.12)',
+      background: primary ? '#D8253A' : 'rgba(255, 255, 255, 0.06)',
+      color: primary ? '#fff' : 'inherit',
+      font: 'inherit',
+      fontWeight: 600,
+      cursor: 'pointer',
+      ...style,
+    }}
+    {...rest}
+  />
+)
 
 const meta = {
   title: 'Components/VideoPlayer',
@@ -146,20 +170,15 @@ export const Controlled: Story = {
       <div style={{ display: 'grid', gap: 12 }}>
         <VideoPlayer {...args} ref={ref} />
         <div style={{ display: 'flex', gap: 8 }}>
-          <Button variant="secondary" onClick={() => ref.current?.play()}>
-            Play
-          </Button>
-          <Button variant="secondary" onClick={() => ref.current?.pause()}>
-            Pause
-          </Button>
-          <Button
-            variant="secondary"
+          <StoryButton onClick={() => ref.current?.play()}>Play</StoryButton>
+          <StoryButton onClick={() => ref.current?.pause()}>Pause</StoryButton>
+          <StoryButton
             onClick={() => {
               if (ref.current) ref.current.currentTime = 20
             }}
           >
             Jump to 0:20
-          </Button>
+          </StoryButton>
         </div>
       </div>
     )
@@ -369,7 +388,7 @@ export const WatchLimit: Story = {
             Your free preview ended
           </strong>
           <span style={{ color: 'var(--sk-text-dim)' }}>Start a trial to keep watching.</span>
-          <Button>Start 7-day free trial</Button>
+          <StoryButton primary>Start 7-day free trial</StoryButton>
         </div>
       ),
     },
@@ -392,9 +411,7 @@ export const Overlays: Story = {
         <div style={{ display: 'grid', gap: 8 }}>
           <strong>Night food walk</strong>
           <span style={{ color: 'var(--sk-text-dim)' }}>Book this route with a local guide.</span>
-          <Button size="sm" variant="secondary">
-            See tours
-          </Button>
+          <StoryButton>See tours</StoryButton>
         </div>
       </VideoPlayerOverlay>
       <VideoPlayerOverlay aria-label="Sponsor" showOn="pause" variant="banner">
@@ -424,7 +441,7 @@ export const AudioMode: Story = {
 const hls = hlsEngine()
 
 /**
- * HLS through `hlsEngine()` from `sukuna-ui/video/hls` (hls.js is an optional peer). The Quality
+ * HLS through `hlsEngine()` from `@sukuna-ui/video/hls` (hls.js is an optional peer). The Quality
  * menu comes from the manifest: Auto plus each level.
  */
 export const HlsStream: Story = {

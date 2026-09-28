@@ -1,6 +1,49 @@
 // sukuna-ui public entry.
 // Components are re-exported here per phase (see docs/roadmap.md section B).
 
+export type {
+  Chapter,
+  ThumbnailCue,
+  VideoCaptionTrack,
+  VideoEngine,
+  VideoEngineCallbacks,
+  VideoEngineLevel,
+  VideoEngineSession,
+  VideoPanelTab,
+  VideoPlayerActions,
+  VideoPlayerAudioProps,
+  VideoPlayerContextValue,
+  VideoPlayerEndScreenProps,
+  VideoPlayerFeatures,
+  VideoPlayerLabels,
+  VideoPlayerOverlayProps,
+  VideoPlayerOwnProps,
+  VideoPlayerPanelProps,
+  VideoPlayerPlaylistProps,
+  VideoPlayerPlaylistState,
+  VideoPlayerProps,
+  VideoPlayerRelatedItem,
+  VideoPlayerSetting,
+  VideoPlayerShareProps,
+  VideoPlayerSkipProps,
+  VideoPlayerState,
+  VideoPlayerUpNextProps,
+  VideoPlaylistItem,
+  VideoSource,
+  VideoTrack,
+} from '@sukuna-ui/video'
+export {
+  useVideoPlayer,
+  VideoPlayer,
+  VideoPlayerAudio,
+  VideoPlayerEndScreen,
+  VideoPlayerOverlay,
+  VideoPlayerPanel,
+  VideoPlayerPlaylist,
+  VideoPlayerShare,
+  VideoPlayerSkip,
+  VideoPlayerUpNext,
+} from '@sukuna-ui/video'
 export type { AccordionItemData, AccordionProps } from './components/accordion'
 export { Accordion } from './components/accordion'
 export type { AlertProps } from './components/alert'
@@ -105,46 +148,3 @@ export type { ToggleGroupProps, ToggleOption, ToggleProps } from './components/t
 export { Toggle, ToggleGroup } from './components/toggle-group'
 export type { TooltipProps } from './components/tooltip'
 export { Tooltip } from './components/tooltip'
-export type {
-  Chapter,
-  ThumbnailCue,
-  VideoCaptionTrack,
-  VideoEngine,
-  VideoEngineCallbacks,
-  VideoEngineLevel,
-  VideoEngineSession,
-  VideoPanelTab,
-  VideoPlayerActions,
-  VideoPlayerAudioProps,
-  VideoPlayerContextValue,
-  VideoPlayerEndScreenProps,
-  VideoPlayerFeatures,
-  VideoPlayerLabels,
-  VideoPlayerOverlayProps,
-  VideoPlayerOwnProps,
-  VideoPlayerPanelProps,
-  VideoPlayerPlaylistProps,
-  VideoPlayerPlaylistState,
-  VideoPlayerProps,
-  VideoPlayerRelatedItem,
-  VideoPlayerSetting,
-  VideoPlayerShareProps,
-  VideoPlayerSkipProps,
-  VideoPlayerState,
-  VideoPlayerUpNextProps,
-  VideoPlaylistItem,
-  VideoSource,
-  VideoTrack,
-} from './components/video-player'
-export {
-  useVideoPlayer,
-  VideoPlayer,
-  VideoPlayerAudio,
-  VideoPlayerEndScreen,
-  VideoPlayerOverlay,
-  VideoPlayerPanel,
-  VideoPlayerPlaylist,
-  VideoPlayerShare,
-  VideoPlayerSkip,
-  VideoPlayerUpNext,
-} from './components/video-player'

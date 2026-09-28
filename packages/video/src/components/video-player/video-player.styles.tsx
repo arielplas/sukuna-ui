@@ -41,7 +41,10 @@ export const videoPlayerStyles = tv({
       '@max-[30rem]:size-13 @max-[30rem]:[&_svg]:size-5.5',
       ring,
     ],
-    spinner: '[&_svg]:size-10',
+    // Indeterminate ring (the wrapper is the role=status live region); the spin stops under
+    // reduced motion, the static ring stays.
+    spinner:
+      'inline-flex text-accent [&_svg]:size-10 [&_svg]:animate-spin motion-reduce:[&_svg]:animate-none',
     errorPanel:
       'pointer-events-auto grid max-w-80 justify-items-center gap-3 px-5 text-center [&>svg]:size-8',
     errorTitle: 'font-display text-md font-bold',

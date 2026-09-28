@@ -48,6 +48,18 @@ export default defineConfig({
     // sukuna-ui is `bun link`ed from the repo root, which has its own node_modules/react. Force a
     // single React copy so hooks/context inside the library see the same runtime as the app.
     dedupe: ['react', 'react-dom'],
+    // The library source re-exports the VideoPlayer from its workspace package; resolve that to
+    // source too, so the player's own stories and the library share one copy (one context).
+    alias: [
+      {
+        find: /^@sukuna-ui\/video\/hls$/,
+        replacement: resolve(repoRoot, 'packages/video/src/hls.ts'),
+      },
+      {
+        find: /^@sukuna-ui\/video$/,
+        replacement: resolve(repoRoot, 'packages/video/src/index.ts'),
+      },
+    ],
   },
   server: {
     // Allow importing the library source and stories, which live above this app's root.

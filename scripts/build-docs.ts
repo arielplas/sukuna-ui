@@ -47,17 +47,38 @@ const pkg = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')) as {
 
 // --- Inputs ---------------------------------------------------------------------------------
 
-/** `export { A, B } from './components/<dir>'` lines in src/index.ts → dir → export names. */
+/**
+ * Components that live in their own workspace package and are re-exported by `sukuna-ui`
+ * (Q27): package name → component directory (the docs name) and its source path in the repo.
+ */
+const PACKAGE_COMPONENTS: Record<string, { name: string; source: string }> = {
+  '@sukuna-ui/video': {
+    name: 'video-player',
+    source: 'packages/video/src/components/video-player',
+  },
+}
+
+/** Where a component's source lives in the repo (for the generated Source link). */
+const sourcePath = (name: string): string =>
+  Object.values(PACKAGE_COMPONENTS).find((p) => p.name === name)?.source ??
+  `packages/ui/src/components/${name}`
+
+/**
+ * `export { A, B } from './components/<dir>'` lines in src/index.ts (or from a re-exported
+ * workspace package, see `PACKAGE_COMPONENTS`) → dir → export names.
+ */
 function readExportNames(): Map<string, string[]> {
   const src = readFileSync(join(PKG, 'src/index.ts'), 'utf8')
   const map = new Map<string, string[]>()
-  const re = /^export \{([^}]+)\} from '\.\/components\/([a-z0-9-]+)'/gm
+  const re =
+    /^export \{([^}]+)\} from '(?:\.\/components\/([a-z0-9-]+)|(@sukuna-ui\/[a-z0-9-]+))'/gm
   for (const m of src.matchAll(re)) {
     const names = (m[1] ?? '')
       .split(',')
       .map((s) => s.trim())
       .filter(Boolean)
-    map.set(m[2] ?? '', names)
+    const dir = m[2] ?? PACKAGE_COMPONENTS[m[3] ?? '']?.name
+    if (dir) map.set(dir, names)
   }
   return map
 }
@@ -170,7 +191,7 @@ function renderComponentPage(doc: ComponentDoc): string {
     `- **Package:** \`${pkg.name}\` — \`bun add ${pkg.name}\` (or \`npm i ${pkg.name}\`)`,
     `- **Import:** \`${importLine}\``,
     `- **Styles:** \`@import "${pkg.name}/theme.css"\` (Tailwind v4) or \`import "${pkg.name}/styles.css"\` (no Tailwind) — see [Getting started](${RAW_URL}/llms.txt)`,
-    `- **Source:** ${REPO_URL}/tree/main/packages/ui/src/components/${doc.name} · **Spec:** ${REPO_URL}/blob/main/docs/component-${doc.name}.md`,
+    `- **Source:** ${REPO_URL}/tree/main/${sourcePath(doc.name)} · **Spec:** ${REPO_URL}/blob/main/docs/component-${doc.name}.md`,
     '',
   ]
   for (const num of [1, 3, 4, 5, 8]) {

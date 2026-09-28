@@ -50,11 +50,11 @@ export interface ComponentEntry {
   stories: StoryEntry[]
 }
 
-const modules = import.meta.glob('../../../packages/ui/src/components/*/*.stories.tsx', {
+const modules = import.meta.glob('../../../packages/*/src/components/*/*.stories.tsx', {
   eager: true,
 }) as Record<string, Record<string, unknown>>
 
-const sources = import.meta.glob('../../../packages/ui/src/components/*/*.stories.tsx', {
+const sources = import.meta.glob('../../../packages/*/src/components/*/*.stories.tsx', {
   eager: true,
   query: '?raw',
   import: 'default',

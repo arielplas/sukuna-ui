@@ -1,0 +1,99 @@
+{
+  "name": "@sukuna-ui/video",
+  "version": "0.0.0",
+  "description": "Standalone, SSR-safe React video player from sukuna-ui — chapters, thumbnails, captions, playlists, HLS — themeable with --vp-* CSS variables, no Tailwind or sukuna-ui required.",
+  "type": "module",
+  "license": "MIT",
+  "author": "arielplas (https://github.com/arielplas)",
+  "keywords": [
+    "react",
+    "video",
+    "video-player",
+    "media-player",
+    "hls",
+    "chapters",
+    "captions",
+    "ssr",
+    "rsc",
+    "accessible",
+    "a11y",
+    "sukuna-ui"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arielplas/sukuna-ui.git",
+    "directory": "packages/video"
+  },
+  "homepage": "https://github.com/arielplas/sukuna-ui/tree/main/packages/video#readme",
+  "bugs": {
+    "url": "https://github.com/arielplas/sukuna-ui/issues"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./hls": {
+      "import": {
+        "types": "./dist/hls.d.ts",
+        "default": "./dist/hls.js"
+      },
+      "require": {
+        "types": "./dist/hls.d.cts",
+        "default": "./dist/hls.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "hls": [
+        "./dist/hls.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "NODE_OPTIONS=\"--max-old-space-size=8192\" tsup && bun run ../../scripts/fix-directives.ts",
+    "test": "bun test src",
+    "test:coverage": "bun test src --coverage",
+    "test:watch": "bun test src --watch",
+    "check:pkg": "publint --strict && attw --pack .",
+    "size": "size-limit"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "hls.js": ">=1.5"
+  },
+  "peerDependenciesMeta": {
+    "hls.js": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "tailwind-merge": "^3.7.0",
+    "tailwind-variants": "^3.3.1"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

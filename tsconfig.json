@@ -20,7 +20,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "types": ["react", "react-dom", "bun"]
+    "types": ["react", "react-dom", "bun"],
+    "paths": {
+      "@sukuna-ui/video": ["./packages/video/src/index.ts"],
+      "@sukuna-ui/video/hls": ["./packages/video/src/hls.ts"]
+    }
   },
   "include": [
     "packages/*/src",

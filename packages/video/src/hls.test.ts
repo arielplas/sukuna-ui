@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, mock } from 'bun:test'
-import type { VideoEngineCallbacks } from '../components/video-player'
+import type { VideoEngineCallbacks } from './components/video-player'
 
 // A stand-in for hls.js: records handlers and calls so the adapter's wiring can be driven.
 type Handler = (event: string, data: unknown) => void

@@ -263,3 +263,11 @@ export const DownloadIcon = () => (
     <path d="M12 15V3" />
   </Stroke>
 )
+
+/** Loading ring: a faint full circle plus a quarter arc; the wrapper spins it (see `spinner`). */
+export const SpinnerIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.25" strokeWidth="4" />
+    <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+  </svg>
+)
