@@ -772,6 +772,7 @@ interface CounterOwnProps {
   suffix?: string            // e.g. '%', 'k'
   format?: (n: number) => string   // full custom formatter; overrides decimals/prefix/suffix
   once?: boolean             // default true; animate only the first mount, snap on later value changes
+  startOnView?: boolean      // default false; hold at `from` until scrolled into view (v1.3)
 }
 
 // Renders a <span>. `children` is omitted — the number IS the content.
@@ -779,8 +780,8 @@ export type CounterProps =
   CounterOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'children'>
 ```
 
-Deliberately **not** in v1: `startOnView` (count when scrolled into view — deferred; needs
-`IntersectionObserver`, planned as a follow-up), locale/`Intl.NumberFormat` presets (pass your own
+`startOnView` (added v1.3) holds at `from` until an `IntersectionObserver` reports the number on
+screen; without the API it counts on mount. Deliberately **not** in v1: locale/`Intl.NumberFormat` presets (pass your own
 via `format`), scroll-scrubbed counting, spring physics, per-digit odometer roll. `format` is the
 escape hatch for currency/locale — `format={(n) => n.toLocaleString()}`.
 
@@ -837,7 +838,7 @@ No new color/spacing tokens required.
 ## Purpose
 
 A modal dialog. Focus trap, scroll lock, `Escape`/outside-click dismiss, and `aria` wiring come
-from Base UI (`@base-ui-components/react/dialog`); we style backdrop, popup, title, etc.
+from Base UI (`@base-ui/react/dialog`); we style backdrop, popup, title, etc.
 
 ## API
 
@@ -1598,7 +1599,7 @@ Vertical only / horizontal only / both (a corner square where they meet).
 ## Purpose
 
 A single-select dropdown. Keyboard, typeahead, positioning, dismiss, and listbox a11y come from
-Base UI (`@base-ui-components/react/select`); we style the trigger, popup, and items.
+Base UI (`@base-ui/react/select`); we style the trigger, popup, and items.
 
 ## API
 
@@ -2271,7 +2272,7 @@ disabled (per item or whole group).
 ## Purpose
 
 A hover/focus tooltip for supplementary text. Behavior (delay, positioning, dismiss, a11y wiring)
-comes from Base UI (`@base-ui-components/react/tooltip`); we style the popup.
+comes from Base UI (`@base-ui/react/tooltip`); we style the popup.
 
 ## API
 
