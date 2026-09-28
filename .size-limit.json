@@ -409,7 +409,7 @@
     "name": "Tabs + deps",
     "path": "dist/index.js",
     "import": "{ Tabs }",
-    "limit": "22 kB",
+    "limit": "25 kB",
     "ignore": ["react", "react-dom", "react/jsx-runtime"]
   },
   {

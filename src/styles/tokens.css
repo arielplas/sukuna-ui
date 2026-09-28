@@ -74,7 +74,9 @@
   /* Motion */
   --sk-duration-fast: 120ms;
   --sk-duration-base: 200ms;
+  --sk-duration-slow: 320ms;
   --sk-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --sk-ease-spring: linear(0, 0.013, 0.05 2.6%, 0.2 5.6%, 0.6 12%, 0.84 17.5%, 0.96 23%, 1.012 28%, 1.02 33%, 1.012 41%, 1.002 52%, 1);
 
   /* Z-index */
   --sk-z-dialog: 50;

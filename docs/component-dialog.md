@@ -58,6 +58,8 @@ popup, portalled) + `Dialog.Title` + `Dialog.Description` + `Dialog.Close` (a bu
 
 closed (nothing) · open (backdrop + popup, focus trapped) · enter/leave transitions.
 
+**Motion (v1.3, `docs/motion.md`):** the popup scale-in (95→100%) now actually animates (it was listed as `transform`, which Tailwind v4 `scale-*` never uses). Reduced motion: instant.
+
 ## 6. Logic (`dialog.logic.tsx`)
 
 - `'use client'`. Sub-parts wrap Base UI parts and apply the slot classes. `Trigger`/`Close` use

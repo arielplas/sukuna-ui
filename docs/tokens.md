@@ -50,7 +50,7 @@ Source: Pomo Design System (Sukuna language). Dark is the default theme. Light p
 | Space | `--sk-space-1..8` = `4 6 8 12 16 20 24 32 px` |
 | Radius | `--sk-radius-sm 8px`, `--sk-radius-md 12px`, `--sk-radius-lg 16px`, `--sk-radius-pill 999px` |
 | Shadow | `--sk-shadow-card: 0 30px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06)` (dark) / light **proposed** `0 20px 40px -24px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.06)` — pending owner approval, see `questions.md` Q12 |
-| Motion | `--sk-duration-fast 120ms`, `--sk-duration-base 200ms`, `--sk-ease: cubic-bezier(.2,.8,.2,1)` |
+| Motion | `--sk-duration-fast 120ms`, `--sk-duration-base 200ms`, `--sk-duration-slow 320ms` (v1.3), `--sk-ease: cubic-bezier(.2,.8,.2,1)`, `--sk-ease-spring: linear(…)` (v1.3, ≈2% overshoot) — see `docs/motion.md` |
 | Z-index | `--sk-z-tooltip 40`, `--sk-z-dialog 50` |
 
 ## Theme wiring (Tailwind v4)

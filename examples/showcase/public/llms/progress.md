@@ -35,6 +35,8 @@ track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2`. 
 
 determinate (width = value) · indeterminate (pulsing partial bar).
 
+**Motion (v1.3, `docs/motion.md`):** determinate bar grows in from the left on mount (`starting:scale-x-0`); indeterminate is a sliding 40% bar (`animate-indeterminate`) — static under reduced motion. Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="progressbar"` with `aria-valuenow/min/max` (determinate) from Base UI.

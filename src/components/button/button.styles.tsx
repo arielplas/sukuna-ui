@@ -4,7 +4,8 @@ export const buttonStyles = tv({
   base: [
     'inline-flex items-center justify-center gap-2 select-none',
     'font-display font-bold tracking-tight',
-    'transition-[background-color,box-shadow,transform] motion-reduce:transition-none duration-fast ease-sukuna',
+    // `scale` (not `transform`) so the active press actually animates in Tailwind v4.
+    'transition-[background-color,box-shadow,scale] motion-reduce:transition-none duration-fast ease-sukuna',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
     'active:scale-[.98] motion-reduce:active:scale-100',
     'cursor-pointer',

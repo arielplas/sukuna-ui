@@ -59,6 +59,9 @@ export interface TabsProps {
  *   column beside the panel; ArrowUp/ArrowDown, `aria-orientation="vertical"`). Labels may hold an
  *   icon + text. `items[].disabled` tabs are dimmed (`data-disabled`, not the native attribute)
  *   and cannot be activated, but remain focusable.
+ * - Motion: the crimson underline (vertical: right-edge bar) slides to the selected tab with
+ *   `ease-spring`; it jumps under `prefers-reduced-motion`. Before hydration the selected tab
+ *   draws its own border, so the selection is visible without JS.
  * - Behaviour: uncontrolled with `defaultValue`, controlled with `value` + `onValueChange`.
  *   Values are strings; Base UI's index fallback matches none of them, so pass a default.
  *   Only the selected panel is mounted: switching tabs unmounts the previous `content`, so any
@@ -120,6 +123,7 @@ export function Tabs({
             {item.label}
           </Base.Tab>
         ))}
+        <Base.Indicator data-sk-indicator="" className={styles.indicator()} />
       </Base.List>
       {items.map((item) => (
         <Base.Panel key={item.value} value={item.value} className={styles.panel()}>

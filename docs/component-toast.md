@@ -46,6 +46,8 @@ viewport: `fixed bottom-4 right-4 z-50 flex w-80 flex-col gap-2`. root: `rounded
 
 enter (slide/fade in) · visible · auto-dismiss after `timeout` · close (button/swipe from Base UI).
 
+**Motion (v1.3, `docs/motion.md`):** stacked deck — older toasts peek above the newest (scale −6% per step, content faded), fan out while hovered/focused, swipe right/down to dismiss (`duration-slow`). Reduced motion: instant.
+
 ## 6. Logic (`toast.logic.tsx`)
 
 - `'use client'`. `ToastProvider` renders `Base.Provider` → children → `Base.Portal` → `Base.Viewport`

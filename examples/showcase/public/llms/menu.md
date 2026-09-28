@@ -46,6 +46,8 @@ data-[highlighted]:bg-line-soft data-[disabled]:opacity-45`.
 
 closed · open (positioned popup) · item highlighted (keyboard) · disabled item.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="menu"`/`menuitem` wired by Base UI; trigger has `aria-haspopup`/`aria-expanded`.

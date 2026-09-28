@@ -14,7 +14,12 @@ export const accordionStyles = tv({
       'data-[disabled]:opacity-45 data-[disabled]:cursor-not-allowed',
     ],
     icon: 'shrink-0 text-text-dim transition-transform motion-reduce:transition-none duration-fast ease-sukuna group-data-[panel-open]:rotate-180',
-    panel: 'overflow-hidden',
+    // Base UI measures the open height into --accordion-panel-height; animate between 0 and it.
+    panel: [
+      'overflow-hidden h-[var(--accordion-panel-height)]',
+      'transition-[height] motion-reduce:transition-none duration-base ease-sukuna',
+      'data-[starting-style]:h-0 data-[ending-style]:h-0',
+    ],
     content: 'pb-3 text-sm text-text-dim',
   },
 })

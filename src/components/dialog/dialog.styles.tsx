@@ -10,7 +10,8 @@ export const dialogStyles = tv({
     popup: [
       'fixed left-1/2 top-1/2 z-[var(--sk-z-dialog)] -translate-x-1/2 -translate-y-1/2',
       'w-[90vw] max-w-lg rounded-lg border border-line bg-surface p-6 shadow-card',
-      'transition-[opacity,transform] motion-reduce:transition-none duration-base ease-sukuna',
+      // `scale` (not `transform`): Tailwind v4 scale-* compiles to the standalone property.
+      'transition-[opacity,scale] motion-reduce:transition-none duration-base ease-sukuna',
       'data-[starting-style]:opacity-0 data-[starting-style]:scale-95',
       'data-[ending-style]:opacity-0 data-[ending-style]:scale-95',
       'focus-visible:outline-none',

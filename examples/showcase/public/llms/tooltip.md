@@ -42,6 +42,8 @@ Popup: `z-40 max-w-xs rounded-md border border-line bg-surface-2 text-text px-2.
 
 closed (nothing rendered) · open (popup, positioned by Base UI) · enter/leave transitions.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Popup wired as the trigger's description by Base UI; content is supplementary, not essential.

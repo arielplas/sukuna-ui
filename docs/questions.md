@@ -237,6 +237,23 @@ can carry an icon + text. Same component, not a new one, so the API and a11y sta
 
 ---
 
+## Q20. "thoughts on adding animations withing components? - think of ideas" → "commit what we already have and next commit add animations"
+
+**Answer given.** Yes, CSS-only (SSR-safe, zero bundle cost) with reduced-motion fallbacks and
+motion that carries meaning. Ranked ideas: (1) Tabs sliding indicator, (2) Accordion height,
+(3) directional popup entrance, (4) Toast stack + swipe, (5) Meter/Progress grow-in +
+indeterminate slide; polish: Checkbox tick draw, Switch overshoot, Stepper fill, Button spinner
+cross-fade, Tooltip grouping, Skeleton shimmer; skip: staggered menus, View Transitions, page
+effects. Proposed tokens `--sk-duration-slow` + `--sk-ease-spring`.
+
+**Decision.** Owner: build it as the next commit → items 1–5 + both tokens (taken as approval of
+the two tokens asked about in the same answer). Spec: `docs/motion.md`, roadmap §D5. While
+speccing, found that Tailwind v4 `scale-*`/`translate-*` compile to the `scale`/`translate`
+properties, so our `transition-[…,transform]` lists never animated them (11 components) — fixed
+in the same wave.
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |
@@ -256,6 +273,7 @@ can carry an icon + text. Same component, not a new one, so the API and a11y sta
 | Button variants | `primary`, `secondary`, `ghost` (+ `outline`, `link` in v1.3, Q15); no `premium`, no `danger` (Q10, reaffirmed Q15) |
 | Popover | In scope from v1.3 (Q15) — reverses roadmap §D |
 | Headless base | `@base-ui/react` stable (1.8+) since v1.3 (Q15, D33) |
+| Motion | CSS-only, reduced-motion fallbacks, `docs/motion.md`; new tokens `--sk-duration-slow`, `--sk-ease-spring` (Q20) |
 | Virtualization | Deferred, no `@tanstack/react-virtual` for now; revisit on a real large-Table need (Q17) |
 | Light palette | Approved as proposed in `tokens.md` (Q10) |
 | Status tracking | `docs/roadmap.md` living board; agents update it in the same commit as the work (rule 9) |

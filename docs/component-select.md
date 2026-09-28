@@ -58,6 +58,8 @@ label, or the placeholder when empty.
 closed · open (listbox) · item highlighted (keyboard) · item selected (check) · disabled item ·
 disabled trigger.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## 6. Logic (`select.logic.tsx`)
 
 - `'use client'`. `Base.Root<string>` (value/defaultValue/onValueChange, guarding `null`) →

@@ -80,6 +80,8 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 | disabled | `opacity: .45`, `cursor: not-allowed`, `pointer-events` NOT removed (tooltips must still work) |
 | loading | spinner replaces `leadingIcon`, label stays (visually dimmed) to preserve width, `aria-busy="true"`, `disabled` |
 
+**Motion (v1.3, `docs/motion.md`):** the active press (`scale .98`) now actually animates (`transition-[…,scale]`). Reduced motion: instant.
+
 ## 6. Logic (`button.logic.tsx`)
 
 - **No `'use client'`** (v1.3): it has no hooks and no DOM access, so it is a server component and

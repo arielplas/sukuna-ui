@@ -8,7 +8,8 @@ export const meterStyles = tv({
     value: 'text-text tabular-nums',
     track: 'w-full overflow-hidden rounded-pill bg-surface-2',
     indicator:
-      'h-full rounded-pill transition-[width] motion-reduce:transition-none duration-base ease-sukuna',
+      // Grows in from the left on mount (@starting-style), then eases between values.
+      'h-full rounded-pill origin-left starting:scale-x-0 transition-[width,scale] motion-reduce:transition-none duration-slow ease-sukuna',
   },
   variants: {
     size: {

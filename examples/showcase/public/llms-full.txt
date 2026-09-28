@@ -97,6 +97,8 @@ item: `border-b border-line`. trigger: `group flex w-full items-center justify-b
 
 collapsed · expanded (chevron rotated) · focus-visible · disabled item.
 
+**Motion (v1.3, `docs/motion.md`):** panels animate height via `--accordion-panel-height` (`duration-base`); the chevron rotates. Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Trigger is a `<button>` with `aria-expanded`/`aria-controls` (Base UI); panels are regions.
@@ -208,6 +210,8 @@ closed (server renders only the trigger) · open (backdrop fade + popup scale) �
 press: **ignored**. `Escape` and `Cancel` close without acting; `Action` runs its `onClick` and closes.
 Initial focus lands on `Cancel` when present (the safe choice) — Base UI's default is the first
 focusable, and `Cancel` comes first in the footer. Reduced motion: transitions off.
+
+**Motion (v1.3, `docs/motion.md`):** the popup scale-in (95→100%) now actually animates (`transition-[opacity,scale]`). Reduced motion: instant.
 
 ## Accessibility
 
@@ -439,6 +443,8 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 | disabled | `opacity: .45`, `cursor: not-allowed`, `pointer-events` NOT removed (tooltips must still work) |
 | loading | spinner replaces `leadingIcon`, label stays (visually dimmed) to preserve width, `aria-busy="true"`, `disabled` |
 
+**Motion (v1.3, `docs/motion.md`):** the active press (`scale .98`) now actually animates (`transition-[…,scale]`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Native `<button>`; never a `div` with `role="button"`.
@@ -498,6 +504,8 @@ Base: `block text-text`.
 ## States
 
 Static; no interactive states. (`raised` is a resting elevation, not a hover effect.)
+
+**Motion (v1.3, `docs/motion.md`):** `interactive` hover lift now actually animates (`transition-[…,translate]`). Reduced motion: instant.
 
 ## Accessibility
 
@@ -812,6 +820,8 @@ overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card` + fade
 
 closed · typing (filtered list) · item highlighted (keyboard) · empty (no matches) · disabled.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the input side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="combobox"` input with `aria-expanded`/`aria-controls`; listbox + options wired by Base UI.
@@ -865,6 +875,8 @@ text tokens).
 ## States
 
 closed · open at cursor (positioned popup) · item highlighted (pointer/keyboard) · disabled item.
+
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the opening side (`data-side`). Reduced motion: instant.
 
 ## Accessibility
 
@@ -1010,6 +1022,8 @@ popup, portalled) + `Dialog.Title` + `Dialog.Description` + `Dialog.Close` (a bu
 ## States
 
 closed (nothing) · open (backdrop + popup, focus trapped) · enter/leave transitions.
+
+**Motion (v1.3, `docs/motion.md`):** the popup scale-in (95→100%) now actually animates (it was listed as `transform`, which Tailwind v4 `scale-*` never uses). Reduced motion: instant.
 
 ## Accessibility
 
@@ -1317,6 +1331,8 @@ No new tokens — reuses `--sk-surface`, `--sk-line`, `--sk-shadow-card`, `--sk-
 closed · opening (after `delay`, fades/scales in) · open · closing (after `closeDelay`). Reduced
 motion: enter/exit transforms collapse to instant (`motion-reduce:*`).
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Opens on hover **and** keyboard focus of the trigger; closes on blur/leave/Escape.
@@ -1437,6 +1453,8 @@ data-[highlighted]:bg-line-soft data-[disabled]:opacity-45`.
 
 closed · open (positioned popup) · item highlighted (keyboard) · disabled item.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="menu"`/`menuitem` wired by Base UI; trigger has `aria-haspopup`/`aria-expanded`.
@@ -1500,6 +1518,8 @@ Header row: `mb-1 flex justify-between text-sm`; label `text-text-dim`, value
 
 Static — no hover/focus (not interactive). Indicator width transition on value change
 (`transition-[width] motion-reduce:transition-none`).
+
+**Motion (v1.3, `docs/motion.md`):** the bar grows in from the left on mount (`starting:scale-x-0`, `duration-slow`) and eases between values. Reduced motion: instant.
 
 ## Accessibility
 
@@ -1695,6 +1715,8 @@ No new tokens — `--sk-surface`, `--sk-line`, `--sk-shadow-card`, `--sk-focus-r
 closed (server renders only the trigger) · open (fades/scales in) · closing. `Escape`, outside press
 and `Popover.Close` close it; focus returns to the trigger. Reduced motion: transitions off.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Trigger gets `aria-expanded` + `aria-haspopup="dialog"`; popup is `role="dialog"`.
@@ -1741,6 +1763,8 @@ track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2`. 
 ## States
 
 determinate (width = value) · indeterminate (pulsing partial bar).
+
+**Motion (v1.3, `docs/motion.md`):** determinate bar grows in from the left on mount (`starting:scale-x-0`); indeterminate is a sliding 40% bar (`animate-indeterminate`) — static under reduced motion. Reduced motion: instant.
 
 ## Accessibility
 
@@ -1996,6 +2020,8 @@ label, or the placeholder when empty.
 
 closed · open (listbox) · item highlighted (keyboard) · item selected (check) · disabled item ·
 disabled trigger.
+
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
 
 ## Accessibility
 
@@ -2420,6 +2446,8 @@ panel `flex-1 min-w-0 pt-0`. Horizontal keeps the bottom underline (`border-b-2 
 
 tab: default · hover · selected (accent underline) · focus-visible · disabled.
 
+**Motion (v1.3, `docs/motion.md`):** the selected underline (vertical: right-edge bar) is a Base UI `Tabs.Indicator` that slides to the new tab (`ease-spring`, `duration-base`); the tab draws its own border until the indicator is measured (no-JS/SSR). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="tablist"`/`tab`/`tabpanel` wired by Base UI; give the list an `aria-label`.
@@ -2598,6 +2626,8 @@ viewport: `fixed bottom-4 right-4 z-50 flex w-80 flex-col gap-2`. root: `rounded
 
 enter (slide/fade in) · visible · auto-dismiss after `timeout` · close (button/swipe from Base UI).
 
+**Motion (v1.3, `docs/motion.md`):** stacked deck — older toasts peek above the newest (scale −6% per step, content faded), fan out while hovered/focused, swipe right/down to dismiss (`duration-slow`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Viewport is a labelled region; toasts announce politely (Base UI live region).
@@ -2738,6 +2768,8 @@ Popup: `z-40 max-w-xs rounded-md border border-line bg-surface-2 text-text px-2.
 
 closed (nothing rendered) · open (popup, positioned by Base UI) · enter/leave transitions.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Popup wired as the trigger's description by Base UI; content is supplementary, not essential.
@@ -2800,7 +2832,7 @@ Source: Pomo Design System (Sukuna language). Dark is the default theme. Light p
 | Space | `--sk-space-1..8` = `4 6 8 12 16 20 24 32 px` |
 | Radius | `--sk-radius-sm 8px`, `--sk-radius-md 12px`, `--sk-radius-lg 16px`, `--sk-radius-pill 999px` |
 | Shadow | `--sk-shadow-card: 0 30px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06)` (dark) / light **proposed** `0 20px 40px -24px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.06)` — pending owner approval, see `questions.md` Q12 |
-| Motion | `--sk-duration-fast 120ms`, `--sk-duration-base 200ms`, `--sk-ease: cubic-bezier(.2,.8,.2,1)` |
+| Motion | `--sk-duration-fast 120ms`, `--sk-duration-base 200ms`, `--sk-duration-slow 320ms` (v1.3), `--sk-ease: cubic-bezier(.2,.8,.2,1)`, `--sk-ease-spring: linear(…)` (v1.3, ≈2% overshoot) — see `docs/motion.md` |
 | Z-index | `--sk-z-tooltip 40`, `--sk-z-dialog 50` |
 
 ## Theme wiring (Tailwind v4)

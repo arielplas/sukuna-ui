@@ -44,6 +44,8 @@ panel `flex-1 min-w-0 pt-0`. Horizontal keeps the bottom underline (`border-b-2 
 
 tab: default · hover · selected (accent underline) · focus-visible · disabled.
 
+**Motion (v1.3, `docs/motion.md`):** the selected underline (vertical: right-edge bar) is a Base UI `Tabs.Indicator` that slides to the new tab (`ease-spring`, `duration-base`); the tab draws its own border until the indicator is measured (no-JS/SSR). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="tablist"`/`tab`/`tabpanel` wired by Base UI; give the list an `aria-label`.

@@ -56,6 +56,8 @@ Header row: `mb-1 flex justify-between text-sm`; label `text-text-dim`, value
 Static — no hover/focus (not interactive). Indicator width transition on value change
 (`transition-[width] motion-reduce:transition-none`).
 
+**Motion (v1.3, `docs/motion.md`):** the bar grows in from the left on mount (`starting:scale-x-0`, `duration-slow`) and eases between values. Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="meter"` with `aria-valuenow/min/max`; `aria-valuetext` from `format` or override.

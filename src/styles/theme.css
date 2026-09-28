@@ -74,7 +74,9 @@
   /* Motion */
   --sk-duration-fast: 120ms;
   --sk-duration-base: 200ms;
+  --sk-duration-slow: 320ms;
   --sk-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --sk-ease-spring: linear(0, 0.013, 0.05 2.6%, 0.2 5.6%, 0.6 12%, 0.84 17.5%, 0.96 23%, 1.012 28%, 1.02 33%, 1.012 41%, 1.002 52%, 1);
 
   /* Z-index */
   --sk-z-dialog: 50;
@@ -159,10 +161,12 @@
   /* Shadow → shadow-* */
   --shadow-card: var(--sk-shadow-card);
 
-  /* Motion → duration-*, ease-sukuna */
+  /* Motion → duration-*, ease-sukuna, ease-spring */
   --duration-fast: var(--sk-duration-fast);
   --duration-base: var(--sk-duration-base);
+  --duration-slow: var(--sk-duration-slow);
   --ease-sukuna: var(--sk-ease);
+  --ease-spring: var(--sk-ease-spring);
 }
 
 @utility bg-gradient-accent {
@@ -188,4 +192,18 @@
 
 @utility animate-shine-fast {
   animation: sk-shine 1.6s linear infinite;
+}
+
+/* Indeterminate progress: a 40%-wide bar sliding across the track (docs/motion.md). */
+@keyframes sk-indeterminate {
+  0% {
+    translate: -100% 0;
+  }
+  100% {
+    translate: 250% 0;
+  }
+}
+
+@utility animate-indeterminate {
+  animation: sk-indeterminate 1.4s var(--sk-ease) infinite;
 }

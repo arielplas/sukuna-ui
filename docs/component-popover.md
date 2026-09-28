@@ -65,6 +65,8 @@ No new tokens — `--sk-surface`, `--sk-line`, `--sk-shadow-card`, `--sk-focus-r
 closed (server renders only the trigger) · open (fades/scales in) · closing. `Escape`, outside press
 and `Popover.Close` close it; focus returns to the trigger. Reduced motion: transitions off.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## 6. Logic (`popover.logic.tsx`)
 
 - `'use client'`. `Base.Root` (open/defaultOpen/onOpenChange/modal) → `Trigger render={child}` →

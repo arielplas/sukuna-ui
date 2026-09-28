@@ -48,6 +48,8 @@ Base: `block text-text`.
 
 Static; no interactive states. (`raised` is a resting elevation, not a hover effect.)
 
+**Motion (v1.3, `docs/motion.md`):** `interactive` hover lift now actually animates (`transition-[…,translate]`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] A Card is a generic container — no implicit role. Give it a landmark/role only when its

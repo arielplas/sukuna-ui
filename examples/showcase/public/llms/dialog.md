@@ -51,6 +51,8 @@ popup, portalled) + `Dialog.Title` + `Dialog.Description` + `Dialog.Close` (a bu
 
 closed (nothing) · open (backdrop + popup, focus trapped) · enter/leave transitions.
 
+**Motion (v1.3, `docs/motion.md`):** the popup scale-in (95→100%) now actually animates (it was listed as `transform`, which Tailwind v4 `scale-*` never uses). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="dialog"` + `aria-modal`; labelled by `Dialog.Title`, described by `Dialog.Description`

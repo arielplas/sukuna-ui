@@ -55,6 +55,8 @@ press: **ignored**. `Escape` and `Cancel` close without acting; `Action` runs it
 Initial focus lands on `Cancel` when present (the safe choice) — Base UI's default is the first
 focusable, and `Cancel` comes first in the footer. Reduced motion: transitions off.
 
+**Motion (v1.3, `docs/motion.md`):** the popup scale-in (95→100%) now actually animates (`transition-[opacity,scale]`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Popup is `role="alertdialog"` with `aria-modal`, `aria-labelledby` → Title,

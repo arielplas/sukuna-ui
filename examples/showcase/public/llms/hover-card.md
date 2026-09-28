@@ -55,6 +55,8 @@ No new tokens — reuses `--sk-surface`, `--sk-line`, `--sk-shadow-card`, `--sk-
 closed · opening (after `delay`, fades/scales in) · open · closing (after `closeDelay`). Reduced
 motion: enter/exit transforms collapse to instant (`motion-reduce:*`).
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Opens on hover **and** keyboard focus of the trigger; closes on blur/leave/Escape.

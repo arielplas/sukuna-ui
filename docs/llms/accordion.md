@@ -35,6 +35,8 @@ item: `border-b border-line`. trigger: `group flex w-full items-center justify-b
 
 collapsed · expanded (chevron rotated) · focus-visible · disabled item.
 
+**Motion (v1.3, `docs/motion.md`):** panels animate height via `--accordion-panel-height` (`duration-base`); the chevron rotates. Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] Trigger is a `<button>` with `aria-expanded`/`aria-controls` (Base UI); panels are regions.

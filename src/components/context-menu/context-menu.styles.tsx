@@ -13,7 +13,12 @@ export const contextMenuStyles = tv({
     positioner: 'z-[var(--sk-z-popover)]',
     popup: [
       'min-w-40 rounded-md border border-line bg-surface p-1 shadow-card outline-none',
-      'transition-[opacity,transform] motion-reduce:transition-none duration-fast ease-sukuna',
+      'origin-[var(--transform-origin)]',
+      // Directional entrance (docs/motion.md): slide 4px in from the trigger's side. Tailwind v4
+      // scale-*/translate-* compile to the `scale`/`translate` properties, so list those.
+      'transition-[opacity,scale,translate] motion-reduce:transition-none duration-fast ease-sukuna',
+      'data-[side=bottom]:data-[starting-style]:-translate-y-1 data-[side=top]:data-[starting-style]:translate-y-1',
+      'data-[side=left]:data-[starting-style]:translate-x-1 data-[side=right]:data-[starting-style]:-translate-x-1',
       'data-[starting-style]:opacity-0 data-[starting-style]:scale-95',
       'data-[ending-style]:opacity-0 data-[ending-style]:scale-95',
     ],
