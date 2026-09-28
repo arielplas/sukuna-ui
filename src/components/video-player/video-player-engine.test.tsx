@@ -55,7 +55,12 @@ describe('VideoPlayer engine seam', () => {
     fireEvent.click(screen.getByRole('menuitemradio', { name: /^360p/ }))
     expect(f.setLevel).toHaveBeenCalledWith(0)
     expect(gear).not.toHaveTextContent('HD')
-    // the menu stays open and returns to the main list
+    // the menu stays open on the Quality page with the choice ticked
+    expect(screen.getByRole('menuitemradio', { name: /^360p/ })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Back to settings' }))
     expect(screen.getByRole('menuitem', { name: /Quality/ })).toHaveTextContent('360p')
     fireEvent.click(screen.getByRole('menuitem', { name: /Quality/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Auto' }))
