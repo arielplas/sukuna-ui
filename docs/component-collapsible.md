@@ -48,7 +48,8 @@ icon: `text-text-dim` rotating 180° on `data-[panel-open]`. panel: height anima
 
 ## 5. States
 
-closed · open · disabled (trigger `opacity-45`, `cursor-not-allowed`). Reduced motion: no height
+closed · open · disabled (trigger `opacity-45`, `cursor-not-allowed` via `data-[disabled]` — Base UI keeps a
+disabled trigger focusable with `aria-disabled`, no native `disabled`, same as Tabs D27). Reduced motion: no height
 transition, no chevron rotation transition.
 
 ## 6. Logic (`collapsible.logic.tsx`)

@@ -68,7 +68,8 @@ the heading); SSR. **Browser:** click expands/collapses.
 
 ## 10. Stories
 
-`Default`, `OpenMultiple`, `WithDefault`, `CustomHeadingLevel`.
+`Default`, `OpenMultiple`, `WithDefault`, `CustomHeadingLevel`, `WithDisabledItem` (v1.3 — guards the
+`data-[disabled]` dim; Base UI sets no native `disabled` on the trigger).
 
 ## 11. Decisions
 

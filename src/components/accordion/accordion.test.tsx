@@ -10,6 +10,21 @@ const items = [
 ]
 
 describe('Accordion', () => {
+  it('a disabled item is dimmed via data-disabled (Base UI sets no native disabled)', async () => {
+    const onValueChange = mock(() => {})
+    render(
+      <Accordion
+        items={[{ value: 'legacy', trigger: 'Legacy', content: 'Old plans', disabled: true }]}
+        onValueChange={onValueChange}
+      />,
+    )
+    const trigger = screen.getByRole('button', { name: 'Legacy' })
+    expect(trigger).toHaveAttribute('aria-disabled', 'true')
+    expect(trigger.className).toContain('data-[disabled]:opacity-45')
+    await userEvent.click(trigger)
+    expect(onValueChange).not.toHaveBeenCalled()
+  })
+
   it('renders a trigger per item', () => {
     render(<Accordion items={items} />)
     expect(screen.getByRole('button', { name: 'Shipping' })).toBeInTheDocument()
