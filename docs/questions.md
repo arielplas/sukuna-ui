@@ -254,6 +254,25 @@ in the same wave.
 
 ---
 
+## Q24. "Let's think of ways to add a theme file to support various themes: add 2 more and a configurable file (if does not exist) — we currently have light/dark — let's add 2 more examples that look similar — lets design first"
+
+**Answer given (design).** Keep the Sukuna identity (crimson, shape, type) and vary surfaces only:
+**Midnight** (dark, cool blue-black) and **Paper** (light, warm cream), both AA-verified before
+proposing. One file per theme (`extends` a built-in, override a few colors), a resolved CSS block
+per theme with `color-scheme`, the contrast gate over every theme, and an app-side
+`sukuna.themes.ts` created on demand by a CLI that compiles it to CSS with contrast warnings.
+Spec: `docs/theming.md`.
+
+**Owner decisions (asked in session):**
+- Themes: **Midnight + Paper** (over two dark variants / other names).
+- App config: **TS file + CLI** — `defineThemes()` in `sukuna.themes.ts`; `themes init` creates it
+  if missing, `themes build` emits CSS and warns below AA (over a CSS-only template or JSON).
+- **Add `system` mode** following `prefers-color-scheme`. Agent refinement: opt-in via
+  `data-theme="system"`; a page with no attribute stays dark (changing it would be a visible default
+  change → major).
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |
@@ -273,6 +292,7 @@ in the same wave.
 | Button variants | `primary`, `secondary`, `ghost` (+ `outline`, `link` in v1.3, Q15); no `premium`, no `danger` (Q10, reaffirmed Q15) |
 | Popover | In scope from v1.3 (Q15) — reverses roadmap §D |
 | Headless base | `@base-ui/react` stable (1.8+) since v1.3 (Q15, D33) |
+| Theming | Built-ins dark/light + **midnight**/**paper**; opt-in `system`; apps extend via `sukuna.themes.ts` + `sukuna-ui themes init\|build` (Q24, `docs/theming.md`) |
 | Motion | CSS-only, reduced-motion fallbacks, `docs/motion.md`; new tokens `--sk-duration-slow`, `--sk-ease-spring` (Q20) |
 | Virtualization | Deferred, no `@tanstack/react-virtual` for now; revisit on a real large-Table need (Q17) |
 | Light palette | Approved as proposed in `tokens.md` (Q10) |

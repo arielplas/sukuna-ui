@@ -249,6 +249,20 @@ Spec: `docs/motion.md` (owner request Q20). CSS-only, zero bundle cost, reduced-
 | M6 | Fix: scale/translate never transitioned (`transition-[…transform]`) in 11 components | [x] |
 | M7 | Fix: indeterminate Progress kept animating under reduced motion (`data-[…]` outranked `motion-reduce:`) | [x] |
 
+## D7. Theming — multiple themes + app config (designed, not built)
+
+Spec: `docs/theming.md` (owner request Q24: Midnight + Paper, TS config + CLI, `system` mode).
+
+| # | Item | Status |
+|---|---|---|
+| T1 | `src/themes/*` registry (dark, light, midnight, paper) + resolver + shared contrast module | [ ] |
+| T2 | Generator: resolved block per theme + `color-scheme` + `system` media block | [ ] |
+| T3 | Contrast gate over every built-in theme | [ ] |
+| T4 | `sukuna-ui/themes` subpath: `defineThemes` + types + built-in data | [ ] |
+| T5 | `sukuna-ui` bin: `themes init` (create-if-missing) + `themes build` (CSS + AA warnings, `--strict`) | [ ] |
+| T6 | Storybook toolbar + showcase picker + docs (tokens.md, README) | [ ] |
+| T7 | Browser tests: midnight/paper render; `system` follows emulated color scheme | [ ] |
+
 ---
 
 ## E. Update log
@@ -316,3 +330,4 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-27 · Table actions column (Q18/D34): `MenuItemOption.icon` (Menu + ContextMenu), new `RowActions` (⋯ ghost icon Button + Menu, row-specific aria-label, align end), static `Table.ActionsHeaderCell` (sr-only "Actions") / `Table.ActionsCell`. Table stays server-only at 0.56 kB. 379 unit (100% cov) + 39 browser green. 45 components · (feat/v1.3-wave)
 - 2026-09-27 · Tabs `orientation="vertical"` (Q19): navigation column (flex-col list, right-edge crimson bar + surface fill), ArrowUp/Down + aria-orientation via Base UI; Vertical story with icon labels; unit + Playwright guards · (feat/v1.3-wave)
 - 2026-09-27 · Motion wave (§D5, Q20, `docs/motion.md`): tokens `--sk-duration-slow`/`--sk-ease-spring` + `animate-indeterminate`; Tabs sliding indicator (both orientations, SSR fallback border); Accordion height; directional popup entrance ×7; Toast stacked deck + expand + swipe; Meter/Progress grow-in + sliding indeterminate. Fixes: scale/translate never transitioned in 11 components (Tailwind v4 props ≠ `transform`); indeterminate Progress ignored reduced motion. New `test/browser/motion.test.ts`; Tabs budget 22→25 kB (Indicator). 381 unit / 100% cov, 46 browser ×3 stable · (feat/v1.3-wave)
+- 2026-09-27 · Theming DESIGN ONLY (§D7, Q24): `docs/theming.md` — Midnight + Paper palettes (AA-verified), theme registry + resolver, `system` mode (opt-in, no-attribute stays dark), `sukuna.themes.ts` + `sukuna-ui themes init|build` CLI. Code pending · (feat/v1.3-wave)
