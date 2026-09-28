@@ -262,11 +262,15 @@ describe('VideoPlayer', () => {
     fireEvent.click(screen.getByRole('menuitemradio', { name: '1.5×' }))
     expect(video.playbackRate).toBe(1.5)
     fireEvent.rateChange(video)
-    expect(gear).toHaveFocus()
-    fireEvent.click(gear)
+    // YouTube-style: a choice keeps the menu open and returns to the main list
+    expect(screen.getByRole('menu', { name: 'Settings' })).toBeInTheDocument()
     expect(screen.getByRole('menuitem', { name: /Speed/ })).toHaveTextContent('1.5×')
+    fireEvent.click(gear) // the gear toggles it closed
+    expect(screen.queryByRole('menu')).toBeNull()
+    fireEvent.click(gear)
     fireEvent.keyDown(screen.getByRole('menu'), { key: 'Escape' })
     expect(screen.queryByRole('menu')).toBeNull()
+    expect(gear).toHaveFocus()
     fireEvent.click(gear)
     fireEvent.pointerDown(screen.getByRole('menu'))
     expect(screen.getByRole('menu')).toBeInTheDocument()
@@ -296,8 +300,7 @@ describe('VideoPlayer', () => {
     fireEvent.click(screen.getByRole('menuitem', { name: /Quality/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: '480p' })) // same → no change
     expect(onQualityChange).not.toHaveBeenCalled()
-    fireEvent.click(button('Settings'))
-    fireEvent.click(screen.getByRole('menuitem', { name: /Quality/ }))
+    fireEvent.click(screen.getByRole('menuitem', { name: /Quality/ })) // still open, on the main list
     fireEvent.click(screen.getByRole('menuitemradio', { name: /^1080p/ }))
     expect(onQualityChange).toHaveBeenCalledWith({ src: '/1080.mp4', res: 1080 }, 0)
     expect(video.getAttribute('src')).toBe('/1080.mp4')
@@ -328,10 +331,15 @@ describe('VideoPlayer', () => {
     fireEvent.click(screen.getByRole('menuitem', { name: /Subtitles/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Español' }))
     await waitFor(() => expect(container.textContent).toContain('Shibuya, 23:40'))
+    const subtitles = () => fireEvent.click(screen.getByRole('menuitem', { name: /Subtitles/ }))
+    subtitles() // each choice returns to the main list
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Broken' }))
     await act(async () => {})
+    subtitles()
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Off' }))
+    subtitles()
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'English' }))
+    subtitles()
     fireEvent.click(screen.getByRole('menuitem', { name: /Caption style/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Size: Large' }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Text color: Champagne' }))
@@ -534,11 +542,43 @@ describe('VideoPlayer', () => {
       act(() => jest.advanceTimersByTime(2600))
       expect(region()).toHaveAttribute('data-controls', 'shown') // focus inside the bar
       act(() => (document.activeElement as HTMLElement).blur())
-      fireEvent.pointerLeave(region())
+      fireEvent.pointerLeave(region(), { pointerType: 'touch' }) // a finger lifting isn't leaving
+      expect(region()).toHaveAttribute('data-controls', 'shown')
+      fireEvent.pointerLeave(region(), { pointerType: 'mouse' })
       expect(region()).toHaveAttribute('data-controls', 'hidden')
       fireEvent.pause(video)
       expect(region()).toHaveAttribute('data-controls', 'shown')
-      fireEvent.pointerLeave(region())
+      fireEvent.pointerLeave(region(), { pointerType: 'mouse' })
+      expect(region()).toHaveAttribute('data-controls', 'shown')
+    })
+
+    it('±10s taps keep the controls up and restart the inactivity timer', () => {
+      const { video } = renderPlayer()
+      fireEvent.play(video)
+      act(() => jest.advanceTimersByTime(2000))
+      const forward = button('Forward 10 seconds')
+      // a tap: pointerdown restarts the timer, the click seeks and leaves (non-keyboard) focus
+      spyOn(forward, 'matches').mockReturnValue(false)
+      fireEvent.pointerDown(forward, { pointerType: 'touch' })
+      act(() => forward.focus())
+      fireEvent.click(forward)
+      fireEvent.pointerLeave(region(), { pointerType: 'touch' })
+      expect(video.currentTime).toBe(10)
+      act(() => jest.advanceTimersByTime(2000)) // 4s since play, 2s since the tap
+      expect(region()).toHaveAttribute('data-controls', 'shown')
+      act(() => jest.advanceTimersByTime(600)) // inactivity reached
+      expect(region()).toHaveAttribute('data-controls', 'hidden') // tap focus doesn't pin them
+    })
+
+    it('keeps the controls when :focus-visible is unsupported', () => {
+      const { video } = renderPlayer()
+      fireEvent.play(video)
+      const mute = button('Mute')
+      spyOn(mute, 'matches').mockImplementation(() => {
+        throw new Error('unsupported selector')
+      })
+      act(() => mute.focus())
+      act(() => jest.advanceTimersByTime(2600))
       expect(region()).toHaveAttribute('data-controls', 'shown')
     })
 

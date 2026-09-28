@@ -241,11 +241,17 @@ thumb `scale` (`duration-fast`, listed explicitly — rule 3); volume slider wid
 - **Quality**: switching remembers `currentTime` and play state, swaps `src`, restores both on the
   next `loadedmetadata`. `startTime` applies once on the first `loadedmetadata`.
 - **Settings menu** (`SettingsMenu`): paged `role="menu"` rendered inside the root (so it works in
-  fullscreen); rows link to pages, radio rows, chip groups. Arrows move, ArrowLeft goes back, Escape
-  closes and refocuses the gear; outside `pointerdown` closes. The context menu reuses it.
-- **Auto-hide**: one `setTimeout` (2500ms) restarted on pointer move / focus; hides only while
-  playing with no menu open, no drag and no focus in the bar. `pointerleave` hides immediately while
-  playing. State is `data-controls` on the root; styles use `group-data-[controls=hidden]/vp:`.
+  fullscreen); rows link to pages, radio rows, chip groups. **Choosing never closes it**
+  (YouTube-style): a radio choice returns to the main list (loop choices stay on their page, which
+  mixes choices with actions), chips and actions stay put. Only the gear (toggle), an outside
+  `pointerdown` / click on the video, or Escape (refocuses the gear) close it. Arrows move,
+  ArrowLeft goes back. The context menu reuses it.
+- **Auto-hide**: one `setTimeout` (2500ms) restarted on pointer move, pointer down (every tap or
+  click, e.g. ±10s) and focus; hides after that much inactivity while playing with no menu open and
+  no drag. Only **keyboard** focus in the bar pins the controls (`:focus-visible`; kept when the
+  selector is unsupported) — the focus a click or tap leaves on a button doesn't. A mouse
+  `pointerleave` hides immediately while playing; touch `pointerleave` (fired when a finger lifts)
+  is ignored. State is `data-controls` on the root; styles use `group-data-[controls=hidden]/vp:`.
 - **Hotkeys** (`onKeyDown` on the root, never `window`): skipped inside inputs, menus and dialogs,
   and for Space/Enter on buttons (native activation wins). Full list in the `?` sheet and TSDoc.
 - **Touch** (`pointer: coarse` and `touchControls`): the centre shows back / play / forward; a tap
