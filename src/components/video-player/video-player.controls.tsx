@@ -253,7 +253,15 @@ export function VolumeSlider({ value, label, onChange }: VolumeSliderProps) {
 /** One row of a settings page. */
 export type MenuRow =
   | { type: 'link'; id: string; icon?: ReactNode; label: string; value?: ReactNode; page: string }
-  | { type: 'radio'; id: string; label: ReactNode; checked: boolean; onSelect: () => void }
+  | {
+      type: 'radio'
+      id: string
+      label: ReactNode
+      checked: boolean
+      onSelect: () => void
+      /** Stay on this page after choosing (pages that mix choices with actions, e.g. loop). */
+      stay?: boolean
+    }
   | {
       type: 'chips'
       id: string
@@ -293,8 +301,8 @@ export interface SettingsMenuProps {
 
 /**
  * A paged popup menu rendered inside the player root (so it stays visible in fullscreen). Rows
- * link to sub-pages, pick a radio value, or choose a chip. Arrow keys move, ArrowLeft goes back,
- * Escape closes.
+ * link to sub-pages, pick a radio value, or choose a chip. Choosing never closes it: a radio choice
+ * returns to the main list. Arrow keys move, ArrowLeft goes back, Escape closes.
  */
 export function SettingsMenu({
   label,
@@ -381,7 +389,11 @@ export function SettingsMenu({
               aria-checked={row.checked}
               data-menu-item=""
               className={`group/item ${styles.menuItem()}`}
-              onClick={row.onSelect}
+              onClick={() => {
+                row.onSelect()
+                // YouTube-style: a choice returns to the main list; the menu stays open.
+                if (pageId !== 'root' && !row.stay) go('root')
+              }}
             >
               <span className={styles.menuTick()}>
                 <CheckIcon />

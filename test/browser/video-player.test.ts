@@ -45,7 +45,8 @@ test('changes speed and quality from the settings menu', async ({ page }) => {
   await expect
     .poll(() => page.locator('video').evaluate((v: HTMLVideoElement) => v.playbackRate))
     .toBe(1.5)
-  await page.getByRole('button', { name: 'Settings' }).click()
+  // the menu stays open on the main list after a choice (YouTube-style)
+  await expect(page.getByRole('menuitem', { name: /Speed/ })).toContainText('1.5×')
   await page.getByRole('menuitem', { name: /Quality/ }).click()
   await page.getByRole('menuitemradio', { name: '180p' }).click()
   await expect(page.locator('video')).toHaveAttribute('src', /night-180\.webm$/)
@@ -157,6 +158,20 @@ test('HLS via hlsEngine: plays through MSE and lists manifest levels', async ({ 
   await page.getByRole('menuitem', { name: /Quality/ }).click()
   await expect(page.getByRole('menuitemradio')).toHaveText(['Auto', '360p', '180p'])
   await page.getByRole('menuitemradio', { name: '180p' }).click()
-  await page.getByRole('button', { name: 'Settings' }).click()
   await expect(page.getByRole('menuitem', { name: /Quality/ })).toContainText('180p')
+  await page.getByRole('button', { name: 'Settings' }).click() // the gear closes it
+  await expect(page.getByRole('menu')).toBeHidden()
+})
+
+test('±10s keeps the controls up, then they hide after inactivity', async ({ page }) => {
+  await page.goto(story('components-videoplayer--playground'))
+  const player = page.getByRole('region', { name: 'Last Train, Shibuya' })
+  await page.locator('video').evaluate(async (v: HTMLVideoElement) => {
+    v.muted = true
+    await v.play()
+  })
+  await page.getByRole('button', { name: 'Forward 10 seconds' }).click()
+  await expect.poll(() => currentTime(page)).toBeGreaterThan(9)
+  await expect(player).toHaveAttribute('data-controls', 'shown')
+  await expect(player).toHaveAttribute('data-controls', 'hidden', { timeout: 5000 })
 })

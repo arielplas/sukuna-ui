@@ -18,6 +18,7 @@ beforeEach(() => {
 afterEach(() => {
   play.mockRestore()
   pause.mockRestore()
+  jest.useRealTimers() // even when a fake-timer test fails midway
 })
 
 const button = (name: string | RegExp) => screen.getByRole('button', { name })
@@ -84,7 +85,6 @@ describe('VideoPlayer W3 settings', () => {
     setup({ settings: ['sleep'] })
     openGear(/Sleep timer/)
     fireEvent.click(screen.getByRole('menuitemradio', { name: '15 minutes' }))
-    fireEvent.click(button('Settings'))
     expect(screen.getByRole('menuitem', { name: /Sleep timer/ })).toHaveTextContent('15 minutes')
     act(() => jest.advanceTimersByTime(15 * 60_000))
     expect(pause).toHaveBeenCalled()
@@ -102,7 +102,6 @@ describe('VideoPlayer W3 settings', () => {
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'End of video' }))
     fireEvent.ended(video)
     expect(video.getAttribute('src')).toBe('/a.mp4')
-    fireEvent.click(button('Settings'))
     expect(screen.getByRole('menuitem', { name: /Sleep timer/ })).toHaveTextContent('Off')
   })
 
@@ -215,18 +214,15 @@ describe('VideoPlayer W3 settings', () => {
     expect(revoke).toHaveBeenCalledWith('blob:x')
     // toBlob gives nothing, getContext is null, drawImage throws → "not available"
     out = null
-    fireEvent.click(button('Settings'))
     fireEvent.click(screen.getByRole('menuitem', { name: 'Snapshot' }))
     expect(screen.getByRole('status')).toHaveTextContent("Snapshots aren't available")
     ctx = null
-    fireEvent.click(button('Settings'))
     fireEvent.click(screen.getByRole('menuitem', { name: 'Snapshot' }))
     ctx = {
       drawImage: () => {
         throw new Error('tainted')
       },
     }
-    fireEvent.click(button('Settings'))
     fireEvent.click(screen.getByRole('menuitem', { name: 'Snapshot' }))
     expect(screen.getByRole('status')).toHaveTextContent("Snapshots aren't available")
     second.unmount()

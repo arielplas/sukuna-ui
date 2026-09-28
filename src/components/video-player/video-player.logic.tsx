@@ -263,6 +263,20 @@ async function loadVtt(src: string): Promise<VttCue[]> {
 
 const srcAt = (list: VideoSource[] | undefined, index: number) => list?.[index]?.src
 
+/**
+ * True when focus sits inside `el` because of the keyboard. A mouse click or tap also focuses the
+ * button it hits, but that must not pin the controls open; keyboard focus must (WCAG 2.4.7).
+ */
+function keyboardFocusIn(el: HTMLElement | null) {
+  const active = document.activeElement
+  if (!el || !active || !el.contains(active)) return false
+  try {
+    return active.matches(':focus-visible')
+  } catch {
+    return true // no :focus-visible support: keep the controls, the accessible choice
+  }
+}
+
 /** Trigger a browser download for a URL (handlers only). */
 function saveUrl(href: string, filename: string) {
   const a = document.createElement('a')
@@ -711,8 +725,8 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
       clearTimeout(hideTimer.current)
       hideTimer.current = setTimeout(() => {
         const l = latest.current
-        const focusInBar = barRef.current?.contains(document.activeElement) ?? false
-        if (l.autoHide && !l.paused && !l.holding && !focusInBar) setHidden(true)
+        if (l.autoHide && !l.paused && !l.holding && !keyboardFocusIn(barRef.current))
+          setHidden(true)
       }, HIDE_AFTER)
     }, [])
     useEffect(() => {
@@ -1172,10 +1186,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
             : levelLabel(levels[level] as VideoEngineLevel),
         page: 'quality',
       })
-      const pick = (i: number) => () => {
-        actions.setLevel(i)
-        closeMenu(true)
-      }
+      const pick = (i: number) => () => actions.setLevel(i)
       pages.quality = {
         title: labels.quality,
         rows: [
@@ -1230,7 +1241,6 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
               actions.setSource(i)
               onQualityChange?.(src, i)
             }
-            closeMenu(true)
           },
         })),
       }
@@ -1251,10 +1261,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
           id: `r${r}`,
           label: r === 1 ? labels.normal : `${r}×`,
           checked: r === rate,
-          onSelect: () => {
-            actions.setPlaybackRate(r)
-            closeMenu(true)
-          },
+          onSelect: () => actions.setPlaybackRate(r),
         })),
       }
     }
@@ -1411,10 +1418,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
           id: `s-${v}`,
           label: sleepLabel(v),
           checked: sleep === v,
-          onSelect: () => {
-            setSleep(v)
-            closeMenu(true)
-          },
+          onSelect: () => setSleep(v),
         })),
       }
     }
@@ -1444,6 +1448,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
         id: `l-${mode}`,
         label,
         checked: loop.mode === mode,
+        stay: true,
         onSelect: () => setLoop((l) => ({ ...l, mode })),
       })
       pages.loop = {
@@ -1480,10 +1485,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
         id: 'snapshot',
         icon: <CameraIcon />,
         label: labels.snapshot,
-        onSelect: () => {
-          closeMenu(true)
-          takeSnapshot()
-        },
+        onSelect: takeSnapshot,
       })
     }
     if (settings.includes('download') && download) {
@@ -1493,7 +1495,6 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
         icon: <DownloadIcon />,
         label: labels.download,
         onSelect: () => {
-          closeMenu(true)
           const file = typeof download === 'string' ? { src: download } : download
           saveUrl(file.src, file.filename ?? file.src.split('/').pop() ?? 'video')
         },
@@ -1568,6 +1569,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
         className={s.root({ aspectRatio, fullscreen, docked, className })}
         style={style}
         onPointerMove={showControls}
+        onPointerDown={showControls}
         onFocus={showControls}
         onKeyDown={onKeyDown}
         onContextMenu={(e) => {
@@ -1577,8 +1579,9 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
           setMenuOpen(false)
           setCtx({ x: e.clientX - r.left, y: e.clientY - r.top })
         }}
-        onPointerLeave={() => {
-          if (!paused && autoHide && !holding) {
+        onPointerLeave={(e) => {
+          // Touch fires pointerleave when the finger lifts; only a mouse really leaves.
+          if (e.pointerType === 'mouse' && !paused && autoHide && !holding) {
             clearTimeout(hideTimer.current)
             setHidden(true)
           }

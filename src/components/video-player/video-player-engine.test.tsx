@@ -55,7 +55,7 @@ describe('VideoPlayer engine seam', () => {
     fireEvent.click(screen.getByRole('menuitemradio', { name: /^360p/ }))
     expect(f.setLevel).toHaveBeenCalledWith(0)
     expect(gear).not.toHaveTextContent('HD')
-    fireEvent.click(gear)
+    // the menu stays open and returns to the main list
     expect(screen.getByRole('menuitem', { name: /Quality/ })).toHaveTextContent('360p')
     fireEvent.click(screen.getByRole('menuitem', { name: /Quality/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Auto' }))
