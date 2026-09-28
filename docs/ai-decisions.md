@@ -9,6 +9,21 @@ agent's own calls. Newest first.
 
 ---
 
+## D33 — v1.3 wave: Base UI stable, danger kept out, scope trims
+
+- **Decision:** (1) Migrate to `@base-ui/react@^1.8.0` (the rc package was renamed at 1.0) and
+  keep ScrollArea scrollbars `keepMounted` — 1.x unmounts them when nothing overflows, which would
+  shift layout vs. rc. (2) Do **not** add Button `danger` / Badge `danger`+`warning` from the
+  approved analysis: Q10 (owner) dropped danger because Sukuna has a single red, and rule 8 forbids
+  inventing `--sk-danger`. (3) Build variants that need no tokens: Button `outline`/`link`/
+  `iconOnly`, Badge `dot`, Alert `onDismiss`, Card `interactive`, Progress/Spinner `tone`,
+  Avatar `shape`. (4) Defer Input slots (DOM/`className` target change needs its own spec),
+  Skeleton `wave` (new keyframe = token-level approval) and virtualization (new dep, Q16).
+- **Why:** "go for it" approved the list, but an earlier explicit owner decision (Q10) and a
+  standing rule (8) outrank a list the agent proposed. Everything else ships as proposed.
+- **Reverse:** Approve a `--sk-danger` token (and a hue) → `danger` becomes a one-line variant on
+  Button/Badge. Input slots/Skeleton wave/virtualization each have a spec-sized follow-up.
+
 ## D32 — Checkbox: `label` prop and Enter-to-toggle
 
 - **Decision:** `Checkbox` gains `label?: ReactNode` (wraps input + text in a `<label>`; the text

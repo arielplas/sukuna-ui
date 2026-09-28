@@ -189,6 +189,47 @@ Considered and held for owner: **Popover** (biggest cross-library gap, but roadm
 Modal/Popover/Popper as out of scope — needs an explicit decision to reverse). Cheaper alternates
 if breadth is preferred over these: Collapsible, Meter, Kbd, AspectRatio.
 
+## D4. v1.3 — components, variants & performance wave
+
+Owner analysis request + "document these and go for it" (2026-09-27, `docs/questions.md` Q15).
+Popover is brought **into scope** by that approval (reverses the §D "out of scope" note).
+All four headless components are Base UI parts we already ship; Textarea is native. No new tokens
+(`danger`/`warning` tones stay out — Q10 still stands, see D33).
+
+### Performance (land first, so the new components build on them)
+
+| # | Item | Status | Evidence |
+|---|---|---|---|
+| P1 | Base UI `@base-ui-components/react@1.0.0-rc.0` → stable renamed `@base-ui/react@^1.8.0` | [x] | 313 unit + 30 browser green; ScrollArea `keepMounted` keeps rc layout; Select+deps 48.4→45.7 kB |
+| P2 | Button → server component (no hooks → drop `'use client'`) + RSC-boundary guard test | [x] | `src/index.test.ts` "RSC boundary" (hook-free file may not be client; hook-using must be) |
+| P3 | Counter: paint frames via ref (zero re-renders) + `startOnView` | [x] | Profiler test asserts 0 commits during animation; 100% cov |
+| P4 | Virtualize Select/Combobox/Table | [ ] | Needs `@tanstack/react-virtual` (new dep) → owner approval (Q15) |
+| P5 | `size-limit` budget for every component | [x] | 40 entries; statics ≤2 kB (no Base UI leak), headless = measured +10% |
+
+### New components
+
+Order within a component: doc → styles → logic → index → tests → stories → (browser if headless) →
+export → ≥90% → review.
+
+| Component | Kind | Backing | Doc | Code |
+|---|---|---|---|---|
+| Popover | interactive | Base UI `popover` | [x] | [ ] |
+| AlertDialog | interactive | Base UI `alert-dialog` | [x] | [ ] |
+| Textarea | native (server) | `<textarea>` | [x] | [ ] |
+| Collapsible | interactive | Base UI `collapsible` | [x] | [ ] |
+| Meter | static | Base UI `meter` | [x] | [ ] |
+
+### Variants on existing components (no new tokens)
+
+| Component | Addition | Status |
+|---|---|---|
+| Button | `variant: 'outline' \| 'link'`, `iconOnly` (square) | [ ] |
+| Badge | `dot` (leading status dot) | [ ] |
+| Alert | `onDismiss` (renders a close button; stays a server component) | [ ] |
+| Card | `interactive` (hover lift + focus ring for clickable cards) | [ ] |
+| Progress / Spinner | `tone: 'accent' \| 'success' \| 'premium'` (+ `current` on Spinner) | [ ] |
+| Avatar | `shape: 'circle' \| 'square'` | [ ] |
+
 ---
 
 ## E. Update log

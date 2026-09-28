@@ -165,6 +165,39 @@ correct) and treats the count-up as a mount enhancement; reduced-motion shows th
 
 ---
 
+## Q15. "Make repo up to date" → "In main, look for new 5 components to add and variations for some components, let's analyze them and see what can offer us — 5 things to improve performance, etc" → "document these and go for it"
+
+**Answer given (analysis).** Five components, four of them Base UI parts we already depend on:
+**Popover**, **AlertDialog**, **Textarea** (native), **Collapsible**, **Meter**. Variants:
+Button `outline`/`link`/icon-only, Badge dot, Alert dismiss, Card `interactive`, Input slots,
+Avatar shape, Progress/Spinner tone, Skeleton animation. Performance: (1) Base UI rc.0 → stable
+`@base-ui/react@1.8`, (2) Button off `'use client'`, (3) Counter re-rendering every frame,
+(4) virtualization, (5) per-component size budgets.
+
+**Decisions.**
+- Owner approved the whole list ("go for it") → roadmap §D4. **Popover is now in scope**
+  (reverses the §D "out of scope" note).
+- **Button `danger` + Badge `danger`/`warning` NOT built** — they conflict with Q10 ("forget about
+  danger": Sukuna has one red) and need tokens that don't exist. Kept Q10; AlertDialog confirms with
+  the primary Button. Re-open with a `--sk-danger` token if wanted (D33).
+- Switch stays `'use client'` (the analysis mis-flagged it; it holds state via
+  `useControllableState`). Only Button moved to the server.
+- Deferred inside the wave: Input start/end slots (changes the rendered DOM + where `className`
+  lands — needs its own spec), Skeleton `wave` (needs a new keyframe utility → token approval like
+  Q13), virtualization (new dependency → approval, Q16).
+
+---
+
+## Q16. (Agent → owner) Add `@tanstack/react-virtual` for virtualized Select/Combobox/Table?
+
+**Context.** Backlog #11 / perf P4. Base UI exposes a `virtualized` flag but needs an external
+virtualizer. It is the only perf item that adds a dependency (~5 kB gz, only paid by consumers who
+import the virtualized parts).
+
+**Status:** waiting on owner.
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |
@@ -181,7 +214,9 @@ correct) and treats the count-up as a mount enhancement; reduced-motion shows th
 | Versioning | Changesets + semver, `0.x` until v1 components ship, `latest`/`next` channels, breaking-change table in Q6 |
 | Testing | Single runner `bun test`: Testing Library + jest-axe + SSR helpers for unit; Playwright library inside `bun test` for browser (Q8, Q11, `docs/testing.md`) |
 | Coverage | ≥ 90% lines/functions/statements, enforced by `bunfig.toml` threshold and CI (Q9) |
-| Button variants | `primary`, `secondary`, `ghost` only; no `premium`, no `danger` (Q10) |
+| Button variants | `primary`, `secondary`, `ghost` (+ `outline`, `link` in v1.3, Q15); no `premium`, no `danger` (Q10, reaffirmed Q15) |
+| Popover | In scope from v1.3 (Q15) — reverses roadmap §D |
+| Headless base | `@base-ui/react` stable (1.8+) since v1.3 (Q15, D33) |
 | Light palette | Approved as proposed in `tokens.md` (Q10) |
 | Status tracking | `docs/roadmap.md` living board; agents update it in the same commit as the work (rule 9) |
 | Versioning enforcement | CLAUDE.md + CI classifiers (API diff, visual, token, peer) + human-only merge/publish (Q7) |
@@ -193,3 +228,4 @@ correct) and treats the count-up as a mount enhancement; reduced-motion shows th
 | Q12 | Light-mode `--sk-shadow-card` value — approve the proposed softer shadow or supply one? | Proposed value in use; awaiting approval. Non-blocking (patch to change pre-1.0). |
 | Q13 | Approve `--sk-gradient-premium` token + `bg-gradient-premium` and the `sk-shine` keyframe + `animate-shine*` utilities for the React Bits-inspired wave? | Specs written; blocks only GradientText `premium` + ShinyText. Proposed values in Q13. |
 | Q14 | Confirm Counter's SSR-final-value strategy and defaults (1200ms, easeOutCubic)? | Spec written; non-blocking, sensible defaults. |
+| Q16 | Add `@tanstack/react-virtual` for virtualized Select/Combobox/Table? | Blocks perf P4 only. |
