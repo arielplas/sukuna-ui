@@ -1,6 +1,6 @@
 'use client'
 
-import { Accordion as Base } from '@base-ui-components/react/accordion'
+import { Accordion as Base } from '@base-ui/react/accordion'
 import { createElement, type ReactElement, type ReactNode } from 'react'
 import { accordionStyles } from './accordion.styles'
 

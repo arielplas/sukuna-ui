@@ -1,6 +1,6 @@
 'use client'
 
-import { ContextMenu as Base } from '@base-ui-components/react/context-menu'
+import { ContextMenu as Base } from '@base-ui/react/context-menu'
 import type { ReactNode } from 'react'
 import type { MenuItemOption } from '../menu'
 import { contextMenuStyles } from './context-menu.styles'

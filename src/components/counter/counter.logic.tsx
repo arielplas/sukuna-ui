@@ -1,6 +1,6 @@
 'use client'
 
-import { type ComponentPropsWithoutRef, forwardRef, useEffect, useRef, useState } from 'react'
+import { type ComponentPropsWithoutRef, forwardRef, useEffect, useRef } from 'react'
 import { counterStyles } from './counter.styles'
 
 type NativeProps = Omit<ComponentPropsWithoutRef<'span'>, 'children'>
@@ -45,6 +45,13 @@ export interface CounterProps extends NativeProps {
    * @default true
    */
   once?: boolean
+  /**
+   * When `true`, hold at `from` until the number scrolls into view, then count up (uses
+   * `IntersectionObserver`; where it is missing the count starts on mount as usual). Saves the
+   * animation for counters the user actually sees, e.g. a stats band below the fold.
+   * @default false
+   */
+  startOnView?: boolean
 }
 
 const easeOutCubic = (t: number): number => 1 - (1 - t) ** 3
@@ -62,6 +69,8 @@ const easeOutCubic = (t: number): number => 1 - (1 - t) ** 3
  *   (e.g. `"1,240 active users"`).
  * - Reduced motion: under `prefers-reduced-motion: reduce` the final value shows immediately with no
  *   animation.
+ * - Performance: frames are painted into the text node directly — no React re-render per frame.
+ *   Pass `startOnView` to hold the count until the number scrolls into view.
  * - Formatting: `decimals`/`prefix`/`suffix` cover the common cases; `format` is the escape hatch
  *   for currency and locale. `tabular-nums` keeps the width from jittering as digits change.
  * - Styling: color and size are inherited — wrap in `Text` or pass `className`. The ref points at
@@ -72,7 +81,7 @@ const easeOutCubic = (t: number): number => 1 - (1 - t) ** 3
  * import { Counter } from 'sukuna-ui'
  *
  * <Counter value={1240} aria-label="1,240 active users" />
- * <Counter value={99.9} decimals={1} suffix="%" />
+ * <Counter value={99.9} decimals={1} suffix="%" startOnView />
  * <Counter value={4999} prefix="$" format={(n) => `$${n.toLocaleString()}`} />
  * ```
  */
@@ -86,6 +95,7 @@ export const Counter = forwardRef<HTMLSpanElement, CounterProps>(function Counte
     suffix = '',
     format,
     once = true,
+    startOnView = false,
     className,
     ...rest
   },
@@ -94,36 +104,66 @@ export const Counter = forwardRef<HTMLSpanElement, CounterProps>(function Counte
   const fmt = (n: number): string =>
     format ? format(n) : `${prefix}${n.toFixed(decimals)}${suffix}`
 
-  const [display, setDisplay] = useState(value)
+  // The count-up writes straight to the digits' text node instead of setting React state, so an
+  // animation costs zero re-renders (it used to reconcile the component ~60×/s per counter). React
+  // still owns the node: it renders the final value on the server and on every `value` change.
+  const fmtRef = useRef(fmt)
+  fmtRef.current = fmt
+  const digits = useRef<HTMLSpanElement>(null)
   const done = useRef(false)
 
   useEffect(() => {
+    const el = digits.current as HTMLSpanElement
+    const paint = (n: number): void => {
+      const text = fmtRef.current(n)
+      // An empty format result leaves no text node to reuse; fall back to textContent.
+      if (el.firstChild) el.firstChild.nodeValue = text
+      else el.textContent = text
+    }
     if (once && done.current) {
-      setDisplay(value)
+      paint(value)
       return
     }
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setDisplay(value)
+      paint(value)
       done.current = true
       return
     }
 
     let raf = 0
-    const start = performance.now()
-    setDisplay(from)
-    const tick = (now: number): void => {
-      const t = duration > 0 ? Math.min(1, (now - start) / duration) : 1
-      if (t < 1) {
-        setDisplay(from + (value - from) * easeOutCubic(t))
-        raf = requestAnimationFrame(tick)
-      } else {
-        setDisplay(value)
-        done.current = true
+    let observer: IntersectionObserver | undefined
+    const run = (): void => {
+      const start = performance.now()
+      const tick = (now: number): void => {
+        const t = duration > 0 ? Math.min(1, (now - start) / duration) : 1
+        if (t < 1) {
+          paint(from + (value - from) * easeOutCubic(t))
+          raf = requestAnimationFrame(tick)
+        } else {
+          paint(value)
+          done.current = true
+        }
       }
+      raf = requestAnimationFrame(tick)
     }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [value, from, duration, once])
+
+    paint(from)
+    if (startOnView && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          observer?.disconnect()
+          run()
+        }
+      })
+      observer.observe(el)
+    } else {
+      run()
+    }
+    return () => {
+      cancelAnimationFrame(raf)
+      observer?.disconnect()
+    }
+  }, [value, from, duration, once, startOnView])
 
   return (
     <span
@@ -133,7 +173,9 @@ export const Counter = forwardRef<HTMLSpanElement, CounterProps>(function Counte
       className={counterStyles({ className })}
       {...rest}
     >
-      <span aria-hidden="true">{fmt(display)}</span>
+      <span ref={digits} aria-hidden="true">
+        {fmt(value)}
+      </span>
     </span>
   )
 })

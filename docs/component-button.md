@@ -11,7 +11,7 @@ Triggers an action. Crimson is reserved for the one primary action on a surface;
 ```
 src/components/button/
 ├── button.styles.tsx   # tv() variant map → Tailwind utilities. Pure. Server-safe.
-├── button.logic.tsx    # 'use client' — loading state, forwardRef, a11y wiring.
+├── button.logic.tsx    # server component — forwardRef, loading/disabled wiring, a11y. No hooks.
 ├── button.test.tsx
 ├── button.stories.tsx
 └── index.tsx           # export { Button } from './button.logic'; export type { ButtonProps }
@@ -77,7 +77,9 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 
 ## 6. Logic (`button.logic.tsx`)
 
-- `'use client'` (has `loading` handling and event guard).
+- **No `'use client'`** (v1.3): it has no hooks and no DOM access, so it is a server component and
+  a link/submit button ships zero JS. `loading` is pure props → attributes. Guarded by the RSC
+  boundary test in `src/index.test.ts`.
 - `forwardRef<HTMLButtonElement, ButtonProps>`.
 - Default `type="button"` (native default is `submit`, which surprises people inside forms).
 - If `loading`, set `disabled` and `aria-busy`; swallow `onClick`.

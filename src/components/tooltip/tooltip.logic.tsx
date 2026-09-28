@@ -1,6 +1,6 @@
 'use client'
 
-import { Tooltip as Base } from '@base-ui-components/react/tooltip'
+import { Tooltip as Base } from '@base-ui/react/tooltip'
 import type { ReactElement, ReactNode } from 'react'
 import { tooltipStyles } from './tooltip.styles'
 

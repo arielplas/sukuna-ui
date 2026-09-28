@@ -6,7 +6,7 @@
 ## 1. Purpose
 
 A single-select dropdown. Keyboard, typeahead, positioning, dismiss, and listbox a11y come from
-Base UI (`@base-ui-components/react/select`); we style the trigger, popup, and items.
+Base UI (`@base-ui/react/select`); we style the trigger, popup, and items.
 
 ## 2. Files
 

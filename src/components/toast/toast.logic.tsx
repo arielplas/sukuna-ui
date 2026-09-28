@@ -1,6 +1,6 @@
 'use client'
 
-import { Toast as Base } from '@base-ui-components/react/toast'
+import { Toast as Base } from '@base-ui/react/toast'
 import type { ReactNode } from 'react'
 import { toastStyles } from './toast.styles'
 

@@ -1,6 +1,6 @@
-import { afterEach, beforeEach, describe, expect, it, spyOn } from 'bun:test'
+import { afterEach, beforeEach, describe, expect, it, mock, spyOn } from 'bun:test'
 import { act, render, screen } from '@testing-library/react'
-import { createRef } from 'react'
+import { createRef, Profiler } from 'react'
 import { expectAccessible } from '../../../test/axe'
 import { expectHydrates, renderServer } from '../../../test/ssr'
 import { Counter } from './index'
@@ -96,6 +96,82 @@ describe('Counter', () => {
     expect(raf.raf.mock.calls.length).toBeGreaterThan(callsAfterSnap) // scheduled a new animation
     raf.step(100)
     expect(screen.getByTestId('c').textContent).toBe('30')
+    raf.restore()
+  })
+
+  it('animates without re-rendering React (paints the text node directly)', () => {
+    const raf = mockRaf()
+    let commits = 0
+    render(
+      <Profiler id="c" onRender={() => commits++}>
+        <Counter value={100} from={0} duration={1000} data-testid="c" />
+      </Profiler>,
+    )
+    const afterMount = commits
+    raf.step(250)
+    raf.step(500)
+    raf.step(1000)
+    expect(screen.getByTestId('c').textContent).toBe('100')
+    expect(commits).toBe(afterMount)
+    raf.restore()
+  })
+
+  it('startOnView holds at `from` until the number is intersecting', () => {
+    const raf = mockRaf()
+    let fire: ((entries: Partial<IntersectionObserverEntry>[]) => void) | null = null
+    const disconnect = mock(() => {})
+    const original = globalThis.IntersectionObserver
+    globalThis.IntersectionObserver = class {
+      constructor(cb: (entries: Partial<IntersectionObserverEntry>[]) => void) {
+        fire = cb
+      }
+      observe() {}
+      disconnect = disconnect
+    } as unknown as typeof IntersectionObserver
+
+    const { unmount } = render(
+      <Counter value={100} from={0} duration={1000} startOnView data-testid="c" />,
+    )
+    expect(screen.getByTestId('c').textContent).toBe('0')
+    act(() => fire?.([{ isIntersecting: false }]))
+    expect(raf.raf).not.toHaveBeenCalled()
+    act(() => fire?.([{ isIntersecting: true }]))
+    expect(disconnect).toHaveBeenCalled()
+    raf.step(1000)
+    expect(screen.getByTestId('c').textContent).toBe('100')
+    unmount()
+
+    globalThis.IntersectionObserver = original
+    raf.restore()
+  })
+
+  it('startOnView counts on mount where IntersectionObserver is missing', () => {
+    const raf = mockRaf()
+    const original = globalThis.IntersectionObserver
+    // @ts-expect-error — simulate an environment without the API.
+    delete globalThis.IntersectionObserver
+    render(<Counter value={9} from={0} duration={100} startOnView data-testid="c" />)
+    raf.step(100)
+    expect(screen.getByTestId('c').textContent).toBe('9')
+    globalThis.IntersectionObserver = original
+    raf.restore()
+  })
+
+  it('handles a formatter that returns an empty string', () => {
+    const raf = mockRaf()
+    render(
+      <Counter
+        value={3}
+        from={0}
+        duration={100}
+        format={(n) => (n < 3 ? '' : 'three')}
+        data-testid="c"
+      />,
+    )
+    raf.step(50)
+    expect(screen.getByTestId('c').textContent).toBe('')
+    raf.step(100)
+    expect(screen.getByTestId('c').textContent).toBe('three')
     raf.restore()
   })
 

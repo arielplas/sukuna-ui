@@ -34,6 +34,7 @@ interface CounterOwnProps {
   suffix?: string            // e.g. '%', 'k'
   format?: (n: number) => string   // full custom formatter; overrides decimals/prefix/suffix
   once?: boolean             // default true; animate only the first mount, snap on later value changes
+  startOnView?: boolean      // default false; hold at `from` until scrolled into view (v1.3)
 }
 
 // Renders a <span>. `children` is omitted — the number IS the content.
@@ -41,8 +42,8 @@ export type CounterProps =
   CounterOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'children'>
 ```
 
-Deliberately **not** in v1: `startOnView` (count when scrolled into view — deferred; needs
-`IntersectionObserver`, planned as a follow-up), locale/`Intl.NumberFormat` presets (pass your own
+`startOnView` (added v1.3) holds at `from` until an `IntersectionObserver` reports the number on
+screen; without the API it counts on mount. Deliberately **not** in v1: locale/`Intl.NumberFormat` presets (pass your own
 via `format`), scroll-scrubbed counting, spring physics, per-digit odometer roll. `format` is the
 escape hatch for currency/locale — `format={(n) => n.toLocaleString()}`.
 
@@ -77,11 +78,15 @@ No new color/spacing tokens required.
 
 - `'use client'` — uses `useEffect`, `useRef`, `requestAnimationFrame`.
 - `forwardRef<HTMLSpanElement, CounterProps>`.
-- Initial render state = the formatted **final** value (matches server HTML → clean hydration).
-- Effect (deps `[value, from, duration, once]`): when `once` and already done, snap to `value` and
-  return. Else read `window.matchMedia('(prefers-reduced-motion: reduce)').matches`; if reduced,
-  leave the final value and return. Otherwise set display to `from` and start the rAF loop; cancel on
-  unmount and on dependency change.
+- Render output = the formatted **final** value (matches server HTML → clean hydration). There is
+  **no display state** (v1.3 perf fix): the effect paints each frame straight into the digits'
+  text node via a ref, so an animation costs zero React re-renders (it used to commit ~60×/s per
+  counter). React still owns the node and rewrites it whenever `value` changes.
+- Effect (deps `[value, from, duration, once, startOnView]`): when `once` and already done, paint
+  `value` and return. Else read `window.matchMedia('(prefers-reduced-motion: reduce)').matches`; if
+  reduced, paint the final value and return. Otherwise paint `from`, then start the rAF loop — right
+  away, or on first intersection when `startOnView` (observer disconnects once it fires). Cancel the
+  frame and disconnect the observer on unmount and on dependency change.
 - Easing: `easeOutCubic` (`1 - (1 - t) ** 3`) — matches the `--sk-ease` deceleration feel.
   `duration <= 0` renders the target immediately.
 - Formatting helper `fmt(n)` = `format ? format(n) : prefix + n.toFixed(decimals) + suffix`, used for
@@ -131,7 +136,8 @@ Harness in `docs/testing.md`. Required cases:
 
 ## 10. Stories
 
-`Playground` (controls), `Basic`, `Currency` (`format`), `Percentage`, `Decimals`, `FromNonZero`.
+`Playground` (controls), `Basic`, `Currency` (`format`), `Percentage`, `Decimals`, `FromNonZero`,
+`StartOnView` (v1.3).
 Rendered under both themes.
 
 ## 11. Decisions
@@ -139,9 +145,8 @@ Rendered under both themes.
 - **SSR renders the final value**, animation is a mount enhancement — chosen for no-JS/SEO
   correctness over avoiding a sub-frame flash (see §5 note). `// DECISION(open)` if the owner
   prefers server-rendering `from` instead.
-- **`startOnView` deferred out of v1** — it needs `IntersectionObserver` (absent in the happy-dom
-  test env, extra branches to cover). v1 animates on mount; scroll-triggered counting is a planned
-  follow-up.
+- **`startOnView` shipped in v1.3** (was deferred from v1): opt-in, default `false`, so existing
+  counters still animate on mount. Tests stub `IntersectionObserver`.
 - Reduced-motion shows the final value immediately (no partial count).
 - `role="img"` + `aria-label` carries the final value so the animation never spams assistive tech.
 - No locale presets in v1 — `format` is the escape hatch (keeps the component dependency-free; no

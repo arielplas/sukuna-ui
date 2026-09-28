@@ -6,7 +6,7 @@
 ## 1. Purpose
 
 A hover/focus tooltip for supplementary text. Behavior (delay, positioning, dismiss, a11y wiring)
-comes from Base UI (`@base-ui-components/react/tooltip`); we style the popup.
+comes from Base UI (`@base-ui/react/tooltip`); we style the popup.
 
 ## 2. Files
 

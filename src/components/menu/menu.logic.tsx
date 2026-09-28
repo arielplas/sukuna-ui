@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu as Base } from '@base-ui-components/react/menu'
+import { Menu as Base } from '@base-ui/react/menu'
 import type { ReactElement, ReactNode } from 'react'
 import { menuStyles } from './menu.styles'
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { Tabs as Base } from '@base-ui-components/react/tabs'
+import { Tabs as Base } from '@base-ui/react/tabs'
 import type { ReactNode } from 'react'
 import { tabsStyles } from './tabs.styles'
 

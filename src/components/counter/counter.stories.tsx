@@ -45,3 +45,12 @@ export const Decimals: Story = {
 export const FromNonZero: Story = {
   render: () => <Stat value={1280} from={1000} />,
 }
+
+/** Holds at `from` until scrolled into view — scroll the canvas down to trigger it. */
+export const StartOnView: Story = {
+  render: () => (
+    <div style={{ paddingTop: '120vh' }}>
+      <Stat value={4200} startOnView />
+    </div>
+  ),
+}

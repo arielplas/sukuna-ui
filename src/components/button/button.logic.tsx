@@ -1,5 +1,3 @@
-'use client'
-
 import { type ComponentPropsWithoutRef, forwardRef, type ReactNode, type Ref } from 'react'
 import { buttonStyles } from './button.styles'
 
@@ -93,8 +91,8 @@ type ButtonImplProps = ButtonOwnProps & {
  * `secondary`/`ghost` for everything else.
  *
  * @remarks
- * - SSR/RSC: a client component (`'use client'`) because it owns the `loading` state wiring.
- *   Renders fine on the server; no `useEffect` and no DOM access.
+ * - SSR/RSC: a server component — no hooks, no DOM access, no `'use client'`. A link or submit
+ *   button ships zero JS; passing `onClick` from a client component works as usual.
  * - Accessibility: renders a native `<button>` (or `<a>` with `as="a"`), so Space/Enter
  *   activation, focus and the `button`/`link` role come from the platform. Icon-only usage
  *   requires `aria-label` (the type will not compile without it). `loading` sets

@@ -139,7 +139,7 @@
     "provenance": true
   },
   "dependencies": {
-    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@base-ui/react": "^1.8.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.7.0",
     "tailwind-variants": "^3.3.1"

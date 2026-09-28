@@ -1,6 +1,6 @@
 'use client'
 
-import { NumberField as Base } from '@base-ui-components/react/number-field'
+import { NumberField as Base } from '@base-ui/react/number-field'
 import { type ComponentPropsWithoutRef, forwardRef } from 'react'
 import { type NumberFieldStyleProps, numberFieldStyles } from './number-field.styles'
 

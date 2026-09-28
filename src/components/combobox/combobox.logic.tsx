@@ -1,6 +1,6 @@
 'use client'
 
-import { Autocomplete as Base } from '@base-ui-components/react/autocomplete'
+import { Autocomplete as Base } from '@base-ui/react/autocomplete'
 import { comboboxStyles } from './combobox.styles'
 
 /** Props for {@link Combobox}. There are no style variants. */

@@ -1,7 +1,7 @@
 'use client'
 
-import { Toggle as BaseToggle } from '@base-ui-components/react/toggle'
-import { ToggleGroup as BaseGroup } from '@base-ui-components/react/toggle-group'
+import { Toggle as BaseToggle } from '@base-ui/react/toggle'
+import { ToggleGroup as BaseGroup } from '@base-ui/react/toggle-group'
 import { type ComponentPropsWithoutRef, forwardRef, type ReactNode } from 'react'
 import { type ToggleGroupStyleProps, toggleGroupStyles } from './toggle-group.styles'
 

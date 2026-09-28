@@ -1,4 +1,4 @@
-import { Avatar as Base } from '@base-ui-components/react/avatar'
+import { Avatar as Base } from '@base-ui/react/avatar'
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 import { type AvatarStyleProps, avatarStyles } from './avatar.styles'
 

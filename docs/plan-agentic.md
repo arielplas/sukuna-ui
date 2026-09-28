@@ -88,7 +88,7 @@ Decision criteria (in priority order): (a) consumer installs and it works with o
 | Headless (Base UI / React Aria / Radix) | Peer dep, API shaped by theirs, bundle weight | Battle-tested a11y, ship Dialog/Select/Tooltip in days |
 | **Hybrid** (recommended) | Two mental models | Native for Button/Input/Checkbox/Switch/Badge/Card/Text; headless for Dialog/Tooltip/Select |
 
-Default assumption: Hybrid with **Base UI** (`@base-ui-components/react`). Radix is in maintenance; React Aria is the fallback if Base UI's API is unstable at build time — verify current status before Phase 6.
+Default assumption: Hybrid with **Base UI** (`@base-ui/react`). Radix is in maintenance; React Aria is the fallback if Base UI's API is unstable at build time — verify current status before Phase 6.
 
 ---
 

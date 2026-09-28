@@ -1,6 +1,6 @@
 'use client'
 
-import { Slider as Base } from '@base-ui-components/react/slider'
+import { Slider as Base } from '@base-ui/react/slider'
 import { sliderStyles } from './slider.styles'
 
 /** Props for {@link Slider}. There are no style variants. */

@@ -1,4 +1,4 @@
-import { Progress as Base } from '@base-ui-components/react/progress'
+import { Progress as Base } from '@base-ui/react/progress'
 import type { ReactNode } from 'react'
 import { type ProgressStyleProps, progressStyles } from './progress.styles'
 

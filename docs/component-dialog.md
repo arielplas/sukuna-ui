@@ -6,7 +6,7 @@
 ## 1. Purpose
 
 A modal dialog. Focus trap, scroll lock, `Escape`/outside-click dismiss, and `aria` wiring come
-from Base UI (`@base-ui-components/react/dialog`); we style backdrop, popup, title, etc.
+from Base UI (`@base-ui/react/dialog`); we style backdrop, popup, title, etc.
 
 ## 2. Files
 
