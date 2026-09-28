@@ -85,6 +85,11 @@ describe('VideoPlayer W3 settings', () => {
     setup({ settings: ['sleep'] })
     openGear(/Sleep timer/)
     fireEvent.click(screen.getByRole('menuitemradio', { name: '15 minutes' }))
+    expect(screen.getByRole('menuitemradio', { name: '15 minutes' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'Back to settings' }))
     expect(screen.getByRole('menuitem', { name: /Sleep timer/ })).toHaveTextContent('15 minutes')
     act(() => jest.advanceTimersByTime(15 * 60_000))
     expect(pause).toHaveBeenCalled()
@@ -102,7 +107,10 @@ describe('VideoPlayer W3 settings', () => {
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'End of video' }))
     fireEvent.ended(video)
     expect(video.getAttribute('src')).toBe('/a.mp4')
-    expect(screen.getByRole('menuitem', { name: /Sleep timer/ })).toHaveTextContent('Off')
+    expect(screen.getByRole('menuitemradio', { name: 'Off' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    )
   })
 
   it('loops the whole video, a chapter, or a custom A–B range', () => {

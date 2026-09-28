@@ -259,8 +259,6 @@ export type MenuRow =
       label: ReactNode
       checked: boolean
       onSelect: () => void
-      /** Stay on this page after choosing (pages that mix choices with actions, e.g. loop). */
-      stay?: boolean
     }
   | {
       type: 'chips'
@@ -301,8 +299,8 @@ export interface SettingsMenuProps {
 
 /**
  * A paged popup menu rendered inside the player root (so it stays visible in fullscreen). Rows
- * link to sub-pages, pick a radio value, or choose a chip. Choosing never closes it: a radio choice
- * returns to the main list. Arrow keys move, ArrowLeft goes back, Escape closes.
+ * link to sub-pages, pick a radio value, or choose a chip. Choosing never closes it or leaves the
+ * page: the new value is ticked in place. Arrow keys move, ArrowLeft goes back, Escape closes.
  */
 export function SettingsMenu({
   label,
@@ -389,11 +387,7 @@ export function SettingsMenu({
               aria-checked={row.checked}
               data-menu-item=""
               className={`group/item ${styles.menuItem()}`}
-              onClick={() => {
-                row.onSelect()
-                // YouTube-style: a choice returns to the main list; the menu stays open.
-                if (pageId !== 'root' && !row.stay) go('root')
-              }}
+              onClick={row.onSelect}
             >
               <span className={styles.menuTick()}>
                 <CheckIcon />

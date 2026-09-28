@@ -262,9 +262,17 @@ describe('VideoPlayer', () => {
     fireEvent.click(screen.getByRole('menuitemradio', { name: '1.5×' }))
     expect(video.playbackRate).toBe(1.5)
     fireEvent.rateChange(video)
-    // YouTube-style: a choice keeps the menu open and returns to the main list
-    expect(screen.getByRole('menu', { name: 'Settings' })).toBeInTheDocument()
-    expect(screen.getByRole('menuitem', { name: /Speed/ })).toHaveTextContent('1.5×')
+    // a choice keeps the menu open on the same page, ticked in place
+    expect(screen.getByRole('menu', { name: 'Speed' })).toBeInTheDocument()
+    expect(screen.getByRole('menuitemradio', { name: '1.5×' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    )
+    fireEvent.click(screen.getByRole('menuitemradio', { name: '2×' })) // and another, same page
+    expect(video.playbackRate).toBe(2)
+    fireEvent.rateChange(video)
+    fireEvent.click(screen.getByRole('button', { name: 'Back to settings' }))
+    expect(screen.getByRole('menuitem', { name: /Speed/ })).toHaveTextContent('2×')
     fireEvent.click(gear) // the gear toggles it closed
     expect(screen.queryByRole('menu')).toBeNull()
     fireEvent.click(gear)
@@ -300,7 +308,7 @@ describe('VideoPlayer', () => {
     fireEvent.click(screen.getByRole('menuitem', { name: /Quality/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: '480p' })) // same → no change
     expect(onQualityChange).not.toHaveBeenCalled()
-    fireEvent.click(screen.getByRole('menuitem', { name: /Quality/ })) // still open, on the main list
+    // still open, still on the Quality page
     fireEvent.click(screen.getByRole('menuitemradio', { name: /^1080p/ }))
     expect(onQualityChange).toHaveBeenCalledWith({ src: '/1080.mp4', res: 1080 }, 0)
     expect(video.getAttribute('src')).toBe('/1080.mp4')
@@ -331,15 +339,11 @@ describe('VideoPlayer', () => {
     fireEvent.click(screen.getByRole('menuitem', { name: /Subtitles/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Español' }))
     await waitFor(() => expect(container.textContent).toContain('Shibuya, 23:40'))
-    const subtitles = () => fireEvent.click(screen.getByRole('menuitem', { name: /Subtitles/ }))
-    subtitles() // each choice returns to the main list
+    // each choice stays on the Subtitles page
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Broken' }))
     await act(async () => {})
-    subtitles()
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Off' }))
-    subtitles()
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'English' }))
-    subtitles()
     fireEvent.click(screen.getByRole('menuitem', { name: /Caption style/ }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Size: Large' }))
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Text color: Champagne' }))

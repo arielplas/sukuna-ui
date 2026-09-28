@@ -241,9 +241,10 @@ thumb `scale` (`duration-fast`, listed explicitly — rule 3); volume slider wid
 - **Quality**: switching remembers `currentTime` and play state, swaps `src`, restores both on the
   next `loadedmetadata`. `startTime` applies once on the first `loadedmetadata`.
 - **Settings menu** (`SettingsMenu`): paged `role="menu"` rendered inside the root (so it works in
-  fullscreen); rows link to pages, radio rows, chip groups. **Choosing never closes it**
-  (YouTube-style): a radio choice returns to the main list (loop choices stay on their page, which
-  mixes choices with actions), chips and actions stay put. Only the gear (toggle), an outside
+  fullscreen); rows link to pages, radio rows, chip groups. **Choosing never closes it or
+  leaves the page** (owner request, 0.9.2): the new value is ticked in place, so you can try 1.5×
+  then 2× without reopening; **Back** (or ArrowLeft) returns to the main list, whose rows show the
+  current values. Only the gear (toggle), an outside
   `pointerdown` / click on the video, or Escape (refocuses the gear) close it. Arrows move,
   ArrowLeft goes back. The context menu reuses it.
 - **Auto-hide**: one `setTimeout` (2500ms) restarted on pointer move, pointer down (every tap or

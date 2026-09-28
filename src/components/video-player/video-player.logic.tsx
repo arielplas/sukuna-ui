@@ -1448,7 +1448,6 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
         id: `l-${mode}`,
         label,
         checked: loop.mode === mode,
-        stay: true,
         onSelect: () => setLoop((l) => ({ ...l, mode })),
       })
       pages.loop = {
