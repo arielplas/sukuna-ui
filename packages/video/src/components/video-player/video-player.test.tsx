@@ -98,6 +98,7 @@ describe('VideoPlayer', () => {
       />,
     )
     expect(ref.current).toBeInstanceOf(HTMLVideoElement)
+    // An app's own (unprefixed) classes pass through untouched next to the player's `vp:` ones.
     expect(region().classList.contains('max-w-xl')).toBe(true)
     expect(screen.getByTestId('vid').tagName).toBe('VIDEO')
     expect(getVideo(container).hasAttribute('controls')).toBe(false)
@@ -350,9 +351,9 @@ describe('VideoPlayer', () => {
     fireEvent.click(screen.getByRole('menuitemradio', { name: 'Background: Outline' }))
     await waitFor(() => expect(container.textContent).toContain('Shibuya, 11:40'))
     const caption = screen.getByText('Shibuya, 11:40 p.m.')
-    expect(caption.classList.contains('text-2xl')).toBe(true)
-    expect(caption.classList.contains('text-premium')).toBe(true)
-    expect(caption.classList.contains('bg-transparent')).toBe(true)
+    expect(caption.classList.contains('vp:text-2xl')).toBe(true)
+    expect(caption.classList.contains('vp:text-premium')).toBe(true)
+    expect(caption.classList.contains('vp:bg-transparent')).toBe(true)
     video.currentTime = 7
     fireEvent.timeUpdate(video)
     expect(container.textContent).toContain('Last trains')
@@ -768,6 +769,8 @@ describe('VideoPlayer', () => {
       />,
     )
     expect(screen.getByText('Episode 1')).toBeInTheDocument()
+    // `info` is app content: outside the player's scoped reset (video.css `@scope … to`).
+    expect(screen.getByText('Episode 1').closest('[data-vp-content]')).not.toBeNull()
     expect(screen.getByRole('link', { name: 'Sukuna' })).toHaveAttribute(
       'href',
       'https://sukuna.test',
@@ -780,8 +783,8 @@ describe('VideoPlayer', () => {
     expect(screen.queryByRole('link')).toBeNull()
     second.unmount()
     render(<VideoPlayer aria-label="Clip" src="/v.mp4" aspectRatio="9/16" />)
-    expect(region().classList.contains('aspect-[9/16]')).toBe(true)
-    expect(region().querySelector('.font-display.text-lg')).toBeNull()
+    expect(region().classList.contains('vp:aspect-[9/16]')).toBe(true)
+    expect(region().querySelector('.vp\\:font-display.vp\\:text-lg')).toBeNull()
   })
 
   it('exposes state and actions to parts through useVideoPlayer', () => {

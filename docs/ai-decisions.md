@@ -9,6 +9,37 @@ agent's own calls. Newest first.
 
 ---
 
+## D35 — Standalone VideoPlayer: workspace layout, prefixed unlayered CSS, scoped reset
+
+- **Decision:** For Q27 (owner: share the player without sukuna-ui) the agent chose:
+  (1) **Layout** — Bun workspaces with publishable code only in `packages/*` (`ui` = `sukuna-ui`,
+  `video` = `@sukuna-ui/video`); docs, Storybook, shared `test/` + `scripts/`, examples stay at the
+  root. Changesets ignores a non-private workspace root, so the library had to move into
+  `packages/ui`. (2) `sukuna-ui` depends on `@sukuna-ui/video` with a plain range (`^0.0.0`,
+  bumped by Changesets), not `workspace:*`, because `changeset publish` runs `npm publish`, which
+  would ship `workspace:*` verbatim. (3) Dev resolves the package to source through root
+  `tsconfig` `paths` (+ Vite aliases in Storybook/showcase); each package's `tsconfig.build.json`
+  clears them so `.d.ts` keeps `@sukuna-ui/video` as an import. (4) Styling: every player class
+  is `vp:`-prefixed and compiled into a prebuilt `video.css` (Tailwind `prefix(vp)`), **unlayered**
+  so a host's global element CSS can't restyle the chrome, with a Preflight-style reset in
+  `@scope ([data-vp-root]) to ([data-vp-content])` at ≤ one-element specificity (utilities always
+  win; scope proximity beats a host's `button {}`). App content (overlay children, `info`,
+  watch-limit card) is wrapped in `display: contents` `[data-vp-content]` so it keeps host styles.
+  (5) `sukuna-ui` bundles `video.css` into its `theme.css` (`@import`) and `styles.css` (appended)
+  and bridges `--vp-*` from `--sk-*` on `[data-vp-root]`, so its consumers change nothing.
+  (6) The loading ring is inlined (no `Spinner` import) and the story-only `Button` became a local
+  `StoryButton`, to keep the package free of `sukuna-ui` (a test enforces it).
+- **Why:** The owner wanted the player in apps that don't use Sukuna. Verified by diffing every
+  element's computed style (29 stories × 2 states) against the pre-split Storybook — only baseline
+  timing noise and the new `contents` wrapper differ — and by `scripts/video-standalone-smoke.mjs`
+  (CI) on a page with hostile global CSS.
+- **Trade-off:** an app's own layered Tailwind class in the player's `className` no longer beats a
+  conflicting player utility (it used to, via tailwind-merge); overrides go through `--vp-*` or an
+  important modifier. Documented in the package README and the spec.
+- **Reverse:** Put the utilities back in `@layer utilities` (hosts regain `className` overrides but
+  global element CSS can leak in), or drop the prefix and ship source for consumers' Tailwind to
+  scan (needs Tailwind in every host again).
+
 ## D34 — Table actions column = static cells + a separate `RowActions`
 
 - **Decision:** Owner asked for "an actions column … options + icons in the options" (Q18). Built as

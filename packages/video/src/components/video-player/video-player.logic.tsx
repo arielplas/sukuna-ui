@@ -1331,8 +1331,8 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
             id: 'color',
             label: labels.textColor,
             options: [
-              chip('color', 'text', labels.white, 'var(--sk-text)'),
-              chip('color', 'premium', labels.champagne, 'var(--sk-premium)'),
+              chip('color', 'text', labels.white, 'var(--vp-color-text)'),
+              chip('color', 'premium', labels.champagne, 'var(--vp-color-premium)'),
             ],
           },
           {
@@ -1561,6 +1561,9 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
         aria-label={name}
         // biome-ignore lint/a11y/noNoninteractiveTabindex: focusable so hotkeys work after a click
         tabIndex={0}
+        // Scope of the stylesheet's reset + `--vp-*` hooks (video.css); sukuna-ui's theme uses it
+        // to feed the player from its `--sk-*` tokens.
+        data-vp-root=""
         data-theme="dark"
         data-controls={hidden ? 'hidden' : 'shown'}
         data-docked={docked ? '' : undefined}
@@ -1617,7 +1620,13 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
           <div className={s.top()}>
             <div className={s.titleWrap()}>
               {title ? <div className={s.title()}>{title}</div> : null}
-              {info ? <div className={s.info()}>{info}</div> : null}
+              {info ? (
+                <div className={s.info()}>
+                  <div data-vp-content="" className="vp:contents">
+                    {info}
+                  </div>
+                </div>
+              ) : null}
             </div>
             {features.share ? (
               <button
@@ -1770,7 +1779,10 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
 
         {limited && watchLimit ? (
           <div aria-live="polite" className={s.cover()}>
-            {watchLimit.content}
+            {/* App content: outside the player's scoped reset (video.css). */}
+            <div data-vp-content="" className="vp:contents">
+              {watchLimit.content}
+            </div>
           </div>
         ) : null}
 
@@ -2061,7 +2073,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
               <div className={s.menuHeadTitle()}>{labels.shortcuts}</div>
               <dl className={s.shortcutsGrid()}>
                 {labels.shortcutList(skipSeconds).map(([keys, what]) => (
-                  <div key={keys} className="contents">
+                  <div key={keys} className="vp:contents">
                     <dt className={s.kbd()}>{keys}</dt>
                     <dd>{what}</dd>
                   </div>

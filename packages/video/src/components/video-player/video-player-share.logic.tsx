@@ -135,7 +135,7 @@ export function VideoPlayerShare({ url, embed }: VideoPlayerShareProps) {
             </div>
           </>
         ) : null}
-        <span aria-live="polite" className="sr-only">
+        <span aria-live="polite" className="vp:sr-only">
           {copied ? labels.copied : ''}
         </span>
       </div>

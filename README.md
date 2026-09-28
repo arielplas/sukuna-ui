@@ -76,6 +76,21 @@ Precompiled and self-contained; tokens still overridable via `--sk-*` variables.
 Set `data-theme` on `<html>` (or any ancestor): `"dark"` (default/brand) or `"light"`. Override any
 token by redefining a `--sk-*` variable under your own selector — see [docs/tokens.md](docs/tokens.md).
 
+### Just the video player
+
+The `VideoPlayer` is also published on its own as
+[`@sukuna-ui/video`](packages/video#readme) — for apps that want the player without the rest of
+the library, Tailwind or the Sukuna theme:
+
+```tsx
+import '@sukuna-ui/video/video.css'   // prebuilt, prefixed — no Tailwind needed
+import { VideoPlayer } from '@sukuna-ui/video'
+```
+
+It keeps the Sukuna look by default and re-themes through `--vp-*` CSS variables. Inside a
+sukuna-ui app you don't need it separately: `sukuna-ui` re-exports it and its CSS already includes
+the player's.
+
 ## Components
 
 Every row links to that component's generated Markdown page (full API, variants, states, accessibility).

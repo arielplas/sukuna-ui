@@ -91,7 +91,10 @@ export function VideoPlayerOverlay({
 
   return (
     <section aria-label={ariaLabel} className={`${s.overlay()} ${chrome}`}>
-      {children}
+      {/* App content: outside the player's scoped reset (video.css). */}
+      <div data-vp-content="" className="vp:contents">
+        {children}
+      </div>
       {dismissible ? (
         <button
           type="button"

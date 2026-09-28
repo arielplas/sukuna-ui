@@ -51,10 +51,16 @@ const pkg = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')) as {
  * Components that live in their own workspace package and are re-exported by `sukuna-ui`
  * (Q27): package name → component directory (the docs name) and its source path in the repo.
  */
-const PACKAGE_COMPONENTS: Record<string, { name: string; source: string }> = {
+const PACKAGE_COMPONENTS: Record<
+  string,
+  { name: string; source: string; css: string; readme: string; theme: string }
+> = {
   '@sukuna-ui/video': {
     name: 'video-player',
     source: 'packages/video/src/components/video-player',
+    css: 'video.css',
+    readme: 'packages/video#readme',
+    theme: '`--vp-*` variables',
   },
 }
 
@@ -180,6 +186,16 @@ const KEEP: Record<number, string> = {
   8: 'Accessibility',
 }
 
+/** For a component that is also its own package: how to use it without sukuna-ui. */
+function standaloneLines(doc: ComponentDoc): string[] {
+  const entry = Object.entries(PACKAGE_COMPONENTS).find(([, p]) => p.name === doc.name)
+  if (!entry) return []
+  const [own, p] = entry
+  return [
+    `- **Standalone:** \`bun add ${own}\` — \`import { ${doc.exports.join(', ')} } from '${own}'\` + \`import '${own}/${p.css}'\` (no Tailwind or sukuna-ui needed; themed by ${p.theme} — see ${REPO_URL}/tree/main/${p.readme})`,
+  ]
+}
+
 function renderComponentPage(doc: ComponentDoc): string {
   const importLine = `import { ${doc.exports.join(', ')} } from '${pkg.name}'`
   const out: string[] = [
@@ -191,6 +207,7 @@ function renderComponentPage(doc: ComponentDoc): string {
     `- **Package:** \`${pkg.name}\` — \`bun add ${pkg.name}\` (or \`npm i ${pkg.name}\`)`,
     `- **Import:** \`${importLine}\``,
     `- **Styles:** \`@import "${pkg.name}/theme.css"\` (Tailwind v4) or \`import "${pkg.name}/styles.css"\` (no Tailwind) — see [Getting started](${RAW_URL}/llms.txt)`,
+    ...standaloneLines(doc),
     `- **Source:** ${REPO_URL}/tree/main/${sourcePath(doc.name)} · **Spec:** ${REPO_URL}/blob/main/docs/component-${doc.name}.md`,
     '',
   ]

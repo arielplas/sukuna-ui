@@ -56,7 +56,7 @@ const initials = (text: string) =>
  * @remarks
  * - The visualizer starts on the first play (browsers only allow an `AudioContext` after a user
  *   gesture) and stops while paused. Under `prefers-reduced-motion` it doesn't draw.
- * - Colors are read from the player's `--sk-accent` / `--sk-accent-deep` tokens at draw time.
+ * - Colors are read from the player's `--vp-color-accent` / `--vp-color-accent-deep` tokens at draw time.
  * - The art is decorative (`alt=""`); the title and artist are real text.
  *
  * @example
@@ -90,8 +90,8 @@ export function VideoPlayerAudio({ art, title, artist, visualizer = true }: Vide
     graph.ctx.resume().catch(() => {})
     const bins = new Uint8Array(graph.analyser.frequencyBinCount)
     const css = getComputedStyle(canvas)
-    const top = css.getPropertyValue('--sk-accent').trim()
-    const bottom = css.getPropertyValue('--sk-accent-deep').trim()
+    const top = css.getPropertyValue('--vp-color-accent').trim()
+    const bottom = css.getPropertyValue('--vp-color-accent-deep').trim()
     let frame = 0
     const draw = () => {
       const { width, height } = canvas

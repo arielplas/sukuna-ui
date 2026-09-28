@@ -396,6 +396,11 @@ Semver: phases 1, 2 and 4 are no-change for `sukuna-ui` consumers (patch). `@suk
 starts at `0.1.0`. Standalone consumers must import `@sukuna-ui/video/video.css`, which goes in
 its README.
 
+**Progress (2026-09-28, owner: "go start working non-stop").** Phases 1–4 are built on branch
+`docs/video-standalone-plan` (see the roadmap log). Before the first publish, two owner-only steps:
+approve or rename the `--vp-*` names (Q28), and create the `@sukuna-ui` scope on npm (org
+`sukuna-ui`) so `@sukuna-ui/video` can be published; `sukuna-ui` then depends on it.
+
 ---
 
 ## Q28. (Agent → owner) Approve the `--vp-*` variable set for `@sukuna-ui/video`?
@@ -407,30 +412,41 @@ later is a major bump for `@sukuna-ui/video`.
 
 | Variable | Default (Sukuna dark) | Used for |
 |---|---|---|
-| `--vp-accent` | `#FF3B4E` | progress, active items, focus ring |
-| `--vp-accent-deep` | `#B01221` | audio-mode backdrop + visualizer |
-| `--vp-accent-glow` | `rgba(255, 59, 78, 0.6)` | play-button, seek-thumb and edge glows |
-| `--vp-on-accent` | `#FFFFFF` | text/icons on accent |
+| `--vp-color-accent` | `#FF3B4E` | progress, active items, focus ring |
+| `--vp-color-accent-deep` | `#B01221` | audio-mode backdrop + visualizer |
+| `--vp-color-accent-glow` | `rgba(255, 59, 78, 0.6)` | play-button, seek-thumb and edge glows |
+| `--vp-color-on-accent` | `#FFFFFF` | text/icons on accent |
 | `--vp-gradient-accent` | `linear-gradient(135deg, #D8253A, #B01221)` | big play button, action buttons, audio art |
-| `--vp-premium` | `#E8DCC4` | loop A–B range, "champagne" caption colour |
-| `--vp-well` | `#000000` | player background, thumbnails, scrims |
-| `--vp-surface` | `#141416` | menus, toasts, panels (at 95%) |
-| `--vp-surface-2` | `#1C1C20` | inputs, audio art frame |
-| `--vp-line` | `rgba(255, 255, 255, 0.1)` | borders |
-| `--vp-line-soft` | `rgba(255, 255, 255, 0.06)` | dividers, rail tracks |
-| `--vp-text` | `#F4F1EC` | primary text/icons |
-| `--vp-text-dim` | `#9A948A` | time, secondary labels |
+| `--vp-color-premium` | `#E8DCC4` | loop A–B range, "champagne" caption colour |
+| `--vp-color-well` | `#000000` | player background, thumbnails, scrims |
+| `--vp-color-surface` | `#141416` | menus, toasts, panels (at 95%) |
+| `--vp-color-surface-2` | `#1C1C20` | inputs, audio art frame |
+| `--vp-color-line` | `rgba(255, 255, 255, 0.1)` | borders |
+| `--vp-color-line-soft` | `rgba(255, 255, 255, 0.06)` | dividers, rail tracks |
+| `--vp-color-text` | `#F4F1EC` | primary text/icons |
+| `--vp-color-text-dim` | `#9A948A` | time, secondary labels |
 | `--vp-font-sans` | system stack (`-apple-system, …, sans-serif`) | UI text |
-| `--vp-font-display` | `"Archivo", var(--vp-font-sans)` | titles, big numbers |
+| `--vp-font-display` | `"Archivo"` + the sans stack | titles, big numbers |
 | `--vp-font-mono` | Tailwind default mono stack (`ui-monospace, SFMono-Regular, …`); Sukuna has no mono token today | embed-code box, hotkey keys |
 | `--vp-radius-sm` / `-md` / `-lg` / `-pill` | `8px` / `12px` / `16px` / `999px` | controls / menus / player / pills |
-| `--vp-shadow` | `0 30px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06)` | player, menus, tooltips |
+| `--vp-shadow-card` | `0 30px 60px -24px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.06)` | player, menus, tooltips (compiled in; not runtime-overridable) |
+| `--vp-color-focus-ring`, `--vp-color-text-faint`, `--vp-color-bg` | `#FF3B4E`, `#8C8479`, `#0A0A0B` | focus ring, faint text, end-screen backdrop |
+| `--vp-text-xs` … `--vp-text-3xl` | `11px` … `34px` | type scale |
+| `--vp-leading-*`, `--vp-tracking-*`, `--vp-duration-*`, `--vp-ease-sukuna` | Sukuna values | line height, letter spacing, motion |
 
 Inside `sukuna-ui`, `theme.css` sets these from the dark `--sk-*` tokens, scoped to the player
 root and not `:root`, so the player stays on the dark palette in light apps, as now. A custom
 Sukuna accent then flows into the player automatically.
 
-**Status:** waiting on owner (blocks phase 3 of Q27 only).
+**Update (phase 3 built, 2026-09-28).** Colours are named `--vp-color-*` rather than the first
+proposal's `--vp-accent`: the stylesheet is built with Tailwind `prefix(vp)`, which emits every theme
+value as `--vp-<namespace>-<name>` (`--color-accent` → `--vp-color-accent`, `--radius-lg` →
+`--vp-radius-lg`). Using those names directly needs no glue layer and can't collide. Values are
+unchanged (Sukuna dark). Implemented with a `// DECISION(open): Q28` note in
+`packages/video/src/styles/video.css`; renaming before the first publish is free.
+
+**Status:** waiting on owner — approve these names/values (or rename) before `@sukuna-ui/video`
+is first published.
 
 ---
 
@@ -470,4 +486,4 @@ Sukuna accent then flows into the player automatically.
 | Q14 | Confirm Counter's SSR-final-value strategy and defaults (1200ms, easeOutCubic)? | Spec written; non-blocking, sensible defaults. |
 | Q25 | `sk-ticker` keyframe + `animate-ticker` utility for the VideoPlayer news-ticker overlay? | Proposed; blocks only the ticker variant. |
 | Q26 | Next VideoPlayer SDK adapter (dash.js, IMA/VAST ads, Cast, three.js VR) — each a separate optional peer? | Waiting; hls.js shipped. |
-| Q28 | Approve the `--vp-*` variable set (names + Sukuna-dark defaults) for `@sukuna-ui/video`? | Proposed in Q28; blocks only phase 3 of the split (Q27). |
+| Q28 | Approve the `--vp-*` variable set (names + Sukuna-dark defaults) for `@sukuna-ui/video`? | Built behind `DECISION(open)` as `--vp-color-*` etc.; needs a yes (or renames) before the first publish. |

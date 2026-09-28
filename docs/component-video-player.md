@@ -6,6 +6,11 @@
 > so seek, volume and the settings menu are small in-house controls. **Status: approved (Q21–Q23);
 > W1 (core), W2 (parts), W3 (tools) and the W4 engine seam + hls.js adapter shipped; other SDK adapters wait on per-dependency approval (Q26).** Interactive design mockup:
 > https://claude.ai/artifact/YEbDARw4mUAPviuEnRDBzv (v2).
+> **Standalone (Q27):** the player is its own package, `@sukuna-ui/video` (`packages/video`), with
+> no dependency on `sukuna-ui` and a prebuilt, prefixed stylesheet (`@sukuna-ui/video/video.css`)
+> themed by `--vp-*` variables. `sukuna-ui` depends on it and re-exports every name (and
+> `sukuna-ui/video/hls`), so both `import { VideoPlayer } from 'sukuna-ui'` and
+> `from '@sukuna-ui/video'` work.
 > Scope source: a scout of nuevodevel.com (Nuevo plugin for Video.js, ~80 demos) — full parity map
 > in **Appendix A**, delivery waves in **Appendix B**.
 
@@ -29,7 +34,7 @@ Three tiers keep that from becoming one heavy component:
 ## 2. Files
 
 ```
-packages/ui/src/components/video-player/
+packages/video/src/components/video-player/
 ├── video-player.styles.tsx    # tv() slots + variants. Pure. Server-safe.
 ├── video-player.logic.tsx     # 'use client' — VideoPlayer: media state, hotkeys, auto-hide, menus, a11y
 ├── video-player.controls.tsx  # 'use client' — SeekBar (segments + preview), VolumeSlider, SettingsMenu
@@ -48,9 +53,9 @@ Parts live in the same folder (they only work inside a `VideoPlayer`):
 `video-player-parts.styles.tsx`, tests in `video-player-parts.test.tsx` (W2) and
 `video-player-w3.test.tsx` (W3). Each part is its own module, so an app that imports only
 `VideoPlayer` never loads them.
-W4 adapters get their own subpath entries, SDK as an optional peer: `packages/ui/src/video/hls.ts` →
-`sukuna-ui/video/hls` (hls.js `>=1.5`, `peerDependenciesMeta.optional`, `typesVersions` for legacy
-`node10` resolution), tested with a mocked hls.js in `packages/ui/src/video/hls.test.ts`. The HLS fixture is
+W4 adapters get their own subpath entries, SDK as an optional peer: `packages/video/src/hls.ts` →
+`@sukuna-ui/video/hls` (re-exported as `sukuna-ui/video/hls`) (hls.js `>=1.5`, `peerDependenciesMeta.optional`, `typesVersions` for legacy
+`node10` resolution), tested with a mocked hls.js in `packages/video/src/hls.test.ts`. The HLS fixture is
 `.storybook/public/video/hls/` (VP9 + Opus fMP4, 360p + 180p) — Playwright's Chromium has no H.264.
 
 ## 3. API
@@ -272,8 +277,22 @@ variants `aspectRatio`, `fullscreen`, `hot` (hovered chapter segment), `captionS
 `captionColor` (text/premium), `captionBg` (solid/soft/none). Hidden-controls rules are the literal
 `group-data-[controls=hidden]/vp:opacity-0 …` on each fading slot; compact rules are literal
 `@max-[30rem]:` container variants. Played/buffered widths, the preview offset and sprite position
-are inline positional styles (like Carousel's `translateX`). Colors only via `--sk-*` utilities;
+are inline positional styles (like Carousel's `translateX`). Colors only via theme utilities;
 opacity modifiers (`bg-well/85`) on tokens, never raw hex.
+
+**Standalone stylesheet (Q27).** Every class is written with the `vp:` prefix (`vp:bg-accent`,
+`vp:group-data-[controls=hidden]/vp:opacity-0`) and `tv()` merges with `prefix: 'vp'`.
+`packages/video/src/styles/video.css` is the Tailwind source (`prefix(vp)`, `@theme static` with the
+Sukuna dark values, `@source ../components`); `bun run css:build` compiles it to `dist/video.css`
+(~7 kB brotli). Tailwind emits the theme as `--vp-*` custom properties on `:root`
+(`--vp-color-accent`, `--vp-radius-lg`, `--vp-font-sans`, `--vp-text-md`, …), which is the
+re-theming surface. The CSS is **unlayered** so a host's global element rules can't restyle the
+chrome, with a Preflight-style reset in `@scope ([data-vp-root]) to ([data-vp-content])` at zero or
+one-element specificity: every utility beats it, and scope proximity beats a host's `button {}`.
+App content the player renders (overlay children, `info`, the watch-limit card) sits in a
+`display: contents` `[data-vp-content]` wrapper, outside the reset, so it keeps the host's styles.
+`sukuna-ui` ships the same file inside `theme.css` (`@import`) and `styles.css` (appended) and adds a
+`[data-vp-root] { --vp-*: var(--sk-*) }` bridge so an app's Sukuna palette reaches the player.
 
 ## 8. Accessibility checklist
 
@@ -402,6 +421,11 @@ window), `Overlays`, `AudioMode`. W4: `HlsStream` (`hlsEngine()` + the HLS fixtu
 - **One gear menu** holds quality, speed, captions, caption style, picture, sleep timer, loop,
   snapshot and download (Nuevo splits these into several buttons); each row shows its current value.
 - **Settings and panels live inside the root** (portal target = root) so they work in fullscreen.
+- **Standalone package + prefixed, unlayered CSS** (Q27): shareable without sukuna-ui or Tailwind;
+  verified by diffing every element's computed style against the pre-split Storybook and by
+  `scripts/video-standalone-smoke.mjs` on a page with hostile global CSS. Trade-off: an app's own
+  (layered) Tailwind classes passed in `className` no longer override a conflicting player utility —
+  use the `--vp-*` variables or an important modifier (`rounded-none!`).
 
 ## Appendix A. Nuevo parity map
 

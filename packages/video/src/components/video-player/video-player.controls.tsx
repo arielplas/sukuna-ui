@@ -386,7 +386,7 @@ export function SettingsMenu({
               role="menuitemradio"
               aria-checked={row.checked}
               data-menu-item=""
-              className={`group/item ${styles.menuItem()}`}
+              className={`vp:group/item ${styles.menuItem()}`}
               onClick={row.onSelect}
             >
               <span className={styles.menuTick()}>
@@ -429,7 +429,7 @@ export function SettingsMenu({
               role="menuitemcheckbox"
               aria-checked={row.checked}
               data-menu-item=""
-              className={`group/item ${styles.menuItem()}`}
+              className={`vp:group/item ${styles.menuItem()}`}
               onClick={row.onToggle}
             >
               {row.icon}

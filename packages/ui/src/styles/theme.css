@@ -169,6 +169,54 @@
   --ease-spring: var(--sk-ease-spring);
 }
 
+/*
+ * VideoPlayer (@sukuna-ui/video): the player brings its own stylesheet and `--vp-*` theme. Feed
+ * that theme from the Sukuna tokens so an app's palette reaches it; the player root pins
+ * data-theme="dark", so these resolve to the dark values.
+ */
+[data-vp-root] {
+  --vp-color-bg: var(--sk-bg);
+  --vp-color-surface: var(--sk-surface);
+  --vp-color-surface-2: var(--sk-surface-2);
+  --vp-color-well: var(--sk-well);
+  --vp-color-line: var(--sk-line);
+  --vp-color-line-soft: var(--sk-line-soft);
+  --vp-color-accent: var(--sk-accent);
+  --vp-color-accent-deep: var(--sk-accent-deep);
+  --vp-color-accent-glow: var(--sk-accent-glow);
+  --vp-color-focus-ring: var(--sk-focus-ring);
+  --vp-color-on-accent: var(--sk-on-accent);
+  --vp-color-premium: var(--sk-premium);
+  --vp-color-premium-dim: var(--sk-premium-dim);
+  --vp-color-text: var(--sk-text);
+  --vp-color-text-dim: var(--sk-text-dim);
+  --vp-color-text-faint: var(--sk-text-faint);
+  --vp-color-success: var(--sk-success);
+  --vp-gradient-accent: var(--sk-gradient-accent);
+  --vp-font-sans: var(--sk-font-sans);
+  --vp-font-display: var(--sk-font-display);
+  --vp-text-xs: var(--sk-text-xs);
+  --vp-text-sm: var(--sk-text-sm);
+  --vp-text-md: var(--sk-text-md);
+  --vp-text-lg: var(--sk-text-lg);
+  --vp-text-xl: var(--sk-text-xl);
+  --vp-text-2xl: var(--sk-text-2xl);
+  --vp-text-3xl: var(--sk-text-3xl);
+  --vp-leading-tight: var(--sk-leading-tight);
+  --vp-leading-normal: var(--sk-leading-normal);
+  --vp-tracking-tight: var(--sk-tracking-tight);
+  --vp-tracking-normal: var(--sk-tracking-normal);
+  --vp-tracking-eyebrow: var(--sk-tracking-eyebrow);
+  --vp-radius-sm: var(--sk-radius-sm);
+  --vp-radius-md: var(--sk-radius-md);
+  --vp-radius-lg: var(--sk-radius-lg);
+  --vp-radius-pill: var(--sk-radius-pill);
+  --vp-duration-fast: var(--sk-duration-fast);
+  --vp-duration-base: var(--sk-duration-base);
+  --vp-duration-slow: var(--sk-duration-slow);
+  --vp-ease-sukuna: var(--sk-ease);
+}
+
 @utility bg-gradient-accent {
   background-image: var(--sk-gradient-accent);
 }

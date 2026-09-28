@@ -168,9 +168,35 @@ const themeInline = [
   `${INDENT}--ease-spring: var(--sk-ease-spring);`,
 ].join('\n')
 
+// The VideoPlayer ships its own prefixed stylesheet and `--vp-*` theme (@sukuna-ui/video, Q27).
+/** `--vp-<tw>: var(--sk-<sk>)` line feeding the player's theme from a Sukuna token. */
+const vpGroup = (vpPrefix: string, keys: string[], skPrefix = vpPrefix) =>
+  keys.map((k) => `${INDENT}--vp-${vpPrefix}${k}: var(--sk-${skPrefix}${k});`).join('\n')
+
+const videoPlayerBridge = [
+  vpGroup('color-', colorKeys, ''),
+  `${INDENT}--vp-gradient-accent: var(--sk-gradient-accent);`,
+  vpGroup('font-', Object.keys(fonts)),
+  vpGroup('text-', Object.keys(fontSizes)),
+  vpGroup('leading-', Object.keys(leading)),
+  vpGroup('tracking-', Object.keys(tracking)),
+  vpGroup('radius-', Object.keys(radius)),
+  vpGroup('duration-', Object.keys(motion.duration)),
+  `${INDENT}--vp-ease-sukuna: var(--sk-ease);`,
+].join('\n')
+
 const themeCss = `${header}${paletteCss}
 @theme inline {
 ${themeInline}
+}
+
+/*
+ * VideoPlayer (@sukuna-ui/video): the player brings its own stylesheet and \`--vp-*\` theme. Feed
+ * that theme from the Sukuna tokens so an app's palette reaches it; the player root pins
+ * data-theme="dark", so these resolve to the dark values.
+ */
+[data-vp-root] {
+${videoPlayerBridge}
 }
 
 @utility bg-gradient-accent {

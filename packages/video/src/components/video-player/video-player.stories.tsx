@@ -139,14 +139,12 @@ export const Compact: Story = {
   ],
 }
 
-/** The chrome keeps the dark palette inside a light page. */
+/** The chrome keeps the dark palette inside a light page (a light host with its own colours). */
 export const LightAppContext: Story = {
   decorators: [
     (Story) => (
-      <div data-theme="light" style={{ background: 'var(--sk-bg)', padding: 16, borderRadius: 16 }}>
-        <p
-          style={{ color: 'var(--sk-text)', fontFamily: 'var(--sk-font-display)', fontWeight: 700 }}
-        >
+      <div data-theme="light" style={{ background: '#FAF9F5', padding: 16, borderRadius: 16 }}>
+        <p style={{ color: '#141413', fontFamily: 'var(--vp-font-display)', fontWeight: 700 }}>
           Episode 3 · Lesson notes
         </p>
         <Story />
@@ -197,8 +195,8 @@ function ChapterBadge() {
         left: 20,
         padding: '4px 10px',
         borderRadius: 8,
-        background: 'var(--sk-surface-2)',
-        border: '1px solid var(--sk-line)',
+        background: 'var(--vp-color-surface-2)',
+        border: '1px solid var(--vp-color-line)',
         fontSize: 12,
       }}
     >
@@ -345,7 +343,9 @@ export const Floating: Story = {
   render: (args) => (
     <div style={{ display: 'grid', gap: 16 }}>
       <VideoPlayer {...args} floating />
-      <div style={{ height: 1600, color: 'var(--sk-text-dim)' }}>Scroll down while it plays…</div>
+      <div style={{ height: 1600, color: 'var(--vp-color-text-dim)' }}>
+        Scroll down while it plays…
+      </div>
     </div>
   ),
 }
@@ -384,10 +384,10 @@ export const WatchLimit: Story = {
       seconds: 10,
       content: (
         <div style={{ display: 'grid', gap: 12, justifyItems: 'center', textAlign: 'center' }}>
-          <strong style={{ fontFamily: 'var(--sk-font-display)', fontSize: 18 }}>
+          <strong style={{ fontFamily: 'var(--vp-font-display)', fontSize: 18 }}>
             Your free preview ended
           </strong>
-          <span style={{ color: 'var(--sk-text-dim)' }}>Start a trial to keep watching.</span>
+          <span style={{ color: 'var(--vp-color-text-dim)' }}>Start a trial to keep watching.</span>
           <StoryButton primary>Start 7-day free trial</StoryButton>
         </div>
       ),
@@ -410,7 +410,9 @@ export const Overlays: Story = {
       <VideoPlayerOverlay aria-label="Tour offer" start={3} end={12} dismissible>
         <div style={{ display: 'grid', gap: 8 }}>
           <strong>Night food walk</strong>
-          <span style={{ color: 'var(--sk-text-dim)' }}>Book this route with a local guide.</span>
+          <span style={{ color: 'var(--vp-color-text-dim)' }}>
+            Book this route with a local guide.
+          </span>
           <StoryButton>See tours</StoryButton>
         </div>
       </VideoPlayerOverlay>

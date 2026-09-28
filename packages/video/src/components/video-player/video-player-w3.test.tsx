@@ -289,6 +289,10 @@ describe('VideoPlayer watch limit', () => {
     video.currentTime = 30
     fireEvent.timeUpdate(video)
     expect(screen.getByText('Subscribe to keep watching')).toBeInTheDocument()
+    // App content sits outside the player's scoped reset (video.css `@scope … to`).
+    expect(
+      screen.getByText('Subscribe to keep watching').closest('[data-vp-content]'),
+    ).not.toBeNull()
     expect(pause).toHaveBeenCalled()
     fireEvent.pause(video) // what the real element fires after pause()
     play.mockClear()
@@ -360,7 +364,9 @@ describe('VideoPlayerOverlay', () => {
     video.currentTime = 12
     fireEvent.timeUpdate(video)
     const card = screen.getByRole('region', { name: 'Tour offer' })
-    expect(card.classList.contains('top-16')).toBe(true)
+    expect(card.classList.contains('vp:top-16')).toBe(true)
+    expect(card.closest('[data-vp-root]')).not.toBeNull()
+    expect(within(card).getByText('Book a guide').closest('[data-vp-content]')).not.toBeNull()
     await expectAccessible(container)
     fireEvent.click(within(card).getByRole('button', { name: 'Close' }))
     expect(screen.queryByRole('region', { name: 'Tour offer' })).toBeNull()
@@ -378,12 +384,14 @@ describe('VideoPlayerOverlay', () => {
         </VideoPlayerOverlay>
       </>,
     )
-    expect(screen.getByRole('region', { name: 'Mark' }).classList.contains('left-1/2')).toBe(true)
+    expect(screen.getByRole('region', { name: 'Mark' }).classList.contains('vp:left-1/2')).toBe(
+      true,
+    )
     expect(screen.queryByRole('region', { name: 'Sponsor' })).toBeNull() // not started
     fireEvent.play(video)
     expect(screen.queryByRole('region', { name: 'Sponsor' })).toBeNull() // playing
     fireEvent.pause(video)
-    expect(screen.getByRole('region', { name: 'Sponsor' }).classList.contains('inset-x-0')).toBe(
+    expect(screen.getByRole('region', { name: 'Sponsor' }).classList.contains('vp:inset-x-0')).toBe(
       true,
     )
   })

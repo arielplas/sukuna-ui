@@ -6,5 +6,3 @@
 @import "tailwindcss";
 @import "./theme.css";
 @source "../components";
-/* The VideoPlayer lives in its own workspace package (Q27). */
-@source "../../../video/src/components";

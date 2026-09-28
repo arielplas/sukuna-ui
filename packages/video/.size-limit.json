@@ -33,5 +33,11 @@
     "import": "{ hlsEngine }",
     "limit": "1 kB",
     "ignore": ["hls.js"]
+  },
+  {
+    "name": "video.css (prebuilt: prefixed utilities + --vp-* theme + scoped reset)",
+    "path": "dist/video.css",
+    "limit": "8 kB",
+    "rolldown": false
   }
 ]

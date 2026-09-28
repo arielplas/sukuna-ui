@@ -6,6 +6,7 @@
 - **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
 - **Import:** `import { useVideoPlayer, VideoPlayer, VideoPlayerAudio, VideoPlayerEndScreen, VideoPlayerOverlay, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerShare, VideoPlayerSkip, VideoPlayerUpNext } from 'sukuna-ui'`
 - **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
+- **Standalone:** `bun add @sukuna-ui/video` — `import { useVideoPlayer, VideoPlayer, VideoPlayerAudio, VideoPlayerEndScreen, VideoPlayerOverlay, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerShare, VideoPlayerSkip, VideoPlayerUpNext } from '@sukuna-ui/video'` + `import '@sukuna-ui/video/video.css'` (no Tailwind or sukuna-ui needed; themed by `--vp-*` variables — see https://github.com/arielplas/sukuna-ui/tree/main/packages/video#readme)
 - **Source:** https://github.com/arielplas/sukuna-ui/tree/main/packages/video/src/components/video-player · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-video-player.md
 
 ## Purpose
