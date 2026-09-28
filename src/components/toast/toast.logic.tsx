@@ -1,6 +1,6 @@
 'use client'
 
-import { Toast as Base } from '@base-ui-components/react/toast'
+import { Toast as Base } from '@base-ui/react/toast'
 import type { ReactNode } from 'react'
 import { toastStyles } from './toast.styles'
 
@@ -16,11 +16,13 @@ function ToastList() {
   const styles = toastStyles()
   return toasts.map((toast) => (
     <Base.Root key={toast.id} toast={toast} className={styles.root()}>
-      <Base.Title className={styles.title()} />
-      <Base.Description className={styles.description()} />
-      <Base.Close aria-label="Close" className={styles.close()}>
-        <CloseIcon />
-      </Base.Close>
+      <Base.Content className={styles.content()}>
+        <Base.Title className={styles.title()} />
+        <Base.Description className={styles.description()} />
+        <Base.Close aria-label="Close" className={styles.close()}>
+          <CloseIcon />
+        </Base.Close>
+      </Base.Content>
     </Base.Root>
   ))
 }
@@ -53,6 +55,9 @@ export interface ToastProviderProps {
  *   `aria-label="Close"`; auto-dismiss pauses while hovered or focused, and `Escape` closes.
  * - Stacking: the viewport (bottom-right, `w-80`) sits at `--sk-z-toast` (70), above dialogs
  *   (50) and popovers (60) and below tooltips (80).
+ * - Motion: toasts stack as a deck (older ones peek above the newest, scaled down), fan out while
+ *   the stack is hovered or focused, and can be swiped right/down to dismiss. CSS-only; under
+ *   `prefers-reduced-motion` they appear and leave without sliding.
  * - Each toast renders a title, an optional description and a close icon; there are no
  *   variants or action buttons in v1 (`ToastOptions.type` is exposed for styling hooks only).
  *

@@ -45,6 +45,8 @@ text tokens).
 
 closed · open at cursor (positioned popup) · item highlighted (pointer/keyboard) · disabled item.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the opening side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="menu"`/`menuitem`; opens on `contextmenu` event and on long-press (touch).

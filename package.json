@@ -1,7 +1,7 @@
 {
   "name": "sukuna-ui",
   "version": "0.8.0",
-  "description": "SSR-safe, accessible React component library — 30 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).",
+  "description": "SSR-safe, accessible React component library — 46 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).",
   "type": "module",
   "license": "MIT",
   "author": "arielplas (https://github.com/arielplas)",
@@ -57,6 +57,16 @@
         "default": "./dist/index.cjs"
       }
     },
+    "./video/hls": {
+      "import": {
+        "types": "./dist/video/hls.d.ts",
+        "default": "./dist/video/hls.js"
+      },
+      "require": {
+        "types": "./dist/video/hls.d.cts",
+        "default": "./dist/video/hls.cjs"
+      }
+    },
     "./theme.css": "./dist/theme.css",
     "./styles.css": "./dist/styles.css",
     "./tokens.css": "./dist/tokens.css",
@@ -65,6 +75,13 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "video/hls": [
+        "./dist/video/hls.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "build": "bun run tokens:build && NODE_OPTIONS=\"--max-old-space-size=8192\" tsup && bun run scripts/fix-directives.ts && bun run css:build && bun run docs:build",
     "tokens:build": "bun run scripts/build-tokens.ts",
@@ -90,10 +107,14 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18",
-    "tailwindcss": ">=4"
+    "tailwindcss": ">=4",
+    "hls.js": ">=1.5"
   },
   "peerDependenciesMeta": {
     "tailwindcss": {
+      "optional": true
+    },
+    "hls.js": {
       "optional": true
     }
   },
@@ -118,6 +139,7 @@
     "@types/react-dom": "^19.0.0",
     "axe-core": "^4.13.0",
     "esbuild-plugin-preserve-directives": "^0.0.11",
+    "hls.js": "^1.7.3",
     "jest-axe": "^11.0.0",
     "playwright": "^1.63.0",
     "publint": "^0.3.0",
@@ -139,7 +161,7 @@
     "provenance": true
   },
   "dependencies": {
-    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@base-ui/react": "^1.8.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.7.0",
     "tailwind-variants": "^3.3.1"

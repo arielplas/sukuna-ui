@@ -59,6 +59,49 @@ describe('Table', () => {
     expect(wrapper?.classList.contains('overflow-x-auto')).toBe(true)
   })
 
+  it('actions column: a hidden "Actions" header name and a narrow right-aligned cell', () => {
+    render(
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell scope="col">Name</Table.HeaderCell>
+            <Table.ActionsHeaderCell scope="col" className="pr-4" />
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>Ariel</Table.Cell>
+            <Table.ActionsCell className="pr-4">
+              <button type="button">⋯</button>
+            </Table.ActionsCell>
+          </Table.Row>
+        </Table.Body>
+      </Table>,
+    )
+    const header = screen.getByRole('columnheader', { name: 'Actions' })
+    expect(header.querySelector('.sr-only')).not.toBeNull()
+    expect(header.classList.contains('w-px')).toBe(true)
+    expect(header.classList.contains('pr-4')).toBe(true)
+    const cell = screen.getByRole('button', { name: '⋯' }).parentElement as HTMLElement
+    expect(cell.tagName).toBe('TD')
+    expect(cell.classList.contains('text-right')).toBe(true)
+    expect(cell.classList.contains('pr-4')).toBe(true)
+  })
+
+  it('actions header shows custom children instead of the hidden label', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <Table.ActionsHeaderCell>Manage</Table.ActionsHeaderCell>
+          </tr>
+        </thead>
+      </table>,
+    )
+    const header = screen.getByRole('columnheader', { name: 'Manage' })
+    expect(header.querySelector('.sr-only')).toBeNull()
+  })
+
   it('renders on the server', () => {
     expect(renderServer(<Example />)).toContain('<table')
   })

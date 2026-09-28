@@ -49,6 +49,25 @@ function Cell({ className, ...rest }: ComponentPropsWithoutRef<'td'>) {
 }
 
 /** Props for {@link Table}: exactly the native `<table>` attributes (no extra props). */
+/**
+ * Header cell for the actions column. With no children it renders a visually hidden "Actions"
+ * label, so the column keeps an accessible name without visible text.
+ */
+function ActionsHeaderCell({ className, children, ...rest }: ComponentPropsWithoutRef<'th'>) {
+  return (
+    <th
+      className={styles.headerCell({ className: styles.actionsHeaderCell({ className }) })}
+      {...rest}
+    >
+      {children ?? <span className="sr-only">Actions</span>}
+    </th>
+  )
+}
+/** Data cell for the actions column: shrinks to its content and right-aligns a `RowActions`. */
+function ActionsCell({ className, ...rest }: ComponentPropsWithoutRef<'td'>) {
+  return <td className={styles.cell({ className: styles.actionsCell({ className }) })} {...rest} />
+}
+
 export type TableProps = ComponentPropsWithoutRef<'table'>
 
 /**
@@ -68,6 +87,27 @@ export type TableProps = ComponentPropsWithoutRef<'table'>
  * - Behaviour: renders every row you pass — no sorting, selection, virtualization or paging.
  *   Beyond a few hundred rows, paginate (compose with `Pagination`) or use a data grid.
  *   `data-interactive` on a `Table.Row` opts that row into a hover background.
+ * - Actions column (v1.3): `Table.ActionsHeaderCell` (visually hidden "Actions" name by default)
+ *   and `Table.ActionsCell` (narrow, right-aligned) hold a `RowActions` ⋯ menu per row. The menu
+ *   lives in `RowActions`, so `Table` itself stays static and Base-UI-free.
+ *
+ * @example
+ * ```tsx
+ * import { RowActions, Table } from 'sukuna-ui'
+ *
+ * <Table.Row>
+ *   <Table.Cell>Invoice #42</Table.Cell>
+ *   <Table.ActionsCell>
+ *     <RowActions
+ *       aria-label="Actions for invoice #42"
+ *       items={[
+ *         { label: 'Edit', icon: <PencilIcon />, onSelect: edit },
+ *         { label: 'Delete', icon: <TrashIcon />, onSelect: remove },
+ *       ]}
+ *     />
+ *   </Table.ActionsCell>
+ * </Table.Row>
+ * ```
  *
  * @example
  * ```tsx
@@ -98,4 +138,12 @@ export type TableProps = ComponentPropsWithoutRef<'table'>
  * </Table>
  * ```
  */
-export const Table = Object.assign(TableRoot, { Header, Body, Row, HeaderCell, Cell })
+export const Table = Object.assign(TableRoot, {
+  Header,
+  Body,
+  Row,
+  HeaderCell,
+  Cell,
+  ActionsHeaderCell,
+  ActionsCell,
+})

@@ -1,6 +1,6 @@
 'use client'
 
-import { PreviewCard as Base } from '@base-ui-components/react/preview-card'
+import { PreviewCard as Base } from '@base-ui/react/preview-card'
 import type { ComponentProps, ComponentPropsWithoutRef, ReactNode } from 'react'
 import { hoverCardStyles } from './hover-card.styles'
 

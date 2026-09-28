@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog as Base } from '@base-ui-components/react/dialog'
+import { Dialog as Base } from '@base-ui/react/dialog'
 import type { ComponentProps, ComponentPropsWithoutRef, ReactElement, ReactNode } from 'react'
 import { dialogStyles } from './dialog.styles'
 

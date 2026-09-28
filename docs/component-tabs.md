@@ -29,16 +29,28 @@ export interface TabsProps {
   defaultValue?: string
   onValueChange?: (value: string) => void
   'aria-label'?: string
+  orientation?: 'horizontal' | 'vertical'   // v1.3 — default 'horizontal'
 }
 ```
+
+**Vertical (v1.3).** `orientation="vertical"` stacks the tabs in a left-hand column beside the
+panel — settings pages, docs sections, sidebar navigation. Base UI switches the keys to
+ArrowUp/ArrowDown and sets `aria-orientation="vertical"` on the tablist. Labels can hold an
+icon + text (`gap-2`).
 
 ## 4. Variants → tokens
 
 list: `flex border-b border-line`. tab: `h-10 px-3 text-sm font-medium text-text-dim border-b-2 border-transparent -mb-px hover:text-text data-[selected]:text-text data-[selected]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow`. panel: `pt-4 text-text`.
 
+Vertical: root `flex items-start gap-6`; list `flex-col shrink-0 min-w-44 border-r border-line`;
+tab `w-full justify-start h-9 border-r-2 -mr-px rounded-l-sm`, selected also `bg-surface-2`;
+panel `flex-1 min-w-0 pt-0`. Horizontal keeps the bottom underline (`border-b-2 -mb-px`).
+
 ## 5. States
 
 tab: default · hover · selected (accent underline) · focus-visible · disabled.
+
+**Motion (v1.3, `docs/motion.md`):** the selected underline (vertical: right-edge bar) is a Base UI `Tabs.Indicator` that slides to the new tab (`ease-spring`, `duration-base`); the tab draws its own border until the indicator is measured (no-JS/SSR). Reduced motion: instant.
 
 ## 6. Logic (`tabs.logic.tsx`)
 
@@ -47,24 +59,27 @@ tab: default · hover · selected (accent underline) · focus-visible · disable
 
 ## 7. Styles
 
-`tv()` `slots` (no variants). Horizontal only in v1 (see Decisions).
+`tv()` `slots` + an `orientation` variant (`horizontal` default, `vertical`).
 
 ## 8. Accessibility checklist
 
 - [ ] `role="tablist"`/`tab`/`tabpanel` wired by Base UI; give the list an `aria-label`.
-- [ ] Arrow keys move between tabs; Tab key moves to the panel.
+- [ ] Arrow keys move between tabs (Left/Right horizontal, Up/Down vertical); Tab key moves to the panel.
+- [ ] Vertical: tablist carries `aria-orientation="vertical"`.
 - [ ] Selected tab is distinguishable by more than color (underline + text weight).
 
 ## 9. Tests
 
 **Unit:** renders tabs + active panel; clicking a tab switches the panel and fires `onValueChange`;
-SSR. **Browser:** arrow-key navigation switches tabs.
+SSR; vertical sets `aria-orientation` and the column layout. **Browser:** arrow-key navigation
+switches tabs; ArrowDown moves focus in the vertical story.
 
 ## 10. Stories
 
-`Default`, `WithDefault`, `DisabledTab`.
+`Default`, `WithDefault`, `DisabledTab`, `Vertical` (v1.3 — settings nav with icons).
 
 ## 11. Decisions
 
-- Horizontal only in v1 (vertical orientation deferred) — keeps the underline styling simple.
+- Horizontal only in v1; **vertical added in v1.3** (owner request, Q19) as `orientation` — the
+  indicator moves to a right-edge bar on the list border plus a `surface-2` fill for the selected row.
 - Prop-driven `items` with string values.

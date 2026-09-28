@@ -75,6 +75,18 @@ describe('Card', () => {
     expect(cls.contains('p-6')).toBe(false)
   })
 
+  it('interactive adds the hover lift and the focus-within ring', () => {
+    render(
+      <Card interactive data-testid="c">
+        <a href="/p/1">Project</a>
+      </Card>,
+    )
+    const el = screen.getByTestId('c')
+    expect(el.classList.contains('hover:-translate-y-0.5')).toBe(true)
+    expect(el.classList.contains('has-[:focus-visible]:ring-2')).toBe(true)
+    expect(el.classList.contains('cursor-pointer')).toBe(true)
+  })
+
   it('hydrates without warnings', async () => {
     await expectHydrates(<Card elevation="raised">card</Card>)
   })

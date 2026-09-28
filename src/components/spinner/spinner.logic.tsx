@@ -1,6 +1,5 @@
 import { type ComponentPropsWithoutRef, forwardRef } from 'react'
-import { cn } from '../../utils/cn'
-import { type SpinnerStyleProps, spinnerStyles } from './spinner.styles'
+import { type SpinnerStyleProps, spinnerStyles, spinnerToneStyles } from './spinner.styles'
 
 export interface SpinnerProps
   extends Omit<ComponentPropsWithoutRef<'span'>, 'children'>,
@@ -29,6 +28,8 @@ export interface SpinnerProps
  *   `text-*` utility in `className` to recolour (e.g. `text-text-dim` for a quiet inline spinner).
  * - Ref: `HTMLSpanElement` (the wrapper). Every native `<span>` attribute except `children` is
  *   forwarded; `className` is merged last (tailwind-merge).
+ * - `tone` (v1.3): 'accent' (default) | 'success' | 'premium' | 'current' (inherits the text
+ *   color; use inside buttons or colored text). A `className` color still overrides it.
  *
  * @example
  * ```tsx
@@ -45,7 +46,7 @@ export interface SpinnerProps
  * ```
  */
 export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
-  { size, label = 'Loading', className, ...rest },
+  { size, tone, label = 'Loading', className, ...rest },
   ref,
 ) {
   return (
@@ -53,7 +54,7 @@ export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinne
       ref={ref}
       role="status"
       aria-label={label}
-      className={cn('inline-flex text-accent', className)}
+      className={spinnerToneStyles({ tone, className })}
       {...rest}
     >
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className={spinnerStyles({ size })}>

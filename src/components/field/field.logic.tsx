@@ -1,6 +1,6 @@
 'use client'
 
-import { Field as Base } from '@base-ui-components/react/field'
+import { Field as Base } from '@base-ui/react/field'
 import { type ComponentProps, createContext, useContext } from 'react'
 import { fieldStyles } from './field.styles'
 

@@ -1,7 +1,7 @@
 'use client'
 
-import { Radio } from '@base-ui-components/react/radio'
-import { RadioGroup as BaseRadioGroup } from '@base-ui-components/react/radio-group'
+import { Radio } from '@base-ui/react/radio'
+import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group'
 import { type ReactNode, useId } from 'react'
 import { type RadioGroupStyleProps, radioGroupStyles } from './radio-group.styles'
 

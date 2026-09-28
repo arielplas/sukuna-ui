@@ -53,6 +53,8 @@ text tokens).
 
 closed · open at cursor (positioned popup) · item highlighted (pointer/keyboard) · disabled item.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the opening side (`data-side`). Reduced motion: instant.
+
 ## 6. Logic (`context-menu.logic.tsx`)
 
 - `'use client'`. `Base.ContextMenu.Root` → `Trigger` (Base UI's own `div`, `display: contents`,
@@ -85,7 +87,8 @@ runs `onSelect` and closes; Escape closes.
 
 ## 10. Stories
 
-`Default`, `WithDisabled`, `OnACard` (right-click a surface). Both `data-theme` values.
+`Default`, `WithDisabled`, `OnACard` (right-click a surface), `WithIcons` (v1.3 — `MenuItemOption.icon`).
+Both `data-theme` values.
 
 ## 11. Decisions
 

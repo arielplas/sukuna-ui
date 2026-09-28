@@ -1,9 +1,16 @@
 [
   {
-    "name": "Button (tree-shaken, our code only)",
+    "name": "Accordion + deps",
     "path": "dist/index.js",
-    "import": "{ Button }",
-    "limit": "3 kB",
+    "import": "{ Accordion }",
+    "limit": "21 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Alert (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Alert }",
+    "limit": "2 kB",
     "ignore": [
       "react",
       "react-dom",
@@ -12,33 +19,488 @@
       "tailwind-variants",
       "clsx"
     ]
+  },
+  {
+    "name": "AlertDialog + deps",
+    "path": "dist/index.js",
+    "import": "{ AlertDialog }",
+    "limit": "33 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Avatar + deps",
+    "path": "dist/index.js",
+    "import": "{ Avatar }",
+    "limit": "17 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Badge (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Badge }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Breadcrumbs (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Breadcrumbs }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Button (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Button }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Card (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Card }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Carousel (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Carousel }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Checkbox (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Checkbox }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Chip (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Chip }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Collapsible + deps",
+    "path": "dist/index.js",
+    "import": "{ Collapsible }",
+    "limit": "19 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Combobox + deps",
+    "path": "dist/index.js",
+    "import": "{ Combobox }",
+    "limit": "53 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "ContextMenu + deps",
+    "path": "dist/index.js",
+    "import": "{ ContextMenu }",
+    "limit": "49 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Counter (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Counter }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Dialog + deps",
+    "path": "dist/index.js",
+    "import": "{ Dialog }",
+    "limit": "33 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Divider (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Divider }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Drawer + deps",
+    "path": "dist/index.js",
+    "import": "{ Drawer }",
+    "limit": "33 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Field + deps",
+    "path": "dist/index.js",
+    "import": "{ Field }",
+    "limit": "21 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "GradientText (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ GradientText }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "HoverCard + deps",
+    "path": "dist/index.js",
+    "import": "{ HoverCard }",
+    "limit": "39 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Input (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Input }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Menu + deps",
+    "path": "dist/index.js",
+    "import": "{ Menu }",
+    "limit": "53 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Meter + deps",
+    "path": "dist/index.js",
+    "import": "{ Meter }",
+    "limit": "16 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "NumberField + deps",
+    "path": "dist/index.js",
+    "import": "{ NumberField }",
+    "limit": "23 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Pagination (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Pagination }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Popover + deps",
+    "path": "dist/index.js",
+    "import": "{ Popover }",
+    "limit": "46 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Progress + deps",
+    "path": "dist/index.js",
+    "import": "{ Progress }",
+    "limit": "16 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "RadioGroup + deps",
+    "path": "dist/index.js",
+    "import": "{ RadioGroup }",
+    "limit": "23 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "RowActions + deps",
+    "path": "dist/index.js",
+    "import": "{ RowActions }",
+    "limit": "54 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "ScrollArea + deps",
+    "path": "dist/index.js",
+    "import": "{ ScrollArea }",
+    "limit": "19 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Select + deps",
+    "path": "dist/index.js",
+    "import": "{ Select }",
+    "limit": "51 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "ShinyText (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ ShinyText }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Skeleton (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Skeleton }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Slider + deps",
+    "path": "dist/index.js",
+    "import": "{ Slider }",
+    "limit": "24 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Spinner (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Spinner }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Stepper (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Stepper }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Switch (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Switch }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Table (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Table }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Tabs + deps",
+    "path": "dist/index.js",
+    "import": "{ Tabs }",
+    "limit": "25 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Text (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Text }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "Textarea (static, our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ Textarea }",
+    "limit": "2 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "ToastProvider + deps",
+    "path": "dist/index.js",
+    "import": "{ ToastProvider }",
+    "limit": "25 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Toggle + deps",
+    "path": "dist/index.js",
+    "import": "{ Toggle }",
+    "limit": "17 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "Tooltip + deps",
+    "path": "dist/index.js",
+    "import": "{ Tooltip }",
+    "limit": "40 kB",
+    "ignore": ["react", "react-dom", "react/jsx-runtime"]
+  },
+  {
+    "name": "VideoPlayer (our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ VideoPlayer }",
+    "limit": "18 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "VideoPlayer + every part (our code only)",
+    "path": "dist/index.js",
+    "import": "{ VideoPlayer, VideoPlayerPlaylist, VideoPlayerPanel, VideoPlayerUpNext, VideoPlayerEndScreen, VideoPlayerShare, VideoPlayerSkip, VideoPlayerOverlay, VideoPlayerAudio }",
+    "limit": "23 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "sukuna-ui/video/hls adapter (our code only; hls.js is the app's peer)",
+    "path": "dist/video/hls.js",
+    "import": "{ hlsEngine }",
+    "limit": "1 kB",
+    "ignore": ["hls.js"]
   },
   {
     "name": "Button + deps (must NOT pull Base UI ~tens of kB)",
     "path": "dist/index.js",
     "import": "{ Button }",
     "limit": "14 kB",
-    "ignore": ["react", "react-dom", "react/jsx-runtime"]
-  },
-  {
-    "name": "Table (static, tree-shaken — must NOT pull Base UI)",
-    "path": "dist/index.js",
-    "import": "{ Table }",
-    "limit": "3 kB",
-    "ignore": [
-      "react",
-      "react-dom",
-      "react/jsx-runtime",
-      "tailwind-merge",
-      "tailwind-variants",
-      "clsx"
-    ]
-  },
-  {
-    "name": "Select + deps (pays for Base UI once)",
-    "path": "dist/index.js",
-    "import": "{ Select }",
-    "limit": "60 kB",
     "ignore": ["react", "react-dom", "react/jsx-runtime"]
   }
 ]

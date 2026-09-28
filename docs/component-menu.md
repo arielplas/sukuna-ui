@@ -26,6 +26,7 @@ import type { ReactElement, ReactNode } from 'react'
 
 export interface MenuItemOption {
   label: ReactNode
+  icon?: ReactNode        // v1.3 — decorative leading icon (aria-hidden, 16px, text-text-dim)
   onSelect?: () => void   // fires on click / Enter / Space; the menu then closes
   disabled?: boolean
   id?: string             // stable React key — set it for dynamic (filtered/reordered) menus;
@@ -51,6 +52,8 @@ data-[highlighted]:bg-line-soft data-[disabled]:opacity-45`.
 
 closed · open (positioned popup) · item highlighted (keyboard) · disabled item.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
+
 ## 6. Logic (`menu.logic.tsx`)
 
 - `'use client'`. `Base.Root` → `Trigger render={children}` → `Portal` → `Positioner` → `Popup` →
@@ -72,7 +75,7 @@ closed · open (positioned popup) · item highlighted (keyboard) · disabled ite
 
 ## 10. Stories
 
-`Default`, `WithDisabled`, `Sides`.
+`Default`, `WithDisabled`, `Sides`, `WithIcons` (v1.3).
 
 ## 11. Decisions
 

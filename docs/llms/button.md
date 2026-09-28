@@ -18,10 +18,11 @@ Triggers an action. Crimson is reserved for the one primary action on a surface;
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 interface ButtonOwnProps {
-  variant?: 'primary' | 'secondary' | 'ghost'   // default 'primary'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'link'   // default 'primary' (outline/link: v1.3)
   size?: 'sm' | 'md' | 'lg'                    // default 'md'
   loading?: boolean        // shows spinner, sets aria-busy, blocks clicks; keeps width
   fullWidth?: boolean
+  iconOnly?: boolean       // v1.3 — square (w = h) at every size; pair with aria-label
   leadingIcon?: ReactNode
   trailingIcon?: ReactNode
 }
@@ -50,6 +51,10 @@ scope for v1).
 | primary | `--sk-gradient-accent` | `--sk-text` | none | brighten + `--sk-accent-glow` shadow |
 | secondary | `--sk-surface-2` | `--sk-text` | `--sk-line` | bg `--sk-well` |
 | ghost | transparent | `--sk-text-dim` | none | text `--sk-text`, bg `--sk-line-soft` |
+| outline (v1.3) | transparent | `--sk-text` | `--sk-line` | bg `--sk-line-soft` |
+| link (v1.3) | transparent | `--sk-accent` | none | underline (offset 4); `h-auto px-0` via compound variant |
+
+`iconOnly` (v1.3): `px-0` + `w-8`/`w-10`/`w-12` per size (compound variants) → a square control.
 
 | Size | Height | Padding-x | Font | Radius |
 |---|---|---|---|---|
@@ -69,6 +74,8 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 | active | `transform: scale(.98)` |
 | disabled | `opacity: .45`, `cursor: not-allowed`, `pointer-events` NOT removed (tooltips must still work) |
 | loading | spinner replaces `leadingIcon`, label stays (visually dimmed) to preserve width, `aria-busy="true"`, `disabled` |
+
+**Motion (v1.3, `docs/motion.md`):** the active press (`scale .98`) now actually animates (`transition-[…,scale]`). Reduced motion: instant.
 
 ## Accessibility
 

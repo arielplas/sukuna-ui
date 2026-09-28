@@ -11,7 +11,7 @@
 ## Purpose
 
 A single-select dropdown. Keyboard, typeahead, positioning, dismiss, and listbox a11y come from
-Base UI (`@base-ui-components/react/select`); we style the trigger, popup, and items.
+Base UI (`@base-ui/react/select`); we style the trigger, popup, and items.
 
 ## API
 
@@ -50,6 +50,8 @@ label, or the placeholder when empty.
 
 closed · open (listbox) · item highlighted (keyboard) · item selected (check) · disabled item ·
 disabled trigger.
+
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
 
 ## Accessibility
 

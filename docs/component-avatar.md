@@ -60,7 +60,10 @@ fallback; axe both themes.
 
 ## 10. Stories
 
-`WithImage`, `Fallback`, `Sizes`, `Group`.
+`WithImage`, `Fallback`, `Sizes`, `Group`, `Shapes` (v1.3).
+
+**v1.3:** `shape?: 'circle' | 'square'` (default `'circle'`); square = `rounded-md`, for teams,
+organizations and apps.
 
 ## 11. Decisions
 

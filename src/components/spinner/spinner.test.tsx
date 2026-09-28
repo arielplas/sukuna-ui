@@ -31,6 +31,19 @@ describe('Spinner', () => {
     expect(el.classList.contains('text-accent')).toBe(false)
   })
 
+  it('colors by tone; "current" inherits', () => {
+    for (const [tone, cls] of [
+      ['success', 'text-success'],
+      ['premium', 'text-premium'],
+    ] as const) {
+      const { unmount } = render(<Spinner tone={tone} data-testid="s" />)
+      expect(screen.getByTestId('s').classList.contains(cls)).toBe(true)
+      unmount()
+    }
+    render(<Spinner tone="current" data-testid="s" />)
+    expect(screen.getByTestId('s').classList.contains('text-accent')).toBe(false)
+  })
+
   it('renders on the server', () => {
     expect(renderServer(<Spinner />)).toContain('role="status"')
   })

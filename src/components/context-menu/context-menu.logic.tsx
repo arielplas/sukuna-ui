@@ -1,6 +1,6 @@
 'use client'
 
-import { ContextMenu as Base } from '@base-ui-components/react/context-menu'
+import { ContextMenu as Base } from '@base-ui/react/context-menu'
 import type { ReactNode } from 'react'
 import type { MenuItemOption } from '../menu'
 import { contextMenuStyles } from './context-menu.styles'
@@ -70,6 +70,11 @@ export function ContextMenu({ children, items }: ContextMenuProps) {
                 onClick={item.onSelect}
                 className={styles.item()}
               >
+                {item.icon ? (
+                  <span aria-hidden="true" className={styles.icon()}>
+                    {item.icon}
+                  </span>
+                ) : null}
                 {item.label}
               </Base.Item>
             ))}

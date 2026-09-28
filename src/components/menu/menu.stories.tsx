@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { ArchiveIcon, CopyIcon, PencilIcon, TrashIcon } from '../../stories/icons'
 import { Button } from '../button'
 import { Menu } from './index'
 
@@ -39,4 +40,15 @@ export const Sides: Story = {
       </Menu>
     </div>
   ),
+}
+
+export const WithIcons: Story = {
+  args: {
+    items: [
+      { label: 'Edit', icon: <PencilIcon />, onSelect: () => {} },
+      { label: 'Duplicate', icon: <CopyIcon />, onSelect: () => {} },
+      { label: 'Archive', icon: <ArchiveIcon />, onSelect: () => {} },
+      { label: 'Delete', icon: <TrashIcon />, onSelect: () => {}, disabled: true },
+    ],
+  },
 }

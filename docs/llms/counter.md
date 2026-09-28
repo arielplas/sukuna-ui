@@ -28,6 +28,7 @@ interface CounterOwnProps {
   suffix?: string            // e.g. '%', 'k'
   format?: (n: number) => string   // full custom formatter; overrides decimals/prefix/suffix
   once?: boolean             // default true; animate only the first mount, snap on later value changes
+  startOnView?: boolean      // default false; hold at `from` until scrolled into view (v1.3)
 }
 
 // Renders a <span>. `children` is omitted — the number IS the content.
@@ -35,8 +36,8 @@ export type CounterProps =
   CounterOwnProps & Omit<ComponentPropsWithoutRef<'span'>, 'children'>
 ```
 
-Deliberately **not** in v1: `startOnView` (count when scrolled into view — deferred; needs
-`IntersectionObserver`, planned as a follow-up), locale/`Intl.NumberFormat` presets (pass your own
+`startOnView` (added v1.3) holds at `from` until an `IntersectionObserver` reports the number on
+screen; without the API it counts on mount. Deliberately **not** in v1: locale/`Intl.NumberFormat` presets (pass your own
 via `format`), scroll-scrubbed counting, spring physics, per-digit odometer roll. `format` is the
 escape hatch for currency/locale — `format={(n) => n.toLocaleString()}`.
 

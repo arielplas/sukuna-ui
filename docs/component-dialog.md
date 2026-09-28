@@ -6,7 +6,7 @@
 ## 1. Purpose
 
 A modal dialog. Focus trap, scroll lock, `Escape`/outside-click dismiss, and `aria` wiring come
-from Base UI (`@base-ui-components/react/dialog`); we style backdrop, popup, title, etc.
+from Base UI (`@base-ui/react/dialog`); we style backdrop, popup, title, etc.
 
 ## 2. Files
 
@@ -57,6 +57,8 @@ popup, portalled) + `Dialog.Title` + `Dialog.Description` + `Dialog.Close` (a bu
 ## 5. States
 
 closed (nothing) · open (backdrop + popup, focus trapped) · enter/leave transitions.
+
+**Motion (v1.3, `docs/motion.md`):** the popup scale-in (95→100%) now actually animates (it was listed as `transform`, which Tailwind v4 `scale-*` never uses). Reduced motion: instant.
 
 ## 6. Logic (`dialog.logic.tsx`)
 

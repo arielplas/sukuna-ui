@@ -10,5 +10,8 @@ export const tableStyles = tv({
     headerCell:
       'px-3 h-10 text-xs font-semibold uppercase tracking-eyebrow text-text-dim border-b border-line whitespace-nowrap',
     cell: 'px-3 h-11 align-middle',
+    // Actions column: shrink to content, pinned to the row's right edge.
+    actionsHeaderCell: 'w-px text-right',
+    actionsCell: 'w-px text-right whitespace-nowrap',
   },
 })

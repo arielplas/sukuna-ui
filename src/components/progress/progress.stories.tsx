@@ -23,3 +23,13 @@ export const Sizes: Story = {
     </div>
   ),
 }
+
+export const Tones: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 16, maxWidth: 360 }}>
+      <Progress label="Uploading" value={35} />
+      <Progress label="Synced" value={100} tone="success" />
+      <Progress label="Premium quota" value={70} tone="premium" />
+    </div>
+  ),
+}

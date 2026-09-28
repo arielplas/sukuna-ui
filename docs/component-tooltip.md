@@ -6,7 +6,7 @@
 ## 1. Purpose
 
 A hover/focus tooltip for supplementary text. Behavior (delay, positioning, dismiss, a11y wiring)
-comes from Base UI (`@base-ui-components/react/tooltip`); we style the popup.
+comes from Base UI (`@base-ui/react/tooltip`); we style the popup.
 
 ## 2. Files
 
@@ -48,6 +48,8 @@ Popup: `z-40 max-w-xs rounded-md border border-line bg-surface-2 text-text px-2.
 ## 5. States
 
 closed (nothing rendered) · open (popup, positioned by Base UI) · enter/leave transitions.
+
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the trigger side (`data-side`). Reduced motion: instant.
 
 ## 6. Logic (`tooltip.logic.tsx`)
 

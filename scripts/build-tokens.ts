@@ -72,7 +72,11 @@ const staticSections: Array<{ title: string; decls: Decl[] }> = [
   { title: 'Radius', decls: staticGroup('radius-', radius) },
   {
     title: 'Motion',
-    decls: [...staticGroup('duration-', motion.duration), decl('ease', motion.ease)],
+    decls: [
+      ...staticGroup('duration-', motion.duration),
+      decl('ease', motion.ease),
+      decl('ease-spring', motion.easeSpring),
+    ],
   },
   { title: 'Z-index', decls: staticGroup('z-', zIndex) },
 ]
@@ -158,9 +162,10 @@ const themeInline = [
   `${INDENT}/* Shadow → shadow-* */`,
   mapGroup('--shadow-', Object.keys(shadows), 'shadow-'),
   '',
-  `${INDENT}/* Motion → duration-*, ease-sukuna */`,
+  `${INDENT}/* Motion → duration-*, ease-sukuna, ease-spring */`,
   mapGroup('--duration-', Object.keys(motion.duration), 'duration-'),
   `${INDENT}--ease-sukuna: var(--sk-ease);`,
+  `${INDENT}--ease-spring: var(--sk-ease-spring);`,
 ].join('\n')
 
 const themeCss = `${header}${paletteCss}
@@ -191,6 +196,20 @@ ${themeInline}
 
 @utility animate-shine-fast {
   animation: sk-shine 1.6s linear infinite;
+}
+
+/* Indeterminate progress: a 40%-wide bar sliding across the track (docs/motion.md). */
+@keyframes sk-indeterminate {
+  0% {
+    translate: -100% 0;
+  }
+  100% {
+    translate: 250% 0;
+  }
+}
+
+@utility animate-indeterminate {
+  animation: sk-indeterminate 1.4s var(--sk-ease) infinite;
 }
 `
 

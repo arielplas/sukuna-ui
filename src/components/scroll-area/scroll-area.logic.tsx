@@ -1,6 +1,6 @@
 'use client'
 
-import { ScrollArea as Base } from '@base-ui-components/react/scroll-area'
+import { ScrollArea as Base } from '@base-ui/react/scroll-area'
 import { type ComponentPropsWithoutRef, forwardRef, type ReactNode } from 'react'
 import { scrollAreaStyles } from './scroll-area.styles'
 
@@ -64,13 +64,15 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(function S
       <Base.Viewport className={styles.viewport()}>
         <Base.Content>{children}</Base.Content>
       </Base.Viewport>
+      {/* keepMounted: Base UI ≥1.0 unmounts a scrollbar while the viewport can't scroll; we keep
+          the rc.0 behavior (always mounted, hidden by the thumb size) so layout never shifts. */}
       {showVertical && (
-        <Base.Scrollbar orientation="vertical" className={styles.scrollbar()}>
+        <Base.Scrollbar orientation="vertical" keepMounted className={styles.scrollbar()}>
           <Base.Thumb className={styles.thumb()} />
         </Base.Scrollbar>
       )}
       {showHorizontal && (
-        <Base.Scrollbar orientation="horizontal" className={styles.scrollbar()}>
+        <Base.Scrollbar orientation="horizontal" keepMounted className={styles.scrollbar()}>
           <Base.Thumb className={styles.thumb()} />
         </Base.Scrollbar>
       )}

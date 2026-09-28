@@ -38,6 +38,9 @@ test('a long list scrolls inside a popup that stays put and matches the trigger 
   await expect(listbox).toBeVisible()
   const popup = listbox.locator('xpath=..')
   await expect(popup).toHaveAttribute('data-side', /^(bottom|top)$/)
+  // The entrance scales/slides in (docs/motion.md); measure once it has settled.
+  await expect.poll(() => popup.evaluate((el) => getComputedStyle(el).scale)).toBe('none')
+  await expect.poll(() => popup.evaluate((el) => getComputedStyle(el).translate)).toBe('none')
 
   const triggerBox = await box(trigger)
   const before = await box(popup)

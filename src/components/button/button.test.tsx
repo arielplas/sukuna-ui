@@ -6,7 +6,7 @@ import { expectAccessible } from '../../../test/axe'
 import { expectHydrates, renderServer } from '../../../test/ssr'
 import { Button } from './index'
 
-const variants = ['primary', 'secondary', 'ghost'] as const
+const variants = ['primary', 'secondary', 'ghost', 'outline', 'link'] as const
 const sizes = ['sm', 'md', 'lg'] as const
 
 describe('Button', () => {
@@ -22,6 +22,37 @@ describe('Button', () => {
         ).toContain('<button')
   })
 
+  it('link drops the control height and padding; outline is border-only', () => {
+    render(
+      <>
+        <Button variant="link">Learn more</Button>
+        <Button variant="outline">Export</Button>
+      </>,
+    )
+    const link = screen.getByRole('button', { name: 'Learn more' })
+    expect(link.classList.contains('h-auto')).toBe(true)
+    expect(link.classList.contains('px-0')).toBe(true)
+    expect(link.classList.contains('h-10')).toBe(false)
+    const outline = screen.getByRole('button', { name: 'Export' })
+    expect(outline.classList.contains('border-line')).toBe(true)
+    expect(outline.classList.contains('bg-transparent')).toBe(true)
+  })
+
+  it('iconOnly renders a square at every size', () => {
+    for (const [size, h, w] of [
+      ['sm', 'h-8', 'w-8'],
+      ['md', 'h-10', 'w-10'],
+      ['lg', 'h-12', 'w-12'],
+    ] as const) {
+      const { unmount } = render(<Button iconOnly size={size} aria-label="Add" leadingIcon="+" />)
+      const el = screen.getByRole('button', { name: 'Add' })
+      expect(el.classList.contains(h)).toBe(true)
+      expect(el.classList.contains(w)).toBe(true)
+      expect(el.classList.contains('px-0')).toBe(true)
+      unmount()
+    }
+  })
+
   it('hydrates without warnings', async () => {
     await expectHydrates(<Button>Go</Button>)
   })
@@ -34,6 +65,11 @@ describe('Button', () => {
           <Button variant="secondary">Cancel</Button>
           <Button variant="ghost" aria-label="More">
             ⋯
+          </Button>
+          <Button variant="outline">Export</Button>
+          <Button variant="link">Learn more</Button>
+          <Button iconOnly aria-label="Add">
+            +
           </Button>
         </div>,
       )

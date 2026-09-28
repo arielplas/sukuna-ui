@@ -1,5 +1,6 @@
-import { describe, expect, it } from 'bun:test'
+import { describe, expect, it, mock } from 'bun:test'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createRef } from 'react'
 import { expectAccessible } from '../../../test/axe'
 import { renderServer } from '../../../test/ssr'
@@ -69,6 +70,20 @@ describe('Alert', () => {
       </Alert>,
     )
     expect(screen.getByTestId('ic')).toBeInTheDocument()
+  })
+
+  it('renders a labelled dismiss button only with onDismiss, and calls it', async () => {
+    const { unmount } = render(<Alert>Saved</Alert>)
+    expect(screen.queryByRole('button')).toBeNull()
+    unmount()
+    const onDismiss = mock(() => {})
+    render(
+      <Alert onDismiss={onDismiss} dismissLabel="Close notice">
+        Saved
+      </Alert>,
+    )
+    await userEvent.click(screen.getByRole('button', { name: 'Close notice' }))
+    expect(onDismiss).toHaveBeenCalledTimes(1)
   })
 
   it('forwards ref and merges className', () => {

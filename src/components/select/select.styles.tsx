@@ -20,7 +20,12 @@ export const selectStyles = tv({
       // viewport shrinks/flips instead of running off the page. 24rem = the previous fixed cap.
       'min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto',
       'rounded-md border border-line bg-surface p-1 shadow-card',
-      'transition-[opacity,transform] motion-reduce:transition-none duration-fast ease-sukuna',
+      'origin-[var(--transform-origin)]',
+      // Directional entrance (docs/motion.md): slide 4px in from the trigger's side. Tailwind v4
+      // scale-*/translate-* compile to the `scale`/`translate` properties, so list those.
+      'transition-[opacity,scale,translate] motion-reduce:transition-none duration-fast ease-sukuna',
+      'data-[side=bottom]:data-[starting-style]:-translate-y-1 data-[side=top]:data-[starting-style]:translate-y-1',
+      'data-[side=left]:data-[starting-style]:translate-x-1 data-[side=right]:data-[starting-style]:-translate-x-1',
       'data-[starting-style]:opacity-0 data-[starting-style]:scale-95',
       'data-[ending-style]:opacity-0 data-[ending-style]:scale-95',
       'focus-visible:outline-none',

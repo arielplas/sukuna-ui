@@ -69,3 +69,24 @@ export const Composed: Story = {
     </Card>
   ),
 }
+
+/** Hover lifts the card; tabbing to the link inside rings the whole card. */
+export const Interactive: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, 240px)' }}>
+      {['Sukuna UI', 'Docs site'].map((name) => (
+        <Card key={name} interactive elevation="raised">
+          <a
+            href={`#${name}`}
+            style={{ color: 'inherit', textDecoration: 'none', outline: 'none' }}
+          >
+            <Text weight="bold">{name}</Text>
+          </a>
+          <Text tone="dim" size="sm">
+            Updated 2 hours ago
+          </Text>
+        </Card>
+      ))}
+    </div>
+  ),
+}

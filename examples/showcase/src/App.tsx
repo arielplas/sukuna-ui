@@ -2,6 +2,7 @@ import { Component, type ErrorInfo, type ReactNode, useEffect, useId, useState }
 // Consume the library from source so the explorer shares one module instance with the stories
 // (matters for context components like Toast) and always reflects the current code.
 import { Badge, Button, Card, Text, ToastProvider } from '../../../src/index'
+import { Highlight } from './highlight'
 import {
   type ComponentEntry,
   components,
@@ -268,7 +269,9 @@ function Example({ entry, item }: { entry: ComponentEntry; item: StoryEntry }) {
               id={codeId}
               className="m-0 overflow-x-auto rounded-b-lg border-t border-line bg-well p-4 text-sm leading-relaxed text-text"
             >
-              <code>{snippet}</code>
+              <code>
+                <Highlight code={snippet} />
+              </code>
             </pre>
           ) : null}
         </div>

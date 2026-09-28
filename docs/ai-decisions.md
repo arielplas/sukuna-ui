@@ -9,6 +9,32 @@ agent's own calls. Newest first.
 
 ---
 
+## D34 — Table actions column = static cells + a separate `RowActions`
+
+- **Decision:** Owner asked for "an actions column … options + icons in the options" (Q18). Built as
+  `MenuItemOption.icon` + new `RowActions` (client; Button + Menu) + static
+  `Table.ActionsHeaderCell`/`Table.ActionsCell`, rather than `Table.ActionsCell items={…}`.
+- **Why:** `Table` is a server component with a 2 kB "no Base UI" size budget. Putting Menu inside
+  it would make every Table import ship ~48 kB of Base UI and a `'use client'` boundary. As a
+  separate component, only tables that use row actions pay for them.
+- **Reverse:** Fold `RowActions` into `Table.ActionsCell` if the ergonomics matter more than the
+  budget (then raise the Table size limit and mark table.logic `'use client'`).
+
+## D33 — v1.3 wave: Base UI stable, danger kept out, scope trims
+
+- **Decision:** (1) Migrate to `@base-ui/react@^1.8.0` (the rc package was renamed at 1.0) and
+  keep ScrollArea scrollbars `keepMounted` — 1.x unmounts them when nothing overflows, which would
+  shift layout vs. rc. (2) Do **not** add Button `danger` / Badge `danger`+`warning` from the
+  approved analysis: Q10 (owner) dropped danger because Sukuna has a single red, and rule 8 forbids
+  inventing `--sk-danger`. (3) Build variants that need no tokens: Button `outline`/`link`/
+  `iconOnly`, Badge `dot`, Alert `onDismiss`, Card `interactive`, Progress/Spinner `tone`,
+  Avatar `shape`. (4) Defer Input slots (DOM/`className` target change needs its own spec),
+  Skeleton `wave` (new keyframe = token-level approval) and virtualization (new dep, Q16; owner then deferred it, Q17).
+- **Why:** "go for it" approved the list, but an earlier explicit owner decision (Q10) and a
+  standing rule (8) outrank a list the agent proposed. Everything else ships as proposed.
+- **Reverse:** Approve a `--sk-danger` token (and a hue) → `danger` becomes a one-line variant on
+  Button/Badge. Input slots/Skeleton wave/virtualization each have a spec-sized follow-up.
+
 ## D32 — Checkbox: `label` prop and Enter-to-toggle
 
 - **Decision:** `Checkbox` gains `label?: ReactNode` (wraps input + text in a `<label>`; the text

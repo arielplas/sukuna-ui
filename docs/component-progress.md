@@ -41,6 +41,8 @@ track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2`. 
 
 determinate (width = value) · indeterminate (pulsing partial bar).
 
+**Motion (v1.3, `docs/motion.md`):** determinate bar grows in from the left on mount (`starting:scale-x-0`); indeterminate is a sliding 40% bar (`animate-indeterminate`) — static under reduced motion. Reduced motion: instant.
+
 ## 6. Logic (`progress.logic.tsx`)
 
 - No `'use client'`. `Base.Root` (value/max, aria-label) → optional `Base.Label` → `Base.Track` →
@@ -63,7 +65,10 @@ axe both themes.
 
 ## 10. Stories
 
-`Determinate`, `Indeterminate`, `WithLabel`, `Sizes`.
+`Determinate`, `Indeterminate`, `WithLabel`, `Sizes`, `Tones` (v1.3).
+
+**v1.3:** `tone?: 'accent' | 'success' | 'premium'` (default `'accent'`) colors the indicator
+(`bg-accent` / `bg-success` / `bg-premium`). Same scale as `Meter`.
 
 ## 11. Decisions
 

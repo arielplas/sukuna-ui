@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { CopyIcon, LinkIcon, PencilIcon, TrashIcon } from '../../stories/icons'
 import { ContextMenu } from './index'
 
 const items = [
@@ -47,4 +48,16 @@ export const OnACard: Story = {
       </ContextMenu>
     </div>
   ),
+}
+
+export const WithIcons: Story = {
+  args: {
+    items: [
+      { label: 'Copy', icon: <CopyIcon />, onSelect: () => {} },
+      { label: 'Copy link', icon: <LinkIcon />, onSelect: () => {} },
+      { label: 'Rename', icon: <PencilIcon />, onSelect: () => {} },
+      { label: 'Delete', icon: <TrashIcon />, onSelect: () => {}, disabled: true },
+    ],
+  },
+  render: Default.render,
 }

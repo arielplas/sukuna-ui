@@ -4,7 +4,7 @@
 >
 > Legend: `[ ]` not started · `[~]` in progress · `[x]` done · `[-]` dropped (say why)
 
-Last updated: 2026-09-16 — Phases 0–7 done; 8 & 9 in progress. Library feature-complete; publish gated on owner.
+Last updated: 2026-09-27 — v1.3 wave (§D4) + VideoPlayer W1 (§D6) on branch `feat/v1.3-wave`. 46 components.
 Current phase: **Phase 8 (1 of 4 examples) + Phase 9 (docs/CI done; publish pending owner).** Phases 0–7 done.
 Current version: none published. Target for first publish: `0.1.0`.
 
@@ -189,6 +189,97 @@ Considered and held for owner: **Popover** (biggest cross-library gap, but roadm
 Modal/Popover/Popper as out of scope — needs an explicit decision to reverse). Cheaper alternates
 if breadth is preferred over these: Collapsible, Meter, Kbd, AspectRatio.
 
+## D4. v1.3 — components, variants & performance wave
+
+Owner analysis request + "document these and go for it" (2026-09-27, `docs/questions.md` Q15).
+Popover is brought **into scope** by that approval (reverses the §D "out of scope" note).
+All four headless components are Base UI parts we already ship; Textarea is native. No new tokens
+(`danger`/`warning` tones stay out — Q10 still stands, see D33).
+
+### Performance (land first, so the new components build on them)
+
+| # | Item | Status | Evidence |
+|---|---|---|---|
+| P1 | Base UI `@base-ui-components/react@1.0.0-rc.0` → stable renamed `@base-ui/react@^1.8.0` | [x] | 313 unit + 30 browser green; ScrollArea `keepMounted` keeps rc layout; Select+deps 48.4→45.7 kB |
+| P2 | Button → server component (no hooks → drop `'use client'`) + RSC-boundary guard test | [x] | `src/index.test.ts` "RSC boundary" (hook-free file may not be client; hook-using must be) |
+| P3 | Counter: paint frames via ref (zero re-renders) + `startOnView` | [x] | Profiler test asserts 0 commits during animation; 100% cov |
+| P4 | Virtualize Select/Combobox/Table | [-] | Deferred by owner (Q17): no slow-list reports, Combobox already caps results; revisit for a real large Table (hand-rolled fixed-height first, then `@tanstack/react-virtual`) |
+| P5 | `size-limit` budget for every component | [x] | 40 entries; statics ≤2 kB (no Base UI leak), headless = measured +10% |
+
+### New components
+
+Order within a component: doc → styles → logic → index → tests → stories → (browser if headless) →
+export → ≥90% → review.
+
+| Component | Kind | Backing | Doc | Code |
+|---|---|---|---|---|
+| Popover | interactive | Base UI `popover` | [x] | [x] 100% cov + browser |
+| AlertDialog | interactive | Base UI `alert-dialog` | [x] | [x] 100% cov + browser |
+| Textarea | native (server) | `<textarea>` | [x] | [x] 100% cov |
+| Collapsible | interactive | Base UI `collapsible` | [x] | [x] 100% cov + browser |
+| Meter | static | Base UI `meter` | [x] | [x] 100% cov |
+
+### Variants on existing components (no new tokens)
+
+| Component | Addition | Status |
+|---|---|---|
+| Button | `variant: 'outline' \| 'link'`, `iconOnly` (square) | [x] |
+| Badge | `dot` (leading status dot) | [-] already shipped (analysis missed it) |
+| Alert | `onDismiss` (renders a close button; stays a server component) | [x] |
+| Card | `interactive` (hover lift + focus ring for clickable cards) | [x] |
+| Progress / Spinner | `tone: 'accent' \| 'success' \| 'premium'` (+ `current` on Spinner) | [x] |
+| Avatar | `shape: 'circle' \| 'square'` | [x] |
+| Menu / ContextMenu | `MenuItemOption.icon` (leading, aria-hidden) | [x] |
+| Table + new RowActions | actions column: `Table.ActionsHeaderCell`/`ActionsCell` + `RowActions` (⋯ menu, icon options) — owner request 2026-09-27 (Q18) | [x] 100% cov + browser; Table still 0.56 kB static |
+| Tabs | `orientation: 'vertical'` — navigation column beside the panel (owner request, Q19) | [x] |
+| Accordion | fix: disabled items were never dimmed (`data-[disabled]`, found building Collapsible) | [x] |
+
+## D5. v1.3 motion wave
+
+Spec: `docs/motion.md` (owner request Q20). CSS-only, zero bundle cost, reduced-motion fallbacks.
+
+| # | Item | Status |
+|---|---|---|
+| M0 | Tokens `--sk-duration-slow`, `--sk-ease-spring` + `animate-indeterminate` keyframe | [x] |
+| M1 | Tabs sliding indicator (horizontal + vertical) | [x] |
+| M2 | Accordion height animation | [x] |
+| M3 | Directional popup entrance (Menu, ContextMenu, Select, Combobox, Popover, Tooltip, HoverCard) | [x] |
+| M4 | Toast stacked deck + expand on hover + swipe to dismiss | [x] |
+| M5 | Meter/Progress grow-in + indeterminate sliding bar | [x] |
+| M6 | Fix: scale/translate never transitioned (`transition-[…transform]`) in 11 components | [x] |
+| M7 | Fix: indeterminate Progress kept animating under reduced motion (`data-[…]` outranked `motion-reduce:`) | [x] |
+
+## D6. VideoPlayer (Q21–Q23)
+
+Spec: `docs/component-video-player.md` (Nuevo parity in three tiers, waves W1–W4 in Appendix B).
+Client component over native `<video>`, in-house seek/volume/menu, no new dependencies. Approved in
+Q23; Review column waits on the owner's visual pass.
+
+| Component | Doc | Styles | Logic | Index | Tests | Stories | Browser | Export | ≥90% | Review |
+|---|---|---|---|---|---|---|---|---|---|---|
+| VideoPlayer (W1 core) | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [x] | [ ] |
+
+| Wave | Scope (spec Appendix B) | Status |
+|---|---|---|
+| W1 | Core + chapters + thumbnails + settings (quality/speed/captions/style) + touch + context menu + hotkeys + `useVideoPlayer` | [x] |
+| W2 | Panel (chapters/playlist/transcript), Playlist, UpNext, EndScreen, Share, Skip, resume, startTime, syncGroup, theater, floating | [x] |
+| W3 | Picture tools, snapshot, download, loop section, sleep timer, watch limit, live UI, overlays, audio + visualizer | [x] (ticker overlay waits on Q25) |
+| W4 | Adapters, one dependency approval each: hls.js → dash.js → IMA/VAST → Cast → VR | [~] engine seam + hls.js done; rest wait on Q26 |
+
+## D7. Theming — multiple themes + app config (designed, not built)
+
+Spec: `docs/theming.md` (owner request Q24: Midnight + Paper, TS config + CLI, `system` mode).
+
+| # | Item | Status |
+|---|---|---|
+| T1 | `src/themes/*` registry (dark, light, midnight, paper) + resolver + shared contrast module | [ ] |
+| T2 | Generator: resolved block per theme + `color-scheme` + `system` media block | [ ] |
+| T3 | Contrast gate over every built-in theme | [ ] |
+| T4 | `sukuna-ui/themes` subpath: `defineThemes` + types + built-in data | [ ] |
+| T5 | `sukuna-ui` bin: `themes init` (create-if-missing) + `themes build` (CSS + AA warnings, `--strict`) | [ ] |
+| T6 | Storybook toolbar + showcase picker + docs (tokens.md, README) | [ ] |
+| T7 | Browser tests: midnight/paper render; `system` follows emulated color scheme | [ ] |
+
 ---
 
 ## E. Update log
@@ -251,3 +342,15 @@ Agents append one line per meaningful status change: `YYYY-MM-DD · <what flippe
 - 2026-09-21 · v1.2 polish: (1) halved default open delay to 300ms on Tooltip (was Base 600) and HoverCard.Trigger — snappier hover reveal; Tooltip default change = minor (breaking on 0.x), HoverCard folded in pre-release. (2) ContextMenu iOS long-press fix: children now wrapped in Base UI's `display:contents` trigger with `user-select:none` + `-webkit-touch-callout:none` (Base only sets the callout; without user-select:none an iOS long-press starts text selection and the menu never opens). Verified desktop right-click still opens; child inherits user-select:none. 313 tests green · (v1.2 polish)
 - 2026-09-21 · Showcase rebuilt as an auto-driven component explorer (examples/showcase): left-nav routing (hash) over all 39 components, right pane renders every Storybook story per component (examples/showcase/src/stories.tsx globs src/components/*/*.stories.tsx and renders meta+story args / render fns, like Storybook). Added Tailwind v4 to the showcase build (mirrors .storybook: @tailwindcss/vite + a styles.css that @imports theme.css and @sources the components+stories) so story-only utilities render; imports library+stories from source so context components (Toast) share one instance. Overview page kept as the default route (SEO + prerender <h1>). Component count is now dynamic (components.length) — no more hard-coded/stale count. Prerender build green; verified dark+light, story rendering, Toast context. `update-showcase` skill rewritten (showcase is auto-driven now; no manual demo/count upkeep) · (showcase explorer)
 - 2026-09-21 · Showcase: every example gets a Show code toggle (import line + the story's own JSX). The snippet is lifted from the stories source via a second `?raw` glob — `{...args}` is inlined as the literal props written in `args: { … }` (so `items={items}` stays a reference and its helper `const` is included above), explicit tag props beat expanded args, a `react` import is added when a story uses hooks, and the `import { … } from 'sukuna-ui'` line comes from the real exports in src/index.ts. Closed on the server (prerender unchanged); Copy uses the clipboard in a click handler. · (showcase-code-toggle branch)
+- 2026-09-27 · v1.3 wave (§D4, Q15/D33): Base UI rc.0 → stable `@base-ui/react@1.8` (ScrollArea keepMounted); Button → server component + RSC-boundary guard test; Counter paints via ref (0 re-renders/frame) + `startOnView`; size-limit budget per component (40 entries). New Popover, AlertDialog, Textarea, Collapsible, Meter (docs-first, 100% cov, browser specs). Variants: Button outline/link/iconOnly, Alert onDismiss, Card interactive, Avatar shape, Progress/Spinner tone. Fix: Accordion disabled items never dimmed. `danger` kept out (Q10). Virtualization waits on Q16 · (feat/v1.3-wave)
+- 2026-09-27 · Perf P4 (virtualization) → [-] deferred by owner (Q17); Q16 closed, no new dependency · (feat/v1.3-wave)
+- 2026-09-27 · Table actions column (Q18/D34): `MenuItemOption.icon` (Menu + ContextMenu), new `RowActions` (⋯ ghost icon Button + Menu, row-specific aria-label, align end), static `Table.ActionsHeaderCell` (sr-only "Actions") / `Table.ActionsCell`. Table stays server-only at 0.56 kB. 379 unit (100% cov) + 39 browser green. 45 components · (feat/v1.3-wave)
+- 2026-09-27 · Tabs `orientation="vertical"` (Q19): navigation column (flex-col list, right-edge crimson bar + surface fill), ArrowUp/Down + aria-orientation via Base UI; Vertical story with icon labels; unit + Playwright guards · (feat/v1.3-wave)
+- 2026-09-27 · Motion wave (§D5, Q20, `docs/motion.md`): tokens `--sk-duration-slow`/`--sk-ease-spring` + `animate-indeterminate`; Tabs sliding indicator (both orientations, SSR fallback border); Accordion height; directional popup entrance ×7; Toast stacked deck + expand + swipe; Meter/Progress grow-in + sliding indeterminate. Fixes: scale/translate never transitioned in 11 components (Tailwind v4 props ≠ `transform`); indeterminate Progress ignored reduced motion. New `test/browser/motion.test.ts`; Tabs budget 22→25 kB (Indicator). 381 unit / 100% cov, 46 browser ×3 stable · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer design (Q21, §D6): `docs/component-video-player.md` + interactive mockup; Doc [~] awaiting owner approval, no code · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer scope → Nuevo parity (Q22): scouted nuevodevel.com; parity map + three tiers + waves in the spec; mockup v2 (chapters, thumbnails, settings, panel, playlist, ads, live, 29 states). Doc still [~] · (feat/v1.3-wave)
+- 2026-09-27 · Theming DESIGN ONLY (§D7, Q24): `docs/theming.md` — Midnight + Paper palettes (AA-verified), theme registry + resolver, `system` mode (opt-in, no-attribute stays dark), `sukuna.themes.ts` + `sukuna-ui themes init|build` CLI. Code pending · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer W1 (§D6, Q23 approval): core player on native `<video>` — chapter-segmented seek + sprite thumbnails, quality/speed/captions/caption-style settings, player-rendered captions, touch + double-tap, context menu, hotkeys + `?` sheet, `labels`, `useVideoPlayer`. In-house seek/volume/menu (Base UI Slider can't host segments + preview). 12.1 kB brotli (budget 13 kB), no new deps. 30s WebM fixture in `.storybook/public/video`; 42 unit (≥91% funcs / 100% lines per file) + 5 Playwright. 46 components · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer W2 (§D6): parts `VideoPlayerPlaylist` (item media drives the player, prev/next, Shift+N/P, auto-advance, repeat, rememberKey), `VideoPlayerPanel` (chapters / playlist / transcript, in-house tablist, stops above the bar), `VideoPlayerUpNext`, `VideoPlayerEndScreen`, `VideoPlayerShare`, `VideoPlayerSkip`; core `resume`, `syncGroup`, `floating` mini player, `theater`. Context registry for parts. Core 14.4 kB (budget 15), all parts 17.4 kB (budget 19). 65 unit (100% on every part file, core 93.6% funcs) + 8 Playwright · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer W3 (§D6): gear rows picture (zoom/mirror/brightness/contrast/saturation chips), sleep timer, loop (video / chapter / A–B, champagne range on the bar), snapshot (callback or PNG, blocked-media toast), download; props `watchLimit`, `live` (DVR window, LIVE pill), `download`, `onSnapshot`; parts `VideoPlayerOverlay` (card/banner/plain, on pause, dismissible) and `VideoPlayerAudio` (art + Web Audio visualizer). Ticker variant → Q25. Core 16.6 kB (budget 17; the gear-row tools live in core and can't tree-shake — a later split is possible), all parts 20.7 kB (budget 23). 83 unit (100% on every part, core ≥94% funcs) + 12 Playwright · (feat/v1.3-wave)
+- 2026-09-27 · VideoPlayer W4 (§D6, Q23 approved hls.js): `engine` seam (`VideoEngine` claims URLs at render, attaches in an effect, reports levels → Quality menu; Retry re-attaches) + `sukuna-ui/video/hls` (`hlsEngine()`, hls.js `>=1.5` optional peer, `typesVersions` for node10; 434 B). HLS fixture (VP9/Opus fMP4) + `HlsStream` story. Core 17.05 kB (budget 18). 93 unit + 13 Playwright. Remaining adapters → Q26 · (feat/v1.3-wave)

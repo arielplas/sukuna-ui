@@ -32,6 +32,18 @@ describe('Progress', () => {
     expect(screen.getByText('Uploading…')).toBeInTheDocument()
   })
 
+  it('colors the indicator by tone (accent by default)', () => {
+    for (const [tone, cls] of [
+      [undefined, 'bg-accent'],
+      ['success', 'bg-success'],
+      ['premium', 'bg-premium'],
+    ] as const) {
+      const { container, unmount } = render(<Progress value={40} tone={tone} />)
+      expect(container.querySelector(`.${cls}`)).not.toBeNull()
+      unmount()
+    }
+  })
+
   it('renders on the server', () => {
     expect(renderServer(<Progress value={50} aria-label="x" />)).toContain('progressbar')
   })

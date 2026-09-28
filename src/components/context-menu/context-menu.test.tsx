@@ -40,6 +40,18 @@ describe('ContextMenu', () => {
     expect(screen.getByRole('menuitem', { name: 'Paste' })).toBeInTheDocument()
   })
 
+  it('renders an aria-hidden leading icon when an item has one', () => {
+    render(
+      <ContextMenu items={[{ label: 'Copy', icon: <svg data-testid="copy-icon" /> }]}>
+        <div>area</div>
+      </ContextMenu>,
+    )
+    fireEvent.contextMenu(screen.getByText('area'))
+    const icon = screen.getByTestId('copy-icon').parentElement as HTMLElement
+    expect(icon).toHaveAttribute('aria-hidden', 'true')
+    expect(screen.getByRole('menuitem', { name: 'Copy' }).contains(icon)).toBe(true)
+  })
+
   it('runs onSelect when an item is chosen', () => {
     const onCopy = mock(() => {})
     render(

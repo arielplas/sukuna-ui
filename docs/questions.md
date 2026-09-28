@@ -165,6 +165,189 @@ correct) and treats the count-up as a mount enhancement; reduced-motion shows th
 
 ---
 
+## Q15. "Make repo up to date" → "In main, look for new 5 components to add and variations for some components, let's analyze them and see what can offer us — 5 things to improve performance, etc" → "document these and go for it"
+
+**Answer given (analysis).** Five components, four of them Base UI parts we already depend on:
+**Popover**, **AlertDialog**, **Textarea** (native), **Collapsible**, **Meter**. Variants:
+Button `outline`/`link`/icon-only, Badge dot, Alert dismiss, Card `interactive`, Input slots,
+Avatar shape, Progress/Spinner tone, Skeleton animation. Performance: (1) Base UI rc.0 → stable
+`@base-ui/react@1.8`, (2) Button off `'use client'`, (3) Counter re-rendering every frame,
+(4) virtualization, (5) per-component size budgets.
+
+**Decisions.**
+- Owner approved the whole list ("go for it") → roadmap §D4. **Popover is now in scope**
+  (reverses the §D "out of scope" note).
+- **Button `danger` + Badge `danger`/`warning` NOT built** — they conflict with Q10 ("forget about
+  danger": Sukuna has one red) and need tokens that don't exist. Kept Q10; AlertDialog confirms with
+  the primary Button. Re-open with a `--sk-danger` token if wanted (D33).
+- Switch stays `'use client'` (the analysis mis-flagged it; it holds state via
+  `useControllableState`). Only Button moved to the server.
+- Deferred inside the wave: Input start/end slots (changes the rendered DOM + where `className`
+  lands — needs its own spec), Skeleton `wave` (needs a new keyframe utility → token approval like
+  Q13), virtualization (new dependency → approval, Q16).
+
+---
+
+## Q16. (Agent → owner) Add `@tanstack/react-virtual` for virtualized Select/Combobox/Table?
+
+**Context.** Backlog #11 / perf P4. Base UI exposes a `virtualized` flag but needs an external
+virtualizer. It is the only perf item that adds a dependency (~5 kB gz, only paid by consumers who
+import the virtualized parts).
+
+**Status:** answered in Q17: **no, deferred.**
+
+---
+
+## Q17. "what do we need '@tanstack/react-virtual' for?" → "lets go with recommendations"
+
+**Answer given.** Select, Combobox, Menu and Table mount every item, so thousands of options or
+rows cost thousands of DOM nodes on open, filter and re-render. The `content-visibility` stopgap
+only skips paint. Virtualization renders only the visible rows (~20) and recycles them, so cost
+stays flat at any N. Base UI's `virtualized` flag only coordinates keyboard/highlight with an
+*external* virtualizer; it doesn't virtualize by itself. `@tanstack/react-virtual` is that
+virtualizer (~5 kB gz, headless, SSR-safe).
+
+Options offered: (1) skip for now (recommended): no reported slow lists, Combobox already caps
+rendered results with `maxRenderedItems`, a 1,000-option Select is a UX smell (use Combobox), and
+Table is the only real case; (2) hand-roll a ~50-line fixed-row-height virtualizer for Table only;
+(3) add the dependency and ship `Table.Virtualized` plus `virtualized` on Select/Combobox.
+
+**Decision.** Option 1: **virtualization deferred**, no new dependency. Roadmap §D4 P4 → `[-]`.
+Revisit when a real app has a large Table: option 2 first (no dep), option 3 if rows vary in height.
+
+---
+
+## Q18. "add an actions column to columns that supports options + icons in the options"
+
+**Interpretation.** Table has no `columns` config (it is compositional), so "actions column" =
+a per-row ⋯ menu column. **Decision (agent, D34):** `MenuItemOption` gains `icon`; a new
+`RowActions` component (ghost icon `Button` + `Menu`) is the cell content; `Table` gains static
+`ActionsHeaderCell` (visually hidden "Actions" name) and `ActionsCell`. The menu is NOT built
+into `Table` so Table stays a zero-JS server component within its 2 kB size budget.
+
+---
+
+## Q19. "add a vertical tabs too for navigation"
+
+**Answer / decision.** `Tabs` gains `orientation?: 'horizontal' | 'vertical'` (default horizontal,
+so nothing changes for existing users). Vertical renders the tab list as a left-hand navigation
+column beside the panel, with a crimson bar on the list's right border plus a `surface-2` fill for
+the selected row; Base UI provides ArrowUp/ArrowDown and `aria-orientation="vertical"`. Labels
+can carry an icon + text. Same component, not a new one, so the API and a11y stay shared.
+
+---
+
+## Q20. "thoughts on adding animations withing components? - think of ideas" → "commit what we already have and next commit add animations"
+
+**Answer given.** Yes, CSS-only (SSR-safe, zero bundle cost) with reduced-motion fallbacks and
+motion that carries meaning. Ranked ideas: (1) Tabs sliding indicator, (2) Accordion height,
+(3) directional popup entrance, (4) Toast stack + swipe, (5) Meter/Progress grow-in +
+indeterminate slide; polish: Checkbox tick draw, Switch overshoot, Stepper fill, Button spinner
+cross-fade, Tooltip grouping, Skeleton shimmer; skip: staggered menus, View Transitions, page
+effects. Proposed tokens `--sk-duration-slow` + `--sk-ease-spring`.
+
+**Decision.** Owner: build it as the next commit → items 1–5 + both tokens (taken as approval of
+the two tokens asked about in the same answer). Spec: `docs/motion.md`, roadmap §D5. While
+speccing, found that Tailwind v4 `scale-*`/`translate-*` compile to the `scale`/`translate`
+properties, so our `transition-[…,transform]` lists never animated them (11 components) — fixed
+in the same wave.
+
+## Q21. "let's design a 'video player' with our branding that supports basic features let's design it first"
+
+**Answer given.** Design only, no code. Spec `docs/component-video-player.md` (Button template) +
+an interactive mockup (artifact https://claude.ai/artifact/YEbDARw4mUAPviuEnRDBzv) showing the
+player, every state, anatomy → tokens, hotkeys. Proposal: `VideoPlayer`, client component over the
+native `<video>` (no player library, no new dependency, no new tokens); reuses Base UI `Slider`
+(seek, volume) and our `Menu` (speed). v1 scope: play/pause, seek with buffered + hover time,
+time, mute/volume, speed, captions (when a track exists), PiP, fullscreen (root, so controls
+survive), 2.5s auto-hide, YouTube-style hotkeys scoped to the player, buffering + error states,
+compact layout via container query. Out: HLS/DASH, quality, thumbnails, chapters, playlists, live,
+Cast.
+
+**Waiting on owner** (recommendation in brackets): (1) always-dark chrome via `data-theme="dark"`
+on the root [yes]; (2) native `<video>`, no library [yes]; (3) the v1 scope above [as listed];
+(4) `className` → frame, `ref` → `<video>` [as listed]. Also proposes a `@utility video-cues`
+(`::cue` styling) in `theme.css`.
+
+---
+
+## Q22. "Let's also support chapters and everything in here - no need - scout and design frist https://www.nuevodevel.com/"
+
+**Answer given.** Scouted nuevodevel.com (Nuevo plugin for Video.js: home, docs, ~80-demo
+showcase, playlist, chapters + chapters-list demos). Design only, no code. Every Nuevo feature is
+mapped in `docs/component-video-player.md` Appendix A and sorted into three tiers: **Tier 1 core**
+(chapters as bar segments + current-chapter label, sprite/VTT thumbnail preview, quality from
+`sources[].res`, captions languages + caption style, ±10s, frame step, context menu, touch
+controls, AirPlay, i18n `labels`, `useVideoPlayer` hook); **Tier 2 opt-in parts** as separate
+named exports (Panel with chapters/playlist/transcript, Playlist, UpNext, EndScreen, Share, Skip,
+Overlay, Audio; plus resume, watch limit, sync group, floating, theater, live, picture tools,
+snapshot, download, loop section, sleep timer); **Tier 3 adapters** behind `sukuna-ui/video/*`
+with the vendor SDK as an optional peer (hls.js, dash.js, DRM, VAST/IMA/DAI ads, Chromecast,
+VR/360, analytics). Mockup v2 updated in place (same artifact URL): interactive hero with all Tier
+1 + panel/playlist/up-next/end/share/skip/context menu, and 29 state cards.
+
+**Waiting on owner** (recommendation in brackets): (1) the three tiers [yes]; (2) Tier 3 SDKs as
+optional peers behind subpaths, each approved separately [yes, hls.js first]; (3) parts as named
+exports, not `VideoPlayer.Panel` [named]; (4) drop VPAID, YouTube tech, subtitle auto-translation
+[drop]; (5) four delivery waves (Appendix B) [yes]; plus the open Q21 items.
+
+## Q23. "let's go for it"
+
+**Decision.** Owner approves every recommendation in Q21 and Q22: always-dark chrome
+(`data-theme="dark"` on the root); native `<video>`, no player library; `className` → frame,
+`ref` → `<video>`; three tiers; Tier 3 SDKs as optional peers behind `sukuna-ui/video/*`
+subpaths, hls.js first; parts as named exports; drop VPAID, YouTube tech and subtitle
+auto-translation; four delivery waves. Build starts at W1 on `feat/v1.3-wave`.
+
+---
+
+## Q24. "Let's think of ways to add a theme file to support various themes: add 2 more and a configurable file (if does not exist) — we currently have light/dark — let's add 2 more examples that look similar — lets design first"
+
+**Answer given (design).** Keep the Sukuna identity (crimson, shape, type) and vary surfaces only:
+**Midnight** (dark, cool blue-black) and **Paper** (light, warm cream), both AA-verified before
+proposing. One file per theme (`extends` a built-in, override a few colors), a resolved CSS block
+per theme with `color-scheme`, the contrast gate over every theme, and an app-side
+`sukuna.themes.ts` created on demand by a CLI that compiles it to CSS with contrast warnings.
+Spec: `docs/theming.md`.
+
+**Owner decisions (asked in session):**
+- Themes: **Midnight + Paper** (over two dark variants / other names).
+- App config: **TS file + CLI** — `defineThemes()` in `sukuna.themes.ts`; `themes init` creates it
+  if missing, `themes build` emits CSS and warns below AA (over a CSS-only template or JSON).
+- **Add `system` mode** following `prefers-color-scheme`. Agent refinement: opt-in via
+  `data-theme="system"`; a page with no attribute stays dark (changing it would be a visible default
+  change → major).
+
+## Q25. (Agent → owner) Add a `sk-ticker` keyframe + `animate-ticker` utility for the VideoPlayer news ticker?
+
+**Context.** Nuevo's "news ticker" overlay scrolls text across the bottom of the video. CSS-only
+motion (motion.md rule 1) needs a new keyframe in the generated `theme.css` (via
+`scripts/build-tokens.ts`), e.g. `@keyframes sk-ticker { to { translate: -100% 0 } }` +
+`@utility animate-ticker { animation: sk-ticker 24s linear infinite }`, with a `motion-reduce:`
+fallback that stops and wraps the text. Like the shine keyframes (Q13) that's a token-level
+addition, so it waits for approval. `VideoPlayerOverlay` shipped `card` / `banner` / `plain`
+without it.
+
+**Status:** waiting on owner (blocks only `VideoPlayerOverlay variant="ticker"`).
+
+## Q26. (Agent → owner) Which VideoPlayer SDK adapter next, if any?
+
+**Context.** W4 shipped the `engine` seam and the hls.js adapter (`sukuna-ui/video/hls`, hls.js as
+an optional peer), the first SDK approved in Q23. Each remaining Tier 3 adapter adds its own
+optional peer and needs its own yes:
+
+| Adapter | Peer dependency | What you get |
+|---|---|---|
+| DASH | `dash.js` | MPEG-DASH streams + levels via the same `engine` seam |
+| Ads | Google IMA SDK (script) / a VAST parser | pre/mid/post-rolls, skip, VMAP, with our champagne ad chrome |
+| Cast | Google Cast SDK (script) | Chromecast button + "Playing on …" state |
+| VR / 360° | `three` | WebGL renderer with drag / arrow-key look-around |
+| Analytics | none | one normalized `onAnalytics` event stream (no SDK — could ship without approval) |
+
+**Status:** waiting on owner. Nothing blocks the shipped waves.
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |
@@ -181,7 +364,13 @@ correct) and treats the count-up as a mount enhancement; reduced-motion shows th
 | Versioning | Changesets + semver, `0.x` until v1 components ship, `latest`/`next` channels, breaking-change table in Q6 |
 | Testing | Single runner `bun test`: Testing Library + jest-axe + SSR helpers for unit; Playwright library inside `bun test` for browser (Q8, Q11, `docs/testing.md`) |
 | Coverage | ≥ 90% lines/functions/statements, enforced by `bunfig.toml` threshold and CI (Q9) |
-| Button variants | `primary`, `secondary`, `ghost` only; no `premium`, no `danger` (Q10) |
+| Button variants | `primary`, `secondary`, `ghost` (+ `outline`, `link` in v1.3, Q15); no `premium`, no `danger` (Q10, reaffirmed Q15) |
+| Popover | In scope from v1.3 (Q15) — reverses roadmap §D |
+| Headless base | `@base-ui/react` stable (1.8+) since v1.3 (Q15, D33) |
+| Theming | Built-ins dark/light + **midnight**/**paper**; opt-in `system`; apps extend via `sukuna.themes.ts` + `sukuna-ui themes init\|build` (Q24, `docs/theming.md`) |
+| Motion | CSS-only, reduced-motion fallbacks, `docs/motion.md`; new tokens `--sk-duration-slow`, `--sk-ease-spring` (Q20) |
+| Virtualization | Deferred, no `@tanstack/react-virtual` for now; revisit on a real large-Table need (Q17) |
+| VideoPlayer | Native `<video>`, always-dark chrome, Nuevo parity in three tiers, parts as named exports, SDKs as optional peers (hls.js first), four waves (Q21-Q23) |
 | Light palette | Approved as proposed in `tokens.md` (Q10) |
 | Status tracking | `docs/roadmap.md` living board; agents update it in the same commit as the work (rule 9) |
 | Versioning enforcement | CLAUDE.md + CI classifiers (API diff, visual, token, peer) + human-only merge/publish (Q7) |
@@ -193,3 +382,5 @@ correct) and treats the count-up as a mount enhancement; reduced-motion shows th
 | Q12 | Light-mode `--sk-shadow-card` value — approve the proposed softer shadow or supply one? | Proposed value in use; awaiting approval. Non-blocking (patch to change pre-1.0). |
 | Q13 | Approve `--sk-gradient-premium` token + `bg-gradient-premium` and the `sk-shine` keyframe + `animate-shine*` utilities for the React Bits-inspired wave? | Specs written; blocks only GradientText `premium` + ShinyText. Proposed values in Q13. |
 | Q14 | Confirm Counter's SSR-final-value strategy and defaults (1200ms, easeOutCubic)? | Spec written; non-blocking, sensible defaults. |
+| Q25 | `sk-ticker` keyframe + `animate-ticker` utility for the VideoPlayer news-ticker overlay? | Proposed; blocks only the ticker variant. |
+| Q26 | Next VideoPlayer SDK adapter (dash.js, IMA/VAST ads, Cast, three.js VR) — each a separate optional peer? | Waiting; hls.js shipped. |

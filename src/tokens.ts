@@ -118,13 +118,21 @@ export const radius = {
   pill: '999px',
 } as const
 
-/** Motion → `--sk-duration-*` and `--sk-ease`. */
+/** Motion → `--sk-duration-*`, `--sk-ease` and `--sk-ease-spring`. Rules: `docs/motion.md`. */
 export const motion = {
   duration: {
     fast: '120ms',
     base: '200ms',
+    /** Large moves: the toast stack, long slides. */
+    slow: '320ms',
   },
   ease: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+  /**
+   * A soft spring (~2% overshoot) as a CSS `linear()` curve — no JS. For sliding indicators and
+   * toggles. Browsers without `linear()` ignore the declaration and fall back to `ease`.
+   */
+  easeSpring:
+    'linear(0, 0.013, 0.05 2.6%, 0.2 5.6%, 0.6 12%, 0.84 17.5%, 0.96 23%, 1.012 28%, 1.02 33%, 1.012 41%, 1.002 52%, 1)',
 } as const
 
 /**

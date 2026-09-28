@@ -45,3 +45,17 @@ export const CustomHeadingLevel: Story = {
     </div>
   ),
 }
+
+export const WithDisabledItem: Story = {
+  render: (args) => (
+    <div style={{ width: 380 }}>
+      <Accordion
+        {...args}
+        items={[
+          ...items,
+          { value: 'legacy', trigger: 'Legacy plans', content: null, disabled: true },
+        ]}
+      />
+    </div>
+  ),
+}

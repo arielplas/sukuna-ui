@@ -13,3 +13,8 @@ test('expands and collapses a section on click', async ({ page }) => {
   await trigger.click()
   await expect(page.getByText(/Orders ship within/)).toHaveCount(0)
 })
+
+test('a disabled item is visibly dimmed (Base UI uses data-disabled)', async ({ page }) => {
+  await page.goto(story('components-accordion--with-disabled-item'))
+  await expect(page.getByRole('button', { name: 'Legacy plans' })).toHaveCSS('opacity', '0.45')
+})

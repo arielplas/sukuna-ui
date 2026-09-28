@@ -1,6 +1,6 @@
 'use client'
 
-import { Select as Base } from '@base-ui-components/react/select'
+import { Select as Base } from '@base-ui/react/select'
 import { type ReactNode, useMemo } from 'react'
 import { type SelectStyleProps, selectStyles } from './select.styles'
 

@@ -58,7 +58,10 @@ Static; always spinning while mounted.
 
 ## 10. Stories
 
-`Sizes`, `Inline`, `Recolored`.
+`Sizes`, `Inline`, `Recolored`, `Tones` (v1.3).
+
+**v1.3:** `tone?: 'accent' | 'success' | 'premium' | 'current'` (default `'accent'`) sets the
+wrapper color; `current` inherits the surrounding text color. A `className` color still wins.
 
 ## 11. Decisions
 

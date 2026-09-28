@@ -40,3 +40,13 @@ export const Group: Story = {
     </div>
   ),
 }
+
+export const Shapes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 12 }}>
+      <Avatar fallback="RS" />
+      <Avatar fallback="JJ" shape="square" />
+      <Avatar fallback="HQ" shape="square" size="lg" />
+    </div>
+  ),
+}

@@ -5,6 +5,8 @@ export type { AccordionItemData, AccordionProps } from './components/accordion'
 export { Accordion } from './components/accordion'
 export type { AlertProps } from './components/alert'
 export { Alert } from './components/alert'
+export type { AlertDialogButtonProps, AlertDialogProps } from './components/alert-dialog'
+export { AlertDialog } from './components/alert-dialog'
 export type { AvatarProps } from './components/avatar'
 export { Avatar } from './components/avatar'
 export type { BadgeProps } from './components/badge'
@@ -21,6 +23,12 @@ export type { CheckboxProps } from './components/checkbox'
 export { Checkbox } from './components/checkbox'
 export type { ChipProps } from './components/chip'
 export { Chip } from './components/chip'
+export type {
+  CollapsibleContentProps,
+  CollapsibleProps,
+  CollapsibleTriggerProps,
+} from './components/collapsible'
+export { Collapsible } from './components/collapsible'
 export type { ComboboxProps } from './components/combobox'
 export { Combobox } from './components/combobox'
 export type { ContextMenuProps } from './components/context-menu'
@@ -53,14 +61,20 @@ export type { InputProps } from './components/input'
 export { Input } from './components/input'
 export type { MenuItemOption, MenuProps } from './components/menu'
 export { Menu } from './components/menu'
+export type { MeterProps } from './components/meter'
+export { Meter } from './components/meter'
 export type { NumberFieldProps } from './components/number-field'
 export { NumberField } from './components/number-field'
 export type { PaginationProps } from './components/pagination'
 export { Pagination, paginationRange } from './components/pagination'
+export type { PopoverContentProps, PopoverProps } from './components/popover'
+export { Popover } from './components/popover'
 export type { ProgressProps } from './components/progress'
 export { Progress } from './components/progress'
 export type { RadioGroupProps, RadioOption } from './components/radio-group'
 export { RadioGroup } from './components/radio-group'
+export type { RowActionsProps } from './components/row-actions'
+export { RowActions } from './components/row-actions'
 export type { ScrollAreaProps } from './components/scroll-area'
 export { ScrollArea } from './components/scroll-area'
 export type { SelectOption, SelectProps } from './components/select'
@@ -83,9 +97,54 @@ export type { TabItem, TabsProps } from './components/tabs'
 export { Tabs } from './components/tabs'
 export type { TextElement, TextProps } from './components/text'
 export { Text } from './components/text'
+export type { TextareaProps } from './components/textarea'
+export { Textarea } from './components/textarea'
 export type { ToastOptions, ToastProviderProps } from './components/toast'
 export { ToastProvider, useToast } from './components/toast'
 export type { ToggleGroupProps, ToggleOption, ToggleProps } from './components/toggle-group'
 export { Toggle, ToggleGroup } from './components/toggle-group'
 export type { TooltipProps } from './components/tooltip'
 export { Tooltip } from './components/tooltip'
+export type {
+  Chapter,
+  ThumbnailCue,
+  VideoCaptionTrack,
+  VideoEngine,
+  VideoEngineCallbacks,
+  VideoEngineLevel,
+  VideoEngineSession,
+  VideoPanelTab,
+  VideoPlayerActions,
+  VideoPlayerAudioProps,
+  VideoPlayerContextValue,
+  VideoPlayerEndScreenProps,
+  VideoPlayerFeatures,
+  VideoPlayerLabels,
+  VideoPlayerOverlayProps,
+  VideoPlayerOwnProps,
+  VideoPlayerPanelProps,
+  VideoPlayerPlaylistProps,
+  VideoPlayerPlaylistState,
+  VideoPlayerProps,
+  VideoPlayerRelatedItem,
+  VideoPlayerSetting,
+  VideoPlayerShareProps,
+  VideoPlayerSkipProps,
+  VideoPlayerState,
+  VideoPlayerUpNextProps,
+  VideoPlaylistItem,
+  VideoSource,
+  VideoTrack,
+} from './components/video-player'
+export {
+  useVideoPlayer,
+  VideoPlayer,
+  VideoPlayerAudio,
+  VideoPlayerEndScreen,
+  VideoPlayerOverlay,
+  VideoPlayerPanel,
+  VideoPlayerPlaylist,
+  VideoPlayerShare,
+  VideoPlayerSkip,
+  VideoPlayerUpNext,
+} from './components/video-player'

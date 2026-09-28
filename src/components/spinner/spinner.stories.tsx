@@ -36,3 +36,16 @@ export const Recolored: Story = {
     </div>
   ),
 }
+
+export const Tones: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+      <Spinner />
+      <Spinner tone="success" label="Syncing" />
+      <Spinner tone="premium" label="Upgrading" />
+      <span style={{ color: 'var(--sk-text-dim)' }}>
+        <Spinner tone="current" size="sm" label="Loading more" />
+      </span>
+    </div>
+  ),
+}

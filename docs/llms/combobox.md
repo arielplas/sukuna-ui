@@ -45,6 +45,8 @@ overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card` + fade
 
 closed · typing (filtered list) · item highlighted (keyboard) · empty (no matches) · disabled.
 
+**Motion (v1.3, `docs/motion.md`):** directional entrance — fade + scale 95→100% + a 4px slide from the input side (`data-side`). Reduced motion: instant.
+
 ## Accessibility
 
 - [ ] `role="combobox"` input with `aria-expanded`/`aria-controls`; listbox + options wired by Base UI.

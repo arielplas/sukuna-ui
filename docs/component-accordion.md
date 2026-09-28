@@ -42,6 +42,8 @@ item: `border-b border-line`. trigger: `group flex w-full items-center justify-b
 
 collapsed · expanded (chevron rotated) · focus-visible · disabled item.
 
+**Motion (v1.3, `docs/motion.md`):** panels animate height via `--accordion-panel-height` (`duration-base`); the chevron rotates. Reduced motion: instant.
+
 ## 6. Logic (`accordion.logic.tsx`)
 
 - `'use client'`. `Base.Root` (openMultiple, value/defaultValue/onValueChange) → per item:
@@ -68,7 +70,8 @@ the heading); SSR. **Browser:** click expands/collapses.
 
 ## 10. Stories
 
-`Default`, `OpenMultiple`, `WithDefault`, `CustomHeadingLevel`.
+`Default`, `OpenMultiple`, `WithDefault`, `CustomHeadingLevel`, `WithDisabledItem` (v1.3 — guards the
+`data-[disabled]` dim; Base UI sets no native `disabled` on the trigger).
 
 ## 11. Decisions
 
