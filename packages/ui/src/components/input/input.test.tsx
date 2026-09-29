@@ -50,10 +50,30 @@ describe('Input', () => {
   })
 
   it('does not leak variant props to the DOM', () => {
-    render(<Input aria-label="n" size="lg" invalid data-testid="i" />)
+    render(<Input aria-label="n" variant="ghost" size="lg" invalid data-testid="i" />)
     const el = screen.getByTestId('i')
-    expect(el.hasAttribute('size')).toBe(false)
-    expect(el.hasAttribute('invalid')).toBe(false)
+    for (const attr of ['variant', 'size', 'invalid']) expect(el.hasAttribute(attr)).toBe(false)
+  })
+
+  it('maps variant to its surface; filled is the unchanged default; invalid wins on ghost', () => {
+    render(
+      <>
+        <Input aria-label="f" data-testid="filled" />
+        <Input aria-label="o" variant="outline" data-testid="outline" />
+        <Input aria-label="g" variant="ghost" data-testid="ghost" />
+        <Input aria-label="gi" variant="ghost" invalid data-testid="ghost-invalid" />
+      </>,
+    )
+    const cls = (id: string) => screen.getByTestId(id).classList
+    expect(cls('filled').contains('bg-surface-2')).toBe(true)
+    expect(cls('filled').contains('border-line')).toBe(true)
+    expect(cls('outline').contains('bg-transparent')).toBe(true)
+    expect(cls('outline').contains('border-line')).toBe(true)
+    expect(cls('outline').contains('bg-surface-2')).toBe(false)
+    expect(cls('ghost').contains('border-transparent')).toBe(true)
+    expect(cls('ghost').contains('border-line')).toBe(false)
+    expect(cls('ghost-invalid').contains('border-accent')).toBe(true)
+    expect(cls('ghost-invalid').contains('border-transparent')).toBe(false)
   })
 
   it('lets a consumer className override a conflicting utility', () => {

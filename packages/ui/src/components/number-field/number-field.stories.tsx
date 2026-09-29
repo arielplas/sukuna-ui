@@ -23,6 +23,16 @@ export const Sizes: Story = {
   ),
 }
 
+export const Variants: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 200 }}>
+      <NumberField {...args} variant="filled" aria-label="Filled" />
+      <NumberField {...args} variant="outline" aria-label="Outline" />
+      <NumberField {...args} variant="ghost" aria-label="Ghost" />
+    </div>
+  ),
+}
+
 export const WithMinMax: Story = {
   args: { defaultValue: 1, min: 1, max: 5, 'aria-label': 'Between 1 and 5' },
 }

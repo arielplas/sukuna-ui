@@ -477,6 +477,25 @@ is first published.
 
 ---
 
+## Q30. "what are the states of pull requests?" → "merge #21 - what about #13 & #12?" → "1"
+
+**Answer.** #21 (standalone `@sukunagg/video` + rename) was green and got merged. #12 (variants
+wave) and #13 (Ember Gate brand kit, stacked on #12) were still open from 2026-09-22, 38 commits
+behind `main`, none of their work in `main`; a trial merge hit 20 conflicts (the move to
+`packages/ui/src/` and the v1.3 wave's rewrites of Card, Tabs, Toast, Table, Combobox). Options:
+(1) port both onto today's `main` as fresh PRs, (2) port only the brand kit, (3) close both.
+
+**Decision (owner: "1").** Port both. The variants wave is re-applied commit by commit on
+`feat/variants-wave-v2` (paths rewritten, conflicts reconciled with v1.3: Card keeps v1.3's
+`interactive` and gains `tone` + `glow`; Tabs `variant`/`size`/`fitted` sit alongside
+`orientation`, with `pill`/`fitted` horizontal-only and vertical `md` rows kept at 36px; Toast
+`tone` on top of the stacked-deck motion; Table density/striped/hoverable beside the actions
+column). The brand kit follows as a PR stacked on it; #12 and #13 are closed as superseded. While
+porting, found and fixed a docs regression from the rename (VideoPlayer missing from the generated
+docs).
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |

@@ -57,7 +57,8 @@ export interface RadioGroupProps extends RadioGroupStyleProps {
  *   enabled option; `Space` checks the focused one. The whole row is the control, so clicking the
  *   label text also selects it.
  * - Variants: `orientation` is `'vertical'` (column, gap-3) or `'horizontal'` (wrapping row,
- *   gap-5); default `'vertical'`. `size` is `'sm'` (16px circle) or `'md'` (20px circle);
+ *   gap-5); default `'vertical'`. `size` is `'sm'` (16px circle), `'md'` (20px circle) or `'lg'`
+ *   (24px circle);
  *   default `'md'`.
  * - Behaviour: uncontrolled via `defaultValue`, controlled via `value` + `onValueChange`. Values
  *   are strings only in v1. `onValueChange` is not called when the already-checked option is

@@ -53,6 +53,31 @@ describe('Table', () => {
     expect(ref.current?.classList.contains('text-md')).toBe(true)
   })
 
+  it('maps density, striped and hoverable onto the table root and keeps them off the DOM', () => {
+    render(
+      <Table density="compact" striped hoverable data-testid="t">
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>x</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>,
+    )
+    const table = screen.getByTestId('t')
+    expect(table.classList.contains('[&_td]:h-9')).toBe(true)
+    expect(table.classList.contains('[&_tbody_tr:nth-child(even)]:bg-line-soft')).toBe(true)
+    expect(table.classList.contains('[&_tbody_tr:hover]:bg-line')).toBe(true)
+    for (const attr of ['density', 'striped', 'hoverable'])
+      expect(table.hasAttribute(attr)).toBe(false)
+  })
+
+  it('comfortable density is the unchanged default', () => {
+    render(<Example />)
+    const table = screen.getByRole('table')
+    expect(table.classList.contains('[&_td]:h-9')).toBe(false)
+    expect(screen.getByText('Owner').classList.contains('h-11')).toBe(true)
+  })
+
   it('wraps the table in a horizontal-scroll container', () => {
     const { container } = render(<Example />)
     const wrapper = container.querySelector('div')

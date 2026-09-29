@@ -12,7 +12,7 @@ type NativeProps = Omit<
 /**
  * Props for {@link Switch}: native `<button>` attributes (minus `type`, `role`, `aria-checked`,
  * `value` and `onClick`, which the component owns) plus the style variant
- * `size?: 'sm' | 'md'` (default `'md'`).
+ * `size?: 'sm' | 'md' | 'lg'` (default `'md'`).
  */
 export interface SwitchProps extends NativeProps, SwitchStyleProps {
   /**
@@ -43,7 +43,7 @@ export interface SwitchProps extends NativeProps, SwitchStyleProps {
  *   Space and Enter toggle and focus comes from the native button. No visible label is rendered,
  *   so an accessible name is required: pass `aria-label` or `aria-labelledby` (or wrap in
  *   `Field`). The sliding thumb is `aria-hidden`. Focus ring is visible in both themes.
- * - Variants: `size`: 'sm' (20x36px) | 'md' (24x44px, default).
+ * - Variants: `size`: 'sm' (20x36px) | 'md' (24x44px, default) | 'lg' (28x52px).
  * - Works uncontrolled (`defaultChecked`) or controlled (`checked`); listen with
  *   `onCheckedChange(boolean)`. `disabled` blocks toggling.
  * - Not a form control: it has no `name`/`value` and submits nothing. Mirror the state into a

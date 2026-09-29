@@ -20,6 +20,7 @@ export const Sizes: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 320 }}>
       <Progress {...args} value={50} size="sm" />
       <Progress {...args} value={50} size="md" />
+      <Progress {...args} value={50} size="lg" />
     </div>
   ),
 }

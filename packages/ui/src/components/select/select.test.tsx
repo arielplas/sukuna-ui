@@ -27,6 +27,23 @@ describe('Select', () => {
     expect(screen.getByRole('combobox', { name: 'Framework' })).toBeInTheDocument()
   })
 
+  it('maps variant onto the trigger; filled is the unchanged default', () => {
+    render(
+      <>
+        <Select items={items} aria-label="filled" />
+        <Select items={items} aria-label="outline" variant="outline" />
+        <Select items={items} aria-label="ghost" variant="ghost" />
+      </>,
+    )
+    const cls = (name: string) => screen.getByRole('combobox', { name }).classList
+    expect(cls('filled').contains('bg-surface-2')).toBe(true)
+    expect(cls('filled').contains('border-line')).toBe(true)
+    expect(cls('outline').contains('bg-transparent')).toBe(true)
+    expect(cls('outline').contains('border-line')).toBe(true)
+    expect(cls('ghost').contains('border-transparent')).toBe(true)
+    expect(cls('ghost').contains('bg-surface-2')).toBe(false)
+  })
+
   it('does not render the option list while closed', () => {
     render(<Select items={items} aria-label="Framework" />)
     expect(screen.queryByText('Svelte')).toBeNull()

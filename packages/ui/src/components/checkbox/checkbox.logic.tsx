@@ -20,7 +20,7 @@ type NativeProps = Omit<
 /**
  * Props for {@link Checkbox}: native `<input>` attributes (minus `type`, `size`, `value`,
  * `defaultValue`, `checked`, `defaultChecked` and `onChange`, which the component owns or
- * replaces) plus the style variant `size?: 'sm' | 'md'` (default `'md'`).
+ * replaces) plus the style variant `size?: 'sm' | 'md' | 'lg'` (default `'md'`).
  */
 export interface CheckboxProps extends NativeProps, CheckboxStyleProps {
   /**

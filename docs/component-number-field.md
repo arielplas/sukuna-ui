@@ -36,6 +36,7 @@ interface NumberFieldOwnProps {
   step?: number                   // default 1
   largeStep?: number              // Shift+Arrow / PageUp-Down; default 10
   format?: Intl.NumberFormatOptions   // e.g. { style: 'currency', currency: 'USD' }
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
   size?: 'sm' | 'md' | 'lg'       // default 'md'
   readOnly?: boolean
   allowWheelScrub?: boolean        // default false — scroll wheel over the input changes value
@@ -55,8 +56,10 @@ treatment, matching `Input`).
 
 ## 4. Variants → tokens
 
-group: `inline-flex items-stretch rounded-md border border-line bg-surface-2
-focus-within:ring-2 focus-within:ring-focus-ring`. input: `min-w-0 flex-1 bg-transparent px-3
+group: `inline-flex items-stretch rounded-md border focus-within:ring-2 focus-within:ring-focus-ring`
++ `variant` filled `bg-surface-2 border-line` (default) / outline `bg-transparent border-line` /
+ghost `bg-transparent border-transparent hover:bg-surface-2` — the shared form-control map (see
+Input). input: `min-w-0 flex-1 bg-transparent px-3
 text-text tabular-nums outline-none placeholder:text-text-faint`. decrement/increment:
 `grid w-9 place-items-center text-text-dim hover:bg-well hover:text-text
 data-[disabled]:opacity-45` (decrement gets a right border, increment a left border via

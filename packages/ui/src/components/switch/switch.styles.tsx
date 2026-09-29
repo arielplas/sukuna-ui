@@ -16,6 +16,7 @@ export const switchStyles = tv({
     size: {
       sm: { root: 'h-5 w-9', thumb: 'size-4 group-aria-checked:translate-x-4' },
       md: { root: 'h-6 w-11', thumb: 'size-5 group-aria-checked:translate-x-5' },
+      lg: { root: 'h-7 w-13', thumb: 'size-6 group-aria-checked:translate-x-6' },
     },
   },
   defaultVariants: { size: 'md' },

@@ -27,10 +27,13 @@ export interface CardProps extends ComponentPropsWithoutRef<'div'> {
   elevation?: 'flat' | 'raised' | 'sunken'   // default 'flat'
   padding?: 'none' | 'sm' | 'md' | 'lg'       // default 'md'
   radius?: 'md' | 'lg'                         // default 'lg'
+  tone?: 'default' | 'premium'                 // default 'default' — bone/gold surface treatment
+  interactive?: boolean                        // hover lift + focus ring (affordance only)
+  glow?: boolean                               // crimson accent-glow halo on hover
 }
 ```
 
-Extends `<div>`; adds only `elevation`, `padding`, `radius`.
+Extends `<div>`; adds only `elevation`, `padding`, `radius`, `tone`, `interactive`, `glow`.
 
 ## 4. Variants → tokens
 
@@ -47,11 +50,26 @@ Extends `<div>`; adds only `elevation`, `padding`, `radius`.
 | md | `p-6` | | | |
 | lg | `p-8` | | | |
 
-Base: `block text-text`.
+| tone | utilities |
+|---|---|
+| default | — (unchanged) |
+| premium | `border-premium-dim` + `bg-[color-mix(in_oklab,var(--sk-premium)_6%,var(--sk-surface))]` — a 6% premium tint mixed into the surface token, no raw hex |
+
+| flag | utilities |
+|---|---|
+| interactive | `cursor-pointer transition-[border-color,box-shadow,translate] duration-fast ease-sukuna` · `hover:-translate-y-0.5 hover:shadow-card hover:border-text-faint` · `focus-visible:ring-2` + `has-[:focus-visible]:ring-2 ring-focus-ring` (+ offset) · `motion-reduce:*` off |
+| glow | `hover:shadow-[0_0_22px_4px_var(--sk-accent-glow)]` (the Button-primary halo) + `transition-shadow` |
+
+`tone` is declared after `elevation` so its border/background win the merge. Base: `block text-text`.
 
 ## 5. States
 
-Static; no interactive states. (`raised` is a resting elevation, not a hover effect.)
+| State | Behavior |
+|---|---|
+| default | static (`raised` is a resting elevation, not a hover effect) |
+| hover (`interactive`) | lifts 2px, border brightens to `text-faint`; with `glow`, the accent halo appears |
+| keyboard focus (`interactive`) | solid `--sk-focus-ring` ring when the card or an inner Link/Button is `:focus-visible` |
+| prefers-reduced-motion | transitions and the lift are disabled; the ring and halo still apply |
 
 **Motion (v1.3, `docs/motion.md`):** `interactive` hover lift now actually animates (`transition-[…,translate]`). Reduced motion: instant.
 
@@ -59,18 +77,24 @@ Static; no interactive states. (`raised` is a resting elevation, not a hover eff
 
 - No `'use client'`.
 - `forwardRef<HTMLDivElement, CardProps>`.
-- Destructure `elevation`, `padding`, `radius`, `className` out; spread the rest onto `<div>`.
+- Destructure `elevation`, `padding`, `radius`, `tone`, `interactive`, `glow`, `className` out;
+  spread the rest onto `<div>`.
 
 ## 7. Styles (`card.styles.tsx`)
 
-`tv()` with the variants above; `defaultVariants: { elevation: 'flat', padding: 'md', radius: 'lg' }`.
+`tv()` with the variants above; `defaultVariants: { elevation: 'flat', padding: 'md', radius: 'lg',
+tone: 'default' }`. `interactive` and `glow` are boolean variants with no default.
 
 ## 8. Accessibility checklist
 
 - [ ] A Card is a generic container — no implicit role. Give it a landmark/role only when its
       content warrants one (`role="group"` + `aria-label`, `<section>` via wrapping, etc.).
-- [ ] Not focusable and has no click handler; clickable surfaces wrap a Button/Link.
-- [ ] `sunken`/`flat` surfaces keep text contrast ≥ 4.5:1 in both themes.
+- [ ] Not focusable and has no click handler; clickable surfaces wrap (or contain) a Button/Link.
+      `interactive` is affordance only — it never adds `role`/`tabIndex` — and its ring uses
+      `has-[:focus-visible]` so the real control's keyboard focus lights the card.
+- [ ] `sunken`/`flat`/`premium` surfaces keep text contrast ≥ 4.5:1 in both themes (the premium
+      tint is 6%, so `text-text` contrast is effectively unchanged).
+- [ ] Hover-only effects (`lift`, `glow`) carry no information; keyboard users get the ring.
 
 ## 9. Tests
 
@@ -84,8 +108,9 @@ Static; no interactive states. (`raised` is a resting elevation, not a hover eff
 
 ## 10. Stories
 
-`Playground`, `Elevations`, `Padding`, `Radius`, `Composed` (Text + Badge inside), `Interactive`
-(v1.3). Both themes.
+`Playground`, `Elevations`, `Padding`, `Radius`, `Tones`, `InteractiveGlow` (cards wrapped in
+links, with `glow` and `premium`), `Composed` (Text + Badge inside), `Interactive` (v1.3 — a link
+inside the card). Both themes.
 
 **v1.3:** `interactive?: boolean` adds `cursor-pointer`, a hover lift (`-translate-y-0.5` +
 `shadow-card` + `border-text-faint`, off under reduced motion) and a focus ring when the card or
@@ -94,6 +119,10 @@ must be a real `<a>`/`<button>` inside.
 
 ## 11. Decisions
 
-- No `interactive`/clickable Card and no `onClick` affordance in v1 (wrap in Button/Link) — see
-  `docs/ai-decisions.md`.
+- Still no clickable Card and no `onClick` affordance (wrap in Button/Link) — see
+  `docs/ai-decisions.md`. `interactive` (added post-0.8.0) is the visual affordance for that
+  pattern, not a replacement for it.
+- `tone: 'premium'` is the "premium is a surface treatment" ruling from Q10 made concrete.
+  `// DECISION(open)`: shipped as border **and** a 6% tint; the owner may prefer border-only or
+  tint-only (a patch either way).
 - No `Card.Header`/`Body`/`Footer` sub-components in v1; compose with `Text` and layout utilities.

@@ -24,18 +24,27 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 export interface SkeletonProps extends ComponentPropsWithoutRef<'div'> {
   variant?: 'text' | 'rectangular' | 'circular'   // default 'rectangular'
+  animation?: 'pulse' | 'shimmer'                 // default 'pulse'
   // size comes from your className/style (e.g. className="h-4 w-40")
 }
 ```
 
 ## 4. Variants → tokens
 
-Base: `animate-pulse bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular → `rounded-md`;
-circular → `rounded-full`.
+Base: `motion-reduce:animate-none bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular →
+`rounded-md`; circular → `rounded-full`.
+
+| animation | utilities |
+|---|---|
+| pulse | `animate-pulse` (default — the original) |
+| shimmer | `animate-shine-fast` (ShinyText's `sk-shine` keyframe) + `bg-linear-[110deg] from-transparent from-40% via-on-accent/15 via-50% to-transparent to-60% bg-[length:200%_100%]` — the band is `on-accent` (white in both themes) so it reads as a highlight on light and dark |
+
+The animation class lives in the variant, not the base, because tailwind-merge can't dedupe the
+custom `animate-shine-fast` against `animate-pulse`.
 
 ## 5. States
 
-Static; always pulsing while mounted.
+Static; animating while mounted (pulse or shimmer), frozen under `prefers-reduced-motion`.
 
 ## 6. Logic (`skeleton.logic.tsx`)
 
@@ -44,7 +53,7 @@ Static; always pulsing while mounted.
 
 ## 7. Styles (`skeleton.styles.tsx`)
 
-`tv()` with a `variant`; `defaultVariants: { variant: 'rectangular' }`.
+`tv()` with `variant` + `animation`; `defaultVariants: { variant: 'rectangular', animation: 'pulse' }`.
 
 ## 8. Accessibility checklist
 
@@ -56,8 +65,10 @@ Renders each variant class; `aria-hidden`; ref; `className` sizing merges; SSR; 
 
 ## 10. Stories
 
-`Text`, `Rectangular`, `Circular`, `Card`.
+`Text`, `Rectangular`, `Circular`, `Shimmer`, `Card`.
 
 ## 11. Decisions
 
 - Size is the consumer's (`className`/`style`); no width/height props.
+- `animation: 'shimmer'` (post-0.8.0) reuses the `sk-shine` keyframe shipped for ShinyText rather
+  than adding a second one; `pulse` stays the default.

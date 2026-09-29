@@ -30,6 +30,9 @@ export interface TabsProps {
   onValueChange?: (value: string) => void
   'aria-label'?: string
   orientation?: 'horizontal' | 'vertical'   // v1.3 — default 'horizontal'
+  variant?: 'underline' | 'pill'            // default 'underline'; horizontal only
+  size?: 'sm' | 'md' | 'lg'                 // default 'md'
+  fitted?: boolean                          // tabs share the list width equally; horizontal only
 }
 ```
 
@@ -40,7 +43,26 @@ icon + text (`gap-2`).
 
 ## 4. Variants → tokens
 
-list: `flex border-b border-line`. tab: `h-10 px-3 text-sm font-medium text-text-dim border-b-2 border-transparent -mb-px hover:text-text data-[selected]:text-text data-[selected]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow`. panel: `pt-4 text-text`.
+Shared: list `flex`; tab `inline-flex items-center font-medium text-text-dim hover:text-text
+focus-visible:ring-2 focus-visible:ring-focus-ring` (+ disabled dimming); panel `pt-4 text-text`.
+
+| variant | list | tab | selected |
+|---|---|---|---|
+| underline | `border-b border-line` | `border-b-2 border-transparent -mb-px rounded-t-sm` | `aria-selected:text-accent aria-selected:border-accent` |
+| pill | `w-fit gap-1 rounded-pill bg-well p-1` | `rounded-pill border border-transparent` | `aria-selected:bg-surface aria-selected:text-accent aria-selected:border-line` |
+
+The pill's selected segment (`surface`) is lighter than its `well` track in **both** themes
+(dark `#000 → #141416`, light `#E8E5DD → #FFFFFF`), so the segmented look holds without a
+theme-specific rule.
+
+| size | tab |
+|---|---|
+| sm | `h-8 px-2.5 text-sm` |
+| md | `h-10 px-3 text-sm` |
+| lg | `h-12 px-4 text-md` |
+
+`fitted`: list `w-full`, tab `flex-1 justify-center` (declared after `variant` so `w-full` beats the
+pill's `w-fit`).
 
 Vertical: root `flex items-start gap-6`; list `flex-col shrink-0 min-w-44 border-r border-line`;
 tab `w-full justify-start h-9 border-r-2 -mr-px rounded-l-sm`, selected also `bg-surface-2`;
@@ -59,7 +81,13 @@ tab: default · hover · selected (accent underline) · focus-visible · disable
 
 ## 7. Styles
 
-`tv()` `slots` + an `orientation` variant (`horizontal` default, `vertical`).
+`tv()` `slots` + `orientation` / `variant` / `size` / `fitted` variants; `defaultVariants:
+{ orientation: 'horizontal', variant: 'underline', size: 'md' }` — the defaults reproduce the
+original styling exactly. The underline borders come from compound variants per orientation (bottom
+rule for a row, right-edge rule + surface fill for a column), and a vertical `md` row keeps its 36px
+height. `pill` and `fitted` are horizontal treatments: the logic renders vertical tabs as underline
+and unfitted, and renders the sliding indicator only for `underline` (the pill's selected segment is
+the tab itself).
 
 ## 8. Accessibility checklist
 
@@ -76,10 +104,14 @@ switches tabs; ArrowDown moves focus in the vertical story.
 
 ## 10. Stories
 
-`Default`, `WithDefault`, `DisabledTab`, `Vertical` (v1.3 — settings nav with icons).
+`Default`, `WithDefault`, `DisabledTab`, `Vertical` (v1.3 — settings nav with icons), `Pill`,
+`Sizes`, `PillSizes`, `Fitted`, `PillFitted`.
 
 ## 11. Decisions
 
 - Horizontal only in v1; **vertical added in v1.3** (owner request, Q19) as `orientation` — the
   indicator moves to a right-edge bar on the list border plus a `surface-2` fill for the selected row.
 - Prop-driven `items` with string values.
+- `pill` (added post-0.8.0) keeps crimson **text** for the selected segment, matching `underline`,
+  but never a crimson fill — a selected tab is state, not the surface's one primary action.
+- `size` uses the same `sm | md | lg` scale as every other control.

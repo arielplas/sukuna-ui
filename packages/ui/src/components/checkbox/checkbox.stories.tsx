@@ -20,6 +20,7 @@ export const Sizes: Story = {
     <div style={row}>
       <Checkbox {...args} size="sm" />
       <Checkbox {...args} size="md" />
+      <Checkbox {...args} size="lg" />
     </div>
   ),
 }

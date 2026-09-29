@@ -21,8 +21,10 @@ export interface InputProps
  *   `<label htmlFor>` (or wrap it in `Field`), `aria-label` or `aria-labelledby`. A placeholder
  *   is not a label. `invalid` sets `aria-invalid="true"`; pair it with `aria-describedby` that
  *   points at the error text. Focus ring is visible in both themes.
- * - Variants: `size`: 'sm' (32px) | 'md' (40px, default) | 'lg' (48px); `invalid`: boolean
- *   (default false) — crimson border plus `aria-invalid`.
+ * - Variants: `variant`: 'filled' (default — `surface-2` fill + `line` border) | 'outline'
+ *   (transparent, `line` border) | 'ghost' (borderless and transparent until hover/focus; the
+ *   inline-edit field). `size`: 'sm' (32px) | 'md' (40px, default) | 'lg' (48px); `invalid`:
+ *   boolean (default false) — crimson border plus `aria-invalid`, on every variant.
  * - The native numeric `size` attribute is not available; use `className` or a wrapper to
  *   constrain width. The input is full width (`w-full`) by default.
  * - `size` and `invalid` are consumed here and never reach the DOM as attributes.
@@ -54,14 +56,14 @@ export interface InputProps
  * ```
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { size, invalid, className, ...rest },
+  { variant, size, invalid, className, ...rest },
   ref,
 ) {
   return (
     <input
       ref={ref}
       aria-invalid={invalid || undefined}
-      className={inputStyles({ size, invalid, className })}
+      className={inputStyles({ variant, size, invalid, className })}
       {...rest}
     />
   )
