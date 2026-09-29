@@ -1,4 +1,4 @@
-# Styling — `sukuna-ui`
+# Styling — `@sukunagg/ui`
 
 Zero-runtime styling with **Tailwind v4 + `tailwind-variants`**, mapped to `--sk-*` tokens.
 No CSS-in-JS, no per-component `.css` files. Themes switch with `data-theme`, not `dark:`.
@@ -24,8 +24,8 @@ tokens overridable via CSS vars, and RSC-safe (static components carry no `'use 
 
 ```css
 @import "tailwindcss";
-@import "sukuna-ui/theme.css";                 /* @theme tokens + data-theme palettes */
-@source "../node_modules/sukuna-ui/dist";      /* so their build emits our utilities */
+@import "@sukunagg/ui/theme.css";                 /* @theme tokens + data-theme palettes */
+@source "../node_modules/@sukunagg/ui/dist";      /* so their build emits our utilities */
 ```
 
 We ship no compiled component CSS on this path; their Tailwind generates exactly the classes used.
@@ -33,12 +33,12 @@ We ship no compiled component CSS on this path; their Tailwind generates exactly
 **Non-Tailwind consumers (fallback path)** — import the precompiled sheet:
 
 ```css
-@import "sukuna-ui/styles.css";
+@import "@sukunagg/ui/styles.css";
 ```
 
 Second-class: not purged, tokens overridable only via `--sk-*` vars.
 
-**Raw tokens only** — `@import "sukuna-ui/tokens.css";` for the plain `--sk-*` custom properties.
+**Raw tokens only** — `@import "@sukunagg/ui/tokens.css";` for the plain `--sk-*` custom properties.
 
 Switch theme at runtime by setting `data-theme="dark"` (default) or `"light"` on any ancestor.
 Override any token by redefining `--sk-*` under your own selector.
@@ -47,16 +47,16 @@ Override any token by redefining `--sk-*` under your own selector.
 
 | File | Role |
 |---|---|
-| `src/tokens.ts` | Source of truth (typed). |
-| `src/styles/tokens.css` | **Generated.** Raw `--sk-*` palettes (dark + light). Plain CSS. |
-| `src/styles/theme.css` | **Generated.** Palettes + `@theme inline` mapping + `bg-gradient-accent` utility. Ships as `sukuna-ui/theme.css`. |
-| `src/styles/reset.css` | Minimal, `:where()`-scoped under `[data-theme]`. |
-| `src/styles/index.css` | Raw path aggregate: tokens + reset. |
-| `src/styles/fallback.css` | Compiled by `css:build` → `dist/styles.css`. |
-| `src/styles/storybook.css` | Tailwind + theme for the Storybook preview. |
-| `src/utils/tw-merge-config.ts` | Shared `tailwind-merge` extension (font-size group). |
-| `src/utils/cn.ts` | `twMerge(clsx(...))`. |
-| `src/utils/tv.ts` | `tailwind-variants` `tv` + `VariantProps`, using the same merge config. |
+| `packages/ui/src/tokens.ts` | Source of truth (typed). |
+| `packages/ui/src/styles/tokens.css` | **Generated.** Raw `--sk-*` palettes (dark + light). Plain CSS. |
+| `packages/ui/src/styles/theme.css` | **Generated.** Palettes + `@theme inline` mapping + `bg-gradient-accent` utility. Ships as `@sukunagg/ui/theme.css`. |
+| `packages/ui/src/styles/reset.css` | Minimal, `:where()`-scoped under `[data-theme]`. |
+| `packages/ui/src/styles/index.css` | Raw path aggregate: tokens + reset. |
+| `packages/ui/src/styles/fallback.css` | Compiled by `css:build` → `dist/styles.css`. |
+| `packages/ui/src/styles/storybook.css` | Tailwind + theme for the Storybook preview. |
+| `packages/ui/src/utils/tw-merge-config.ts` | Shared `tailwind-merge` extension (font-size group). |
+| `packages/ui/src/utils/cn.ts` | `twMerge(clsx(...))`. |
+| `packages/ui/src/utils/tv.ts` | `tailwind-variants` `tv` + `VariantProps`, using the same merge config. |
 
 `bun run tokens:build` regenerates `tokens.css` + `theme.css`; `bun run css:build` compiles the
 fallback and copies both to `dist/`. `bun run build` runs both.

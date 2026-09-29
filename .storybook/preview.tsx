@@ -1,6 +1,8 @@
 import type { Decorator, Preview } from '@storybook/react-vite'
 import type { ReactNode } from 'react'
-import '../src/styles/storybook.css'
+import '../packages/ui/src/styles/storybook.css'
+// The VideoPlayer's own stylesheet (prefixed `vp:` utilities + `--vp-*` theme), from source.
+import '../packages/video/src/styles/video.css'
 
 type ThemeName = 'dark' | 'light'
 

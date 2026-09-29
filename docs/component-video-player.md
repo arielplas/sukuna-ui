@@ -6,6 +6,11 @@
 > so seek, volume and the settings menu are small in-house controls. **Status: approved (Q21–Q23);
 > W1 (core), W2 (parts), W3 (tools) and the W4 engine seam + hls.js adapter shipped; other SDK adapters wait on per-dependency approval (Q26).** Interactive design mockup:
 > https://claude.ai/artifact/YEbDARw4mUAPviuEnRDBzv (v2).
+> **Standalone (Q27):** the player is its own package, `@sukunagg/video` (`packages/video`), with
+> no dependency on `@sukunagg/ui` and a prebuilt, prefixed stylesheet (`@sukunagg/video/video.css`)
+> themed by `--vp-*` variables. `@sukunagg/ui` depends on it and re-exports every name (and
+> `@sukunagg/ui/video/hls`), so both `import { VideoPlayer } from '@sukunagg/ui'` and
+> `from '@sukunagg/video'` work.
 > Scope source: a scout of nuevodevel.com (Nuevo plugin for Video.js, ~80 demos) — full parity map
 > in **Appendix A**, delivery waves in **Appendix B**.
 
@@ -29,7 +34,7 @@ Three tiers keep that from becoming one heavy component:
 ## 2. Files
 
 ```
-src/components/video-player/
+packages/video/src/components/video-player/
 ├── video-player.styles.tsx    # tv() slots + variants. Pure. Server-safe.
 ├── video-player.logic.tsx     # 'use client' — VideoPlayer: media state, hotkeys, auto-hide, menus, a11y
 ├── video-player.controls.tsx  # 'use client' — SeekBar (segments + preview), VolumeSlider, SettingsMenu
@@ -48,9 +53,9 @@ Parts live in the same folder (they only work inside a `VideoPlayer`):
 `video-player-parts.styles.tsx`, tests in `video-player-parts.test.tsx` (W2) and
 `video-player-w3.test.tsx` (W3). Each part is its own module, so an app that imports only
 `VideoPlayer` never loads them.
-W4 adapters get their own subpath entries, SDK as an optional peer: `src/video/hls.ts` →
-`sukuna-ui/video/hls` (hls.js `>=1.5`, `peerDependenciesMeta.optional`, `typesVersions` for legacy
-`node10` resolution), tested with a mocked hls.js in `src/video/hls.test.ts`. The HLS fixture is
+W4 adapters get their own subpath entries, SDK as an optional peer: `packages/video/src/hls.ts` →
+`@sukunagg/video/hls` (re-exported as `@sukunagg/ui/video/hls`) (hls.js `>=1.5`, `peerDependenciesMeta.optional`, `typesVersions` for legacy
+`node10` resolution), tested with a mocked hls.js in `packages/video/src/hls.test.ts`. The HLS fixture is
 `.storybook/public/video/hls/` (VP9 + Opus fMP4, 360p + 180p) — Playwright's Chromium has no H.264.
 
 ## 3. API
@@ -104,7 +109,7 @@ interface VideoPlayerProps extends Omit<ComponentPropsWithoutRef<'video'>, 'cont
 
   // ── Tier 3 seams — W4 ──
   engine?: VideoEngine              // shipped: { name, handles(src), attach(video, src, callbacks) → { setLevel, destroy } }
-                                    // hlsEngine() from 'sukuna-ui/video/hls'; dash.js / Shaka / DRM next (Q26)
+                                    // hlsEngine() from '@sukunagg/ui/video/hls'; dash.js / Shaka / DRM next (Q26)
   ads?: AdAdapter                   // Q26: VAST / VMAP / IMA / DAI → our ad chrome
   cast?: CastAdapter                // Q26: Chromecast (AirPlay is native, Tier 1)
   renderer?: Renderer               // Q26: e.g. VR/360 WebGL canvas
@@ -272,8 +277,22 @@ variants `aspectRatio`, `fullscreen`, `hot` (hovered chapter segment), `captionS
 `captionColor` (text/premium), `captionBg` (solid/soft/none). Hidden-controls rules are the literal
 `group-data-[controls=hidden]/vp:opacity-0 …` on each fading slot; compact rules are literal
 `@max-[30rem]:` container variants. Played/buffered widths, the preview offset and sprite position
-are inline positional styles (like Carousel's `translateX`). Colors only via `--sk-*` utilities;
+are inline positional styles (like Carousel's `translateX`). Colors only via theme utilities;
 opacity modifiers (`bg-well/85`) on tokens, never raw hex.
+
+**Standalone stylesheet (Q27).** Every class is written with the `vp:` prefix (`vp:bg-accent`,
+`vp:group-data-[controls=hidden]/vp:opacity-0`) and `tv()` merges with `prefix: 'vp'`.
+`packages/video/src/styles/video.css` is the Tailwind source (`prefix(vp)`, `@theme static` with the
+Sukuna dark values, `@source ../components`); `bun run css:build` compiles it to `dist/video.css`
+(~7 kB brotli). Tailwind emits the theme as `--vp-*` custom properties on `:root`
+(`--vp-color-accent`, `--vp-radius-lg`, `--vp-font-sans`, `--vp-text-md`, …), which is the
+re-theming surface. The CSS is **unlayered** so a host's global element rules can't restyle the
+chrome, with a Preflight-style reset in `@scope ([data-vp-root]) to ([data-vp-content])` at zero or
+one-element specificity: every utility beats it, and scope proximity beats a host's `button {}`.
+App content the player renders (overlay children, `info`, the watch-limit card) sits in a
+`display: contents` `[data-vp-content]` wrapper, outside the reset, so it keeps the host's styles.
+`@sukunagg/ui` ships the same file inside `theme.css` (`@import`) and `styles.css` (appended) and adds a
+`[data-vp-root] { --vp-*: var(--sk-*) }` bridge so an app's Sukuna palette reaches the player.
 
 ## 8. Accessibility checklist
 
@@ -319,7 +338,7 @@ and stub `fetch` for VTTs. Real playback runs in the browser suite.
   in an effect; other URLs stay native; Quality menu from engine levels (Auto + highest first,
   labels, HD badge from the playing level), pinning and back to Auto; single level hides the row;
   fatal error → error state, Retry re-attaches, unmount destroys; `sources` pick decides.
-  `src/video/hls.test.ts`: URL claim, hls.js wiring (config, load/attach, levels, level switch,
+  `packages/ui/src/video/hls.test.ts`: URL claim, hls.js wiring (config, load/attach, levels, level switch,
   `currentLevel`, destroy), one-shot network/media recovery then fatal, native fallback without
   MSE and with `preferNative`.
 - `video-player-w3.test.tsx` (W3): picture chips + mirror toggle + reset (inline `scale`/`filter`),
@@ -393,7 +412,7 @@ window), `Overlays`, `AudioMode`. W4: `HlsStream` (`hlsEngine()` + the HLS fixtu
 - ~~Streaming, thumbnails, chapters out of v1~~ — superseded by Q22: chapters and thumbnails are
   Tier 1; streaming is a Tier 3 `engine` adapter.
 - **Q22 scope, Nuevo parity in three tiers** (approved, Q23): core in the component, parts as children,
-  vendor SDKs as adapters behind `sukuna-ui/video/*` subpaths with optional peers. Each new SDK is a
+  vendor SDKs as adapters behind `@sukunagg/ui/video/*` subpaths with optional peers. Each new SDK is a
   separate dependency approval (Q16 precedent).
 - **Ads use `--sk-premium`** (champagne) for their badge and progress. Ads aren't a brand moment,
   so no crimson.
@@ -402,6 +421,11 @@ window), `Overlays`, `AudioMode`. W4: `HlsStream` (`hlsEngine()` + the HLS fixtu
 - **One gear menu** holds quality, speed, captions, caption style, picture, sleep timer, loop,
   snapshot and download (Nuevo splits these into several buttons); each row shows its current value.
 - **Settings and panels live inside the root** (portal target = root) so they work in fullscreen.
+- **Standalone package + prefixed, unlayered CSS** (Q27): shareable without sukuna-ui or Tailwind;
+  verified by diffing every element's computed style against the pre-split Storybook and by
+  `scripts/video-standalone-smoke.mjs` on a page with hostile global CSS. Trade-off: an app's own
+  (layered) Tailwind classes passed in `className` no longer override a conflicting player utility —
+  use the `--vp-*` variables or an important modifier (`rounded-none!`).
 
 ## Appendix A. Nuevo parity map
 
@@ -417,7 +441,7 @@ Scouted 2026-09-27: nuevodevel.com home, `/nuevo/doc`, `/nuevo/showcase/` (~80 d
 | Caption settings | 1 | settings → Caption style |
 | Transcript | 2 | `VideoPlayerPanel` transcript tab |
 | Quality picker (multi-res MP4, HLS/DASH levels), HD icon | 1 / 3 | `sources[].res`; levels from `engine` |
-| HLS, fMP4, MPEG-DASH, hls.js / dash.js handlers | 3 | `engine` (`sukuna-ui/video/hls`, `/dash`) |
+| HLS, fMP4, MPEG-DASH, hls.js / dash.js handlers | 3 | `engine` (`@sukunagg/ui/video/hls`, `/dash`) |
 | DRM (EME) | 3 | via `engine` |
 | Live streaming, DVR, live clock, offline image | 2 | `live`; offline = error-cover variant |
 | Speed rates (custom) | 1 | `playbackRates` |
@@ -451,7 +475,7 @@ Scouted 2026-09-27: nuevodevel.com home, `/nuevo/doc`, `/nuevo/showcase/` (~80 d
 | AirPlay | 1 | Safari `webkitShowPlaybackTargetPicker`, no SDK |
 | VR / 360° | 3 | `renderer` adapter |
 | VAST, VMAP, pre/mid/post-roll, nonlinear, companions, outstream, waterfall | 3 | `ads` adapter + our ad chrome |
-| Google IMA, Google DAI | 3 | `ads` adapter (`sukuna-ui/video/ima`) |
+| Google IMA, Google DAI | 3 | `ads` adapter (`@sukunagg/ui/video/ima`) |
 | VPAID | — | not planned |
 | YouTube tech | — | not planned |
 | Subtitle auto-translation | — | not planned |
@@ -464,7 +488,7 @@ Scouted 2026-09-27: nuevodevel.com home, `/nuevo/doc`, `/nuevo/showcase/` (~80 d
 | W1 ✅ | v1 core + chapters (segments, label) + thumbnails + settings menu (quality, speed, captions, caption style) + ±10s + frame step + context menu + touch controls + AirPlay + `labels` + `useVideoPlayer` | none |
 | W2 ✅ | Panel (chapters / playlist / transcript), Playlist, UpNext, EndScreen, Share, Skip, resume, startTime, syncGroup, theater, floating | none |
 | W3 ✅ | Picture (zoom, mirror, filters), snapshot, download, loop section, sleep timer, watch limit, live UI, overlays, audio + visualizer | none |
-| W4 ◐ | Engine seam + hls.js ✅ (`sukuna-ui/video/hls`); dash.js → IMA / VAST → Cast → VR (three.js) → analytics wait on Q26, one approval each | optional peers |
+| W4 ◐ | Engine seam + hls.js ✅ (`@sukunagg/ui/video/hls`); dash.js → IMA / VAST → Cast → VR (three.js) → analytics wait on Q26, one approval each | optional peers |
 
 Size budgets: core and each part get their own `.size-limit.json` entry so a part never inflates
 `VideoPlayer` alone.

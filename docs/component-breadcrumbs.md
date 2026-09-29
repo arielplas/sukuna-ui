@@ -9,7 +9,7 @@ Show the path to the current page and let users jump back up it.
 ## 2. Files
 
 ```
-src/components/breadcrumbs/
+packages/ui/src/components/breadcrumbs/
 ├── breadcrumbs.styles.tsx   # tv() slots: root, list, item, link, current, separator.
 ├── breadcrumbs.logic.tsx    # forwardRef<nav>; NO 'use client'.
 ├── breadcrumbs.test.tsx

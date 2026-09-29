@@ -13,7 +13,7 @@ keyboard scrolling, wheel, and text selection behave natively.
 ## 2. Files
 
 ```
-src/components/scroll-area/
+packages/ui/src/components/scroll-area/
 ├── scroll-area.styles.tsx   # tv() slots: root, viewport, scrollbar, thumb, corner + `orientation`.
 ├── scroll-area.logic.tsx    # 'use client'; forwardRef to the root.
 ├── scroll-area.test.tsx

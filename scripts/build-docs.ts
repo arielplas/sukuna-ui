@@ -33,11 +33,13 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
-const REPO_URL = 'https://github.com/arielplas/sukuna-ui'
+/** The published `@sukunagg/ui` package inside the Bun workspace. */
+const PKG = join(ROOT, 'packages/ui')
+const REPO_URL = 'https://github.com/sukuna-gg/sukuna-ui'
 /** Raw file base — real Markdown over HTTP, live today, no deployment required. */
-const RAW_URL = 'https://raw.githubusercontent.com/arielplas/sukuna-ui/main'
+const RAW_URL = 'https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main'
 
-const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as {
+const pkg = JSON.parse(readFileSync(join(PKG, 'package.json'), 'utf8')) as {
   name: string
   version: string
   description: string
@@ -45,17 +47,44 @@ const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as {
 
 // --- Inputs ---------------------------------------------------------------------------------
 
-/** `export { A, B } from './components/<dir>'` lines in src/index.ts → dir → export names. */
+/**
+ * Components that live in their own workspace package and are re-exported by `@sukunagg/ui`
+ * (Q27): package name → component directory (the docs name) and its source path in the repo.
+ */
+const PACKAGE_COMPONENTS: Record<
+  string,
+  { name: string; source: string; css: string; readme: string; theme: string }
+> = {
+  '@sukunagg/video': {
+    name: 'video-player',
+    source: 'packages/video/src/components/video-player',
+    css: 'video.css',
+    readme: 'packages/video#readme',
+    theme: '`--vp-*` variables',
+  },
+}
+
+/** Where a component's source lives in the repo (for the generated Source link). */
+const sourcePath = (name: string): string =>
+  Object.values(PACKAGE_COMPONENTS).find((p) => p.name === name)?.source ??
+  `packages/ui/src/components/${name}`
+
+/**
+ * `export { A, B } from './components/<dir>'` lines in src/index.ts (or from a re-exported
+ * workspace package, see `PACKAGE_COMPONENTS`) → dir → export names.
+ */
 function readExportNames(): Map<string, string[]> {
-  const src = readFileSync(join(ROOT, 'src/index.ts'), 'utf8')
+  const src = readFileSync(join(PKG, 'src/index.ts'), 'utf8')
   const map = new Map<string, string[]>()
-  const re = /^export \{([^}]+)\} from '\.\/components\/([a-z0-9-]+)'/gm
+  const re =
+    /^export \{([^}]+)\} from '(?:\.\/components\/([a-z0-9-]+)|(@sukuna-ui\/[a-z0-9-]+))'/gm
   for (const m of src.matchAll(re)) {
     const names = (m[1] ?? '')
       .split(',')
       .map((s) => s.trim())
       .filter(Boolean)
-    map.set(m[2] ?? '', names)
+    const dir = m[2] ?? PACKAGE_COMPONENTS[m[3] ?? '']?.name
+    if (dir) map.set(dir, names)
   }
   return map
 }
@@ -157,6 +186,16 @@ const KEEP: Record<number, string> = {
   8: 'Accessibility',
 }
 
+/** For a component that is also its own package: how to use it without sukuna-ui. */
+function standaloneLines(doc: ComponentDoc): string[] {
+  const entry = Object.entries(PACKAGE_COMPONENTS).find(([, p]) => p.name === doc.name)
+  if (!entry) return []
+  const [own, p] = entry
+  return [
+    `- **Standalone:** \`bun add ${own}\` — \`import { ${doc.exports.join(', ')} } from '${own}'\` + \`import '${own}/${p.css}'\` (no Tailwind or sukuna-ui needed; themed by ${p.theme} — see ${REPO_URL}/tree/main/${p.readme})`,
+  ]
+}
+
 function renderComponentPage(doc: ComponentDoc): string {
   const importLine = `import { ${doc.exports.join(', ')} } from '${pkg.name}'`
   const out: string[] = [
@@ -168,7 +207,8 @@ function renderComponentPage(doc: ComponentDoc): string {
     `- **Package:** \`${pkg.name}\` — \`bun add ${pkg.name}\` (or \`npm i ${pkg.name}\`)`,
     `- **Import:** \`${importLine}\``,
     `- **Styles:** \`@import "${pkg.name}/theme.css"\` (Tailwind v4) or \`import "${pkg.name}/styles.css"\` (no Tailwind) — see [Getting started](${RAW_URL}/llms.txt)`,
-    `- **Source:** ${REPO_URL}/tree/main/src/components/${doc.name} · **Spec:** ${REPO_URL}/blob/main/docs/component-${doc.name}.md`,
+    ...standaloneLines(doc),
+    `- **Source:** ${REPO_URL}/tree/main/${sourcePath(doc.name)} · **Spec:** ${REPO_URL}/blob/main/docs/component-${doc.name}.md`,
     '',
   ]
   for (const num of [1, 3, 4, 5, 8]) {
@@ -182,10 +222,10 @@ function renderComponentPage(doc: ComponentDoc): string {
 const gettingStarted = [
   `${pkg.name} is a React 18/19 component library: ${docsCountPlaceholder()} components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (\`--sk-*\`) on top of Base UI. Zero runtime styling.`,
   '',
-  'Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:',
+  'Install: `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`). Then pick one CSS path:',
   '',
-  '- **Tailwind v4 (primary):** in your global CSS add `@import "tailwindcss"; @import "sukuna-ui/theme.css"; @source "../node_modules/sukuna-ui/dist";`',
-  '- **No Tailwind:** `import "sukuna-ui/styles.css"` once.',
+  '- **Tailwind v4 (primary):** in your global CSS add `@import "tailwindcss"; @import "@sukunagg/ui/theme.css"; @source "../node_modules/@sukunagg/ui/dist";`',
+  '- **No Tailwind:** `import "@sukunagg/ui/styles.css"` once.',
   '',
   'Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`. Every component below links to a Markdown page with its full API, variants, states and accessibility notes. Static components (Text, Badge, Card, Table…) work in Server Components; interactive ones are `\'use client\'`.',
 ].join('\n')
@@ -276,6 +316,8 @@ function updateReadme(docs: ComponentDoc[]): void {
     `<!-- count -->${docs.length}<!-- /count -->`,
   )
   writeFileSync(path, readme)
+  // npm publishes the README that sits next to the package's package.json (gitignored copy).
+  writeFileSync(join(PKG, 'README.md'), readme)
 }
 
 // --- Run ----------------------------------------------------------------------------------------

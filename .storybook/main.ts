@@ -1,8 +1,9 @@
+import { fileURLToPath } from 'node:url'
 import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.tsx'],
+  stories: ['../packages/*/src/**/*.mdx', '../packages/*/src/**/*.stories.tsx'],
   addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
   typescript: { reactDocgen: 'react-docgen-typescript' },
   core: { disableTelemetry: true },
@@ -12,6 +13,21 @@ const config: StorybookConfig = {
   viteFinal: async (cfg) => {
     const { default: tailwindcss } = await import('@tailwindcss/vite')
     cfg.plugins = [...(cfg.plugins ?? []), tailwindcss()]
+    // `@sukunagg/ui` re-exports the VideoPlayer from its workspace package (Q27): resolve it to
+    // source so `bun run storybook` works without a prior build and there's one player copy.
+    const src = (rel: string) =>
+      fileURLToPath(new URL(`../packages/video/src/${rel}`, import.meta.url))
+    cfg.resolve ??= {}
+    cfg.resolve.alias = [
+      ...(Array.isArray(cfg.resolve.alias)
+        ? cfg.resolve.alias
+        : Object.entries(cfg.resolve.alias ?? {}).map(([find, replacement]) => ({
+            find,
+            replacement,
+          }))),
+      { find: /^@sukuna-ui\/video\/hls$/, replacement: src('hls.ts') },
+      { find: /^@sukuna-ui\/video$/, replacement: src('index.ts') },
+    ]
     return cfg
   },
 }

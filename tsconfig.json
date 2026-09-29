@@ -20,8 +20,20 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "types": ["react", "react-dom", "bun"]
+    "types": ["react", "react-dom", "bun"],
+    "paths": {
+      "@sukunagg/video": ["./packages/video/src/index.ts"],
+      "@sukunagg/video/hls": ["./packages/video/src/hls.ts"]
+    }
   },
-  "include": ["src", "test", "*.config.ts", "scripts", ".storybook"],
+  "include": [
+    "packages/*/src",
+    "packages/*/scripts",
+    "packages/*/*.config.ts",
+    "test",
+    "*.config.ts",
+    "scripts",
+    ".storybook"
+  ],
   "exclude": ["node_modules", "dist", "storybook-static", "coverage"]
 }

@@ -10,7 +10,7 @@ Navigate between pages of results, with first/last always shown and ellipses in 
 ## 2. Files
 
 ```
-src/components/pagination/
+packages/ui/src/components/pagination/
 ├── pagination.styles.tsx   # tv() slots: root, list, item, page, ellipsis, nav.
 ├── pagination.logic.tsx    # forwardRef<nav>; NO 'use client'. Range helper.
 ├── pagination.test.tsx

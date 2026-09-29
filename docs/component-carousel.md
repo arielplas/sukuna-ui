@@ -13,7 +13,7 @@ keyboard and swipe navigation, and a required pause control whenever it auto-rot
 ## 2. Files
 
 ```
-src/components/carousel/
+packages/ui/src/components/carousel/
 ├── carousel.styles.tsx   # tv() slots (root/viewport/track/slide/control/dots/dot). Pure. Server-safe.
 ├── carousel.logic.tsx    # 'use client' — compound parts, index state, keyboard/swipe/autoplay, a11y.
 ├── carousel.test.tsx
@@ -83,7 +83,7 @@ No new tokens required.
 ## 6. Logic (`carousel.logic.tsx`)
 
 - `'use client'`. Root-managed — no context; each direct child is wrapped as one slide.
-- Index via `useControllableState` (`src/hooks/use-controllable-state.ts`) — controlled/uncontrolled
+- Index via `useControllableState` (`packages/ui/src/hooks/use-controllable-state.ts`) — controlled/uncontrolled
   + `onIndexChange`. `count = Children.toArray(children).length`.
 - `go(to)`: wraps (`((to % count) + count) % count`) when `loop`, else clamps to `0..count-1`;
   no-op when `count === 0`.

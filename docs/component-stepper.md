@@ -9,7 +9,7 @@ Show progress through an ordered sequence of steps.
 ## 2. Files
 
 ```
-src/components/stepper/
+packages/ui/src/components/stepper/
 ├── stepper.styles.tsx   # tv() slots: root, list, step, indicator, body, label, description, connector.
 ├── stepper.logic.tsx    # forwardRef<ol>; NO 'use client'.
 ├── stepper.test.tsx

@@ -14,7 +14,7 @@ flipping, focus management, outside-press and `Escape` dismiss come from Base UI
 ## 2. Files
 
 ```
-src/components/popover/
+packages/ui/src/components/popover/
 ├── popover.styles.tsx   # tv() slots: positioner, popup, title, description, close.
 ├── popover.logic.tsx    # 'use client'; compound Popover + sub-parts.
 ├── popover.test.tsx

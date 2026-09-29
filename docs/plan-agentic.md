@@ -10,7 +10,8 @@
 
 | Key | Value |
 |---|---|
-| Package name | `sukuna-ui` |
+| Package name | `@sukunagg/ui` (`packages/ui`); standalone player `@sukunagg/video` (`packages/video`, Q27) |
+| Repo layout | Bun workspaces: publishable packages in `packages/*`; docs, Storybook, shared `test/` + `scripts/`, examples at the root. Older phase notes below say `src/…` — read it as `packages/ui/src/…`. |
 | Runtime / PM / tests | Bun (never Node scripts, never npm/pnpm) |
 | Language | TypeScript, `strict: true` |
 | UI | React, peer range `>=18` (must work on 18 and 19) |
@@ -19,13 +20,13 @@
 | Theming | `data-theme="dark"` (default, brand) and `data-theme="light"` via CSS custom properties |
 | Design source | Sukuna design system (see `docs/tokens.md`) |
 | Docs location | `docs/*` only. One `docs/component-<name>.md` per component. Q&A log in `docs/questions.md`. Status board in `docs/roadmap.md`. |
-| Component layout | `src/components/<name>/{<name>.styles.tsx, <name>.logic.tsx, index.tsx}` |
+| Component layout | `packages/ui/src/components/<name>/{<name>.styles.tsx, <name>.logic.tsx, index.tsx}` |
 | Publishing | npm, public, ESM + CJS + `.d.ts`, `sideEffects` only for CSS |
 
 ### Component file contract
 
 ```
-src/components/button/
+packages/ui/src/components/button/
 ├── button.styles.tsx   # class-name / variant map ONLY. No hooks, no state, no DOM.
 ├── button.logic.tsx    # hook(s) + the React component. Imports from .styles. Owns behavior + a11y.
 ├── button.test.tsx     # bun test; must cover the 8 points in docs/testing.md
@@ -54,9 +55,9 @@ The library must SSR and must be zero-config for consumers. Ranked by fit:
 
 | # | Option | Runtime | SSR/RSC | Consumer setup | Token override at runtime | Fits `.styles.tsx` | Verdict |
 |---|---|---|---|---|---|---|---|
-| 1 | Plain CSS + custom properties + `cva` | 0 | ✅ server-safe | `import 'sukuna-ui/styles.css'` | ✅ redefine `--sk-*` under any selector | ✅ `cva()` map | Was the recommendation; not chosen |
+| 1 | Plain CSS + custom properties + `cva` | 0 | ✅ server-safe | `import '@sukunagg/ui/styles.css'` | ✅ redefine `--sk-*` under any selector | ✅ `cva()` map | Was the recommendation; not chosen |
 | 2 | Vanilla Extract | 0 (extracted at lib build) | ✅ | import CSS once | ✅ via `createTheme` contract | ⚠️ files must be `*.css.ts` | Strong alternative; typed tokens |
-| 3 | **Tailwind v4 + `tailwind-variants`** | 0 | ✅ | Consumer needs Tailwind + `@source` pointing at `node_modules/sukuna-ui` | Via `@theme` + `--sk-*` vars | ✅ | **CHOSEN** (human decision, 2026-09-16) |
+| 3 | **Tailwind v4 + `tailwind-variants`** | 0 | ✅ | Consumer needs Tailwind + `@source` pointing at `node_modules/@sukunagg/ui` | Via `@theme` + `--sk-*` vars | ✅ | **CHOSEN** (human decision, 2026-09-16) |
 | 4 | Panda CSS | 0 | ✅ | Recipes require Panda in consumer build; precompiled loses overrides | ⚠️ | ✅ | Poor library story |
 | 5 | StyleX | 0 | ✅ | Babel/SWC plugin in consumer build | ⚠️ | ✅ | Poor library story |
 | 6 | Linaria / Pigment | 0 | ✅ | import CSS once | ⚠️ limited | ✅ | Viable, smaller ecosystem |
@@ -69,11 +70,11 @@ Decision criteria (in priority order): (a) consumer installs and it works with o
 - **Tailwind consumers (primary path).** Their global CSS adds:
   ```css
   @import "tailwindcss";
-  @import "sukuna-ui/theme.css";                 /* @theme tokens + data-theme palettes */
-  @source "../node_modules/sukuna-ui/dist";      /* so their build emits our utilities */
+  @import "@sukunagg/ui/theme.css";                 /* @theme tokens + data-theme palettes */
+  @source "../node_modules/@sukunagg/ui/dist";      /* so their build emits our utilities */
   ```
   We ship **no compiled component CSS** on this path; their Tailwind generates exactly the classes used.
-- **Non-Tailwind consumers (fallback path).** We also publish `sukuna-ui/styles.css`: Tailwind run over our own `src/` at build time, with `theme.css` inlined. Not purged, tokens overridable only via `--sk-*` vars. Documented as supported but second-class.
+- **Non-Tailwind consumers (fallback path).** We also publish `@sukunagg/ui/styles.css`: Tailwind run over our own `src/` at build time, with `theme.css` inlined. Not purged, tokens overridable only via `--sk-*` vars. Documented as supported but second-class.
 - **Prefix.** None. Tailwind v4 prefixes are set by the consumer's `@import`, so a library prefix would break their build. Collision risk is with consumer utilities only, which is fine because both sides mean the same thing.
 - **Tokens.** `src/styles/theme.css` declares `@theme { --color-surface: var(--sk-surface); ... }` and the `[data-theme]` blocks that set `--sk-*`. Utilities are therefore `bg-surface`, `text-accent`, `rounded-lg` (mapped to `--sk-radius-lg`), and switch with `data-theme` at runtime without Tailwind's `dark:` variant.
 - **`cn`.** `tailwind-merge` + `clsx`; extend `twMerge` with the custom theme keys so `bg-surface` vs `bg-surface-2` merge correctly.
@@ -174,7 +175,7 @@ Order: **Tooltip → Dialog → Select**.
 **Done when:** importing `Button` alone yields < 3 kB gzipped JS (excluding React).
 
 ### Phase 8 — Consumer matrix
-Create `examples/` (not published): `vite-react18`, `vite-react19`, `nextjs-app-router`, `remix`. Each installs `sukuna-ui` via `bun link`, renders every component, and has a Playwright smoke test that asserts no hydration warnings in console.
+Create `examples/` (not published): `vite-react18`, `vite-react19`, `nextjs-app-router`, `remix`. Each installs `@sukunagg/ui` via `bun link`, renders every component, and has a Playwright smoke test that asserts no hydration warnings in console.
 
 **Done when:** all four examples build and pass.
 

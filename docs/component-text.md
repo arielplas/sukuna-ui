@@ -11,7 +11,7 @@ semantic element.
 ## 2. Files
 
 ```
-src/components/text/
+packages/ui/src/components/text/
 ├── text.styles.tsx   # tv() variant map → Tailwind utilities. Pure. Server-safe.
 ├── text.logic.tsx    # forwardRef; NO 'use client' (static, RSC-safe).
 ├── text.test.tsx

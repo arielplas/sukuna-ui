@@ -4,6 +4,8 @@ import { createRoot, hydrateRoot } from 'react-dom/client'
 // stories use (see styles.css). The explorer renders arbitrary story markup, so it needs the full
 // utility set, the same way Storybook does.
 import './styles.css'
+// The VideoPlayer's own stylesheet (prefixed `vp:` utilities + `--vp-*` theme), from source.
+import '../../../packages/video/src/styles/video.css'
 import { App } from './App'
 
 const root = document.getElementById('root')

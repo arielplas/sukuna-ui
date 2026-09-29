@@ -10,7 +10,7 @@ A horizontal progress bar, determinate or indeterminate.
 ## 2. Files
 
 ```
-src/components/progress/
+packages/ui/src/components/progress/
 ├── progress.styles.tsx   # tv() slots: root, label, track, indicator.
 ├── progress.logic.tsx    # composes Base UI parts; no 'use client'.
 ├── progress.test.tsx

@@ -4,8 +4,8 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
 
-// The explorer imports the library + its stories from source (../../../src) and builds Tailwind so
-// every story utility renders (see src/styles.css). Storybook does the same.
+// The explorer imports the library + its stories from source (../../../packages/ui/src) and
+// builds Tailwind so every story utility renders (see src/styles.css). Storybook does the same.
 const repoRoot = resolve(import.meta.dirname, '..', '..')
 
 // VideoPlayer stories load media fixtures from `video/…`. Storybook serves them from
@@ -48,6 +48,18 @@ export default defineConfig({
     // sukuna-ui is `bun link`ed from the repo root, which has its own node_modules/react. Force a
     // single React copy so hooks/context inside the library see the same runtime as the app.
     dedupe: ['react', 'react-dom'],
+    // The library source re-exports the VideoPlayer from its workspace package; resolve that to
+    // source too, so the player's own stories and the library share one copy (one context).
+    alias: [
+      {
+        find: /^@sukuna-ui\/video\/hls$/,
+        replacement: resolve(repoRoot, 'packages/video/src/hls.ts'),
+      },
+      {
+        find: /^@sukuna-ui\/video$/,
+        replacement: resolve(repoRoot, 'packages/video/src/index.ts'),
+      },
+    ],
   },
   server: {
     // Allow importing the library source and stories, which live above this app's root.

@@ -70,7 +70,7 @@ config (`system: { dark: 'midnight', light: 'paper' }`). CSS only: a
 ```
 src/themes/
 ├── types.ts        # ThemeDefinition, ColorTokens, ThemeName, defineThemes() (identity + types)
-├── dark.ts         # complete palette (moved from src/tokens.ts `colors.*.dark`)
+├── dark.ts         # complete palette (moved from packages/ui/src/tokens.ts `colors.*.dark`)
 ├── light.ts        # complete palette
 ├── midnight.ts     # { scheme: 'dark', extends: 'dark', colors: {…}, shadows: {…} }
 ├── paper.ts        # { scheme: 'light', extends: 'light', colors: {…}, shadows: {…} }
@@ -79,14 +79,14 @@ src/themes/
 └── index.ts        # builtInThemes registry + public exports
 ```
 
-- `src/tokens.ts` keeps the theme-independent tokens (type, spacing, radius, motion, z-index); the
+- `packages/ui/src/tokens.ts` keeps the theme-independent tokens (type, spacing, radius, motion, z-index); the
   `colors` / `shadows` `Themed` records move into the theme files.
 - `scripts/build-tokens.ts` emits, for `tokens.css` and `theme.css`: the default block
   `:root, [data-theme='dark']` (static tokens + dark colors), then one **fully resolved** block per
   other theme (`[data-theme='light'] { color-scheme: light; … }`, `midnight`, `paper`), then the
   `system` media block. Resolved blocks (not cascade-dependent) so nested `data-theme` regions
   always work. The Tailwind `@theme inline` mapping is unchanged.
-- `src/tokens.contrast.test.ts` iterates `builtInThemes` instead of `['dark', 'light']`.
+- `packages/ui/src/tokens.contrast.test.ts` iterates `builtInThemes` instead of `['dark', 'light']`.
 
 ## Custom themes (apps)
 
@@ -95,7 +95,7 @@ src/themes/
 `sukuna.themes.ts` at the app root (also accepted: `.mts`, `.js`, `.mjs`):
 
 ```ts
-import { defineThemes } from 'sukuna-ui/themes'
+import { defineThemes } from '@sukunagg/ui/themes'
 
 export default defineThemes({
   // Optional: which themes data-theme="system" switches between.
@@ -112,16 +112,16 @@ export default defineThemes({
 ```
 
 `defineThemes` is a typed identity function: the `colors` keys autocomplete and a typo fails
-type-checking. `sukuna-ui/themes` is a new, side-effect-free subpath (types + built-in theme data).
+type-checking. `@sukunagg/ui/themes` is a new, side-effect-free subpath (types + built-in theme data).
 
-### The CLI (`sukuna-ui` bin)
+### The CLI (`@sukunagg/ui` bin)
 
 | Command | Does |
 |---|---|
-| `bunx sukuna-ui themes init` | Writes a commented starter `sukuna.themes.ts` **only if none exists** (never overwrites; says so and exits 0). |
-| `bunx sukuna-ui themes build` | Loads the config, resolves each theme via `extends`, writes `sukuna-themes.css` with one `[data-theme='<name>']` block per theme (+ the `system` block if configured), and **warns** for every token pair below AA using the same contrast rules as the library gate. `--strict` turns warnings into a non-zero exit (for CI). |
+| `bunx @sukunagg/ui themes init` | Writes a commented starter `sukuna.themes.ts` **only if none exists** (never overwrites; says so and exits 0). |
+| `bunx @sukunagg/ui themes build` | Loads the config, resolves each theme via `extends`, writes `sukuna-themes.css` with one `[data-theme='<name>']` block per theme (+ the `system` block if configured), and **warns** for every token pair below AA using the same contrast rules as the library gate. `--strict` turns warnings into a non-zero exit (for CI). |
 
-Consumers then `@import "sukuna-ui/theme.css"; @import "./sukuna-themes.css";` (or the non-Tailwind
+Consumers then `@import "@sukunagg/ui/theme.css"; @import "./sukuna-themes.css";` (or the non-Tailwind
 `styles.css` + the generated file) and set `<html data-theme="brand">`.
 
 Runtime note: the bin is plain ESM JS (built by tsup) so it runs under `bunx` or `npx`. Loading a
@@ -133,8 +133,8 @@ Runtime note: the bin is plain ESM JS (built by tsup) so it runs under `bunx` or
 | Added | Kind |
 |---|---|
 | `data-theme="midnight" \| "paper" \| "system"` | new CSS entries → minor |
-| `sukuna-ui/themes` subpath: `defineThemes`, `ThemeDefinition`, `ColorTokens`, `builtInThemes` | new export → minor |
-| `sukuna-ui` bin: `themes init`, `themes build` | new → minor |
+| `@sukunagg/ui/themes` subpath: `defineThemes`, `ThemeDefinition`, `ColorTokens`, `builtInThemes` | new export → minor |
+| `@sukunagg/ui` bin: `themes init`, `themes build` | new → minor |
 | `color-scheme` set per theme block | fix toward native controls matching the theme → patch-level, folded into the minor |
 
 Nothing renamed or removed; `dark`/`light` values are byte-identical.
@@ -153,3 +153,14 @@ Storybook theme toolbar (all four + system), the showcase theme toggle (becomes 
 - Browser: a story under `data-theme="midnight"` / `"paper"` renders the palette background;
   `data-theme="system"` flips with emulated `prefers-color-scheme`.
 - `check:pkg` covers the new `./themes` subpath and the bin.
+
+## The VideoPlayer (`@sukunagg/video`)
+
+The player is a separate package with its own prebuilt stylesheet and `--vp-*` theme (Q27, Q28;
+the full variable list is in `packages/video/README.md`). Its chrome is always dark: the root pins
+`data-theme="dark"`. Inside a sukuna-ui app, `theme.css` carries a `[data-vp-root] { --vp-*:
+var(--sk-*) }` bridge (generated by `packages/ui/scripts/build-tokens.ts`), so a custom **dark**
+palette reaches the player automatically; light/midnight/paper don't change it. Because the bridge
+sets the variables on the player root itself, a wrapper's `--vp-*` is shadowed in a sukuna-ui app:
+to theme only the player there, pass them in the player's `style` or target the root
+(`.promo [data-vp-root] { --vp-color-accent: … }`). Standalone apps (no bridge) can set them anywhere.

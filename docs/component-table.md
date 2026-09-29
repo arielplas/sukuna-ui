@@ -11,7 +11,7 @@ virtualization are out of scope (use a data-grid library for those).
 ## 2. Files
 
 ```
-src/components/table/
+packages/ui/src/components/table/
 ├── table.styles.tsx   # tv() slots: wrapper, table, header, body, row, headerCell, cell.
 ├── table.logic.tsx    # forwardRef<table> + Header/Body/Row/HeaderCell/Cell. NO 'use client'.
 ├── table.test.tsx

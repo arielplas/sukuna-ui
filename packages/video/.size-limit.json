@@ -1,0 +1,43 @@
+[
+  {
+    "name": "VideoPlayer (our code only — must NOT pull Base UI)",
+    "path": "dist/index.js",
+    "import": "{ VideoPlayer }",
+    "limit": "18 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "VideoPlayer + every part (our code only)",
+    "path": "dist/index.js",
+    "import": "{ VideoPlayer, VideoPlayerPlaylist, VideoPlayerPanel, VideoPlayerUpNext, VideoPlayerEndScreen, VideoPlayerShare, VideoPlayerSkip, VideoPlayerOverlay, VideoPlayerAudio }",
+    "limit": "23 kB",
+    "ignore": [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "tailwind-merge",
+      "tailwind-variants",
+      "clsx"
+    ]
+  },
+  {
+    "name": "@sukunagg/video/hls adapter (our code only; hls.js is the app's peer)",
+    "path": "dist/hls.js",
+    "import": "{ hlsEngine }",
+    "limit": "1 kB",
+    "ignore": ["hls.js"]
+  },
+  {
+    "name": "video.css (prebuilt: prefixed utilities + --vp-* theme + scoped reset)",
+    "path": "dist/video.css",
+    "limit": "8 kB",
+    "rolldown": false
+  }
+]

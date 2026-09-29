@@ -11,7 +11,7 @@ Base UI (`@base-ui/react/select`); we style the trigger, popup, and items.
 ## 2. Files
 
 ```
-src/components/select/
+packages/ui/src/components/select/
 ├── select.styles.tsx   # tv() slots: trigger, icon, popup, item, indicator, placeholder.
 ├── select.logic.tsx    # 'use client'; prop-driven wrapper.
 ├── select.test.tsx

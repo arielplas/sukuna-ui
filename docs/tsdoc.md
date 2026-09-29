@@ -1,7 +1,7 @@
 # TSDoc convention — source-level docs for humans, IDEs and AI agents
 
 Every component's public surface is documented **in the source** so the published `.d.ts`, editor
-hover, and any AI agent reading `node_modules/sukuna-ui` get the full story without opening a
+hover, and any AI agent reading `node_modules/@sukunagg/ui` get the full story without opening a
 separate doc site. This is the second half of the docs-first rule: `docs/component-<name>.md` is
 the *authoring spec* (written before the code); the TSDoc is the *consumer reference* (shipped with
 the code). Both are required; neither replaces the other.
@@ -26,7 +26,7 @@ the code). Both are required; neither replaces the other.
     *
     * @example
     * ```tsx
-    * import { X } from 'sukuna-ui'
+    * import { X } from '@sukunagg/ui'
     *
     * <X prop="value">…</X>
     * ```

@@ -1,17 +1,18 @@
 /**
  * Re-add `'use client'` / `'use server'` banners that esbuild strips.
  *
- * Runs right after `tsup` in the `build` script. For every source file under `src/` whose first
- * statement is a directive, prepend that directive to the matching `dist/` outputs (`.js`, `.cjs`).
+ * Runs right after `tsup` in each workspace package's `build` script, from that package's
+ * directory. For every source file under `<package>/src/` whose first statement is a directive, prepend that directive to the matching `dist/` outputs (`.js`, `.cjs`).
  * `bundle: false` makes the mapping 1:1 (src/a/b.tsx → dist/a/b.js + dist/a/b.cjs).
  *
  * Fails loudly if a source declares a directive but no output was found, so a build-layout change
  * can't silently drop the RSC boundary.
  */
+import { join } from 'node:path'
 import { Glob } from 'bun'
 
-const SRC = new URL('../src/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')
-const DIST = new URL('../dist/', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')
+const SRC = join(process.cwd(), 'src/')
+const DIST = join(process.cwd(), 'dist/')
 
 const DIRECTIVE = /^\s*(['"])(use client|use server)\1/
 

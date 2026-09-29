@@ -10,7 +10,7 @@ Choose one option from a small set. Roving focus + arrow-key selection from Base
 ## 2. Files
 
 ```
-src/components/radio-group/
+packages/ui/src/components/radio-group/
 ├── radio-group.styles.tsx   # tv() slots: group, item, control, indicator, label.
 ├── radio-group.logic.tsx    # 'use client'; prop-driven wrapper.
 ├── radio-group.test.tsx

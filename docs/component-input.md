@@ -10,7 +10,7 @@ A single-line text input. Native `<input>` styled to Sukuna, with size and an in
 ## 2. Files
 
 ```
-src/components/input/
+packages/ui/src/components/input/
 ├── input.styles.tsx
 ├── input.logic.tsx   # forwardRef; NO 'use client'.
 ├── input.test.tsx

@@ -1,0 +1,213 @@
+/*
+ * @sukunagg/video stylesheet — the SOURCE. `bun run css:build` compiles it with the Tailwind CLI
+ * into `dist/video.css`, which ships as `@sukunagg/video/video.css`. Apps need neither Tailwind
+ * nor sukuna-ui: import the compiled file once.
+ *
+ * - Every player utility is prefixed (`vp:`), so none of its classes can clash with the host's.
+ * - Theme: `@theme static` below is the player's design surface. With `prefix(vp)` Tailwind emits
+ *   each value as a `--vp-*` custom property on `:root` (e.g. `--color-accent` → `--vp-color-accent`)
+ *   and every utility reads it, so an app re-themes the player by overriding those variables on
+ *   `:root`, a wrapper, or the player itself (Q27/Q28). Defaults are the Sukuna dark palette.
+ * - Unlayered on purpose: a host's global element rules (`button {}`, a CSS reset, Bootstrap) must
+ *   not restyle the chrome, and unlayered rules beat every `@layer`. The reset is scoped to the
+ *   player root (see below) and kept below one class of specificity, so utilities always win.
+ *
+ * DECISION(open): Q28 — variable names follow Tailwind's prefixed theme names (`--vp-color-*`,
+ * `--vp-radius-*`, `--vp-font-*`, …) rather than the shorter `--vp-accent` first proposed, so no
+ * glue layer or name clash is needed. Values are unchanged. Awaiting owner approval.
+ */
+@import "tailwindcss/theme.css" prefix(vp);
+
+@source "../components";
+@source not "../components/**/*.test.tsx";
+@source not "../components/**/*.stories.tsx";
+
+@theme static {
+  /* Colors → bg-*, text-*, border-*, ring-*, fill-*, stroke-* */
+  --color-bg: #0a0a0b;
+  --color-surface: #141416;
+  --color-surface-2: #1c1c20;
+  --color-well: #000000;
+  --color-line: rgba(255, 255, 255, 0.1);
+  --color-line-soft: rgba(255, 255, 255, 0.06);
+  --color-accent: #ff3b4e;
+  --color-accent-deep: #b01221;
+  --color-accent-glow: rgba(255, 59, 78, 0.6);
+  --color-focus-ring: #ff3b4e;
+  --color-on-accent: #ffffff;
+  --color-premium: #e8dcc4;
+  --color-text: #f4f1ec;
+  --color-text-dim: #9a948a;
+  --color-text-faint: #8c8479;
+
+  /* Gradient → bg-gradient-accent */
+  --gradient-accent: linear-gradient(135deg, #d8253a, #b01221);
+
+  /* Font families → font-* */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Archivo", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+    Arial, sans-serif;
+
+  /* Font sizes → text-* (line heights keep Tailwind's defaults, as in sukuna-ui) */
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 24px;
+  --text-3xl: 34px;
+
+  /* Line-height / letter-spacing → leading-*, tracking-* */
+  --leading-tight: 1.02;
+  --leading-normal: 1.5;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-eyebrow: 0.22em;
+
+  /* Radius → rounded-* */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Shadow → shadow-* */
+  --shadow-card: 0 30px 60px -24px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* Motion → duration-*, ease-* */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --ease-sukuna: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@utility bg-gradient-accent {
+  background-image: --theme(--gradient-accent);
+}
+
+/*
+ * Reset, scoped to the player (the Tailwind Preflight rules that matter inside the chrome).
+ * `@scope … to ([data-vp-content])` stops at app content (overlay children, `info`, the
+ * watch-limit card), which keeps the host's own styles.
+ *
+ * Specificity is kept at zero (`:where(:scope) *`) or one element (`:where(:scope) button`), so
+ * every player utility (one class) wins. Against a host's global rules of equal weight
+ * (`* {}`, `button {}`), the scoped rule wins on scope proximity, so a site-wide reset or
+ * Bootstrap can't restyle the chrome.
+ */
+@scope ([data-vp-root]) to ([data-vp-content]) {
+  :where(:scope) {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :where(:scope),
+  :where(:scope) *,
+  :where(:scope) ::before,
+  :where(:scope) ::after,
+  :where(:scope) ::backdrop,
+  :where(:scope) ::file-selector-button,
+  :where(:scope)
+    :is(
+      a,
+      blockquote,
+      button,
+      dd,
+      dl,
+      figure,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      hr,
+      img,
+      input,
+      li,
+      ol,
+      p,
+      pre,
+      select,
+      svg,
+      textarea,
+      ul,
+      video
+    ) {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+
+  :where(:scope) :is(h1, h2, h3, h4, h5, h6) {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  :where(:scope) a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+
+  :where(:scope) :is(b, strong) {
+    font-weight: bolder;
+  }
+
+  :where(:scope) :is(code, kbd, samp, pre) {
+    font-family: --theme(--font-mono);
+    font-size: 1em;
+  }
+
+  :where(:scope) :is(ol, ul, menu) {
+    list-style: none;
+  }
+
+  :where(:scope) :is(img, svg, video, canvas, audio, iframe, embed, object) {
+    display: block;
+    vertical-align: middle;
+  }
+
+  /* The UA clips inline SVG; a host `svg { overflow: visible }` must not un-clip the icons. */
+  :where(:scope) svg:not(:root) {
+    overflow: hidden;
+  }
+
+  :where(:scope) :is(img, video) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  :where(:scope) :is(button, input, select, optgroup, textarea),
+  :where(:scope) ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+
+  :where(:scope) ::placeholder {
+    opacity: 1;
+    color: color-mix(in oklab, currentcolor 50%, transparent);
+  }
+
+  :where(:scope) textarea {
+    resize: vertical;
+  }
+
+  :where(:scope) :is(button, input:where([type="button"], [type="reset"], [type="submit"])) {
+    appearance: button;
+  }
+
+  :where(:scope) :where([hidden]:not([hidden="until-found"])) {
+    display: none !important;
+  }
+}
+
+@tailwind utilities;

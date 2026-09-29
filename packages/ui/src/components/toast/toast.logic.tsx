@@ -1,0 +1,120 @@
+'use client'
+
+import { Toast as Base } from '@base-ui/react/toast'
+import type { ReactNode } from 'react'
+import { toastStyles } from './toast.styles'
+
+const CloseIcon = () => (
+  <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none">
+    <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+)
+
+/** Renders the live toasts from the manager into the viewport. */
+function ToastList() {
+  const { toasts } = Base.useToastManager()
+  const styles = toastStyles()
+  return toasts.map((toast) => (
+    <Base.Root key={toast.id} toast={toast} className={styles.root()}>
+      <Base.Content className={styles.content()}>
+        <Base.Title className={styles.title()} />
+        <Base.Description className={styles.description()} />
+        <Base.Close aria-label="Close" className={styles.close()}>
+          <CloseIcon />
+        </Base.Close>
+      </Base.Content>
+    </Base.Root>
+  ))
+}
+
+/** Props for `ToastProvider`. */
+export interface ToastProviderProps {
+  /** The app subtree; any component inside can call `useToast()`. */
+  children: ReactNode
+  /**
+   * Auto-dismiss delay in ms for every toast; `0` keeps toasts until closed by the user.
+   * @default 5000
+   */
+  timeout?: number
+  /**
+   * Maximum toasts shown at once; when reached, the oldest is removed for the new one.
+   * @default 3
+   */
+  limit?: number
+}
+
+/**
+ * Mounts the toast system: wrap the app once, then show toasts from anywhere with `useToast`.
+ *
+ * @remarks
+ * - SSR/RSC: client component (`'use client'`) built on Base UI Toast. `children` render on
+ *   the server as usual; the viewport is portalled to `document.body` on the client and is
+ *   empty until a toast is added.
+ * - Accessibility: the viewport is a region labelled "Notifications" and a polite live region,
+ *   so new toasts are announced without stealing focus. Each toast has a close button with
+ *   `aria-label="Close"`; auto-dismiss pauses while hovered or focused, and `Escape` closes.
+ * - Stacking: the viewport (bottom-right, `w-80`) sits at `--sk-z-toast` (70), above dialogs
+ *   (50) and popovers (60) and below tooltips (80).
+ * - Motion: toasts stack as a deck (older ones peek above the newest, scaled down), fan out while
+ *   the stack is hovered or focused, and can be swiped right/down to dismiss. CSS-only; under
+ *   `prefers-reduced-motion` they appear and leave without sliding.
+ * - Each toast renders a title, an optional description and a close icon; there are no
+ *   variants or action buttons in v1 (`ToastOptions.type` is exposed for styling hooks only).
+ *
+ * @example
+ * ```tsx
+ * import { Button, ToastProvider, useToast } from '@sukunagg/ui'
+ *
+ * // App root (once):
+ * <ToastProvider timeout={4000} limit={3}>
+ *   <App />
+ * </ToastProvider>
+ *
+ * // Anywhere inside:
+ * function SaveButton() {
+ *   const { toast } = useToast()
+ *   return (
+ *     <Button onClick={() => toast({ title: 'Saved', description: 'Changes are live.' })}>
+ *       Save
+ *     </Button>
+ *   )
+ * }
+ * ```
+ */
+export function ToastProvider({ children, timeout, limit }: ToastProviderProps) {
+  const styles = toastStyles()
+  return (
+    <Base.Provider timeout={timeout} limit={limit}>
+      {children}
+      <Base.Portal>
+        <Base.Viewport aria-label="Notifications" className={styles.viewport()}>
+          <ToastList />
+        </Base.Viewport>
+      </Base.Portal>
+    </Base.Provider>
+  )
+}
+
+/** What `toast()` accepts; everything is optional but a `title` is expected in practice. */
+export interface ToastOptions {
+  /** Bold headline; the main announced text. */
+  title?: ReactNode
+  /** Secondary line under the title, in dim text. */
+  description?: ReactNode
+  /**
+   * Free-form tag passed to Base UI as the toast `type` (e.g. `'success'`). Not styled in v1;
+   * available as a hook for your own styling or filtering.
+   */
+  type?: string
+}
+
+/**
+ * Hook that returns `{ toast }`; call `toast(options)` to show one and get back its id string.
+ * Must be used inside a `ToastProvider` (it reads Base UI's toast manager from context).
+ */
+export function useToast() {
+  const manager = Base.useToastManager()
+  return {
+    toast: (options: ToastOptions): string => manager.add(options),
+  }
+}

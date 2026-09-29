@@ -12,7 +12,7 @@ through `--sk-*` tokens, so it stays on-brand and theme-aware in both light and 
 ## 2. Files
 
 ```
-src/components/gradient-text/
+packages/ui/src/components/gradient-text/
 ├── gradient-text.styles.tsx   # tv() variant map → Tailwind utilities. Pure. Server-safe.
 ├── gradient-text.logic.tsx    # forwardRef; NO 'use client' (static, RSC-safe).
 ├── gradient-text.test.tsx

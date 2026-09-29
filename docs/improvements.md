@@ -51,7 +51,7 @@ Tabs/RadioGroup fixes, the no-dep perf stopgap). This is a menu of options, not 
 13. **Memoized rows + `renderRow` for Table.** `React.memo` row wrappers so a parent re-render
     doesn't reconcile every row (the steady-state cost for interactive tables). — P2 / M
 14. **Per-component CSS.** The precompiled `styles.css` bundles every component's classes; offer
-    `sukuna-ui/<component>.css` (or lean on Tailwind `@source`) so non-Tailwind consumers ship only
+    `@sukunagg/ui/<component>.css` (or lean on Tailwind `@source`) so non-Tailwind consumers ship only
     what they use. — P2 / L
 15. **`"sideEffects"` in package.json.** Mark the CSS files as the only side effects so bundlers can
     drop unused component modules more aggressively. — P1 / S
@@ -62,7 +62,7 @@ Tabs/RadioGroup fixes, the no-dep perf stopgap). This is a menu of options, not 
 
 ## API & developer experience (8)
 
-18. **Subpath exports.** Add an `exports` map for `import { Button } from "sukuna-ui/button"` so
+18. **Subpath exports.** Add an `exports` map for `import { Button } from "@sukunagg/ui/button"` so
     bundlers and consumers can import explicitly. — P2 / M
 19. **`render`/`asChild` consistency.** Dialog/Drawer/Toast accept `render`; Button/Chip/Badge don't.
     Standardize one slot-merging/polymorphism prop across all components. — P2 / M

@@ -1,13 +1,13 @@
-# sukuna-ui — full documentation
+# @sukunagg/ui — full documentation
 
-> SSR-safe, accessible React component library — 46 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt.
+> SSR-safe, accessible React component library — 46 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt.
 
-sukuna-ui is a React 18/19 component library: 46 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+@sukunagg/ui is a React 18/19 component library: 45 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
-Install: `bun add sukuna-ui` (or `npm i sukuna-ui`). Then pick one CSS path:
+Install: `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`). Then pick one CSS path:
 
-- **Tailwind v4 (primary):** in your global CSS add `@import "tailwindcss"; @import "sukuna-ui/theme.css"; @source "../node_modules/sukuna-ui/dist";`
-- **No Tailwind:** `import "sukuna-ui/styles.css"` once.
+- **Tailwind v4 (primary):** in your global CSS add `@import "tailwindcss"; @import "@sukunagg/ui/theme.css"; @source "../node_modules/@sukunagg/ui/dist";`
+- **No Tailwind:** `import "@sukunagg/ui/styles.css"` once.
 
 Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`. Every component below links to a Markdown page with its full API, variants, states and accessibility notes. Static components (Text, Badge, Card, Table…) work in Server Components; interactive ones are `'use client'`.
 
@@ -58,18 +58,17 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Toast: Transient notifications.
 - ToggleGroup: Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
 - Tooltip: A hover/focus tooltip for supplementary text.
-- VideoPlayer: Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library.
 
 ---
 
-# Accordion — sukuna-ui
+# Accordion — @sukunagg/ui
 
 > Vertically stacked, expandable sections.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Accordion } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/accordion · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-accordion.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Accordion } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/accordion · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-accordion.md
 
 ## Purpose
 
@@ -108,14 +107,14 @@ collapsed · expanded (chevron rotated) · focus-visible · disabled item.
 
 ---
 
-# Alert — sukuna-ui
+# Alert — @sukunagg/ui
 
 > An inline message that draws attention to information, success, a caution, or an error.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Alert } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/alert · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-alert.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Alert } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/alert · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-alert.md
 
 ## Purpose
 
@@ -156,14 +155,14 @@ Static; no interactive states. (No built-in dismiss in v1 — see Decisions.)
 
 ---
 
-# AlertDialog — sukuna-ui
+# AlertDialog — @sukunagg/ui
 
 > Ask the user to confirm something that is hard to undo ("Delete project?", "Discard changes?").
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { AlertDialog } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/alert-dialog · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-alert-dialog.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { AlertDialog } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/alert-dialog · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-alert-dialog.md
 
 ## Purpose
 
@@ -225,14 +224,14 @@ focusable, and `Cancel` comes first in the footer. Reduced motion: transitions o
 
 ---
 
-# Avatar — sukuna-ui
+# Avatar — @sukunagg/ui
 
 > A user/entity image with a graceful fallback (initials or icon) while loading or on error.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Avatar } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/avatar · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-avatar.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Avatar } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/avatar · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-avatar.md
 
 ## Purpose
 
@@ -266,14 +265,14 @@ image loaded (image shown) · loading/error/no src (fallback shown).
 
 ---
 
-# Badge — sukuna-ui
+# Badge — @sukunagg/ui
 
 > A small, pill-shaped label for status and metadata — "LIVE", counts, tags.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Badge } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/badge · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-badge.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Badge } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/badge · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-badge.md
 
 ## Purpose
 
@@ -324,14 +323,14 @@ Static; no interactive states.
 
 ---
 
-# Breadcrumbs — sukuna-ui
+# Breadcrumbs — @sukunagg/ui
 
 > Show the path to the current page and let users jump back up it.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Breadcrumbs } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/breadcrumbs · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-breadcrumbs.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Breadcrumbs } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/breadcrumbs · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-breadcrumbs.md
 
 ## Purpose
 
@@ -368,14 +367,14 @@ Static; links hover/focus.
 
 ---
 
-# Button — sukuna-ui
+# Button — @sukunagg/ui
 
 > Triggers an action.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Button } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/button · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-button.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Button } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/button · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-button.md
 
 ## Purpose
 
@@ -457,14 +456,14 @@ Font: `--sk-font-display`, weight `--sk-weight-bold`, `--sk-tracking-tight`.
 
 ---
 
-# Card — sukuna-ui
+# Card — @sukunagg/ui
 
 > A surface container that groups related content on an elevation.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Card } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/card · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-card.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Card } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/card · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-card.md
 
 ## Purpose
 
@@ -517,14 +516,14 @@ Static; no interactive states. (`raised` is a resting elevation, not a hover eff
 
 ---
 
-# Carousel — sukuna-ui
+# Carousel — @sukunagg/ui
 
 > A horizontal, one-slide-at-a-time content carousel for images, cards, or arbitrary nodes — the gap Slider (a range input) doesn't fill.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Carousel } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/carousel · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-carousel.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Carousel } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/carousel · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-carousel.md
 
 ## Purpose
 
@@ -607,14 +606,14 @@ No new tokens required.
 
 ---
 
-# Checkbox — sukuna-ui
+# Checkbox — @sukunagg/ui
 
 > A boolean checkbox.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Checkbox } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/checkbox · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-checkbox.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Checkbox } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/checkbox · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-checkbox.md
 
 ## Purpose
 
@@ -675,14 +674,14 @@ default · hover · focus-visible (accent-glow ring) · checked (native, accent)
 
 ---
 
-# Chip — sukuna-ui
+# Chip — @sukunagg/ui
 
 > A compact token for filters, selections, or tags — optionally removable.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Chip } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/chip · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-chip.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Chip } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/chip · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-chip.md
 
 ## Purpose
 
@@ -720,14 +719,14 @@ Static; the dismiss button is a native `<button>` (keyboard/focus for free).
 
 ---
 
-# Collapsible — sukuna-ui
+# Collapsible — @sukunagg/ui
 
 > A single disclosure: "Show advanced options", "Read more", a sidebar group.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Collapsible } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/collapsible · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-collapsible.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Collapsible } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/collapsible · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-collapsible.md
 
 ## Purpose
 
@@ -775,14 +774,14 @@ transition, no chevron rotation transition.
 
 ---
 
-# Combobox — sukuna-ui
+# Combobox — @sukunagg/ui
 
 > A text input with a filtered list of suggestions (free-text autocomplete).
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Combobox } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/combobox · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-combobox.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Combobox } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/combobox · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-combobox.md
 
 ## Purpose
 
@@ -831,14 +830,14 @@ closed · typing (filtered list) · item highlighted (keyboard) · empty (no mat
 
 ---
 
-# ContextMenu — sukuna-ui
+# ContextMenu — @sukunagg/ui
 
 > Offer contextual actions where the pointer is — right-click on desktop, long-press on touch.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { ContextMenu } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/context-menu · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-context-menu.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { ContextMenu } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/context-menu · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-context-menu.md
 
 ## Purpose
 
@@ -889,14 +888,14 @@ closed · open at cursor (positioned popup) · item highlighted (pointer/keyboar
 
 ---
 
-# Counter — sukuna-ui
+# Counter — @sukunagg/ui
 
 > Animates a number from a start to a target value — for stat tiles, KPIs, pricing, and dashboards.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Counter } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/counter · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-counter.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Counter } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/counter · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-counter.md
 
 ## Purpose
 
@@ -972,14 +971,14 @@ No new color/spacing tokens required.
 
 ---
 
-# Dialog — sukuna-ui
+# Dialog — @sukunagg/ui
 
 > A modal dialog.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Dialog } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/dialog · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-dialog.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Dialog } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/dialog · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-dialog.md
 
 ## Purpose
 
@@ -1036,14 +1035,14 @@ closed (nothing) · open (backdrop + popup, focus trapped) · enter/leave transi
 
 ---
 
-# Divider — sukuna-ui
+# Divider — @sukunagg/ui
 
 > A thin rule that separates content, horizontally or vertically.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Divider } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/divider · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-divider.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Divider } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/divider · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-divider.md
 
 ## Purpose
 
@@ -1076,14 +1075,14 @@ Static; no interactive states.
 
 ---
 
-# Drawer — sukuna-ui
+# Drawer — @sukunagg/ui
 
 > A panel that slides in from an edge (nav, filters, details).
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Drawer } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/drawer · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-drawer.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Drawer } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/drawer · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-drawer.md
 
 ## Purpose
 
@@ -1117,14 +1116,14 @@ closed · open (slides in from `side`, focus trapped) · enter/leave transforms.
 
 ---
 
-# Field — sukuna-ui
+# Field — @sukunagg/ui
 
 > Wraps one form control (an Input, Checkbox, Switch, …) with a label, an optional description and an optional error, and wires the id / aria-labelledby / aria-describedby / aria-invalid relationships for you.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Field } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/field · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-field.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Field } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/field · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-field.md
 
 ## Purpose
 
@@ -1179,7 +1178,7 @@ No visual variants. Slots map straight to type/spacing tokens:
 | description | `text-sm text-text-dim` | `--sk-text-dim` |
 | error | `text-sm text-accent` | `--sk-accent` (Sukuna's one red, used as the danger tone) |
 
-No raw hex; all colors resolve through `@theme` in `src/styles/theme.css`.
+No raw hex; all colors resolve through `@theme` in `packages/ui/src/styles/theme.css`.
 
 ## States
 
@@ -1204,14 +1203,14 @@ the control.
 
 ---
 
-# GradientText — sukuna-ui
+# GradientText — @sukunagg/ui
 
 > Fills text with a gradient (via background-clip: text) for wordmarks, hero headings, and accent phrases.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { GradientText } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/gradient-text · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-gradient-text.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { GradientText } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/gradient-text · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-gradient-text.md
 
 ## Purpose
 
@@ -1276,14 +1275,14 @@ text.
 
 ---
 
-# HoverCard — sukuna-ui
+# HoverCard — @sukunagg/ui
 
 > Preview richer context for a link without a click — a user card, a repo summary, a footnote.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { HoverCard } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/hover-card · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-hover-card.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { HoverCard } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/hover-card · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-hover-card.md
 
 ## Purpose
 
@@ -1344,14 +1343,14 @@ motion: enter/exit transforms collapse to instant (`motion-reduce:*`).
 
 ---
 
-# Input — sukuna-ui
+# Input — @sukunagg/ui
 
 > A single-line text input.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Input } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/input · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-input.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Input } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/input · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-input.md
 
 ## Purpose
 
@@ -1407,14 +1406,14 @@ Sukuna has one red (crimson), so the invalid border reuses `--sk-accent` (see `d
 
 ---
 
-# Menu — sukuna-ui
+# Menu — @sukunagg/ui
 
 > A dropdown menu of actions triggered by a button.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Menu } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/menu · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-menu.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Menu } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/menu · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-menu.md
 
 ## Purpose
 
@@ -1463,14 +1462,14 @@ closed · open (positioned popup) · item highlighted (keyboard) · disabled ite
 
 ---
 
-# Meter — sukuna-ui
+# Meter — @sukunagg/ui
 
 > Show a scalar measurement within a known range: storage used, quota, password strength, a score.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Meter } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/meter · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-meter.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Meter } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/meter · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-meter.md
 
 ## Purpose
 
@@ -1530,14 +1529,14 @@ Static — no hover/focus (not interactive). Indicator width transition on value
 
 ---
 
-# NumberField — sukuna-ui
+# NumberField — @sukunagg/ui
 
 > Enter a number precisely.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { NumberField } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/number-field · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-number-field.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { NumberField } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/number-field · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-number-field.md
 
 ## Purpose
 
@@ -1613,14 +1612,14 @@ No new tokens — reuses `--sk-surface-2`, `--sk-line`, `--sk-well`, `--sk-focus
 
 ---
 
-# Pagination — sukuna-ui
+# Pagination — @sukunagg/ui
 
 > Navigate between pages of results, with first/last always shown and ellipses in between.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Pagination, paginationRange } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/pagination · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-pagination.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Pagination, paginationRange } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/pagination · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-pagination.md
 
 ## Purpose
 
@@ -1657,14 +1656,14 @@ page: default · hover · active (`aria-current="page"`). prev/next disabled at 
 
 ---
 
-# Popover — sukuna-ui
+# Popover — @sukunagg/ui
 
 > Show a small, interactive panel next to the element that opened it — filters, quick settings, a share box, a date picker later.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Popover } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/popover · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-popover.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Popover } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/popover · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-popover.md
 
 ## Purpose
 
@@ -1729,14 +1728,14 @@ and `Popover.Close` close it; focus returns to the trigger. Reduced motion: tran
 
 ---
 
-# Progress — sukuna-ui
+# Progress — @sukunagg/ui
 
 > A horizontal progress bar, determinate or indeterminate.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Progress } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/progress · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-progress.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Progress } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/progress · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-progress.md
 
 ## Purpose
 
@@ -1775,14 +1774,14 @@ determinate (width = value) · indeterminate (pulsing partial bar).
 
 ---
 
-# RadioGroup — sukuna-ui
+# RadioGroup — @sukunagg/ui
 
 > Choose one option from a small set.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { RadioGroup } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/radio-group · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-radio-group.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { RadioGroup } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/radio-group · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-radio-group.md
 
 ## Purpose
 
@@ -1822,14 +1821,14 @@ unchecked · checked (accent border + dot) · focus-visible ring · disabled.
 
 ---
 
-# RowActions — sukuna-ui
+# RowActions — @sukunagg/ui
 
 > Every data table eventually needs a per-row "Edit / Duplicate / Delete" menu.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { RowActions } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/row-actions · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-row-actions.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { RowActions } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/row-actions · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-row-actions.md
 
 ## Purpose
 
@@ -1842,7 +1841,7 @@ kept out of `Table` itself so `Table` stays a zero-JS server component and never
 ## API
 
 ```ts
-import type { MenuItemOption } from 'sukuna-ui'
+import type { MenuItemOption } from '@sukunagg/ui'
 
 export interface RowActionsProps {
   items: MenuItemOption[]          // { label, icon?, onSelect?, disabled?, id? }
@@ -1911,14 +1910,14 @@ highlighted / disabled (Menu's). Reduced motion via Menu.
 
 ---
 
-# ScrollArea — sukuna-ui
+# ScrollArea — @sukunagg/ui
 
 > Give a bounded region (a list, a code block, a sidebar) an overlay scrollbar that looks the same in every browser and matches the Sukuna surface, instead of the OS default.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { ScrollArea } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/scroll-area · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-scroll-area.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { ScrollArea } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/scroll-area · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-scroll-area.md
 
 ## Purpose
 
@@ -1970,14 +1969,14 @@ Vertical only / horizontal only / both (a corner square where they meet).
 
 ---
 
-# Select — sukuna-ui
+# Select — @sukunagg/ui
 
 > A single-select dropdown.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Select } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/select · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-select.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Select } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/select · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-select.md
 
 ## Purpose
 
@@ -2033,14 +2032,14 @@ disabled trigger.
 
 ---
 
-# ShinyText — sukuna-ui
+# ShinyText — @sukunagg/ui
 
 > Sweeps a soft light band across dimmed text — for "New" flags, premium labels, and subtle CTA emphasis.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { ShinyText } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/shiny-text · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-shiny-text.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { ShinyText } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/shiny-text · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-shiny-text.md
 
 ## Purpose
 
@@ -2115,14 +2114,14 @@ No new **color** token needed — the band is built from `--sk-text-dim` (base) 
 
 ---
 
-# Skeleton — sukuna-ui
+# Skeleton — @sukunagg/ui
 
 > A placeholder shimmer shown while content loads.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Skeleton } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/skeleton · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-skeleton.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Skeleton } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/skeleton · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-skeleton.md
 
 ## Purpose
 
@@ -2154,14 +2153,14 @@ Static; always pulsing while mounted.
 
 ---
 
-# Slider — sukuna-ui
+# Slider — @sukunagg/ui
 
 > Pick a number from a range by dragging or with the keyboard.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Slider } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/slider · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-slider.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Slider } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/slider · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-slider.md
 
 ## Purpose
 
@@ -2201,14 +2200,14 @@ default · dragging · focus-visible ring on thumb · disabled.
 
 ---
 
-# Spinner — sukuna-ui
+# Spinner — @sukunagg/ui
 
 > An indeterminate loading indicator (CSS spin).
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Spinner } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/spinner · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-spinner.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Spinner } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/spinner · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-spinner.md
 
 ## Purpose
 
@@ -2241,14 +2240,14 @@ Static; always spinning while mounted.
 
 ---
 
-# Stepper — sukuna-ui
+# Stepper — @sukunagg/ui
 
 > Show progress through an ordered sequence of steps.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Stepper } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/stepper · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-stepper.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Stepper } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/stepper · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-stepper.md
 
 ## Purpose
 
@@ -2287,14 +2286,14 @@ upcoming (`> activeStep`).
 
 ---
 
-# Switch — sukuna-ui
+# Switch — @sukunagg/ui
 
 > An on/off toggle for an immediate setting (not form submission).
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Switch } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/switch · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-switch.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Switch } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/switch · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-switch.md
 
 ## Purpose
 
@@ -2348,14 +2347,14 @@ disabled (opacity .45, not-allowed).
 
 ---
 
-# Table — sukuna-ui
+# Table — @sukunagg/ui
 
 > Present tabular data with Sukuna styling.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Table } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/table · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-table.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Table } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/table · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-table.md
 
 ## Purpose
 
@@ -2402,14 +2401,14 @@ Static. Rows can opt into a hover with `data-interactive`.
 
 ---
 
-# Tabs — sukuna-ui
+# Tabs — @sukunagg/ui
 
 > Switch between panels of related content.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Tabs } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/tabs · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-tabs.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Tabs } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/tabs · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-tabs.md
 
 ## Purpose
 
@@ -2458,14 +2457,14 @@ tab: default · hover · selected (accent underline) · focus-visible · disable
 
 ---
 
-# Text — sukuna-ui
+# Text — @sukunagg/ui
 
 > The typographic primitive.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Text } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/text · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-text.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Text } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/text · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-text.md
 
 ## Purpose
 
@@ -2528,14 +2527,14 @@ Static; no interactive states. It inherits nothing that changes on hover/focus.
 
 ---
 
-# Textarea — sukuna-ui
+# Textarea — @sukunagg/ui
 
 > Multi-line free text: comments, descriptions, messages.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Textarea } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/textarea · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-textarea.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Textarea } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/textarea · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-textarea.md
 
 ## Purpose
 
@@ -2587,14 +2586,14 @@ disabled · readOnly (native). Reduced motion: only a color transition, no motio
 
 ---
 
-# Toast — sukuna-ui
+# Toast — @sukunagg/ui
 
 > Transient notifications.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { ToastProvider, useToast } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/toast · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-toast.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { ToastProvider, useToast } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/toast · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-toast.md
 
 ## Purpose
 
@@ -2637,14 +2636,14 @@ enter (slide/fade in) · visible · auto-dismiss after `timeout` · close (butto
 
 ---
 
-# ToggleGroup — sukuna-ui
+# ToggleGroup — @sukunagg/ui
 
 > Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Toggle, ToggleGroup } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/toggle-group · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-toggle-group.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Toggle, ToggleGroup } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/toggle-group · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-toggle-group.md
 
 ## Purpose
 
@@ -2726,14 +2725,14 @@ disabled (per item or whole group).
 
 ---
 
-# Tooltip — sukuna-ui
+# Tooltip — @sukunagg/ui
 
 > A hover/focus tooltip for supplementary text.
 
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { Tooltip } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/tooltip · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-tooltip.md
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { Tooltip } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/ui/src/components/tooltip · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-tooltip.md
 
 ## Purpose
 
@@ -2776,215 +2775,6 @@ closed (nothing rendered) · open (popup, positioned by Base UI) · enter/leave 
 - [ ] Popup wired as the trigger's description by Base UI; content is supplementary, not essential.
 - [ ] Opens on hover AND keyboard focus; dismiss on Escape / blur (Base UI).
 - [ ] Not a replacement for a label; don't put interactive content inside a tooltip.
-
----
-
-# VideoPlayer — sukuna-ui
-
-> Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library.
-
-- **Package:** `sukuna-ui` — `bun add sukuna-ui` (or `npm i sukuna-ui`)
-- **Import:** `import { useVideoPlayer, VideoPlayer, VideoPlayerAudio, VideoPlayerEndScreen, VideoPlayerOverlay, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerShare, VideoPlayerSkip, VideoPlayerUpNext } from 'sukuna-ui'`
-- **Styles:** `@import "sukuna-ui/theme.css"` (Tailwind v4) or `import "sukuna-ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)
-- **Source:** https://github.com/arielplas/sukuna-ui/tree/main/src/components/video-player · **Spec:** https://github.com/arielplas/sukuna-ui/blob/main/docs/component-video-player.md
-
-## Purpose
-
-Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video
-looks the same in Chrome, Safari and Firefox and matches the rest of the library. It covers the
-basics people expect from any player — play/pause, seek, time, volume, speed, captions,
-picture-in-picture, fullscreen and keyboard shortcuts — and, per owner request Q22, the feature set
-of the Nuevo plugin for Video.js: chapters, preview thumbnails, quality, playlists, transcript,
-end screens, share, overlays, live, ads, cast and more.
-
-Three tiers keep that from becoming one heavy component:
-
-- **Tier 1 — core** (in `VideoPlayer`): everything a viewer expects on every video.
-- **Tier 2 — parts** (separate named exports rendered as children): opt-in features; unused parts
-  are tree-shaken.
-- **Tier 3 — adapters** (subpath entries, vendor SDK as an optional peer): streaming engines, ads,
-  Cast, DRM, VR. We ship the interface and all the chrome; the app installs the SDK.
-
-## API
-
-The root renders the frame, the `<video>` and all Tier 1 controls. **Children are parts** (Tier 2).
-Media comes in through `src` / `sources` and `tracks` props (arrays, like Nuevo's playlist items),
-because the player must know resolutions, chapters and thumbnails up front, and playlist items reuse
-the same shape. Tracks are fetched and rendered by the player (not the browser's `::cue`), which is
-what makes caption styling, the transcript and chapter segments possible; `<track>` children are
-therefore not used.
-
-```ts
-import type { ComponentPropsWithoutRef, ReactNode } from 'react'
-
-interface VideoPlayerProps extends Omit<ComponentPropsWithoutRef<'video'>, 'controls'> {
-  title?: string                    // shown top-left while controls are visible; also names the region
-  'aria-label'?: string             // region name when there is no `title`; one of the two is required
-  aspectRatio?: '16/9' | '4/3' | '1/1' | '21/9' | '9/16'   // default '16/9'; literal classes, no interpolation
-  playbackRates?: number[]          // speed menu entries; default [0.5, 0.75, 1, 1.25, 1.5, 2]
-  autoHide?: boolean                // hide controls after 2.5s idle while playing; default true
-  hotkeys?: boolean                 // keyboard shortcuts while focus is inside the player; default true
-  children?: ReactNode              // parts (Tier 2) and useVideoPlayer() consumers
-
-  // ── Tier 1 additions (Q22) — shipped in W1 ──
-  sources?: VideoSource[]           // { src, type?, res?: number | 'SD' | 'HD', label?, default? } → quality menu
-  tracks?: VideoTrack[]             // { kind: 'captions'|'subtitles'|'chapters', src, srclang?, label?, default? }
-  chapters?: Chapter[]              // { start, title, thumb? } — alternative to a chapters VTT
-  thumbnails?: string | ThumbnailCue[]   // sprite VTT url (#xywh=) or explicit cues → hover preview
-  startTime?: number                // seconds
-  logo?: { src: string; alt: string; href?: string }   // watermark, top-right
-  info?: ReactNode                  // line under the title (series, episode…)
-  skipSeconds?: number              // rewind/forward buttons + J/L; default 10
-  frameRate?: number                // for , / . frame stepping; default 24
-  settings?: Array<'quality' | 'speed' | 'captions' | 'picture' | 'sleep' | 'loop' | 'snapshot' | 'download'>
-                                    // gear rows; default ['quality', 'speed', 'captions']
-  contextMenu?: boolean             // default true
-  touchControls?: boolean           // back/play/forward row + double-tap seek on coarse pointers; default true
-  autoplayPolicy?: 'muted' | 'none' // 'muted' → autoplay muted + "Tap to unmute" chip; default 'none'
-  labels?: Partial<VideoPlayerLabels>   // every visible and aria string (i18n)
-
-  // ── Tier 2 behaviours that are only props — W2/W3 ──
-  resume?: string                   // storage key; restores position, shows the Resume prompt (W2)
-  watchLimit?: { seconds: number; content: ReactNode }   // stop + cover at the limit; seeking past it blocked (W3)
-  syncGroup?: string                // players in the same group pause each other
-  floating?: boolean                // dock to a corner when scrolled out of view
-  theater?: boolean                 // controlled; also defaultTheater. The app owns layout; we own the button + T key (W2)
-  onTheaterChange?: (on: boolean) => void
-  live?: boolean | { dvrWindow?: number }   // LIVE pill, DVR seek, "jump to live" (W3)
-  download?: string | { src: string; filename?: string }   // gear → Download (W3)
-  onSnapshot?: (image: Blob, time: number) => void         // gear → Snapshot; else a PNG download (W3)
-
-  // ── Tier 3 seams — W4 ──
-  engine?: VideoEngine              // shipped: { name, handles(src), attach(video, src, callbacks) → { setLevel, destroy } }
-                                    // hlsEngine() from 'sukuna-ui/video/hls'; dash.js / Shaka / DRM next (Q26)
-  ads?: AdAdapter                   // Q26: VAST / VMAP / IMA / DAI → our ad chrome
-  cast?: CastAdapter                // Q26: Chromecast (AirPlay is native, Tier 1)
-  renderer?: Renderer               // Q26: e.g. VR/360 WebGL canvas
-  onAnalytics?: (e: PlayerEvent) => void   // Q26: one normalized event stream for any tracker
-
-  // ── events ──
-  onChapterChange?: (chapter: Chapter, index: number) => void
-  onQualityChange?: (source: VideoSource) => void
-}
-```
-
-**Parts** (Tier 2) are separate named exports so unused ones tree-shake (approved, Q23). A part
-registers itself through the context registry; the core then shows its buttons (list, share,
-previous/next) and hotkeys.
-
-| Export | Renders | Key props |
-|---|---|---|
-| `VideoPlayerPanel` | right-side drawer with tabs: chapters list (thumbs, durations), playlist, transcript | `tabs`, `defaultOpen` |
-| `VideoPlayerPlaylist` | renders nothing; the current item's media drives the player; prev/next buttons; `Shift+N/P`; auto-advance | `items`, `index` / `defaultIndex`, `onIndexChange`, `autoAdvance` (true), `repeat`, `rememberKey` |
-| `VideoPlayerUpNext` | countdown card for the playlist's next item; Cancel stops auto-advance | `countdown` (default 10) |
-| `VideoPlayerEndScreen` | replay, share (when `VideoPlayerShare` is mounted), related grid (links or buttons) | `related` |
-| `VideoPlayerShare` | link (optionally at current time), embed code; opened from the top-right share button | `url`, `embed` |
-| `VideoPlayerSkip` | "Skip intro" / "Skip recap" button for a time range | `start`, `end`, `label` |
-| `VideoPlayerOverlay` (W3) | timed card / banner / plain content; `showOn="pause"` for a banner on pause; dismissible. News-ticker variant waits on Q25 | `aria-label`, `start`, `end`, `showOn`, `variant`, `placement`, `dismissible` |
-| `VideoPlayerAudio` (W3) | audio mode: cover art (or initials tile), title, artist, Web Audio frequency visualizer | `art`, `title`, `artist`, `visualizer` |
-
-`useVideoPlayer()` exposes state and actions (`play`, `seek`, `setQuality`, `chapters`, …) so apps
-can build their own parts or a fully chromeless UI (Nuevo's "chromeless player" demo).
-
-- **`ref` → the `<video>` element**, so consumers can call `play()`, read `currentTime`, etc.
-- Every native media prop and event (`src`, `poster`, `autoPlay`, `muted`, `loop`, `preload`,
-  `playsInline`, `onPlay`, `onTimeUpdate`, `onRateChange`, …) passes straight to `<video>`.
-- `className` and `style` go to the **root frame** (layout: width, max-width, margins); everything
-  else goes to `<video>`. `// DECISION(open): className → root` (a video-level class has no use when
-  the player owns the chrome).
-- `controls` is omitted: the native chrome is always off; ours replaces it.
-- Type-level: `title` or `aria-label` is required (same overload trick as icon-only Button).
-
-**Not planned** (Q22 recommendation): VPAID (runs third-party JS in the page; IAB-deprecated),
-YouTube tech (iframe; can't be styled), automatic subtitle translation (needs a translation
-service), Nuevo's WordPress plugin and dev tools (stream tester, sprite generator).
-
-## Variants & tokens
-
-**The player chrome is always dark.** The root sets `data-theme="dark"`, so every `--sk-*` token
-inside it resolves to the dark palette even in a light app. Video frames are dark-dominant and the
-controls sit on a black scrim; light-theme text (`#141413`) would be unreadable there. No new tokens.
-The focus ring (`--sk-focus-ring`) stays crimson in both.
-
-| Slot | Utilities → tokens |
-|---|---|
-| root | `@container relative overflow-hidden rounded-lg bg-well shadow-card` · `--sk-radius-lg`, `--sk-well` (#000), `--sk-shadow-card` |
-| video | `size-full object-contain` |
-| scrim (bottom) | `bg-linear-to-t from-well/85 via-well/40 to-transparent`, ~45% of height |
-| scrim (top, with `title`) | `bg-linear-to-b from-well/70 to-transparent`, ~25% of height |
-| title | `font-display font-bold tracking-tight text-lg text-text`, truncates |
-| bigPlay | 64px circle, `bg-gradient-accent text-on-accent` + `shadow-[0_0_28px_6px_var(--sk-accent-glow)]` — the one crimson primary on the surface |
-| controlButton | 36px square (`size-9 rounded-md`), `text-text hover:bg-line-soft`, 20px icon — ghost icon Button look |
-| time | `font-sans text-sm tabular-nums text-text` + `text-text-dim` for the duration |
-| seek track | 4px → 6px on hover/drag, `rounded-pill bg-text/20` |
-| seek buffered | `bg-text/35` (inline `width` %, positional) |
-| seek played | `bg-accent` (`--sk-accent`) |
-| seek thumb | 14px `bg-accent`, `ring-4 ring-accent-glow` on drag; scales in on hover (`scale-0 → scale-100`) |
-| seek hover time | small chip `bg-surface-2 border border-line rounded-sm text-xs tabular-nums` above the pointer |
-| volume slider | 72px track, same as seek but `bg-text` fill (volume isn't a brand moment); expands from `w-0` on hover/focus of the mute group |
-| settings menu | in-house paged menu (`role="menu"`), `bg-surface/95 border-line rounded-md shadow-card`; radio rows show a crimson tick |
-| spinner | our `Spinner` (lg) centered while `waiting` |
-| error panel | centered `text-text` message + `text-text-dim` detail, `Retry` secondary Button |
-
-**Q22 additions** (all existing tokens):
-
-| Slot | Utilities → tokens |
-|---|---|
-| seek segments (chapters) | one `seg` per chapter, `gap-[3px]`, each `rounded-pill bg-text/20`; hovered segment `h-2`; played `bg-accent` per segment |
-| thumbnail preview | 160×90 frame `rounded-sm shadow-card`, chapter title (`font-display font-bold text-sm`) above, time chip below |
-| chapter label | beside the time: `· Chapter name ›` `text-sm`, truncates; opens the panel |
-| settings menu | `bg-surface/95 border-line rounded-md shadow-card`, 260px; rows show current value in `text-text-dim` + chevron; sub-pages have a back header; toggles use our Switch look; chips use `border-accent bg-accent/14` when checked |
-| side panel | `w-[min(340px,44%)]` right drawer, `bg-surface/95 backdrop-blur`, tabs with crimson underline (Tabs look); current item `bg-accent/10` + 3px crimson left rail; slides with `translate` `duration-slow` |
-| skip intro / resume / up next | floating cards `bg-surface/95 border-line rounded-md`; ride above the bar and drop to the edge when controls hide; up-next countdown ring stroke `--sk-accent` |
-| end screen / share / watch limit | full-frame cover `bg-well/70 backdrop-blur-sm`; primary action is the crimson Button, the rest secondary |
-| loop range | `border-x-2 border-premium bg-premium/15` over the bar |
-| ad chrome | `AD` badge `bg-premium text-bg`, pod position + countdown, "Skip in 5" → "Skip ad" tab on the right edge; ad progress `bg-premium` |
-| live | `LIVE` pill: dot `bg-accent` pulsing at the live edge (static under reduced motion), `text-text-dim` when behind + `−0:42` |
-| context menu | Menu popup look at the pointer |
-| touch row | 48px round back/forward (`bg-well/45`) around the 64px crimson play; double-tap flashes a side ripple with "+10 seconds" |
-
-Aspect ratio: `aspect-video` / `aspect-[4/3]` / `aspect-square` / `aspect-[21/9]` / `aspect-[9/16]`
-as literal `tv()` variant strings.
-
-**Compact layout** (container < 480px, `@max-[30rem]:` literal): 32px buttons, volume slider and PiP
-hidden (mute stays), time shows `current / duration` in `text-xs`, bigPlay 52px. No JS measuring.
-
-## States
-
-| State | Behavior |
-|---|---|
-| idle (not started) | poster (or first frame) + big crimson play button centered; bottom bar visible; title visible. |
-| playing | big play hides; controls fade out after 2.5s without pointer movement (`autoHide`); cursor hides with them. |
-| controls shown | pointer move, touch, or keyboard focus inside the player; stays shown while paused, while a menu is open, while dragging, and while focus is in the control bar. |
-| paused | pause icon → play icon; controls pinned; big play does **not** return (it's a start affordance only). |
-| waiting / buffering | centered Spinner after a 200ms delay (no flash on quick seeks); controls stay usable. |
-| seeking (drag) | segments grow to 5px (hovered chapter 8px), thumb shown with glow, preview follows the pointer, video scrubs live. |
-| ended | play icon becomes **replay**; controls pinned. |
-| muted / volume 0 | volume icon shows the muted glyph; unmuting restores the previous level (min 0.1). |
-| captions on | CC button `aria-pressed="true"` + a 2px crimson underline; only rendered when the video has ≥1 `captions`/`subtitles` track. |
-| picture-in-picture | PiP button `aria-pressed`; `I` toggles. Hidden where unsupported (Firefox). |
-| fullscreen | root goes fullscreen (not the `<video>`, so our controls come too); icon flips to exit. iOS Safari falls back to `video.webkitEnterFullscreen()` (native chrome there). |
-| error | video `error` → error panel with the media error in plain words ("This video couldn't be loaded. Check the link or your connection.") + Retry (`load()`). |
-| focus-visible | solid `--sk-focus-ring` on every control; the root gets a ring when focused directly. |
-| reduced motion | controls hide/show instantly (no fade); thumb appears without scale; no glow pulse. |
-
-**Motion (`docs/motion.md`):** controls fade (`opacity`, `duration-base`); seek track height and
-thumb `scale` (`duration-fast`, listed explicitly — rule 3); volume slider width expand
-(`duration-base ease-sukuna`). All with `motion-reduce:` fallbacks.
-
-## Accessibility
-
-- [x] Root: labelled `<section>` (role `region`) named by `title` or `aria-label`; `aria-roledescription="video player"`; focusable (`tabIndex={0}`) so hotkeys work after a click.
-- [x] Every control is a native `<button>` with an `aria-label` that says what happens now ("Play", "Pause", "Mute", "Unmute", "Enter fullscreen", "Turn on captions"); icons `aria-hidden`.
-- [x] Toggle buttons (captions, PiP) use `aria-pressed`; play/mute/fullscreen swap their label instead (the action changes).
-- [x] Seek and volume are `role="slider"` with `aria-label` ("Seek", "Volume") and spoken `aria-valuetext` (seek includes the chapter).
-- [x] Settings: gear `aria-haspopup="menu"` + `aria-expanded`; pages are `role="menu"`, choices `menuitemradio` + `aria-checked`; caption-style chips are named "Size: Large".
-- [x] Controls never hide while focus is inside them (WCAG 2.4.7/2.4.11 — focus stays visible).
-- [x] Hotkeys only fire with focus inside the player and never steal keys from sliders, menus or text inputs; `?` opens a shortcuts sheet (`role="dialog"`, focus on Close, Escape closes).
-- [x] Buffering spinner: `role="status"` + "Loading"; error panel: `role="alert"`.
-- [ ] Contrast (owner visual pass): control icons `--sk-text` on the scrim ≥ 4.5:1 over a bright frame; crimson played bar ≥ 3:1 against the `bg-text/20` track.
-- [x] Autoplay is the consumer's choice; `autoplayPolicy="muted"` is the only autoplay mode and always shows "Tap to unmute". Caption tracks are the consumer's responsibility (WCAG 1.2.2).
-- [x] Touch targets ≥ 32px in compact, 36px otherwise; touch row 48px.
 
 ---
 
@@ -3047,7 +2837,7 @@ Source: Pomo Design System (Sukuna language). Dark is the default theme. Light p
 
 ## Theme wiring (Tailwind v4)
 
-`src/styles/theme.css`, shipped as `sukuna-ui/theme.css`:
+`packages/ui/src/styles/theme.css`, shipped as `@sukunagg/ui/theme.css`:
 
 ```css
 :root, [data-theme="dark"]  { --sk-bg: #0A0A0B; --sk-surface: #141416; /* ... */ }

@@ -10,7 +10,7 @@ Transient notifications. Wrap the app in `ToastProvider`; call `useToast().toast
 ## 2. Files
 
 ```
-src/components/toast/
+packages/ui/src/components/toast/
 ├── toast.styles.tsx   # tv() slots: viewport, root, title, description, close.
 ├── toast.logic.tsx    # 'use client'; ToastProvider + useToast + internal ToastList.
 ├── toast.test.tsx

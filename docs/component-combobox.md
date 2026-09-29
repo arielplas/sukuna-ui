@@ -11,7 +11,7 @@ pick-from-list without typing, use Select.
 ## 2. Files
 
 ```
-src/components/combobox/
+packages/ui/src/components/combobox/
 ├── combobox.styles.tsx   # tv() slots: input, popup, item, empty.
 ├── combobox.logic.tsx    # 'use client'; prop-driven wrapper.
 ├── combobox.test.tsx

@@ -16,7 +16,7 @@ kept out of `Table` itself so `Table` stays a zero-JS server component and never
 ## 2. Files
 
 ```
-src/components/row-actions/
+packages/ui/src/components/row-actions/
 ├── row-actions.styles.tsx   # tv() slot for the kebab icon.
 ├── row-actions.logic.tsx    # no directive (no hooks); renders client Menu. forwardRef to trigger.
 ├── row-actions.test.tsx
@@ -28,7 +28,7 @@ test/browser/row-actions.test.ts   # Playwright: open from a table row, pick an 
 ## 3. API
 
 ```ts
-import type { MenuItemOption } from 'sukuna-ui'
+import type { MenuItemOption } from '@sukunagg/ui'
 
 export interface RowActionsProps {
   items: MenuItemOption[]          // { label, icon?, onSelect?, disabled?, id? }

@@ -1,7 +1,7 @@
 /**
  * Run a command against a specific React major, then restore React 19.
  *
- *   bun run scripts/with-react.ts 18 -- bun test src
+ *   bun run scripts/with-react.ts 18 -- bun run test
  *
  * Temporarily installs `react@<major>` + `react-dom@<major>`, runs the command, and restores
  * `package.json` (+ reinstalls) in a `finally`, so an error can't leave the repo pinned to the old

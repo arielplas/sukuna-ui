@@ -12,7 +12,7 @@ way. Optional content-based auto-grow uses the CSS `field-sizing: content` prope
 ## 2. Files
 
 ```
-src/components/textarea/
+packages/ui/src/components/textarea/
 ├── textarea.styles.tsx   # tv() base + size/resize/autoResize/invalid variants. Pure.
 ├── textarea.logic.tsx    # forwardRef <textarea>. No hooks, no directive.
 ├── textarea.test.tsx

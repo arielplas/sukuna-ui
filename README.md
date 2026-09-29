@@ -1,24 +1,24 @@
 # sukuna-ui
 
-[![npm version](https://img.shields.io/npm/v/sukuna-ui?color=D8253A&label=npm)](https://www.npmjs.com/package/sukuna-ui)
-[![npm downloads](https://img.shields.io/npm/dm/sukuna-ui?color=D8253A)](https://www.npmjs.com/package/sukuna-ui)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/sukuna-ui?label=minzip)](https://bundlephobia.com/package/sukuna-ui)
-[![types](https://img.shields.io/npm/types/sukuna-ui)](https://www.npmjs.com/package/sukuna-ui)
-[![CI](https://github.com/arielplas/sukuna-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/arielplas/sukuna-ui/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/sukuna-ui)](./LICENSE)
+[![npm version](https://img.shields.io/npm/v/@sukunagg/ui?color=D8253A&label=npm)](https://www.npmjs.com/package/@sukunagg/ui)
+[![npm downloads](https://img.shields.io/npm/dm/@sukunagg/ui?color=D8253A)](https://www.npmjs.com/package/@sukunagg/ui)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@sukunagg/ui?label=minzip)](https://bundlephobia.com/package/@sukunagg/ui)
+[![types](https://img.shields.io/npm/types/@sukunagg/ui)](https://www.npmjs.com/package/@sukunagg/ui)
+[![CI](https://github.com/sukuna-gg/sukuna-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/sukuna-gg/sukuna-ui/actions/workflows/ci.yml)
+[![license](https://img.shields.io/npm/l/@sukunagg/ui)](./LICENSE)
 
 **SSR-safe, accessible React components for dark-first products — and for the AI agents that build them.**
 
-<!-- count -->46<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
+<!-- count -->45<!-- /count --> components on [Base UI](https://base-ui.com) + Tailwind v4 design tokens. WCAG AA
 contrast in both themes, `prefers-reduced-motion` honored, zero runtime styling, React Server
 Components-ready, React 18 and 19. Dark is the identity; light is a mode.
 
 ```bash
-bun add sukuna-ui        # or: npm i sukuna-ui
+bun add @sukunagg/ui        # or: npm i @sukunagg/ui
 ```
 
 ```tsx
-import { Button, Card, Dialog, Text } from 'sukuna-ui'
+import { Button, Card, Dialog, Text } from '@sukunagg/ui'
 
 export function Example() {
   return (
@@ -37,17 +37,17 @@ export function Example() {
 }
 ```
 
-→ **[llms.txt](https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt)** · [npm](https://www.npmjs.com/package/sukuna-ui) · [showcase source](examples/showcase) (a prerendered one-page site; deploys to Vercel from the root `vercel.json`)
+→ **[llms.txt](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)** · [npm](https://www.npmjs.com/package/@sukunagg/ui) · [showcase source](examples/showcase) (a prerendered one-page site; deploys to Vercel from the root `vercel.json`)
 
 ## For AI agents
 
 This library is documented for machines as carefully as for people:
 
-- **`https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms.txt`** — an [llmstxt.org](https://llmstxt.org) index of every component with a one-line purpose and a link to its Markdown page.
-- **`https://raw.githubusercontent.com/arielplas/sukuna-ui/main/llms-full.txt`** — everything in one file. Paste this URL into your agent (Claude Code, Cursor, Codex, Copilot…) for complete context on every component, variant, state and accessibility rule.
-- **`docs/llms/<component>.md`** — one page per component, e.g. `https://raw.githubusercontent.com/arielplas/sukuna-ui/main/docs/llms/button.md`.
-- **Source-level TSDoc** — every exported component and prop in the published `.d.ts` carries usage notes, defaults, accessibility requirements and copy-pasteable `@example`s, so an agent reading `node_modules/sukuna-ui` is self-sufficient.
-- Also indexable via [Context7](https://context7.com) (search `sukuna-ui`).
+- **`https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt`** — an [llmstxt.org](https://llmstxt.org) index of every component with a one-line purpose and a link to its Markdown page.
+- **`https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms-full.txt`** — everything in one file. Paste this URL into your agent (Claude Code, Cursor, Codex, Copilot…) for complete context on every component, variant, state and accessibility rule.
+- **`docs/llms/<component>.md`** — one page per component, e.g. `https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/docs/llms/button.md`.
+- **Source-level TSDoc** — every exported component and prop in the published `.d.ts` carries usage notes, defaults, accessibility requirements and copy-pasteable `@example`s, so an agent reading `node_modules/@sukunagg/ui` is self-sufficient.
+- Also indexable via [Context7](https://context7.com) (search `@sukunagg/ui`).
 
 Once the showcase is deployed it serves the same files at its own origin (`/llms.txt`, `/llms-full.txt`, `/llms/<name>.md`). The generated docs are rebuilt from the source of truth on every build (`bun run docs:build`) and CI fails if they drift or a page is missing.
 
@@ -59,14 +59,14 @@ Two lines in your global CSS — your Tailwind build then emits exactly the util
 
 ```css
 @import "tailwindcss";
-@import "sukuna-ui/theme.css";              /* @theme tokens + data-theme palettes */
-@source "../node_modules/sukuna-ui/dist";   /* so your build sees our classes */
+@import "@sukunagg/ui/theme.css";              /* @theme tokens + data-theme palettes */
+@source "../node_modules/@sukunagg/ui/dist";   /* so your build sees our classes */
 ```
 
 ### No Tailwind (fallback path)
 
 ```ts
-import "sukuna-ui/styles.css"
+import "@sukunagg/ui/styles.css"
 ```
 
 Precompiled and self-contained; tokens still overridable via `--sk-*` variables.
@@ -75,6 +75,21 @@ Precompiled and self-contained; tokens still overridable via `--sk-*` variables.
 
 Set `data-theme` on `<html>` (or any ancestor): `"dark"` (default/brand) or `"light"`. Override any
 token by redefining a `--sk-*` variable under your own selector — see [docs/tokens.md](docs/tokens.md).
+
+### Just the video player
+
+The `VideoPlayer` is also published on its own as
+[`@sukunagg/video`](packages/video#readme) — for apps that want the player without the rest of
+the library, Tailwind or the Sukuna theme:
+
+```tsx
+import '@sukunagg/video/video.css'   // prebuilt, prefixed — no Tailwind needed
+import { VideoPlayer } from '@sukunagg/video'
+```
+
+It keeps the Sukuna look by default and re-themes through `--vp-*` CSS variables. Inside a
+sukuna-ui app you don't need it separately: `@sukunagg/ui` re-exports it and its CSS already includes
+the player's.
 
 ## Components
 
@@ -128,7 +143,6 @@ Every row links to that component's generated Markdown page (full API, variants,
 | `ToastProvider`, `useToast` | Transient notifications. | [docs/llms/toast.md](docs/llms/toast.md) |
 | `Toggle`, `ToggleGroup` | Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar). | [docs/llms/toggle-group.md](docs/llms/toggle-group.md) |
 | `Tooltip` | A hover/focus tooltip for supplementary text. | [docs/llms/tooltip.md](docs/llms/tooltip.md) |
-| `useVideoPlayer`, `VideoPlayer`, `VideoPlayerAudio`, `VideoPlayerEndScreen`, `VideoPlayerOverlay`, `VideoPlayerPanel`, `VideoPlayerPlaylist`, `VideoPlayerShare`, `VideoPlayerSkip`, `VideoPlayerUpNext` | Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library. | [docs/llms/video-player.md](docs/llms/video-player.md) |
 <!-- components:end -->
 
 Fonts: the library does **not** bundle Archivo. Load it yourself (`@import` or `next/font`) so
@@ -137,7 +151,7 @@ Fonts: the library does **not** bundle Archivo. Load it yourself (`@import` or `
 ## Accessibility
 
 - WCAG AA contrast for every text/UI token pair in both themes, **enforced by a test**
-  (`src/tokens.contrast.test.ts`) so it can't regress.
+  (`packages/ui/src/tokens.contrast.test.ts`) so it can't regress.
 - Solid focus rings (≥3:1), visible keyboard highlights, tone-derived live-region roles on alerts,
   `prefers-reduced-motion` respected across all animated components.
 - Built on Base UI for focus management, ARIA wiring and keyboard interaction; every component ships
@@ -168,7 +182,7 @@ bun run check && bun run test:coverage && bun run build && bun run check:pkg
 - `bun run test:browser` — Playwright suite against a built Storybook.
 - `bun run docs:build` / `bun run docs:check` — regenerate / verify the generated docs (README table, `llms.txt`, `docs/llms/*.md`).
 - `bun run size` — per-export size budgets.
-- `examples/showcase` — the deployable one-page showcase (`cd examples/showcase && bun install && bun link sukuna-ui && bun run dev`).
+- `examples/showcase` — the deployable one-page showcase (`cd examples/showcase && bun install && bun link @sukunagg/ui && bun run dev`).
 
 ## License
 

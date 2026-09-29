@@ -1,4 +1,4 @@
-# Storybook — development workshop for `sukuna-ui`
+# Storybook — development workshop for `@sukunagg/ui`
 
 Storybook is the dev environment for this library. There is no demo app; every component is built, reviewed, and accessibility-checked in Storybook first.
 
@@ -6,7 +6,7 @@ Storybook is the dev environment for this library. There is no demo app; every c
 
 - `storybook@10` (verify latest 10.x at install time; do not use 8/9 docs).
 - Framework: `@storybook/react-vite`. Vite is only a dev dependency; the published package is still built by tsup.
-- Tailwind: `@tailwindcss/vite` plugin added in `viteFinal`; `preview.tsx` imports `src/styles/storybook.css` (`@import "tailwindcss"; @import "./theme.css";`). Stories therefore exercise the same utilities consumers will generate.
+- Tailwind: `@tailwindcss/vite` plugin added in `viteFinal`; `preview.tsx` imports `packages/ui/src/styles/storybook.css` (`@import "tailwindcss"; @import "./theme.css";`). Stories therefore exercise the same utilities consumers will generate.
 - Installed and run with Bun: `bunx storybook@latest init --builder vite --no-dev`, then `bun run storybook`.
 
 ## Files
@@ -14,7 +14,7 @@ Storybook is the dev environment for this library. There is no demo app; every c
 ```
 .storybook/
 ├── main.ts          # framework, stories glob, addons, viteFinal
-├── preview.tsx      # global decorators, theme toolbar, imports src/styles/index.css
+├── preview.tsx      # global decorators, theme toolbar, imports packages/ui/src/styles/index.css
 ├── manager.ts       # Sukuna-themed Storybook UI (dark, crimson accent)
 └── theme.ts         # create({ base: 'dark', colorPrimary: '#FF3B4E', ... })
 src/
@@ -55,7 +55,7 @@ The single most important piece: a global toolbar that flips `data-theme` on the
 ```tsx
 import type { Preview, Decorator } from '@storybook/react-vite'
 import React from 'react'
-import '../src/styles/storybook.css'
+import '../packages/ui/src/styles/storybook.css'
 
 const withTheme: Decorator = (Story, ctx) => {
   const theme = ctx.globals.theme ?? 'dark'

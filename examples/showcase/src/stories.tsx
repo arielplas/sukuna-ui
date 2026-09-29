@@ -10,7 +10,7 @@
  * `?raw` glob) rather than reconstructed from runtime values: the story's own JSX with `{...args}`
  * inlined as the literal props written in `args: { … }` (so `items={items}` stays `items={items}`),
  * any helper `const`/`function` the snippet references included above it, and the
- * `import { … } from 'sukuna-ui'` line derived from the package's real exports (`src/index.ts`).
+ * `import { … } from '@sukunagg/ui'` line derived from the package's real exports (`src/index.ts`).
  */
 import { type ComponentType, isValidElement, type ReactNode } from 'react'
 
@@ -50,17 +50,17 @@ export interface ComponentEntry {
   stories: StoryEntry[]
 }
 
-const modules = import.meta.glob('../../../src/components/*/*.stories.tsx', {
+const modules = import.meta.glob('../../../packages/*/src/components/*/*.stories.tsx', {
   eager: true,
 }) as Record<string, Record<string, unknown>>
 
-const sources = import.meta.glob('../../../src/components/*/*.stories.tsx', {
+const sources = import.meta.glob('../../../packages/*/src/components/*/*.stories.tsx', {
   eager: true,
   query: '?raw',
   import: 'default',
 }) as Record<string, string>
 
-const indexSources = import.meta.glob('../../../src/index.ts', {
+const indexSources = import.meta.glob('../../../packages/ui/src/index.ts', {
   eager: true,
   query: '?raw',
   import: 'default',
@@ -406,7 +406,7 @@ export function renderStory(entry: ComponentEntry, item: StoryEntry): ReactNode 
 
 /** The full snippet shown in the explorer: import line(s) + usage. */
 export function storySnippet(item: StoryEntry): string {
-  const lines = [`import { ${item.imports.join(', ')} } from 'sukuna-ui'`]
+  const lines = [`import { ${item.imports.join(', ')} } from '@sukunagg/ui'`]
   if (item.hooks.length) lines.unshift(`import { ${item.hooks.join(', ')} } from 'react'`)
   return `${lines.join('\n')}\n\n${item.code}`
 }
