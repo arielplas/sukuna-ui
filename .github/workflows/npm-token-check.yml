@@ -1,8 +1,10 @@
 name: npm token check
 
 # Verifies the NPM_TOKEN secret can publish to the @sukunagg scope without a 2FA prompt, without
-# publishing anything: whoami, read-write access on both packages, then a real write (add + remove
-# a temporary dist-tag), which npm rejects exactly like a publish when the token can't bypass 2FA.
+# publishing anything: whoami, read-write access on both packages, then a real write that changes
+# nothing — re-point `latest` at the version it already has — which npm rejects exactly like a
+# publish when the token can't bypass 2FA. (Don't add + remove a temporary tag: granular tokens can
+# add dist-tags but get a 403 removing them, which leaves the tag behind.)
 # Run it from the Actions tab (or `gh workflow run npm-token-check.yml`) after rotating the token.
 on:
   workflow_dispatch:
@@ -35,8 +37,9 @@ jobs:
             echo "$access" | grep -q "\"$pkg\": \"read-write\"" || { echo "::error::no read-write on $pkg"; exit 1; }
           done
 
-      - name: Real write without 2FA (temporary dist-tag, then removed)
+      - name: Real write without 2FA (re-point latest at its current version)
         run: |
-          npm dist-tag add @sukunagg/video@0.1.0 ci-check
-          npm dist-tag rm @sukunagg/video ci-check
-          npm dist-tag ls @sukunagg/video
+          for pkg in @sukunagg/ui @sukunagg/video; do
+            latest=$(npm view "$pkg" dist-tags.latest)
+            npm dist-tag add "$pkg@$latest" latest
+          done
