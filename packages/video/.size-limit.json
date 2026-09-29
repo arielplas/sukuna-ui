@@ -28,7 +28,7 @@
     ]
   },
   {
-    "name": "@sukuna-ui/video/hls adapter (our code only; hls.js is the app's peer)",
+    "name": "@sukunagg/video/hls adapter (our code only; hls.js is the app's peer)",
     "path": "dist/hls.js",
     "import": "{ hlsEngine }",
     "limit": "1 kB",

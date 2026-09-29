@@ -1,6 +1,6 @@
 /*
- * @sukuna-ui/video stylesheet — the SOURCE. `bun run css:build` compiles it with the Tailwind CLI
- * into `dist/video.css`, which ships as `@sukuna-ui/video/video.css`. Apps need neither Tailwind
+ * @sukunagg/video stylesheet — the SOURCE. `bun run css:build` compiles it with the Tailwind CLI
+ * into `dist/video.css`, which ships as `@sukunagg/video/video.css`. Apps need neither Tailwind
  * nor sukuna-ui: import the compiled file once.
  *
  * - Every player utility is prefixed (`vp:`), so none of its classes can clash with the host's.

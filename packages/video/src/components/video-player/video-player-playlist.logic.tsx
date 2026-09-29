@@ -48,7 +48,7 @@ const storageKey = (key: string) => `sk-playlist:${key}`
  *
  * @example
  * ```tsx
- * import { VideoPlayer, VideoPlayerPanel, VideoPlayerPlaylist } from '@sukuna-ui/video'
+ * import { VideoPlayer, VideoPlayerPanel, VideoPlayerPlaylist } from '@sukunagg/video'
  *
  * <VideoPlayer title="Night walks">
  *   <VideoPlayerPlaylist

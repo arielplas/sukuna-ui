@@ -22,8 +22,8 @@
     "noEmit": true,
     "types": ["react", "react-dom", "bun"],
     "paths": {
-      "@sukuna-ui/video": ["./packages/video/src/index.ts"],
-      "@sukuna-ui/video/hls": ["./packages/video/src/hls.ts"]
+      "@sukunagg/video": ["./packages/video/src/index.ts"],
+      "@sukunagg/video/hls": ["./packages/video/src/hls.ts"]
     }
   },
   "include": [

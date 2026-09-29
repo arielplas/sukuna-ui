@@ -1,4 +1,4 @@
-# Releasing — `sukuna-ui`
+# Releasing — `@sukunagg/ui`
 
 Changesets + semver, with the extra rules a UI library needs. **Agents never push to `main`,
 never publish; a human merges the Version Packages PR and creates the release tag.**
@@ -21,8 +21,8 @@ never publish; a human merges the Version Packages PR and creates the release ta
 
 ## Every PR
 
-1. `bun run changeset` — select the package(s) the change ships in (`sukuna-ui`,
-   `@sukuna-ui/video`; the repo is a Bun workspace, Q27), then pick the bump using the table above; write a one-line reason. Docs/CI-only
+1. `bun run changeset` — select the package(s) the change ships in (`@sukunagg/ui`,
+   `@sukunagg/video`; the repo is a Bun workspace, Q27), then pick the bump using the table above; write a one-line reason. Docs/CI-only
    PRs may use an empty changeset or the `no-release` label.
 2. Classify **before** writing the changeset. If a CI classifier disagrees, CI is right — raise the
    bump or fix the regression; never edit the check.
@@ -64,7 +64,7 @@ Publishing is automated with the **Changesets GitHub Action**, and stays owner-g
 ### One-time setup (owner)
 
 - Create the `@sukuna` npm scope/org and grant publish rights.
-- Add repo secret **`NPM_TOKEN`** — an npm **Automation** token with publish access to `@sukuna/*`.
+- Add repo secret **`NPM_TOKEN`** — an npm **Automation** token with publish access to the `@sukunagg` scope (`@sukunagg/ui`, `@sukunagg/video`).
 - The workflow has `id-token: write` for npm provenance; the repo must be public for provenance.
 
 ### First release (0.1.0)

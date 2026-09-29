@@ -443,7 +443,7 @@ export const AudioMode: Story = {
 const hls = hlsEngine()
 
 /**
- * HLS through `hlsEngine()` from `@sukuna-ui/video/hls` (hls.js is an optional peer). The Quality
+ * HLS through `hlsEngine()` from `@sukunagg/video/hls` (hls.js is an optional peer). The Quality
  * menu comes from the manifest: Auto plus each level.
  */
 export const HlsStream: Story = {

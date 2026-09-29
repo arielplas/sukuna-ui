@@ -1,11 +1,11 @@
 ---
-"sukuna-ui": minor
+"@sukunagg/ui": minor
 ---
 
-The `VideoPlayer` (and its parts, `useVideoPlayer`, and `sukuna-ui/video/hls`) now comes from the new
-`@sukuna-ui/video` package, which `sukuna-ui` depends on and re-exports — imports are unchanged.
-Its styles now ship as a prebuilt, prefixed stylesheet that `sukuna-ui/theme.css` imports and
-`sukuna-ui/styles.css` includes, so nothing changes in your setup and the player looks the same
+The `VideoPlayer` (and its parts, `useVideoPlayer`, and `@sukunagg/ui/video/hls`) now comes from the new
+`@sukunagg/video` package, which `@sukunagg/ui` depends on and re-exports — imports are unchanged.
+Its styles now ship as a prebuilt, prefixed stylesheet that `@sukunagg/ui/theme.css` imports and
+`@sukunagg/ui/styles.css` includes, so nothing changes in your setup and the player looks the same
 (verified element by element). `theme.css` also feeds the player's `--vp-*` variables from your
 `--sk-*` tokens.
 

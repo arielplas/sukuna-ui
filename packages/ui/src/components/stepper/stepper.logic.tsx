@@ -55,7 +55,7 @@ const CheckIcon = () => (
  *
  * @example
  * ```tsx
- * import { Stepper } from 'sukuna-ui'
+ * import { Stepper } from '@sukunagg/ui'
  *
  * const steps = [
  *   { label: 'Account', description: 'Email and password' },

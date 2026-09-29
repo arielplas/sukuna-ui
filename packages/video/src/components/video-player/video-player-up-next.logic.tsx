@@ -25,7 +25,7 @@ const CIRCUMFERENCE = 2 * Math.PI * 15
  *
  * @example
  * ```tsx
- * import { VideoPlayer, VideoPlayerPlaylist, VideoPlayerUpNext } from '@sukuna-ui/video'
+ * import { VideoPlayer, VideoPlayerPlaylist, VideoPlayerUpNext } from '@sukunagg/video'
  *
  * <VideoPlayer title="Night walks">
  *   <VideoPlayerPlaylist items={episodes} />

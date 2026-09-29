@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "bun install",
-  "buildCommand": "bun run build && cd packages/ui && bun link && cd ../../examples/showcase && bun install && bun link sukuna-ui && bun run build",
+  "buildCommand": "bun run build && cd packages/ui && bun link && cd ../../examples/showcase && bun install && bun link @sukunagg/ui && bun run build",
   "outputDirectory": "examples/showcase/dist",
   "cleanUrls": true,
   "trailingSlash": false,

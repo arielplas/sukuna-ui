@@ -118,7 +118,7 @@ const CollapsibleContent = forwardRef<HTMLDivElement, CollapsibleContentProps>(
  *
  * @example
  * ```tsx
- * import { Collapsible } from 'sukuna-ui'
+ * import { Collapsible } from '@sukunagg/ui'
  *
  * <Collapsible>
  *   <Collapsible.Trigger>Advanced options</Collapsible.Trigger>

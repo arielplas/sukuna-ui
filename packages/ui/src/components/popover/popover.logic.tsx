@@ -131,7 +131,7 @@ function PopoverClose({
  *
  * @example
  * ```tsx
- * import { Button, Input, Popover } from 'sukuna-ui'
+ * import { Button, Input, Popover } from '@sukunagg/ui'
  *
  * <Popover>
  *   <Popover.Trigger>

@@ -18,7 +18,7 @@ function sourceFiles(dir = SRC): string[] {
 // Q27: the player is usable without sukuna-ui. Nothing it ships may import the library, or reach
 // outside this package's src/ (which is how a workspace sibling would sneak back in).
 describe('standalone', () => {
-  it('never imports sukuna-ui or a path outside the package', () => {
+  it('never imports the ui library or a path outside the package', () => {
     const offenders = sourceFiles().flatMap((file) => {
       const text = readFileSync(join(SRC, file), 'utf8')
       return [...text.matchAll(/from '([^']+)'/g)]
@@ -26,7 +26,7 @@ describe('standalone', () => {
         .filter((spec) =>
           spec.startsWith('.')
             ? !resolve(SRC, file, '..', spec).startsWith(resolve(SRC))
-            : spec === 'sukuna-ui' || spec.startsWith('sukuna-ui/'),
+            : /^(sukuna-ui|@sukunagg\/ui)(\/|$)/.test(spec),
         )
         .map((spec) => `${file} → ${spec}`)
     })

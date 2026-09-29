@@ -1,13 +1,13 @@
-# @sukuna-ui/video
+# @sukunagg/video
 
 A branded, accessible React video player you can drop into **any** React app — no Tailwind, no
-`sukuna-ui`, no other UI library. It's the `VideoPlayer` from
-[sukuna-ui](https://github.com/arielplas/sukuna-ui), published on its own.
+`@sukunagg/ui`, no other UI library. It's the `VideoPlayer` from
+[sukuna-ui](https://github.com/sukuna-gg/sukuna-ui), published on its own.
 
 - Chapters on the seek bar, sprite thumbnails, captions with style settings, quality and speed menus
 - Playlists, a side panel (chapters / transcript / playlist), up next, end screen, share, skip intro,
   overlays, audio mode, live (DVR), watch limit, snapshot, loop A–B, picture filters
-- HLS through an optional adapter (`@sukuna-ui/video/hls`, hls.js as your own dependency)
+- HLS through an optional adapter (`@sukunagg/video/hls`, hls.js as your own dependency)
 - Keyboard shortcuts, touch gestures, fullscreen with the branded controls, picture-in-picture
 - SSR-safe (Next.js App Router, Remix, Vite SSR); WCAG AA chrome
 - ~17 kB (core) / ~21 kB (every part) of JS and ~7 kB of CSS, brotli
@@ -15,8 +15,8 @@ A branded, accessible React video player you can drop into **any** React app —
 ## Install
 
 ```bash
-bun add @sukuna-ui/video
-# or: npm i @sukuna-ui/video · pnpm add @sukuna-ui/video
+bun add @sukunagg/video
+# or: npm i @sukunagg/video · pnpm add @sukunagg/video
 ```
 
 Peer dependencies: `react` and `react-dom` 18 or newer. `hls.js` (≥ 1.5) only if you use the HLS
@@ -27,8 +27,8 @@ adapter.
 Import the stylesheet once (your root layout or entry file), then render the player:
 
 ```tsx
-import '@sukuna-ui/video/video.css'
-import { VideoPlayer } from '@sukuna-ui/video'
+import '@sukunagg/video/video.css'
+import { VideoPlayer } from '@sukunagg/video'
 
 export function Episode() {
   return (
@@ -53,7 +53,7 @@ export function Episode() {
 Parts are opt-in children, so you only ship what you render:
 
 ```tsx
-import { VideoPlayer, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerUpNext } from '@sukuna-ui/video'
+import { VideoPlayer, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerUpNext } from '@sukunagg/video'
 
 <VideoPlayer title="Season 1">
   <VideoPlayerPlaylist items={episodes} />
@@ -65,8 +65,8 @@ import { VideoPlayer, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerUpNext }
 HLS:
 
 ```tsx
-import { VideoPlayer } from '@sukuna-ui/video'
-import { hlsEngine } from '@sukuna-ui/video/hls'
+import { VideoPlayer } from '@sukunagg/video'
+import { hlsEngine } from '@sukunagg/video/hls'
 
 const hls = hlsEngine() // module scope, not inline in render
 
@@ -131,8 +131,8 @@ Import `video.css` before your own stylesheet if both define rules for the same 
 
 ## With sukuna-ui
 
-`sukuna-ui` already depends on this package and re-exports everything (`import { VideoPlayer } from
-'sukuna-ui'`, `sukuna-ui/video/hls`), and its `theme.css` / `styles.css` include `video.css` — so
+`@sukunagg/ui` already depends on this package and re-exports everything (`import { VideoPlayer } from
+'sukuna-ui'`, `@sukunagg/ui/video/hls`), and its `theme.css` / `styles.css` include `video.css` — so
 there's nothing extra to install or import. Inside a sukuna-ui app the player also follows your
 Sukuna tokens (`--sk-*`).
 

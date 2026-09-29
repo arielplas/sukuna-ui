@@ -2,9 +2,9 @@
 
 ## What we're building
 
-A React component library called **`sukuna-ui`**, published publicly on npm, that looks like the Sukuna design system: near-black, crimson for action, bone for premium, Archivo headlines. Dark is the identity; light is a mode.
+A React component library called **`@sukunagg/ui`**, published publicly on npm, that looks like the Sukuna design system: near-black, crimson for action, bone for premium, Archivo headlines. Dark is the identity; light is a mode.
 
-Anyone should be able to run `bun add sukuna-ui`, import one CSS file, and use `<Button>` in Vite, Remix, or Next.js, with server-side rendering just working.
+Anyone should be able to run `bun add @sukunagg/ui`, import one CSS file, and use `<Button>` in Vite, Remix, or Next.js, with server-side rendering just working.
 
 ## What "done" looks like for v1
 

@@ -41,7 +41,7 @@ export interface TextareaProps extends ComponentPropsWithoutRef<'textarea'> {
  *
  * @example
  * ```tsx
- * import { Field, Textarea } from 'sukuna-ui'
+ * import { Field, Textarea } from '@sukunagg/ui'
  *
  * <Field>
  *   <Field.Label>Description</Field.Label>

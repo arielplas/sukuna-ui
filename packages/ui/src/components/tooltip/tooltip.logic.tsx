@@ -63,7 +63,7 @@ export interface TooltipProps {
  *
  * @example
  * ```tsx
- * import { Button, Tooltip } from 'sukuna-ui'
+ * import { Button, Tooltip } from '@sukunagg/ui'
  *
  * <Tooltip content="Save (Ctrl+S)" side="bottom" delay={300}>
  *   <Button variant="ghost" aria-label="Save">

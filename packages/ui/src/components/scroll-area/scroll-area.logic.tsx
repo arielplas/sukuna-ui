@@ -36,7 +36,7 @@ export interface ScrollAreaProps extends ComponentPropsWithoutRef<'div'> {
  *
  * @example
  * ```tsx
- * import { ScrollArea } from 'sukuna-ui'
+ * import { ScrollArea } from '@sukunagg/ui'
  *
  * <ScrollArea className="h-64 w-full rounded-md border border-line">
  *   <div className="p-4">…long content…</div>
@@ -45,7 +45,7 @@ export interface ScrollAreaProps extends ComponentPropsWithoutRef<'div'> {
  *
  * @example
  * ```tsx
- * import { ScrollArea } from 'sukuna-ui'
+ * import { ScrollArea } from '@sukunagg/ui'
  *
  * <ScrollArea orientation="both" className="h-72 w-96">
  *   <div className="w-[1200px] p-4">…wide content…</div>

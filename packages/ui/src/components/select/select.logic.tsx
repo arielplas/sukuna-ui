@@ -109,7 +109,7 @@ const check = (
  *
  * @example
  * ```tsx
- * import { Select } from 'sukuna-ui'
+ * import { Select } from '@sukunagg/ui'
  *
  * const fruits = [
  *   { value: 'apple', label: 'Apple' },
@@ -123,7 +123,7 @@ const check = (
  * @example
  * ```tsx
  * import { useState } from 'react'
- * import { Select } from 'sukuna-ui'
+ * import { Select } from '@sukunagg/ui'
  *
  * function SizePicker() {
  *   const [size, setSize] = useState('md')

@@ -93,7 +93,7 @@ export type TableProps = ComponentPropsWithoutRef<'table'>
  *
  * @example
  * ```tsx
- * import { RowActions, Table } from 'sukuna-ui'
+ * import { RowActions, Table } from '@sukunagg/ui'
  *
  * <Table.Row>
  *   <Table.Cell>Invoice #42</Table.Cell>
@@ -111,7 +111,7 @@ export type TableProps = ComponentPropsWithoutRef<'table'>
  *
  * @example
  * ```tsx
- * import { Table } from 'sukuna-ui'
+ * import { Table } from '@sukunagg/ui'
  *
  * const users = [
  *   { id: 1, name: 'Ariel', role: 'Owner', lastSeen: 'Today' },

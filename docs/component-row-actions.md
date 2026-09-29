@@ -28,7 +28,7 @@ test/browser/row-actions.test.ts   # Playwright: open from a table row, pick an 
 ## 3. API
 
 ```ts
-import type { MenuItemOption } from 'sukuna-ui'
+import type { MenuItemOption } from '@sukunagg/ui'
 
 export interface RowActionsProps {
   items: MenuItemOption[]          // { label, icon?, onSelect?, disabled?, id? }

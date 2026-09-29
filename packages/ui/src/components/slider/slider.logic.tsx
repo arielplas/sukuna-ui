@@ -61,7 +61,7 @@ export interface SliderProps {
  *
  * @example
  * ```tsx
- * import { Slider } from 'sukuna-ui'
+ * import { Slider } from '@sukunagg/ui'
  *
  * <Slider aria-label="Volume" defaultValue={40} className="max-w-xs" />
  * ```
@@ -69,7 +69,7 @@ export interface SliderProps {
  * @example
  * ```tsx
  * import { useState } from 'react'
- * import { Slider } from 'sukuna-ui'
+ * import { Slider } from '@sukunagg/ui'
  *
  * function OpacityControl() {
  *   const [opacity, setOpacity] = useState(1)

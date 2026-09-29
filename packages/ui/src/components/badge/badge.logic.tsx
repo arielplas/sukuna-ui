@@ -27,7 +27,7 @@ export interface BadgeProps extends ComponentPropsWithoutRef<'span'>, BadgeStyle
  *
  * @example
  * ```tsx
- * import { Badge } from 'sukuna-ui'
+ * import { Badge } from '@sukunagg/ui'
  *
  * <Badge tone="accent" dot>
  *   Live

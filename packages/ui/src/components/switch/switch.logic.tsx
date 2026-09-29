@@ -52,7 +52,7 @@ export interface SwitchProps extends NativeProps, SwitchStyleProps {
  *
  * @example
  * ```tsx
- * import { Switch } from 'sukuna-ui'
+ * import { Switch } from '@sukunagg/ui'
  *
  * // Uncontrolled
  * <Switch aria-label="Email notifications" defaultChecked onCheckedChange={save} />
@@ -60,7 +60,7 @@ export interface SwitchProps extends NativeProps, SwitchStyleProps {
  *
  * @example
  * ```tsx
- * import { Switch } from 'sukuna-ui'
+ * import { Switch } from '@sukunagg/ui'
  *
  * // Controlled, labelled by visible text.
  * <span id="dark-mode-label">Dark mode</span>

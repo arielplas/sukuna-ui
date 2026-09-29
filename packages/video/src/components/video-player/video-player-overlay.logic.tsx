@@ -51,7 +51,7 @@ export interface VideoPlayerOverlayProps {
  *
  * @example
  * ```tsx
- * import { VideoPlayer, VideoPlayerOverlay } from '@sukuna-ui/video'
+ * import { VideoPlayer, VideoPlayerOverlay } from '@sukunagg/video'
  *
  * <VideoPlayer title="Night food walk" src="/v/food.mp4">
  *   <VideoPlayerOverlay aria-label="Tour offer" start={30} end={45} dismissible>

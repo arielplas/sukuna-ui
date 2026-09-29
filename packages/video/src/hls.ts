@@ -1,4 +1,4 @@
-// @sukuna-ui/video/hls — hls.js engine for VideoPlayer (Tier 3 adapter, Q23).
+// @sukunagg/video/hls — hls.js engine for VideoPlayer (Tier 3 adapter, Q23).
 // hls.js is an optional peer dependency: only apps that import this entry need it installed.
 import Hls, { type HlsConfig } from 'hls.js'
 import type { VideoEngine } from './components/video-player/video-player.context'
@@ -30,8 +30,8 @@ const HLS_URL = /\.m3u8(?:[?#]|$)/i
  *
  * @example
  * ```tsx
- * import { VideoPlayer } from '@sukuna-ui/video'
- * import { hlsEngine } from '@sukuna-ui/video/hls'
+ * import { VideoPlayer } from '@sukunagg/video'
+ * import { hlsEngine } from '@sukunagg/video/hls'
  *
  * const engine = hlsEngine()
  *

@@ -34,7 +34,7 @@ export interface VideoPlayerEndScreenProps {
  *
  * @example
  * ```tsx
- * import { VideoPlayer, VideoPlayerEndScreen } from '@sukuna-ui/video'
+ * import { VideoPlayer, VideoPlayerEndScreen } from '@sukunagg/video'
  *
  * <VideoPlayer title="Last Train, Shibuya" src="/v/shibuya.mp4">
  *   <VideoPlayerEndScreen

@@ -37,7 +37,7 @@ const ALL_TABS: VideoPanelTab[] = ['chapters', 'playlist', 'transcript']
  *
  * @example
  * ```tsx
- * import { VideoPlayer, VideoPlayerPanel } from '@sukuna-ui/video'
+ * import { VideoPlayer, VideoPlayerPanel } from '@sukunagg/video'
  *
  * <VideoPlayer
  *   title="Lesson 4"

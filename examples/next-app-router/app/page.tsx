@@ -2,7 +2,7 @@
 // (Text, Badge, Card — server-safe) directly, and renders the interactive client island below.
 // If Text/Badge/Card wrongly carried 'use client', or Button/etc. lacked it, `next build` would
 // fail here — so a green build validates the RSC boundaries end to end.
-import { Badge, Card, Text } from 'sukuna-ui'
+import { Badge, Card, Text } from '@sukunagg/ui'
 import { Demo } from './demo'
 
 export default function Page() {

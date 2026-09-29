@@ -40,7 +40,7 @@ export interface AlertProps
  *
  * @example
  * ```tsx
- * import { Alert } from 'sukuna-ui'
+ * import { Alert } from '@sukunagg/ui'
  *
  * <Alert tone="danger" title="Binding vow broken" icon={<SkullIcon />}>
  *   Your cursed energy output has been halved until the vow is renewed.

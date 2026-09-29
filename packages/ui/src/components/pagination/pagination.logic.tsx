@@ -42,7 +42,7 @@ const range = (start: number, end: number): number[] =>
  *
  * @example
  * ```ts
- * import { paginationRange } from 'sukuna-ui'
+ * import { paginationRange } from '@sukunagg/ui'
  *
  * paginationRange(5, 10) // [1, 'dots', 4, 5, 6, 'dots', 10]
  * paginationRange(1, 10) // [1, 2, 3, 4, 5, 'dots', 10]
@@ -98,7 +98,7 @@ const ChevronIcon = ({ dir }: { dir: 'left' | 'right' }) => (
  * @example
  * ```tsx
  * import { useState } from 'react'
- * import { Pagination } from 'sukuna-ui'
+ * import { Pagination } from '@sukunagg/ui'
  *
  * const PAGE_SIZE = 20
  * const [page, setPage] = useState(1)

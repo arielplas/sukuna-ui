@@ -65,7 +65,7 @@ const Ellipsis = ({ className }: { className: string }) => (
  *
  * @example
  * ```tsx
- * import { RowActions, Table } from 'sukuna-ui'
+ * import { RowActions, Table } from '@sukunagg/ui'
  *
  * <Table.ActionsCell>
  *   <RowActions

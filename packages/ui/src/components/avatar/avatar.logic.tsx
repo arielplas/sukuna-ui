@@ -43,7 +43,7 @@ export interface AvatarProps extends ComponentPropsWithoutRef<'span'>, AvatarSty
  *
  * @example
  * ```tsx
- * import { Avatar } from 'sukuna-ui'
+ * import { Avatar } from '@sukunagg/ui'
  *
  * // Image with initials shown while it loads or if the request fails.
  * <Avatar src="https://example.com/ryomen.jpg" alt="Ryomen Sukuna" fallback="RS" />

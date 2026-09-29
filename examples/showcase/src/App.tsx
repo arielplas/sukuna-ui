@@ -11,8 +11,8 @@ import {
   storySnippet,
 } from './stories'
 
-const GITHUB_URL = 'https://github.com/arielplas/sukuna-ui'
-const NPM_URL = 'https://www.npmjs.com/package/sukuna-ui'
+const GITHUB_URL = 'https://github.com/sukuna-gg/sukuna-ui'
+const NPM_URL = 'https://www.npmjs.com/package/@sukunagg/ui'
 const OVERVIEW = 'overview'
 const COUNT = components.length
 
@@ -170,7 +170,7 @@ function Overview() {
             Install
           </Text>
           <pre className="m-0 overflow-x-auto rounded-md bg-well p-3 text-sm text-text">
-            <code>bun add sukuna-ui{'\n'}npm i sukuna-ui</code>
+            <code>bun add @sukunagg/ui{'\n'}npm i @sukunagg/ui</code>
           </pre>
         </Card>
         <Card elevation="raised" padding="lg">

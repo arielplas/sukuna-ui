@@ -69,7 +69,7 @@ export interface TabsProps {
  *
  * @example
  * ```tsx
- * import { Tabs } from 'sukuna-ui'
+ * import { Tabs } from '@sukunagg/ui'
  *
  * <Tabs
  *   aria-label="Settings"
@@ -85,7 +85,7 @@ export interface TabsProps {
  * @example
  * ```tsx
  * import { useState } from 'react'
- * import { Tabs } from 'sukuna-ui'
+ * import { Tabs } from '@sukunagg/ui'
  *
  * // Controlled: keep the selected tab in the URL or parent state.
  * const [tab, setTab] = useState('account')

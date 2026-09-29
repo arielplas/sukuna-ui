@@ -34,7 +34,7 @@ showcase's `public/llms*` are **generated** from `docs/component-*.md` + `packag
 
 3. **Check stale hand-written facts** in `README.md` outside the generated blocks: the component
    count appears via `<!-- count -->N<!-- /count -->` (generated — do not touch), but also scan for
-   hard-coded numbers/versions in prose, badge URLs (`sukuna-ui` package name), the setup snippets
+   hard-coded numbers/versions in prose, badge URLs (`@sukunagg/ui` package name), the setup snippets
    (`theme.css` / `styles.css` / `@source` path), and the "For AI agents" URLs (`/llms.txt`,
    `/llms-full.txt`). Fix anything that no longer matches `package.json` or the code.
 

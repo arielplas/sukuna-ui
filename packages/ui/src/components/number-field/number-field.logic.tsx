@@ -73,7 +73,7 @@ export interface NumberFieldProps
  *
  * @example
  * ```tsx
- * import { NumberField } from 'sukuna-ui'
+ * import { NumberField } from '@sukunagg/ui'
  *
  * <label htmlFor="qty">Quantity</label>
  * <NumberField id="qty" defaultValue={1} min={1} max={99} aria-label="Quantity" />
@@ -81,7 +81,7 @@ export interface NumberFieldProps
  *
  * @example
  * ```tsx
- * import { NumberField } from 'sukuna-ui'
+ * import { NumberField } from '@sukunagg/ui'
  *
  * // Controlled currency field.
  * <NumberField

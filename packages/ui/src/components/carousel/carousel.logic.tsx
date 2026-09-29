@@ -80,7 +80,7 @@ export interface CarouselProps extends NativeProps {
  *
  * @example
  * ```tsx
- * import { Carousel } from 'sukuna-ui'
+ * import { Carousel } from '@sukunagg/ui'
  *
  * <Carousel aria-label="Featured" loop autoplay>
  *   <img src="/1.jpg" alt="First" />

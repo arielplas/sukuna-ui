@@ -168,7 +168,7 @@ const themeInline = [
   `${INDENT}--ease-spring: var(--sk-ease-spring);`,
 ].join('\n')
 
-// The VideoPlayer ships its own prefixed stylesheet and `--vp-*` theme (@sukuna-ui/video, Q27).
+// The VideoPlayer ships its own prefixed stylesheet and `--vp-*` theme (@sukunagg/video, Q27).
 /** `--vp-<tw>: var(--sk-<sk>)` line feeding the player's theme from a Sukuna token. */
 const vpGroup = (vpPrefix: string, keys: string[], skPrefix = vpPrefix) =>
   keys.map((k) => `${INDENT}--vp-${vpPrefix}${k}: var(--sk-${skPrefix}${k});`).join('\n')
@@ -191,7 +191,7 @@ ${themeInline}
 }
 
 /*
- * VideoPlayer (@sukuna-ui/video): the player brings its own stylesheet and \`--vp-*\` theme. Feed
+ * VideoPlayer (@sukunagg/video): the player brings its own stylesheet and \`--vp-*\` theme. Feed
  * that theme from the Sukuna tokens so an app's palette reaches it; the player root pins
  * data-theme="dark", so these resolve to the dark values.
  */

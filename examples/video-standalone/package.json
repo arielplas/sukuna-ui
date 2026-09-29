@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@sukuna-ui/video": "link:@sukuna-ui/video",
+    "@sukunagg/video": "link:@sukunagg/video",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

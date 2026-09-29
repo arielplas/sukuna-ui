@@ -1,4 +1,4 @@
-import { VideoPlayer, VideoPlayerOverlay } from '@sukuna-ui/video'
+import { VideoPlayer, VideoPlayerOverlay } from '@sukunagg/video'
 import type { CSSProperties } from 'react'
 
 const V = 'video/'

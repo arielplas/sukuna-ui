@@ -70,7 +70,7 @@ export interface ComboboxProps {
  *
  * @example
  * ```tsx
- * import { Combobox } from 'sukuna-ui'
+ * import { Combobox } from '@sukunagg/ui'
  *
  * const languages = ['TypeScript', 'JavaScript', 'Rust', 'Go', 'Python', 'Zig']
  *
@@ -80,7 +80,7 @@ export interface ComboboxProps {
  * @example
  * ```tsx
  * import { useState } from 'react'
- * import { Combobox } from 'sukuna-ui'
+ * import { Combobox } from '@sukunagg/ui'
  *
  * function CountrySearch({ countries }: { countries: string[] }) {
  *   const [query, setQuery] = useState('')

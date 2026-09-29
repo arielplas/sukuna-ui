@@ -13,7 +13,7 @@ const config: StorybookConfig = {
   viteFinal: async (cfg) => {
     const { default: tailwindcss } = await import('@tailwindcss/vite')
     cfg.plugins = [...(cfg.plugins ?? []), tailwindcss()]
-    // `sukuna-ui` re-exports the VideoPlayer from its workspace package (Q27): resolve it to
+    // `@sukunagg/ui` re-exports the VideoPlayer from its workspace package (Q27): resolve it to
     // source so `bun run storybook` works without a prior build and there's one player copy.
     const src = (rel: string) =>
       fileURLToPath(new URL(`../packages/video/src/${rel}`, import.meta.url))

@@ -82,7 +82,7 @@ const Chevron = ({ className }: { className: string }) => (
  *
  * @example
  * ```tsx
- * import { Accordion } from 'sukuna-ui'
+ * import { Accordion } from '@sukunagg/ui'
  *
  * <Accordion
  *   headingLevel={2}

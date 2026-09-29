@@ -27,7 +27,7 @@ export interface DividerProps extends ComponentPropsWithoutRef<'div'>, DividerSt
  *
  * @example
  * ```tsx
- * import { Divider } from 'sukuna-ui'
+ * import { Divider } from '@sukunagg/ui'
  *
  * // Between two sections: announced as a separator.
  * <section>

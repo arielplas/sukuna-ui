@@ -109,7 +109,7 @@ function HoverCardContent({
  *
  * @example
  * ```tsx
- * import { HoverCard } from 'sukuna-ui'
+ * import { HoverCard } from '@sukunagg/ui'
  *
  * <HoverCard>
  *   <HoverCard.Trigger href="/users/sukuna">@sukuna</HoverCard.Trigger>

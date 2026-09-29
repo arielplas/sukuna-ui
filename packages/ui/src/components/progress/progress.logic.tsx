@@ -55,7 +55,7 @@ export interface ProgressProps extends ProgressStyleProps {
  *
  * @example
  * ```tsx
- * import { Progress } from 'sukuna-ui'
+ * import { Progress } from '@sukunagg/ui'
  *
  * // Determinate with a visible label (which also names it for assistive tech).
  * <Progress value={uploaded} max={total} label="Uploading 3 files" />

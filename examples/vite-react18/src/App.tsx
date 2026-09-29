@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   Badge,
   Button,
@@ -10,7 +9,8 @@ import {
   Switch,
   Text,
   Tooltip,
-} from 'sukuna-ui'
+} from '@sukunagg/ui'
+import { useState } from 'react'
 
 const frameworks = [
   { value: 'react', label: 'React' },

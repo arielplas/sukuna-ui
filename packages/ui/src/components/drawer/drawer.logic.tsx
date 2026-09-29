@@ -113,7 +113,7 @@ function DrawerClose({
  *
  * @example
  * ```tsx
- * import { Button, Drawer } from 'sukuna-ui'
+ * import { Button, Drawer } from '@sukunagg/ui'
  *
  * <Drawer>
  *   <Drawer.Trigger>

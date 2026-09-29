@@ -30,7 +30,7 @@ export interface ShinyTextProps
  *
  * @example
  * ```tsx
- * import { ShinyText } from 'sukuna-ui'
+ * import { ShinyText } from '@sukunagg/ui'
  *
  * <ShinyText>Limited drop</ShinyText>
  * <ShinyText as="strong" speed="fast">New</ShinyText>

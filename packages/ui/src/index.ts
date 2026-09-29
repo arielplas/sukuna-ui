@@ -31,7 +31,7 @@ export type {
   VideoPlaylistItem,
   VideoSource,
   VideoTrack,
-} from '@sukuna-ui/video'
+} from '@sukunagg/video'
 export {
   useVideoPlayer,
   VideoPlayer,
@@ -43,7 +43,7 @@ export {
   VideoPlayerShare,
   VideoPlayerSkip,
   VideoPlayerUpNext,
-} from '@sukuna-ui/video'
+} from '@sukunagg/video'
 export type { AccordionItemData, AccordionProps } from './components/accordion'
 export { Accordion } from './components/accordion'
 export type { AlertProps } from './components/alert'

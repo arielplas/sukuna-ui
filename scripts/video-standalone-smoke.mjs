@@ -1,5 +1,5 @@
 // Standalone VideoPlayer smoke (Q27): load the built examples/video-standalone app — only
-// @sukuna-ui/video + its video.css, on a page with hostile global CSS — and fail unless the chrome
+// @sukunagg/video + its video.css, on a page with hostile global CSS — and fail unless the chrome
 // keeps its own look, app content inside the player keeps the host's, and `--vp-*` re-themes it.
 // Usage: node scripts/video-standalone-smoke.mjs [dist dir]
 // Run under Node (Playwright's browser transport hangs under Bun — see docs/ai-decisions.md D16).

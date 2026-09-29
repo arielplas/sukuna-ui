@@ -115,7 +115,7 @@ type ButtonImplProps = ButtonOwnProps & {
  *
  * @example
  * ```tsx
- * import { Button } from 'sukuna-ui'
+ * import { Button } from '@sukunagg/ui'
  *
  * <Button variant="primary" size="lg" onClick={() => startTrial()}>
  *   Start 7-day free trial
@@ -131,7 +131,7 @@ type ButtonImplProps = ButtonOwnProps & {
  *
  * @example
  * ```tsx
- * import { Button } from 'sukuna-ui'
+ * import { Button } from '@sukunagg/ui'
  *
  * // A link that looks like a button; `disabled` becomes aria-disabled + tabIndex=-1.
  * <Button as="a" href="/pricing" variant="secondary" disabled={!canUpgrade}>

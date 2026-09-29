@@ -26,7 +26,7 @@ export interface SkeletonProps extends ComponentPropsWithoutRef<'div'>, Skeleton
  *
  * @example
  * ```tsx
- * import { Skeleton } from 'sukuna-ui'
+ * import { Skeleton } from '@sukunagg/ui'
  *
  * // A card while it loads: 160px image, two text lines, and a 40px avatar circle.
  * <div aria-busy="true" className="flex flex-col gap-3">

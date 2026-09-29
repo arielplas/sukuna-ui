@@ -41,7 +41,7 @@ export interface ContextMenuProps {
  *
  * @example
  * ```tsx
- * import { ContextMenu } from 'sukuna-ui'
+ * import { ContextMenu } from '@sukunagg/ui'
  *
  * <ContextMenu
  *   items={[

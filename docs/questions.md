@@ -450,12 +450,39 @@ is first published.
 
 ---
 
+## Q29. "can you publish it to npm" → "can you do it if i give you npm access?" → "move sukuna-ui repo to sukunagg org — you will re-publish the ui repo under @sukunagg/ui & @sukunagg/video packages... they will be public that's fine" → GitHub target "this org: https://github.com/sukuna-gg" → "sukunagg was created in npm"
+
+**Answer / what was done (2026-09-29).**
+
+- **Repo:** transferred `arielplas/sukuna-ui` → **`sukuna-gg/sukuna-ui`** (GitHub redirects the old
+  URL; the `NPM_TOKEN` secret moved with it). Local `origin` points at the new URL. (`github.com/SukunaGG`
+  is a user account, so the org `sukuna-gg` was confirmed with the owner first.)
+- **Packages renamed:** `sukuna-ui` → **`@sukunagg/ui`**, `@sukuna-ui/video` → **`@sukunagg/video`**
+  (npm org `sukunagg`, public). Every package-specifier use was renamed — imports, CSS paths
+  (`@sukunagg/ui/theme.css`), install lines, TSDoc examples, README/badges, generated llms docs,
+  examples, CI, repo links. "sukuna-ui" stays as the project/brand name in prose and as the repo
+  name; historical logs (this file's older entries, the roadmap log, ai-decisions, CHANGELOG) keep
+  the old names as written.
+- **Versions:** `@sukunagg/video` **0.1.0** (first release) and `@sukunagg/ui` **0.10.0**, continuing
+  `sukuna-ui` 0.9.2's line so the changelog history carries over.
+- **Published from the owner's machine** (`bun publish`, owner logged in to npm themselves; no
+  credentials passed to the agent). Local publishes skip `publishConfig.provenance` (provenance
+  needs CI's OIDC); later releases go through the Changesets workflow, which needs `NPM_TOKEN` to
+  have publish rights on the `@sukunagg` scope.
+- **Old `sukuna-ui` on npm:** left as is (0.9.2), not deprecated — waiting on the owner.
+- **Q28 variable names** shipped as built (`--vp-color-*` …); renaming now is a breaking release.
+
+**Decision.** Package names are `@sukunagg/ui` and `@sukunagg/video`; the repo lives at
+`sukuna-gg/sukuna-ui`.
+
+---
+
 ## Decisions recorded so far
 
 | Topic | Decision |
 |---|---|
 | Design source | Pomo Design System (Sukuna language) as base |
-| Package name | `sukuna-ui` |
+| Package name | `sukuna-ui` → **`@sukunagg/ui`** (+ `@sukunagg/video`), repo `sukuna-gg/sukuna-ui` (Q29) |
 | v1 components | Text, Badge, Card, Button, Input, Checkbox, Switch, Tooltip, Dialog, Select |
 | Docs language | English |
 | Package layout | Single package; **except** the VideoPlayer, which becomes standalone `@sukuna-ui/video` in a Bun-workspaces monorepo (no `sukuna-ui` dependency, `--vp-*` vars, dark default; `sukuna-ui` re-exports it) (Q3, Q27) |
@@ -486,4 +513,4 @@ is first published.
 | Q14 | Confirm Counter's SSR-final-value strategy and defaults (1200ms, easeOutCubic)? | Spec written; non-blocking, sensible defaults. |
 | Q25 | `sk-ticker` keyframe + `animate-ticker` utility for the VideoPlayer news-ticker overlay? | Proposed; blocks only the ticker variant. |
 | Q26 | Next VideoPlayer SDK adapter (dash.js, IMA/VAST ads, Cast, three.js VR) — each a separate optional peer? | Waiting; hls.js shipped. |
-| Q28 | Approve the `--vp-*` variable set (names + Sukuna-dark defaults) for `@sukuna-ui/video`? | Built behind `DECISION(open)` as `--vp-color-*` etc.; needs a yes (or renames) before the first publish. |
+| Q28 | Approve the `--vp-*` variable set (names + Sukuna-dark defaults) for `@sukuna-ui/video`? | Shipped as built with the first `@sukunagg/video` publish (Q29); renaming now = breaking release. |

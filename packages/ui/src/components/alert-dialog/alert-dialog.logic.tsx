@@ -118,7 +118,7 @@ function AlertDialogAction({ onClick, ...rest }: AlertDialogButtonProps) {
  *
  * @example
  * ```tsx
- * import { AlertDialog, Button } from 'sukuna-ui'
+ * import { AlertDialog, Button } from '@sukunagg/ui'
  *
  * <AlertDialog>
  *   <AlertDialog.Trigger>

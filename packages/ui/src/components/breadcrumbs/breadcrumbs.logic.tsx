@@ -46,7 +46,7 @@ export interface BreadcrumbsProps extends Omit<ComponentPropsWithoutRef<'nav'>, 
  *
  * @example
  * ```tsx
- * import { Breadcrumbs } from 'sukuna-ui'
+ * import { Breadcrumbs } from '@sukunagg/ui'
  *
  * <Breadcrumbs
  *   items={[

@@ -75,7 +75,7 @@ export interface VideoEngineSession {
 }
 
 /**
- * A streaming engine the player can hand a source to (Tier 3 seam). `@sukuna-ui/video/hls` ships
+ * A streaming engine the player can hand a source to (Tier 3 seam). `@sukunagg/video/hls` ships
  * one for hls.js; write your own for dash.js, Shaka or a DRM stack.
  */
 export interface VideoEngine {
@@ -255,7 +255,7 @@ export const VideoPlayerContext = createContext<VideoPlayerContextValue | null>(
  *
  * @example
  * ```tsx
- * import { VideoPlayer, useVideoPlayer } from '@sukuna-ui/video'
+ * import { VideoPlayer, useVideoPlayer } from '@sukunagg/video'
  *
  * function JumpToEnd() {
  *   const { state, actions } = useVideoPlayer()

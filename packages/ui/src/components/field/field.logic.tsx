@@ -123,7 +123,7 @@ function FieldError({ match, className, ...rest }: FieldErrorProps) {
  *
  * @example
  * ```tsx
- * import { Field, Input } from 'sukuna-ui'
+ * import { Field, Input } from '@sukunagg/ui'
  *
  * <Field invalid={!!errors.email}>
  *   <Field.Label>Email</Field.Label>
@@ -135,7 +135,7 @@ function FieldError({ match, className, ...rest }: FieldErrorProps) {
  *
  * @example
  * ```tsx
- * import { Field, Input, Switch } from 'sukuna-ui'
+ * import { Field, Input, Switch } from '@sukunagg/ui'
  *
  * // Native constraint validation: the error shows only for the matched ValidityState key.
  * <Field validationMode="onBlur">

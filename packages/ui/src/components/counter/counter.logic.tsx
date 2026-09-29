@@ -78,7 +78,7 @@ const easeOutCubic = (t: number): number => 1 - (1 - t) ** 3
  *
  * @example
  * ```tsx
- * import { Counter } from 'sukuna-ui'
+ * import { Counter } from '@sukunagg/ui'
  *
  * <Counter value={1240} aria-label="1,240 active users" />
  * <Counter value={99.9} decimals={1} suffix="%" startOnView />

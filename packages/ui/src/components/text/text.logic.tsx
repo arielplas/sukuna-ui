@@ -52,7 +52,7 @@ export interface TextProps extends Omit<ComponentPropsWithoutRef<'p'>, 'color'>,
  *
  * @example
  * ```tsx
- * import { Text } from 'sukuna-ui'
+ * import { Text } from '@sukunagg/ui'
  *
  * <Text as="span" size="xs" tracking="eyebrow" tone="accent">
  *   Season 2

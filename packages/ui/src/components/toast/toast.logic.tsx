@@ -63,7 +63,7 @@ export interface ToastProviderProps {
  *
  * @example
  * ```tsx
- * import { Button, ToastProvider, useToast } from 'sukuna-ui'
+ * import { Button, ToastProvider, useToast } from '@sukunagg/ui'
  *
  * // App root (once):
  * <ToastProvider timeout={4000} limit={3}>

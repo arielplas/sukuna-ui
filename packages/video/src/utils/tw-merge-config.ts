@@ -2,7 +2,7 @@
  * `tailwind-merge` config for the player's `tv()` maps.
  *
  * - `prefix: 'vp'`: every player utility is written `vp:<utility>` and compiled by the player's own
- *   prebuilt stylesheet (`@sukuna-ui/video/video.css`, Tailwind `prefix(vp)`), so its classes can
+ *   prebuilt stylesheet (`@sukunagg/video/video.css`, Tailwind `prefix(vp)`), so its classes can
  *   never collide with the host app's. The prefix lets merge resolve conflicts between prefixed
  *   classes; a host's unprefixed classes pass through untouched.
  * - The theme's custom `text-*` font sizes (e.g. `text-md`, which Tailwind's default scale lacks)

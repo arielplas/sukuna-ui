@@ -52,7 +52,7 @@ export interface MeterProps extends MeterStyleProps {
  *
  * @example
  * ```tsx
- * import { Meter } from 'sukuna-ui'
+ * import { Meter } from '@sukunagg/ui'
  *
  * <Meter label="Storage" value={3.2} max={5} showValue format={{ style: 'unit', unit: 'gigabyte' }} />
  * <Meter aria-label="Password strength" value={80} tone="success" size="sm" />

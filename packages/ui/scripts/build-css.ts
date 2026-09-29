@@ -6,19 +6,19 @@
  * - Copy the generated `theme.css` to `dist/`, headed by an `@import` of the VideoPlayer's
  *   stylesheet, for Tailwind consumers; copy `tokens.css` unchanged for raw-token consumers.
  *
- * The VideoPlayer lives in `@sukuna-ui/video` (Q27) and ships its own prebuilt, prefixed
- * `video.css`; bundling it here keeps `sukuna-ui/theme.css` and `sukuna-ui/styles.css` enough on
+ * The VideoPlayer lives in `@sukunagg/video` (Q27) and ships its own prebuilt, prefixed
+ * `video.css`; bundling it here keeps `@sukunagg/ui/theme.css` and `@sukunagg/ui/styles.css` enough on
  * their own, as before the split. The `[data-vp-root]` block in theme.css feeds it Sukuna tokens.
  *
  * Assumes `bun run tokens:build` has already produced theme.css/tokens.css and that
- * `@sukuna-ui/video` is built (the root `build` runs it first, as a dependency).
+ * `@sukunagg/video` is built (the root `build` runs it first, as a dependency).
  */
 import { fileURLToPath } from 'node:url'
 import { $ } from 'bun'
 
 const root = new URL('..', import.meta.url)
 const p = (rel: string) => new URL(rel, root).pathname.replace(/^\/([A-Za-z]:)/, '$1')
-const videoCss = fileURLToPath(import.meta.resolve('@sukuna-ui/video/video.css'))
+const videoCss = fileURLToPath(import.meta.resolve('@sukunagg/video/video.css'))
 
 await $`bun x @tailwindcss/cli -i ${p('src/styles/fallback.css')} -o ${p('dist/styles.css')} --minify`
 
@@ -29,8 +29,8 @@ await Bun.write(p('dist/styles.css'), `${styles}\n${video}`)
 const theme = await Bun.file(p('src/styles/theme.css')).text()
 await Bun.write(
   p('dist/theme.css'),
-  `/* VideoPlayer stylesheet (@sukuna-ui/video, prebuilt and prefixed — no Tailwind scan needed). */\n@import "@sukuna-ui/video/video.css";\n\n${theme}`,
+  `/* VideoPlayer stylesheet (@sukunagg/video, prebuilt and prefixed — no Tailwind scan needed). */\n@import "@sukunagg/video/video.css";\n\n${theme}`,
 )
 await Bun.write(Bun.file(p('dist/tokens.css')), Bun.file(p('src/styles/tokens.css')))
 
-console.log('dist/styles.css + dist/theme.css + dist/tokens.css written (with @sukuna-ui/video)')
+console.log('dist/styles.css + dist/theme.css + dist/tokens.css written (with @sukunagg/video)')

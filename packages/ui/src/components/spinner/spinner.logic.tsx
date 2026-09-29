@@ -33,7 +33,7 @@ export interface SpinnerProps
  *
  * @example
  * ```tsx
- * import { Spinner } from 'sukuna-ui'
+ * import { Spinner } from '@sukunagg/ui'
  *
  * // Default: 20px crimson ring announced as 'Loading'.
  * <Spinner />

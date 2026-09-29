@@ -21,6 +21,21 @@
         "--strictPort"
       ],
       "port": 5173
+    },
+    {
+      "name": "video-standalone",
+      "runtimeExecutable": "bun",
+      "runtimeArgs": [
+        "run",
+        "--cwd",
+        "examples/video-standalone",
+        "dev",
+        "--",
+        "--port",
+        "5174",
+        "--strictPort"
+      ],
+      "port": 5174
     }
   ]
 }

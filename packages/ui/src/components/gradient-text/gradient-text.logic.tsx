@@ -32,7 +32,7 @@ export interface GradientTextProps
  *
  * @example
  * ```tsx
- * import { GradientText } from 'sukuna-ui'
+ * import { GradientText } from '@sukunagg/ui'
  *
  * <GradientText as="h1" className="text-3xl font-display font-black">
  *   Malevolent Shrine

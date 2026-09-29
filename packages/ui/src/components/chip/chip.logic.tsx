@@ -41,7 +41,7 @@ const DismissIcon = () => (
  *
  * @example
  * ```tsx
- * import { Chip } from 'sukuna-ui'
+ * import { Chip } from '@sukunagg/ui'
  *
  * function Filters({ tags, remove }: { tags: string[]; remove: (t: string) => void }) {
  *   return tags.map((tag) => (

@@ -69,7 +69,7 @@ const toArray = (v: string | string[] | undefined): string[] | undefined =>
  *
  * @example
  * ```tsx
- * import { ToggleGroup } from 'sukuna-ui'
+ * import { ToggleGroup } from '@sukunagg/ui'
  *
  * <ToggleGroup
  *   aria-label="Text alignment"
@@ -144,7 +144,7 @@ export type ToggleProps = ToggleOwnProps &
  *
  * @example
  * ```tsx
- * import { Toggle } from 'sukuna-ui'
+ * import { Toggle } from '@sukunagg/ui'
  *
  * <Toggle aria-label="Bold" defaultPressed><b>B</b></Toggle>
  * ```

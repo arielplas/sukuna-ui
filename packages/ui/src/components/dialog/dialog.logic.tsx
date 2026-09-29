@@ -109,7 +109,7 @@ export type DialogContentProps = ComponentPropsWithoutRef<'div'>
  *
  * @example
  * ```tsx
- * import { Button, Dialog } from 'sukuna-ui'
+ * import { Button, Dialog } from '@sukunagg/ui'
  *
  * <Dialog onOpenChange={(open) => console.log(open)}>
  *   <Dialog.Trigger>

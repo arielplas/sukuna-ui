@@ -76,7 +76,7 @@ export interface MenuProps {
  *
  * @example
  * ```tsx
- * import { Button, Menu } from 'sukuna-ui'
+ * import { Button, Menu } from '@sukunagg/ui'
  *
  * <Menu
  *   items={[
@@ -91,7 +91,7 @@ export interface MenuProps {
  *
  * @example
  * ```tsx
- * import { Button, Menu } from 'sukuna-ui'
+ * import { Button, Menu } from '@sukunagg/ui'
  *
  * <Menu
  *   side="right"

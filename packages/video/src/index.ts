@@ -1,5 +1,5 @@
-// @sukuna-ui/video — the standalone VideoPlayer (Q27). `sukuna-ui` re-exports everything here.
-// The HLS adapter lives at `@sukuna-ui/video/hls` so hls.js stays an optional peer.
+// @sukunagg/video — the standalone VideoPlayer (Q27). `@sukunagg/ui` re-exports everything here.
+// The HLS adapter lives at `@sukunagg/video/hls` so hls.js stays an optional peer.
 export type {
   Chapter,
   ThumbnailCue,

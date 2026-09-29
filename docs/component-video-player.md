@@ -6,11 +6,11 @@
 > so seek, volume and the settings menu are small in-house controls. **Status: approved (Q21–Q23);
 > W1 (core), W2 (parts), W3 (tools) and the W4 engine seam + hls.js adapter shipped; other SDK adapters wait on per-dependency approval (Q26).** Interactive design mockup:
 > https://claude.ai/artifact/YEbDARw4mUAPviuEnRDBzv (v2).
-> **Standalone (Q27):** the player is its own package, `@sukuna-ui/video` (`packages/video`), with
-> no dependency on `sukuna-ui` and a prebuilt, prefixed stylesheet (`@sukuna-ui/video/video.css`)
-> themed by `--vp-*` variables. `sukuna-ui` depends on it and re-exports every name (and
-> `sukuna-ui/video/hls`), so both `import { VideoPlayer } from 'sukuna-ui'` and
-> `from '@sukuna-ui/video'` work.
+> **Standalone (Q27):** the player is its own package, `@sukunagg/video` (`packages/video`), with
+> no dependency on `@sukunagg/ui` and a prebuilt, prefixed stylesheet (`@sukunagg/video/video.css`)
+> themed by `--vp-*` variables. `@sukunagg/ui` depends on it and re-exports every name (and
+> `@sukunagg/ui/video/hls`), so both `import { VideoPlayer } from '@sukunagg/ui'` and
+> `from '@sukunagg/video'` work.
 > Scope source: a scout of nuevodevel.com (Nuevo plugin for Video.js, ~80 demos) — full parity map
 > in **Appendix A**, delivery waves in **Appendix B**.
 
@@ -54,7 +54,7 @@ Parts live in the same folder (they only work inside a `VideoPlayer`):
 `video-player-w3.test.tsx` (W3). Each part is its own module, so an app that imports only
 `VideoPlayer` never loads them.
 W4 adapters get their own subpath entries, SDK as an optional peer: `packages/video/src/hls.ts` →
-`@sukuna-ui/video/hls` (re-exported as `sukuna-ui/video/hls`) (hls.js `>=1.5`, `peerDependenciesMeta.optional`, `typesVersions` for legacy
+`@sukunagg/video/hls` (re-exported as `@sukunagg/ui/video/hls`) (hls.js `>=1.5`, `peerDependenciesMeta.optional`, `typesVersions` for legacy
 `node10` resolution), tested with a mocked hls.js in `packages/video/src/hls.test.ts`. The HLS fixture is
 `.storybook/public/video/hls/` (VP9 + Opus fMP4, 360p + 180p) — Playwright's Chromium has no H.264.
 
@@ -109,7 +109,7 @@ interface VideoPlayerProps extends Omit<ComponentPropsWithoutRef<'video'>, 'cont
 
   // ── Tier 3 seams — W4 ──
   engine?: VideoEngine              // shipped: { name, handles(src), attach(video, src, callbacks) → { setLevel, destroy } }
-                                    // hlsEngine() from 'sukuna-ui/video/hls'; dash.js / Shaka / DRM next (Q26)
+                                    // hlsEngine() from '@sukunagg/ui/video/hls'; dash.js / Shaka / DRM next (Q26)
   ads?: AdAdapter                   // Q26: VAST / VMAP / IMA / DAI → our ad chrome
   cast?: CastAdapter                // Q26: Chromecast (AirPlay is native, Tier 1)
   renderer?: Renderer               // Q26: e.g. VR/360 WebGL canvas
@@ -291,7 +291,7 @@ chrome, with a Preflight-style reset in `@scope ([data-vp-root]) to ([data-vp-co
 one-element specificity: every utility beats it, and scope proximity beats a host's `button {}`.
 App content the player renders (overlay children, `info`, the watch-limit card) sits in a
 `display: contents` `[data-vp-content]` wrapper, outside the reset, so it keeps the host's styles.
-`sukuna-ui` ships the same file inside `theme.css` (`@import`) and `styles.css` (appended) and adds a
+`@sukunagg/ui` ships the same file inside `theme.css` (`@import`) and `styles.css` (appended) and adds a
 `[data-vp-root] { --vp-*: var(--sk-*) }` bridge so an app's Sukuna palette reaches the player.
 
 ## 8. Accessibility checklist
@@ -412,7 +412,7 @@ window), `Overlays`, `AudioMode`. W4: `HlsStream` (`hlsEngine()` + the HLS fixtu
 - ~~Streaming, thumbnails, chapters out of v1~~ — superseded by Q22: chapters and thumbnails are
   Tier 1; streaming is a Tier 3 `engine` adapter.
 - **Q22 scope, Nuevo parity in three tiers** (approved, Q23): core in the component, parts as children,
-  vendor SDKs as adapters behind `sukuna-ui/video/*` subpaths with optional peers. Each new SDK is a
+  vendor SDKs as adapters behind `@sukunagg/ui/video/*` subpaths with optional peers. Each new SDK is a
   separate dependency approval (Q16 precedent).
 - **Ads use `--sk-premium`** (champagne) for their badge and progress. Ads aren't a brand moment,
   so no crimson.
@@ -441,7 +441,7 @@ Scouted 2026-09-27: nuevodevel.com home, `/nuevo/doc`, `/nuevo/showcase/` (~80 d
 | Caption settings | 1 | settings → Caption style |
 | Transcript | 2 | `VideoPlayerPanel` transcript tab |
 | Quality picker (multi-res MP4, HLS/DASH levels), HD icon | 1 / 3 | `sources[].res`; levels from `engine` |
-| HLS, fMP4, MPEG-DASH, hls.js / dash.js handlers | 3 | `engine` (`sukuna-ui/video/hls`, `/dash`) |
+| HLS, fMP4, MPEG-DASH, hls.js / dash.js handlers | 3 | `engine` (`@sukunagg/ui/video/hls`, `/dash`) |
 | DRM (EME) | 3 | via `engine` |
 | Live streaming, DVR, live clock, offline image | 2 | `live`; offline = error-cover variant |
 | Speed rates (custom) | 1 | `playbackRates` |
@@ -475,7 +475,7 @@ Scouted 2026-09-27: nuevodevel.com home, `/nuevo/doc`, `/nuevo/showcase/` (~80 d
 | AirPlay | 1 | Safari `webkitShowPlaybackTargetPicker`, no SDK |
 | VR / 360° | 3 | `renderer` adapter |
 | VAST, VMAP, pre/mid/post-roll, nonlinear, companions, outstream, waterfall | 3 | `ads` adapter + our ad chrome |
-| Google IMA, Google DAI | 3 | `ads` adapter (`sukuna-ui/video/ima`) |
+| Google IMA, Google DAI | 3 | `ads` adapter (`@sukunagg/ui/video/ima`) |
 | VPAID | — | not planned |
 | YouTube tech | — | not planned |
 | Subtitle auto-translation | — | not planned |
@@ -488,7 +488,7 @@ Scouted 2026-09-27: nuevodevel.com home, `/nuevo/doc`, `/nuevo/showcase/` (~80 d
 | W1 ✅ | v1 core + chapters (segments, label) + thumbnails + settings menu (quality, speed, captions, caption style) + ±10s + frame step + context menu + touch controls + AirPlay + `labels` + `useVideoPlayer` | none |
 | W2 ✅ | Panel (chapters / playlist / transcript), Playlist, UpNext, EndScreen, Share, Skip, resume, startTime, syncGroup, theater, floating | none |
 | W3 ✅ | Picture (zoom, mirror, filters), snapshot, download, loop section, sleep timer, watch limit, live UI, overlays, audio + visualizer | none |
-| W4 ◐ | Engine seam + hls.js ✅ (`sukuna-ui/video/hls`); dash.js → IMA / VAST → Cast → VR (three.js) → analytics wait on Q26, one approval each | optional peers |
+| W4 ◐ | Engine seam + hls.js ✅ (`@sukunagg/ui/video/hls`); dash.js → IMA / VAST → Cast → VR (three.js) → analytics wait on Q26, one approval each | optional peers |
 
 Size budgets: core and each part get their own `.size-limit.json` entry so a part never inflates
 `VideoPlayer` alone.

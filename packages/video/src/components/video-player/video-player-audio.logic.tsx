@@ -61,7 +61,7 @@ const initials = (text: string) =>
  *
  * @example
  * ```tsx
- * import { VideoPlayer, VideoPlayerAudio } from '@sukuna-ui/video'
+ * import { VideoPlayer, VideoPlayerAudio } from '@sukunagg/video'
  *
  * <VideoPlayer title="Last Train (Night Mix)" src="/audio/last-train.mp3" aspectRatio="16/9">
  *   <VideoPlayerAudio art="/audio/cover.jpg" artist="Sukuna Sound · Episode 3" />

@@ -65,7 +65,7 @@ export interface RadioGroupProps extends RadioGroupStyleProps {
  *
  * @example
  * ```tsx
- * import { RadioGroup } from 'sukuna-ui'
+ * import { RadioGroup } from '@sukunagg/ui'
  *
  * <RadioGroup
  *   aria-label="Delivery speed"
@@ -82,7 +82,7 @@ export interface RadioGroupProps extends RadioGroupStyleProps {
  * @example
  * ```tsx
  * import { useState } from 'react'
- * import { RadioGroup } from 'sukuna-ui'
+ * import { RadioGroup } from '@sukunagg/ui'
  *
  * function ThemePicker() {
  *   const [theme, setTheme] = useState('dark')

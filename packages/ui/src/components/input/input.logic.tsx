@@ -30,7 +30,7 @@ export interface InputProps
  *
  * @example
  * ```tsx
- * import { Input } from 'sukuna-ui'
+ * import { Input } from '@sukunagg/ui'
  *
  * <label htmlFor="email">Email</label>
  * <Input id="email" type="email" name="email" placeholder="you@company.com" required />
@@ -38,7 +38,7 @@ export interface InputProps
  *
  * @example
  * ```tsx
- * import { Input } from 'sukuna-ui'
+ * import { Input } from '@sukunagg/ui'
  *
  * // Controlled + invalid, with the error text wired via aria-describedby.
  * <label htmlFor="handle">Handle</label>

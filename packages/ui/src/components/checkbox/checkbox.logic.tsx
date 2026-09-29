@@ -74,7 +74,7 @@ export interface CheckboxProps extends NativeProps, CheckboxStyleProps {
  *
  * @example
  * ```tsx
- * import { Checkbox } from 'sukuna-ui'
+ * import { Checkbox } from '@sukunagg/ui'
  *
  * // Uncontrolled, with its own clickable label text
  * <Checkbox
@@ -87,7 +87,7 @@ export interface CheckboxProps extends NativeProps, CheckboxStyleProps {
  *
  * @example
  * ```tsx
- * import { Checkbox } from 'sukuna-ui'
+ * import { Checkbox } from '@sukunagg/ui'
  *
  * // Controlled "select all" with an indeterminate state.
  * const all = selected.length === rows.length

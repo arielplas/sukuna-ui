@@ -207,7 +207,7 @@ export interface VideoPlayerOwnProps extends Native {
   live?: boolean | { dvrWindow?: number }
   /**
    * Streaming engine for sources the browser can't play natively, e.g. `hlsEngine()` from
-   * `@sukuna-ui/video/hls`. Its quality levels replace `sources` in the Quality menu. Create it
+   * `@sukunagg/video/hls`. Its quality levels replace `sources` in the Quality menu. Create it
    * once (module scope or `useMemo`), not inline on every render.
    */
   engine?: VideoEngine
@@ -353,7 +353,7 @@ type WebkitVideo = HTMLVideoElement & {
  *
  * @example
  * ```tsx
- * import { VideoPlayer } from '@sukuna-ui/video'
+ * import { VideoPlayer } from '@sukunagg/video'
  *
  * <VideoPlayer
  *   title="Last Train, Shibuya"
@@ -382,7 +382,7 @@ type WebkitVideo = HTMLVideoElement & {
  *   VideoPlayerShare,
  *   VideoPlayerSkip,
  *   VideoPlayerUpNext,
- * } from '@sukuna-ui/video'
+ * } from '@sukunagg/video'
  *
  * <VideoPlayer title="Night walks" floating>
  *   <VideoPlayerPlaylist items={episodes} />

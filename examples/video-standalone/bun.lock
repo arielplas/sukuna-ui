@@ -5,7 +5,7 @@
     "": {
       "name": "@sukuna/example-video-standalone",
       "dependencies": {
-        "@sukuna-ui/video": "link:@sukuna-ui/video",
+        "@sukunagg/video": "link:@sukunagg/video",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
       },
@@ -170,7 +170,7 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.63.5", "", { "os": "win32", "cpu": "x64" }, "sha512-ypfC34F3RKXvCXBglGqGMsUSMKlgwd1HX9AOAlx9RoZZ6GaI42YHVeKpzg3JG+wpBUJYTG+NNZhqbDWL8tBZkw=="],
 
-    "@sukuna-ui/video": ["@sukuna-ui/video@link:@sukuna-ui/video", {}],
+    "@sukunagg/video": ["@sukunagg/video@link:@sukunagg/video", {}],
 
     "@types/babel__core": ["@types/babel__core@7.20.5", "", { "dependencies": { "@babel/parser": "^7.20.7", "@babel/types": "^7.20.7", "@types/babel__generator": "*", "@types/babel__template": "*", "@types/babel__traverse": "*" } }, "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA=="],
 

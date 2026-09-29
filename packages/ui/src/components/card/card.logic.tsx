@@ -33,7 +33,7 @@ export interface CardProps
  *
  * @example
  * ```tsx
- * import { Badge, Card, Text } from 'sukuna-ui'
+ * import { Badge, Card, Text } from '@sukunagg/ui'
  *
  * <Card elevation="raised" padding="lg" radius="lg">
  *   <Badge tone="premium">Special grade</Badge>

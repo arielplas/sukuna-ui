@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "bun run --filter './packages/*' build",
-    "tokens:build": "bun run --filter sukuna-ui tokens:build",
+    "tokens:build": "bun run --filter @sukunagg/ui tokens:build",
     "docs:build": "bun run scripts/build-docs.ts",
     "docs:check": "bun run scripts/check-docs.ts",
     "typecheck": "tsc --noEmit",
