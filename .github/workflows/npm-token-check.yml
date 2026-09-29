@@ -24,7 +24,8 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 
       - name: Token authenticates
-        run: echo "npm user: $(npm whoami)"
+        run: |
+          echo "npm user: $(npm whoami)"
 
       - name: Read-write on both packages
         run: |
