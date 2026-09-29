@@ -1,0 +1,41 @@
+name: npm token check
+
+# Verifies the NPM_TOKEN secret can publish to the @sukunagg scope without a 2FA prompt, without
+# publishing anything: whoami, read-write access on both packages, then a real write (add + remove
+# a temporary dist-tag), which npm rejects exactly like a publish when the token can't bypass 2FA.
+# Run it from the Actions tab (or `gh workflow run npm-token-check.yml`) after rotating the token.
+on:
+  workflow_dispatch:
+  push:
+    branches: [docs/video-standalone-plan]
+    paths: [.github/workflows/npm-token-check.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: NPM_TOKEN can write @sukunagg
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Authenticate npm
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+
+      - name: Token authenticates
+        run: echo "npm user: $(npm whoami)"
+
+      - name: Read-write on both packages
+        run: |
+          access=$(npm access list packages @sukunagg --json)
+          echo "$access"
+          for pkg in @sukunagg/ui @sukunagg/video; do
+            echo "$access" | grep -q "\"$pkg\": \"read-write\"" || { echo "::error::no read-write on $pkg"; exit 1; }
+          done
+
+      - name: Real write without 2FA (temporary dist-tag, then removed)
+        run: |
+          npm dist-tag add @sukunagg/video@0.1.0 ci-check
+          npm dist-tag rm @sukunagg/video ci-check
+          npm dist-tag ls @sukunagg/video
