@@ -19,18 +19,27 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 export interface SkeletonProps extends ComponentPropsWithoutRef<'div'> {
   variant?: 'text' | 'rectangular' | 'circular'   // default 'rectangular'
+  animation?: 'pulse' | 'shimmer'                 // default 'pulse'
   // size comes from your className/style (e.g. className="h-4 w-40")
 }
 ```
 
 ## Variants & tokens
 
-Base: `animate-pulse bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular → `rounded-md`;
-circular → `rounded-full`.
+Base: `motion-reduce:animate-none bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular →
+`rounded-md`; circular → `rounded-full`.
+
+| animation | utilities |
+|---|---|
+| pulse | `animate-pulse` (default — the original) |
+| shimmer | `animate-shine-fast` (ShinyText's `sk-shine` keyframe) + `bg-linear-[110deg] from-transparent from-40% via-on-accent/15 via-50% to-transparent to-60% bg-[length:200%_100%]` — the band is `on-accent` (white in both themes) so it reads as a highlight on light and dark |
+
+The animation class lives in the variant, not the base, because tailwind-merge can't dedupe the
+custom `animate-shine-fast` against `animate-pulse`.
 
 ## States
 
-Static; always pulsing while mounted.
+Static; animating while mounted (pulse or shimmer), frozen under `prefers-reduced-motion`.
 
 ## Accessibility
 

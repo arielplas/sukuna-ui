@@ -18,7 +18,13 @@ Transient notifications. Wrap the app in `ToastProvider`; call `useToast().toast
 export interface ToastProviderProps { children: ReactNode; timeout?: number; limit?: number }
 export function ToastProvider(props: ToastProviderProps): JSX.Element
 
-export interface ToastOptions { title?: ReactNode; description?: ReactNode; type?: string }
+export type ToastTone = 'info' | 'success' | 'warning' | 'danger'   // mirrors Alert
+export interface ToastOptions {
+  title?: ReactNode
+  description?: ReactNode
+  tone?: ToastTone        // left accent border like Alert; omit for a plain toast
+  type?: string           // free-form Base UI type when `tone` is unset (styled if it names a tone)
+}
 export function useToast(): { toast: (options: ToastOptions) => string }  // returns the toast id
 ```
 
@@ -34,6 +40,14 @@ toast({ title: 'Saved', description: 'Your changes were saved.' })
 ## Variants & tokens
 
 viewport: `fixed bottom-4 right-4 z-50 flex w-80 flex-col gap-2`. root: `rounded-md border border-line bg-surface p-4 shadow-card` + enter/exit slide/opacity. title `font-display font-bold text-sm`; description `text-sm text-text-dim`; close: top-right ghost button.
+
+| tone | root (mirrors Alert) |
+|---|---|
+| (none) | unchanged — plain toast |
+| info | `border-l-4 border-l-text-faint` |
+| success | `border-l-4 border-l-success` |
+| warning | `border-l-4 border-l-premium` |
+| danger | `border-l-4 border-l-accent` |
 
 ## States
 

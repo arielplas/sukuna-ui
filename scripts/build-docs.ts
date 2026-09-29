@@ -76,8 +76,7 @@ const sourcePath = (name: string): string =>
 function readExportNames(): Map<string, string[]> {
   const src = readFileSync(join(PKG, 'src/index.ts'), 'utf8')
   const map = new Map<string, string[]>()
-  const re =
-    /^export \{([^}]+)\} from '(?:\.\/components\/([a-z0-9-]+)|(@sukuna-ui\/[a-z0-9-]+))'/gm
+  const re = /^export \{([^}]+)\} from '(?:\.\/components\/([a-z0-9-]+)|(@sukunagg\/[a-z0-9-]+))'/gm
   for (const m of src.matchAll(re)) {
     const names = (m[1] ?? '')
       .split(',')
@@ -86,6 +85,11 @@ function readExportNames(): Map<string, string[]> {
     const dir = m[2] ?? PACKAGE_COMPONENTS[m[3] ?? '']?.name
     if (dir) map.set(dir, names)
   }
+  // A re-exported package component that isn't found would silently drop out of every generated
+  // doc (it happened once, after a package rename) — fail loudly instead.
+  for (const [pkg, { name }] of Object.entries(PACKAGE_COMPONENTS))
+    if (!map.has(name))
+      throw new Error(`build-docs: no \`export { … } from '${pkg}'\` in src/index.ts`)
   return map
 }
 

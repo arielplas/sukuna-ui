@@ -2,7 +2,7 @@
 
 > SSR-safe, accessible React component library — 46 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt). This file concatenates every component page plus the design-token reference; the index is at https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt.
 
-@sukunagg/ui is a React 18/19 component library: 45 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
+@sukunagg/ui is a React 18/19 component library: 46 components, SSR- and React Server Components-safe, WCAG AA contrast in both themes, dark-first with a light mode, styled with Tailwind v4 design tokens (`--sk-*`) on top of Base UI. Zero runtime styling.
 
 Install: `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`). Then pick one CSS path:
 
@@ -58,6 +58,7 @@ Set the theme with `data-theme="dark"` (default/brand) or `"light"` on `<html>`.
 - Toast: Transient notifications.
 - ToggleGroup: Pick one option from a small, mutually-exclusive set (segmented control), or toggle several independent options (a formatting toolbar).
 - Tooltip: A hover/focus tooltip for supplementary text.
+- VideoPlayer: Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library.
 
 ---
 
@@ -286,21 +287,27 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 export interface BadgeProps extends ComponentPropsWithoutRef<'span'> {
   tone?: 'neutral' | 'accent' | 'success' | 'premium'  // default 'neutral'
+  variant?: 'soft' | 'solid' | 'outline'                // unset = each tone's original look
   size?: 'sm' | 'md'                                    // default 'md'
   dot?: boolean   // leading status dot in currentColor
 }
 ```
 
-Extends `<span>`; adds only `tone`, `size`, `dot`. Pill radius is fixed (not a prop).
+Extends `<span>`; adds only `tone`, `variant`, `size`, `dot`. Pill radius is fixed (not a prop).
 
 ## Variants & tokens
 
-| tone | utilities |
-|---|---|
-| neutral | `bg-surface-2 text-text-dim border border-line` |
-| accent | `bg-gradient-accent text-text border border-transparent` |
-| success | `bg-surface-2 text-success border border-line` |
-| premium | `bg-surface-2 text-premium border border-line` |
+Base: `… border`. Each tone × variant is one literal compound class (below). **Unset `variant`**
+(internal `auto`) reproduces the original look exactly — `accent` solid, the others soft — so adding
+`variant` changed nothing. Solid fills use `text-bg` (the page-background token) for the label: it
+is dark on a light fill and light on a dark fill in both themes.
+
+| tone | soft | solid | outline |
+|---|---|---|---|
+| neutral | `bg-surface-2 text-text-dim border-line` | `bg-text-dim text-bg border-transparent` | `bg-transparent text-text-dim border-line` |
+| accent | `bg-surface-2 text-accent border-line` | `bg-gradient-accent text-text border-transparent` (original) | `bg-transparent text-accent border-accent` |
+| success | `bg-surface-2 text-success border-line` (original) | `bg-success text-bg border-transparent` | `bg-transparent text-success border-success` |
+| premium | `bg-surface-2 text-premium border-line` (original) | `bg-premium text-bg border-transparent` | `bg-transparent text-premium border-premium` |
 
 | size | utilities |
 |---|---|
@@ -479,10 +486,13 @@ export interface CardProps extends ComponentPropsWithoutRef<'div'> {
   elevation?: 'flat' | 'raised' | 'sunken'   // default 'flat'
   padding?: 'none' | 'sm' | 'md' | 'lg'       // default 'md'
   radius?: 'md' | 'lg'                         // default 'lg'
+  tone?: 'default' | 'premium'                 // default 'default' — bone/gold surface treatment
+  interactive?: boolean                        // hover lift + focus ring (affordance only)
+  glow?: boolean                               // crimson accent-glow halo on hover
 }
 ```
 
-Extends `<div>`; adds only `elevation`, `padding`, `radius`.
+Extends `<div>`; adds only `elevation`, `padding`, `radius`, `tone`, `interactive`, `glow`.
 
 ## Variants & tokens
 
@@ -499,11 +509,26 @@ Extends `<div>`; adds only `elevation`, `padding`, `radius`.
 | md | `p-6` | | | |
 | lg | `p-8` | | | |
 
-Base: `block text-text`.
+| tone | utilities |
+|---|---|
+| default | — (unchanged) |
+| premium | `border-premium-dim` + `bg-[color-mix(in_oklab,var(--sk-premium)_6%,var(--sk-surface))]` — a 6% premium tint mixed into the surface token, no raw hex |
+
+| flag | utilities |
+|---|---|
+| interactive | `cursor-pointer transition-[border-color,box-shadow,translate] duration-fast ease-sukuna` · `hover:-translate-y-0.5 hover:shadow-card hover:border-text-faint` · `focus-visible:ring-2` + `has-[:focus-visible]:ring-2 ring-focus-ring` (+ offset) · `motion-reduce:*` off |
+| glow | `hover:shadow-[0_0_22px_4px_var(--sk-accent-glow)]` (the Button-primary halo) + `transition-shadow` |
+
+`tone` is declared after `elevation` so its border/background win the merge. Base: `block text-text`.
 
 ## States
 
-Static; no interactive states. (`raised` is a resting elevation, not a hover effect.)
+| State | Behavior |
+|---|---|
+| default | static (`raised` is a resting elevation, not a hover effect) |
+| hover (`interactive`) | lifts 2px, border brightens to `text-faint`; with `glow`, the accent halo appears |
+| keyboard focus (`interactive`) | solid `--sk-focus-ring` ring when the card or an inner Link/Button is `:focus-visible` |
+| prefers-reduced-motion | transitions and the lift are disabled; the ring and halo still apply |
 
 **Motion (v1.3, `docs/motion.md`):** `interactive` hover lift now actually animates (`transition-[…,translate]`). Reduced motion: instant.
 
@@ -511,8 +536,12 @@ Static; no interactive states. (`raised` is a resting elevation, not a hover eff
 
 - [ ] A Card is a generic container — no implicit role. Give it a landmark/role only when its
       content warrants one (`role="group"` + `aria-label`, `<section>` via wrapping, etc.).
-- [ ] Not focusable and has no click handler; clickable surfaces wrap a Button/Link.
-- [ ] `sunken`/`flat` surfaces keep text contrast ≥ 4.5:1 in both themes.
+- [ ] Not focusable and has no click handler; clickable surfaces wrap (or contain) a Button/Link.
+      `interactive` is affordance only — it never adds `role`/`tabIndex` — and its ring uses
+      `has-[:focus-visible]` so the real control's keyboard focus lights the card.
+- [ ] `sunken`/`flat`/`premium` surfaces keep text contrast ≥ 4.5:1 in both themes (the premium
+      tint is 6%, so `text-text` contrast is effectively unchanged).
+- [ ] Hover-only effects (`lift`, `glow`) carry no information; keyboard users get the ring.
 
 ---
 
@@ -632,7 +661,7 @@ type Native = Omit<
 >
 
 export interface CheckboxProps extends Native {
-  size?: 'sm' | 'md'                    // default 'md'
+  size?: 'sm' | 'md' | 'lg'             // default 'md'
   checked?: boolean                     // controlled
   defaultChecked?: boolean              // uncontrolled initial, default false
   onCheckedChange?: (checked: boolean) => void
@@ -655,6 +684,7 @@ Base: `accent-accent cursor-pointer rounded-sm focus-visible:outline-none focus-
 |---|---|
 | sm | `size-4` |
 | md | `size-5` |
+| lg | `size-6` |
 
 With `label`: wrapper `<label>` `inline-flex items-center gap-2 cursor-pointer select-none text-text
 has-[:disabled]:cursor-not-allowed has-[:disabled]:text-text-dim`; text `text-sm` (sm) / `text-md` (md).
@@ -695,6 +725,8 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
 export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
   tone?: 'neutral' | 'accent' | 'success' | 'premium'   // default 'neutral'
+  variant?: 'soft' | 'solid' | 'outline'                 // unset = each tone's original look (same map as Badge)
+  selected?: boolean                                     // active filter: accent border + text (visual, via data-selected)
   size?: 'sm' | 'md'                                     // default 'md'
   leadingIcon?: ReactNode
   onDismiss?: () => void      // renders a × remove button
@@ -704,12 +736,18 @@ export interface ChipProps extends ComponentPropsWithoutRef<'span'> {
 
 ## Variants & tokens
 
-Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap`.
-tone → same mapping as Badge (neutral/accent/success/premium). size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm text-current/70 hover:text-current focus-visible:ring-2 focus-visible:ring-accent-glow`.
+Root: `inline-flex items-center gap-1.5 rounded-md border font-medium whitespace-nowrap` +
+`data-[selected]:border-accent data-[selected]:text-accent`. tone × variant → the same literal
+compound map as Badge (see `docs/component-badge.md` §4); unset `variant` keeps the original
+per-tone look. size sm `h-6 px-2 text-xs` / md `h-7 px-2.5 text-sm`. dismiss button: `rounded-sm
+opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring`.
 
 ## States
 
-Static; the dismiss button is a native `<button>` (keyboard/focus for free).
+| State | Behavior |
+|---|---|
+| default | static; the dismiss button is a native `<button>` (keyboard/focus for free) |
+| selected | `data-selected` → accent border + accent text; the attribute selector beats the tone colors. Visual only — the click/toggle lives on a wrapping Button/Link (or use `ToggleGroup`). |
 
 ## Accessibility
 
@@ -800,6 +838,8 @@ export interface ComboboxProps {
   disabled?: boolean
   emptyMessage?: string   // default 'No results'
   maxRenderedItems?: number // cap displayed suggestions (Base UI `limit`); search spans all items
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
+  size?: 'sm' | 'md' | 'lg'                   // default 'md'; same scale as Input
   'aria-label'?: string
 }
 ```
@@ -811,7 +851,10 @@ capped `items`.
 
 ## Variants & tokens
 
-input: same as Input (`bg-surface-2 border-line rounded-md`, focus ring). popup: `z-50 max-h-72
+input: same as Input — `variant` filled `bg-surface-2 border-line` (default) / outline
+`bg-transparent border-line` / ghost `bg-transparent border-transparent hover:bg-surface-2`; `size`
+sm `h-8 px-3 text-sm rounded-sm` / md `h-10 px-3 text-md rounded-md` / lg `h-12 px-4 text-lg
+rounded-lg`; focus ring. popup: `z-50 max-h-72
 overflow-y-auto rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale. item:
 `h-9 px-2.5 rounded-sm data-[highlighted]:bg-line-soft data-[selected]:text-accent`. empty:
 `text-sm text-text-dim`.
@@ -1362,6 +1405,7 @@ A single-line text input. Native `<input>` styled to Sukuna, with size and an in
 import type { ComponentPropsWithoutRef } from 'react'
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'size'> {
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look)
   size?: 'sm' | 'md' | 'lg'   // default 'md' (shadows the native numeric `size` attr — omitted)
   invalid?: boolean           // sets aria-invalid + crimson border
 }
@@ -1373,7 +1417,15 @@ native passes through (`type`, `value`, `defaultValue`, `onChange`, `placeholder
 
 ## Variants & tokens
 
-Base: `w-full bg-surface-2 text-text border border-line placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+Base: `w-full text-text border placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+
+| variant | utilities | use |
+|---|---|---|
+| filled | `bg-surface-2 border-line` | default — the original look |
+| outline | `bg-transparent border-line` | on busy/tinted surfaces |
+| ghost | `bg-transparent border-transparent hover:bg-surface-2` | inline edit; the border appears on focus (`border-accent`) or `invalid` |
+
+The same `variant` map is shared by Select, Combobox and NumberField so the form layer reads as one.
 
 | size | utilities |
 |---|---|
@@ -1558,6 +1610,7 @@ interface NumberFieldOwnProps {
   step?: number                   // default 1
   largeStep?: number              // Shift+Arrow / PageUp-Down; default 10
   format?: Intl.NumberFormatOptions   // e.g. { style: 'currency', currency: 'USD' }
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
   size?: 'sm' | 'md' | 'lg'       // default 'md'
   readOnly?: boolean
   allowWheelScrub?: boolean        // default false — scroll wheel over the input changes value
@@ -1577,8 +1630,10 @@ treatment, matching `Input`).
 
 ## Variants & tokens
 
-group: `inline-flex items-stretch rounded-md border border-line bg-surface-2
-focus-within:ring-2 focus-within:ring-focus-ring`. input: `min-w-0 flex-1 bg-transparent px-3
+group: `inline-flex items-stretch rounded-md border focus-within:ring-2 focus-within:ring-focus-ring`
++ `variant` filled `bg-surface-2 border-line` (default) / outline `bg-transparent border-line` /
+ghost `bg-transparent border-transparent hover:bg-surface-2` — the shared form-control map (see
+Input). input: `min-w-0 flex-1 bg-transparent px-3
 text-text tabular-nums outline-none placeholder:text-text-faint`. decrement/increment:
 `grid w-9 place-items-center text-text-dim hover:bg-well hover:text-text
 data-[disabled]:opacity-45` (decrement gets a right border, increment a left border via
@@ -1748,7 +1803,7 @@ export interface ProgressProps {
   value?: number | null   // 0..max; null/omitted → indeterminate
   max?: number            // default 100
   label?: ReactNode
-  size?: 'sm' | 'md'      // default 'md'
+  size?: 'sm' | 'md' | 'lg'   // default 'md'
   className?: string
   'aria-label'?: string
 }
@@ -1756,7 +1811,7 @@ export interface ProgressProps {
 
 ## Variants & tokens
 
-track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2`. indicator:
+track: `overflow-hidden rounded-pill bg-surface-2`, size sm `h-1.5` / md `h-2` / lg `h-3`. indicator:
 `bg-accent rounded-pill transition-[width]`; indeterminate → `w-1/3 animate-pulse`. label:
 `text-sm text-text-dim`. Base UI sizes the indicator width from the value.
 
@@ -1800,14 +1855,14 @@ export interface RadioGroupProps {
   name?: string
   disabled?: boolean
   orientation?: 'vertical' | 'horizontal'   // default 'vertical'
-  size?: 'sm' | 'md'                          // default 'md'
+  size?: 'sm' | 'md' | 'lg'                   // default 'md'
   'aria-label'?: string
 }
 ```
 
 ## Variants & tokens
 
-group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
+group: flex (col vertical / row horizontal) gap. control (the radio): `rounded-full border border-line bg-surface-2 data-[checked]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow disabled:opacity-45`, size sm `size-4` / md `size-5` / lg `size-6`. indicator: centered `rounded-full bg-accent` dot, hidden when unchecked. label: `text-sm text-text`.
 
 ## States
 
@@ -1997,7 +2052,8 @@ export interface SelectProps {
   disabled?: boolean
   name?: string             // form field name
   id?: string
-  size?: 'sm' | 'md'        // default 'md'
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look); same map as Input
+  size?: 'sm' | 'md' | 'lg' // default 'md'
   'aria-label'?: string
 }
 ```
@@ -2007,8 +2063,10 @@ label, or the placeholder when empty.
 
 ## Variants & tokens
 
-- trigger: `bg-surface-2 text-text border border-line rounded-md`, `data-[popup-open]:border-accent`,
-  focus ring; `size` sm `h-8 text-sm` / md `h-10 text-md`.
+- trigger: `text-text border rounded-md`, `data-[popup-open]:border-accent`, focus ring;
+  `variant` filled `bg-surface-2 border-line` (default) / outline `bg-transparent border-line` /
+  ghost `bg-transparent border-transparent hover:bg-surface-2` — the shared form-control map (see
+  Input); `size` sm `h-8 text-sm` / md `h-10 text-md` / lg `h-12 text-lg`.
 - popup: `min-w-[var(--anchor-width,10rem)] max-h-[min(24rem,var(--available-height,24rem))] overflow-y-auto`
   `rounded-md border border-line bg-surface p-1 shadow-card` + fade/scale; z-index on the positioner
   (`z-[var(--sk-z-popover)]`). Opens below the trigger (`alignItemWithTrigger={false}`, flips up
@@ -2134,18 +2192,27 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 export interface SkeletonProps extends ComponentPropsWithoutRef<'div'> {
   variant?: 'text' | 'rectangular' | 'circular'   // default 'rectangular'
+  animation?: 'pulse' | 'shimmer'                 // default 'pulse'
   // size comes from your className/style (e.g. className="h-4 w-40")
 }
 ```
 
 ## Variants & tokens
 
-Base: `animate-pulse bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular → `rounded-md`;
-circular → `rounded-full`.
+Base: `motion-reduce:animate-none bg-surface-2`. text → `rounded-sm h-[1em]`; rectangular →
+`rounded-md`; circular → `rounded-full`.
+
+| animation | utilities |
+|---|---|
+| pulse | `animate-pulse` (default — the original) |
+| shimmer | `animate-shine-fast` (ShinyText's `sk-shine` keyframe) + `bg-linear-[110deg] from-transparent from-40% via-on-accent/15 via-50% to-transparent to-60% bg-[length:200%_100%]` — the band is `on-accent` (white in both themes) so it reads as a highlight on light and dark |
+
+The animation class lives in the variant, not the base, because tailwind-merge can't dedupe the
+custom `animate-shine-fast` against `animate-pulse`.
 
 ## States
 
-Static; always pulsing while mounted.
+Static; animating while mounted (pulse or shimmer), frozen under `prefers-reduced-motion`.
 
 ## Accessibility
 
@@ -2308,7 +2375,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 type Native = Omit<ComponentPropsWithoutRef<'button'>, 'type' | 'onClick' | 'value' | 'role' | 'aria-checked'>
 
 export interface SwitchProps extends Native {
-  size?: 'sm' | 'md'                    // default 'md'
+  size?: 'sm' | 'md' | 'lg'             // default 'md'
   checked?: boolean
   defaultChecked?: boolean              // default false
   onCheckedChange?: (checked: boolean) => void
@@ -2329,6 +2396,7 @@ Slots — `root` (the track/button) and `thumb`:
 |---|---|---|
 | sm | `h-5 w-9` | `size-4 group-aria-checked:translate-x-4` |
 | md | `h-6 w-11` | `size-5 group-aria-checked:translate-x-5` |
+| lg | `h-7 w-13` | `size-6 group-aria-checked:translate-x-6` |
 
 The thumb slides via `group-aria-checked` reading the track's `aria-checked`.
 
@@ -2364,6 +2432,11 @@ virtualization are out of scope (use a data-grid library for those).
 ## API
 
 ```ts
+export interface TableProps extends ComponentPropsWithoutRef<'table'> {
+  density?: 'comfortable' | 'compact'   // default 'comfortable'
+  striped?: boolean                     // even body rows get a line-soft background
+  hoverable?: boolean                   // every body row highlights on hover
+}
 export const Table: ForwardRefExoticComponent<TableProps> & {
   Header, Body, Row, HeaderCell, Cell   // thin styled wrappers over thead/tbody/tr/th/td
   ActionsHeaderCell, ActionsCell        // v1.3 — the actions column (see component-row-actions.md)
@@ -2389,9 +2462,18 @@ wrapper: `w-full overflow-x-auto` (horizontal scroll on small screens). table: `
 text-sm text-text`. headerCell: `h-10 px-3 text-xs uppercase tracking-eyebrow text-text-dim border-b
 border-line`. row: `border-b border-line`, `data-[interactive]:hover:bg-line-soft`. cell: `h-11 px-3`.
 
+Root options are applied to the `<table>` through descendant selectors, so sub-parts need no
+context (and a descendant rule beats a cell's own `h-11` on specificity):
+
+| option | table utilities |
+|---|---|
+| density compact | `[&_th]:h-8 [&_th]:px-2 [&_td]:h-9 [&_td]:px-2` (comfortable = unchanged cell classes) |
+| striped | `[&_tbody_tr:nth-child(even)]:bg-line-soft` |
+| hoverable | `[&_tbody_tr:hover]:bg-line` — `line` (10%) rather than `line-soft` so it still reads over a stripe |
+
 ## States
 
-Static. Rows can opt into a hover with `data-interactive`.
+Static. Rows highlight on hover when the table is `hoverable`, or per row with `data-interactive`.
 
 ## Accessibility
 
@@ -2426,6 +2508,9 @@ export interface TabsProps {
   onValueChange?: (value: string) => void
   'aria-label'?: string
   orientation?: 'horizontal' | 'vertical'   // v1.3 — default 'horizontal'
+  variant?: 'underline' | 'pill'            // default 'underline'; horizontal only
+  size?: 'sm' | 'md' | 'lg'                 // default 'md'
+  fitted?: boolean                          // tabs share the list width equally; horizontal only
 }
 ```
 
@@ -2436,7 +2521,26 @@ icon + text (`gap-2`).
 
 ## Variants & tokens
 
-list: `flex border-b border-line`. tab: `h-10 px-3 text-sm font-medium text-text-dim border-b-2 border-transparent -mb-px hover:text-text data-[selected]:text-text data-[selected]:border-accent focus-visible:ring-2 focus-visible:ring-accent-glow`. panel: `pt-4 text-text`.
+Shared: list `flex`; tab `inline-flex items-center font-medium text-text-dim hover:text-text
+focus-visible:ring-2 focus-visible:ring-focus-ring` (+ disabled dimming); panel `pt-4 text-text`.
+
+| variant | list | tab | selected |
+|---|---|---|---|
+| underline | `border-b border-line` | `border-b-2 border-transparent -mb-px rounded-t-sm` | `aria-selected:text-accent aria-selected:border-accent` |
+| pill | `w-fit gap-1 rounded-pill bg-well p-1` | `rounded-pill border border-transparent` | `aria-selected:bg-surface aria-selected:text-accent aria-selected:border-line` |
+
+The pill's selected segment (`surface`) is lighter than its `well` track in **both** themes
+(dark `#000 → #141416`, light `#E8E5DD → #FFFFFF`), so the segmented look holds without a
+theme-specific rule.
+
+| size | tab |
+|---|---|
+| sm | `h-8 px-2.5 text-sm` |
+| md | `h-10 px-3 text-sm` |
+| lg | `h-12 px-4 text-md` |
+
+`fitted`: list `w-full`, tab `flex-1 justify-center` (declared after `variant` so `w-full` beats the
+pill's `w-fit`).
 
 Vertical: root `flex items-start gap-6`; list `flex-col shrink-0 min-w-44 border-r border-line`;
 tab `w-full justify-start h-9 border-r-2 -mr-px rounded-l-sm`, selected also `bg-surface-2`;
@@ -2605,7 +2709,13 @@ Transient notifications. Wrap the app in `ToastProvider`; call `useToast().toast
 export interface ToastProviderProps { children: ReactNode; timeout?: number; limit?: number }
 export function ToastProvider(props: ToastProviderProps): JSX.Element
 
-export interface ToastOptions { title?: ReactNode; description?: ReactNode; type?: string }
+export type ToastTone = 'info' | 'success' | 'warning' | 'danger'   // mirrors Alert
+export interface ToastOptions {
+  title?: ReactNode
+  description?: ReactNode
+  tone?: ToastTone        // left accent border like Alert; omit for a plain toast
+  type?: string           // free-form Base UI type when `tone` is unset (styled if it names a tone)
+}
 export function useToast(): { toast: (options: ToastOptions) => string }  // returns the toast id
 ```
 
@@ -2621,6 +2731,14 @@ toast({ title: 'Saved', description: 'Your changes were saved.' })
 ## Variants & tokens
 
 viewport: `fixed bottom-4 right-4 z-50 flex w-80 flex-col gap-2`. root: `rounded-md border border-line bg-surface p-4 shadow-card` + enter/exit slide/opacity. title `font-display font-bold text-sm`; description `text-sm text-text-dim`; close: top-right ghost button.
+
+| tone | root (mirrors Alert) |
+|---|---|
+| (none) | unchanged — plain toast |
+| info | `border-l-4 border-l-text-faint` |
+| success | `border-l-4 border-l-success` |
+| warning | `border-l-4 border-l-premium` |
+| danger | `border-l-4 border-l-accent` |
 
 ## States
 
@@ -2775,6 +2893,216 @@ closed (nothing rendered) · open (popup, positioned by Base UI) · enter/leave 
 - [ ] Popup wired as the trigger's description by Base UI; content is supplementary, not essential.
 - [ ] Opens on hover AND keyboard focus; dismiss on Escape / blur (Base UI).
 - [ ] Not a replacement for a label; don't put interactive content inside a tooltip.
+
+---
+
+# VideoPlayer — @sukunagg/ui
+
+> Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video looks the same in Chrome, Safari and Firefox and matches the rest of the library.
+
+- **Package:** `@sukunagg/ui` — `bun add @sukunagg/ui` (or `npm i @sukunagg/ui`)
+- **Import:** `import { useVideoPlayer, VideoPlayer, VideoPlayerAudio, VideoPlayerEndScreen, VideoPlayerOverlay, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerShare, VideoPlayerSkip, VideoPlayerUpNext } from '@sukunagg/ui'`
+- **Styles:** `@import "@sukunagg/ui/theme.css"` (Tailwind v4) or `import "@sukunagg/ui/styles.css"` (no Tailwind) — see [Getting started](https://raw.githubusercontent.com/sukuna-gg/sukuna-ui/main/llms.txt)
+- **Standalone:** `bun add @sukunagg/video` — `import { useVideoPlayer, VideoPlayer, VideoPlayerAudio, VideoPlayerEndScreen, VideoPlayerOverlay, VideoPlayerPanel, VideoPlayerPlaylist, VideoPlayerShare, VideoPlayerSkip, VideoPlayerUpNext } from '@sukunagg/video'` + `import '@sukunagg/video/video.css'` (no Tailwind or sukuna-ui needed; themed by `--vp-*` variables — see https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/video#readme)
+- **Source:** https://github.com/sukuna-gg/sukuna-ui/tree/main/packages/video/src/components/video-player · **Spec:** https://github.com/sukuna-gg/sukuna-ui/blob/main/docs/component-video-player.md
+
+## Purpose
+
+Plays a single video with Sukuna-branded controls instead of each browser's native chrome, so video
+looks the same in Chrome, Safari and Firefox and matches the rest of the library. It covers the
+basics people expect from any player — play/pause, seek, time, volume, speed, captions,
+picture-in-picture, fullscreen and keyboard shortcuts — and, per owner request Q22, the feature set
+of the Nuevo plugin for Video.js: chapters, preview thumbnails, quality, playlists, transcript,
+end screens, share, overlays, live, ads, cast and more.
+
+Three tiers keep that from becoming one heavy component:
+
+- **Tier 1 — core** (in `VideoPlayer`): everything a viewer expects on every video.
+- **Tier 2 — parts** (separate named exports rendered as children): opt-in features; unused parts
+  are tree-shaken.
+- **Tier 3 — adapters** (subpath entries, vendor SDK as an optional peer): streaming engines, ads,
+  Cast, DRM, VR. We ship the interface and all the chrome; the app installs the SDK.
+
+## API
+
+The root renders the frame, the `<video>` and all Tier 1 controls. **Children are parts** (Tier 2).
+Media comes in through `src` / `sources` and `tracks` props (arrays, like Nuevo's playlist items),
+because the player must know resolutions, chapters and thumbnails up front, and playlist items reuse
+the same shape. Tracks are fetched and rendered by the player (not the browser's `::cue`), which is
+what makes caption styling, the transcript and chapter segments possible; `<track>` children are
+therefore not used.
+
+```ts
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+
+interface VideoPlayerProps extends Omit<ComponentPropsWithoutRef<'video'>, 'controls'> {
+  title?: string                    // shown top-left while controls are visible; also names the region
+  'aria-label'?: string             // region name when there is no `title`; one of the two is required
+  aspectRatio?: '16/9' | '4/3' | '1/1' | '21/9' | '9/16'   // default '16/9'; literal classes, no interpolation
+  playbackRates?: number[]          // speed menu entries; default [0.5, 0.75, 1, 1.25, 1.5, 2]
+  autoHide?: boolean                // hide controls after 2.5s idle while playing; default true
+  hotkeys?: boolean                 // keyboard shortcuts while focus is inside the player; default true
+  children?: ReactNode              // parts (Tier 2) and useVideoPlayer() consumers
+
+  // ── Tier 1 additions (Q22) — shipped in W1 ──
+  sources?: VideoSource[]           // { src, type?, res?: number | 'SD' | 'HD', label?, default? } → quality menu
+  tracks?: VideoTrack[]             // { kind: 'captions'|'subtitles'|'chapters', src, srclang?, label?, default? }
+  chapters?: Chapter[]              // { start, title, thumb? } — alternative to a chapters VTT
+  thumbnails?: string | ThumbnailCue[]   // sprite VTT url (#xywh=) or explicit cues → hover preview
+  startTime?: number                // seconds
+  logo?: { src: string; alt: string; href?: string }   // watermark, top-right
+  info?: ReactNode                  // line under the title (series, episode…)
+  skipSeconds?: number              // rewind/forward buttons + J/L; default 10
+  frameRate?: number                // for , / . frame stepping; default 24
+  settings?: Array<'quality' | 'speed' | 'captions' | 'picture' | 'sleep' | 'loop' | 'snapshot' | 'download'>
+                                    // gear rows; default ['quality', 'speed', 'captions']
+  contextMenu?: boolean             // default true
+  touchControls?: boolean           // back/play/forward row + double-tap seek on coarse pointers; default true
+  autoplayPolicy?: 'muted' | 'none' // 'muted' → autoplay muted + "Tap to unmute" chip; default 'none'
+  labels?: Partial<VideoPlayerLabels>   // every visible and aria string (i18n)
+
+  // ── Tier 2 behaviours that are only props — W2/W3 ──
+  resume?: string                   // storage key; restores position, shows the Resume prompt (W2)
+  watchLimit?: { seconds: number; content: ReactNode }   // stop + cover at the limit; seeking past it blocked (W3)
+  syncGroup?: string                // players in the same group pause each other
+  floating?: boolean                // dock to a corner when scrolled out of view
+  theater?: boolean                 // controlled; also defaultTheater. The app owns layout; we own the button + T key (W2)
+  onTheaterChange?: (on: boolean) => void
+  live?: boolean | { dvrWindow?: number }   // LIVE pill, DVR seek, "jump to live" (W3)
+  download?: string | { src: string; filename?: string }   // gear → Download (W3)
+  onSnapshot?: (image: Blob, time: number) => void         // gear → Snapshot; else a PNG download (W3)
+
+  // ── Tier 3 seams — W4 ──
+  engine?: VideoEngine              // shipped: { name, handles(src), attach(video, src, callbacks) → { setLevel, destroy } }
+                                    // hlsEngine() from '@sukunagg/ui/video/hls'; dash.js / Shaka / DRM next (Q26)
+  ads?: AdAdapter                   // Q26: VAST / VMAP / IMA / DAI → our ad chrome
+  cast?: CastAdapter                // Q26: Chromecast (AirPlay is native, Tier 1)
+  renderer?: Renderer               // Q26: e.g. VR/360 WebGL canvas
+  onAnalytics?: (e: PlayerEvent) => void   // Q26: one normalized event stream for any tracker
+
+  // ── events ──
+  onChapterChange?: (chapter: Chapter, index: number) => void
+  onQualityChange?: (source: VideoSource) => void
+}
+```
+
+**Parts** (Tier 2) are separate named exports so unused ones tree-shake (approved, Q23). A part
+registers itself through the context registry; the core then shows its buttons (list, share,
+previous/next) and hotkeys.
+
+| Export | Renders | Key props |
+|---|---|---|
+| `VideoPlayerPanel` | right-side drawer with tabs: chapters list (thumbs, durations), playlist, transcript | `tabs`, `defaultOpen` |
+| `VideoPlayerPlaylist` | renders nothing; the current item's media drives the player; prev/next buttons; `Shift+N/P`; auto-advance | `items`, `index` / `defaultIndex`, `onIndexChange`, `autoAdvance` (true), `repeat`, `rememberKey` |
+| `VideoPlayerUpNext` | countdown card for the playlist's next item; Cancel stops auto-advance | `countdown` (default 10) |
+| `VideoPlayerEndScreen` | replay, share (when `VideoPlayerShare` is mounted), related grid (links or buttons) | `related` |
+| `VideoPlayerShare` | link (optionally at current time), embed code; opened from the top-right share button | `url`, `embed` |
+| `VideoPlayerSkip` | "Skip intro" / "Skip recap" button for a time range | `start`, `end`, `label` |
+| `VideoPlayerOverlay` (W3) | timed card / banner / plain content; `showOn="pause"` for a banner on pause; dismissible. News-ticker variant waits on Q25 | `aria-label`, `start`, `end`, `showOn`, `variant`, `placement`, `dismissible` |
+| `VideoPlayerAudio` (W3) | audio mode: cover art (or initials tile), title, artist, Web Audio frequency visualizer | `art`, `title`, `artist`, `visualizer` |
+
+`useVideoPlayer()` exposes state and actions (`play`, `seek`, `setQuality`, `chapters`, …) so apps
+can build their own parts or a fully chromeless UI (Nuevo's "chromeless player" demo).
+
+- **`ref` → the `<video>` element**, so consumers can call `play()`, read `currentTime`, etc.
+- Every native media prop and event (`src`, `poster`, `autoPlay`, `muted`, `loop`, `preload`,
+  `playsInline`, `onPlay`, `onTimeUpdate`, `onRateChange`, …) passes straight to `<video>`.
+- `className` and `style` go to the **root frame** (layout: width, max-width, margins); everything
+  else goes to `<video>`. `// DECISION(open): className → root` (a video-level class has no use when
+  the player owns the chrome).
+- `controls` is omitted: the native chrome is always off; ours replaces it.
+- Type-level: `title` or `aria-label` is required (same overload trick as icon-only Button).
+
+**Not planned** (Q22 recommendation): VPAID (runs third-party JS in the page; IAB-deprecated),
+YouTube tech (iframe; can't be styled), automatic subtitle translation (needs a translation
+service), Nuevo's WordPress plugin and dev tools (stream tester, sprite generator).
+
+## Variants & tokens
+
+**The player chrome is always dark.** The root sets `data-theme="dark"`, so every `--sk-*` token
+inside it resolves to the dark palette even in a light app. Video frames are dark-dominant and the
+controls sit on a black scrim; light-theme text (`#141413`) would be unreadable there. No new tokens.
+The focus ring (`--sk-focus-ring`) stays crimson in both.
+
+| Slot | Utilities → tokens |
+|---|---|
+| root | `@container relative overflow-hidden rounded-lg bg-well shadow-card` · `--sk-radius-lg`, `--sk-well` (#000), `--sk-shadow-card` |
+| video | `size-full object-contain` |
+| scrim (bottom) | `bg-linear-to-t from-well/85 via-well/40 to-transparent`, ~45% of height |
+| scrim (top, with `title`) | `bg-linear-to-b from-well/70 to-transparent`, ~25% of height |
+| title | `font-display font-bold tracking-tight text-lg text-text`, truncates |
+| bigPlay | 64px circle, `bg-gradient-accent text-on-accent` + `shadow-[0_0_28px_6px_var(--sk-accent-glow)]` — the one crimson primary on the surface |
+| controlButton | 36px square (`size-9 rounded-md`), `text-text hover:bg-line-soft`, 20px icon — ghost icon Button look |
+| time | `font-sans text-sm tabular-nums text-text` + `text-text-dim` for the duration |
+| seek track | 4px → 6px on hover/drag, `rounded-pill bg-text/20` |
+| seek buffered | `bg-text/35` (inline `width` %, positional) |
+| seek played | `bg-accent` (`--sk-accent`) |
+| seek thumb | 14px `bg-accent`, `ring-4 ring-accent-glow` on drag; scales in on hover (`scale-0 → scale-100`) |
+| seek hover time | small chip `bg-surface-2 border border-line rounded-sm text-xs tabular-nums` above the pointer |
+| volume slider | 72px track, same as seek but `bg-text` fill (volume isn't a brand moment); expands from `w-0` on hover/focus of the mute group |
+| settings menu | in-house paged menu (`role="menu"`), `bg-surface/95 border-line rounded-md shadow-card`; radio rows show a crimson tick |
+| spinner | our `Spinner` (lg) centered while `waiting` |
+| error panel | centered `text-text` message + `text-text-dim` detail, `Retry` secondary Button |
+
+**Q22 additions** (all existing tokens):
+
+| Slot | Utilities → tokens |
+|---|---|
+| seek segments (chapters) | one `seg` per chapter, `gap-[3px]`, each `rounded-pill bg-text/20`; hovered segment `h-2`; played `bg-accent` per segment |
+| thumbnail preview | 160×90 frame `rounded-sm shadow-card`, chapter title (`font-display font-bold text-sm`) above, time chip below |
+| chapter label | beside the time: `· Chapter name ›` `text-sm`, truncates; opens the panel |
+| settings menu | `bg-surface/95 border-line rounded-md shadow-card`, 260px; rows show current value in `text-text-dim` + chevron; sub-pages have a back header; toggles use our Switch look; chips use `border-accent bg-accent/14` when checked |
+| side panel | `w-[min(340px,44%)]` right drawer, `bg-surface/95 backdrop-blur`, tabs with crimson underline (Tabs look); current item `bg-accent/10` + 3px crimson left rail; slides with `translate` `duration-slow` |
+| skip intro / resume / up next | floating cards `bg-surface/95 border-line rounded-md`; ride above the bar and drop to the edge when controls hide; up-next countdown ring stroke `--sk-accent` |
+| end screen / share / watch limit | full-frame cover `bg-well/70 backdrop-blur-sm`; primary action is the crimson Button, the rest secondary |
+| loop range | `border-x-2 border-premium bg-premium/15` over the bar |
+| ad chrome | `AD` badge `bg-premium text-bg`, pod position + countdown, "Skip in 5" → "Skip ad" tab on the right edge; ad progress `bg-premium` |
+| live | `LIVE` pill: dot `bg-accent` pulsing at the live edge (static under reduced motion), `text-text-dim` when behind + `−0:42` |
+| context menu | Menu popup look at the pointer |
+| touch row | 48px round back/forward (`bg-well/45`) around the 64px crimson play; double-tap flashes a side ripple with "+10 seconds" |
+
+Aspect ratio: `aspect-video` / `aspect-[4/3]` / `aspect-square` / `aspect-[21/9]` / `aspect-[9/16]`
+as literal `tv()` variant strings.
+
+**Compact layout** (container < 480px, `@max-[30rem]:` literal): 32px buttons, volume slider and PiP
+hidden (mute stays), time shows `current / duration` in `text-xs`, bigPlay 52px. No JS measuring.
+
+## States
+
+| State | Behavior |
+|---|---|
+| idle (not started) | poster (or first frame) + big crimson play button centered; bottom bar visible; title visible. |
+| playing | big play hides; controls fade out after 2.5s without pointer movement (`autoHide`); cursor hides with them. |
+| controls shown | pointer move, touch, or keyboard focus inside the player; stays shown while paused, while a menu is open, while dragging, and while focus is in the control bar. |
+| paused | pause icon → play icon; controls pinned; big play does **not** return (it's a start affordance only). |
+| waiting / buffering | centered Spinner after a 200ms delay (no flash on quick seeks); controls stay usable. |
+| seeking (drag) | segments grow to 5px (hovered chapter 8px), thumb shown with glow, preview follows the pointer, video scrubs live. |
+| ended | play icon becomes **replay**; controls pinned. |
+| muted / volume 0 | volume icon shows the muted glyph; unmuting restores the previous level (min 0.1). |
+| captions on | CC button `aria-pressed="true"` + a 2px crimson underline; only rendered when the video has ≥1 `captions`/`subtitles` track. |
+| picture-in-picture | PiP button `aria-pressed`; `I` toggles. Hidden where unsupported (Firefox). |
+| fullscreen | root goes fullscreen (not the `<video>`, so our controls come too); icon flips to exit. iOS Safari falls back to `video.webkitEnterFullscreen()` (native chrome there). |
+| error | video `error` → error panel with the media error in plain words ("This video couldn't be loaded. Check the link or your connection.") + Retry (`load()`). |
+| focus-visible | solid `--sk-focus-ring` on every control; the root gets a ring when focused directly. |
+| reduced motion | controls hide/show instantly (no fade); thumb appears without scale; no glow pulse. |
+
+**Motion (`docs/motion.md`):** controls fade (`opacity`, `duration-base`); seek track height and
+thumb `scale` (`duration-fast`, listed explicitly — rule 3); volume slider width expand
+(`duration-base ease-sukuna`). All with `motion-reduce:` fallbacks.
+
+## Accessibility
+
+- [x] Root: labelled `<section>` (role `region`) named by `title` or `aria-label`; `aria-roledescription="video player"`; focusable (`tabIndex={0}`) so hotkeys work after a click.
+- [x] Every control is a native `<button>` with an `aria-label` that says what happens now ("Play", "Pause", "Mute", "Unmute", "Enter fullscreen", "Turn on captions"); icons `aria-hidden`.
+- [x] Toggle buttons (captions, PiP) use `aria-pressed`; play/mute/fullscreen swap their label instead (the action changes).
+- [x] Seek and volume are `role="slider"` with `aria-label` ("Seek", "Volume") and spoken `aria-valuetext` (seek includes the chapter).
+- [x] Settings: gear `aria-haspopup="menu"` + `aria-expanded`; pages are `role="menu"`, choices `menuitemradio` + `aria-checked`; caption-style chips are named "Size: Large".
+- [x] Controls never hide while focus is inside them (WCAG 2.4.7/2.4.11 — focus stays visible).
+- [x] Hotkeys only fire with focus inside the player and never steal keys from sliders, menus or text inputs; `?` opens a shortcuts sheet (`role="dialog"`, focus on Close, Escape closes).
+- [x] Buffering spinner: `role="status"` + "Loading"; error panel: `role="alert"`.
+- [ ] Contrast (owner visual pass): control icons `--sk-text` on the scrim ≥ 4.5:1 over a bright frame; crimson played bar ≥ 3:1 against the `bg-text/20` track.
+- [x] Autoplay is the consumer's choice; `autoplayPolicy="muted"` is the only autoplay mode and always shows "Tap to unmute". Caption tracks are the consumer's responsibility (WCAG 1.2.2).
+- [x] Touch targets ≥ 32px in compact, 36px otherwise; touch row 48px.
 
 ---
 

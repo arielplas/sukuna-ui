@@ -18,6 +18,7 @@ A single-line text input. Native `<input>` styled to Sukuna, with size and an in
 import type { ComponentPropsWithoutRef } from 'react'
 
 export interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'size'> {
+  variant?: 'filled' | 'outline' | 'ghost'   // default 'filled' (the original look)
   size?: 'sm' | 'md' | 'lg'   // default 'md' (shadows the native numeric `size` attr — omitted)
   invalid?: boolean           // sets aria-invalid + crimson border
 }
@@ -29,7 +30,15 @@ native passes through (`type`, `value`, `defaultValue`, `onChange`, `placeholder
 
 ## Variants & tokens
 
-Base: `w-full bg-surface-2 text-text border border-line placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-glow focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+Base: `w-full text-text border placeholder:text-text-faint transition-[border-color,box-shadow] duration-fast ease-sukuna focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:border-accent disabled:opacity-45 disabled:cursor-not-allowed`.
+
+| variant | utilities | use |
+|---|---|---|
+| filled | `bg-surface-2 border-line` | default — the original look |
+| outline | `bg-transparent border-line` | on busy/tinted surfaces |
+| ghost | `bg-transparent border-transparent hover:bg-surface-2` | inline edit; the border appears on focus (`border-accent`) or `invalid` |
+
+The same `variant` map is shared by Select, Combobox and NumberField so the form layer reads as one.
 
 | size | utilities |
 |---|---|
