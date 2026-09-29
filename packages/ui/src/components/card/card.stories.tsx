@@ -70,8 +70,9 @@ export const Tones: Story = {
   ),
 }
 
-export const Interactive: Story = {
-  name: 'Interactive (wrapped in a link)',
+/** Cards wrapped in links, with the crimson `glow` halo and the premium tone. */
+export const InteractiveGlow: Story = {
+  name: 'Interactive + glow (wrapped in a link)',
   render: () => (
     <div style={grid}>
       <a href="#one" style={{ textDecoration: 'none' }}>

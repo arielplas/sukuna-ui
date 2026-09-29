@@ -108,8 +108,9 @@ tone: 'default' }`. `interactive` and `glow` are boolean variants with no defaul
 
 ## 10. Stories
 
-`Playground`, `Elevations`, `Padding`, `Radius`, `Tones`, `Interactive` (cards wrapped in links),
-`Composed` (Text + Badge inside). Both themes.
+`Playground`, `Elevations`, `Padding`, `Radius`, `Tones`, `InteractiveGlow` (cards wrapped in
+links, with `glow` and `premium`), `Composed` (Text + Badge inside), `Interactive` (v1.3 — a link
+inside the card). Both themes.
 
 **v1.3:** `interactive?: boolean` adds `cursor-pointer`, a hover lift (`-translate-y-0.5` +
 `shadow-card` + `border-text-faint`, off under reduced motion) and a focus ring when the card or
