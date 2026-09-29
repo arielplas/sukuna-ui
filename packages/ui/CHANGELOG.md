@@ -1,4 +1,26 @@
-# sukuna-ui
+# @sukunagg/ui (formerly `sukuna-ui`)
+
+## 0.10.0
+
+### Minor Changes
+
+- **Renamed:** `sukuna-ui` is now published as `@sukunagg/ui` (repo moved to `sukuna-gg/sukuna-ui`). Install `@sukunagg/ui` and update imports and CSS paths: `from 'sukuna-ui'` → `from '@sukunagg/ui'`, `sukuna-ui/theme.css` → `@sukunagg/ui/theme.css`, `sukuna-ui/styles.css` → `@sukunagg/ui/styles.css`, `sukuna-ui/video/hls` → `@sukunagg/ui/video/hls`, and the Tailwind `@source` → `../node_modules/@sukunagg/ui/dist`. No API changes beyond the name.
+- 9507a1c: The `VideoPlayer` (and its parts, `useVideoPlayer`, and `@sukunagg/ui/video/hls`) now comes from the new
+  `@sukunagg/video` package, which `@sukunagg/ui` depends on and re-exports — the names you import are unchanged.
+  Its styles now ship as a prebuilt, prefixed stylesheet that `@sukunagg/ui/theme.css` imports and
+  `@sukunagg/ui/styles.css` includes, so nothing changes in your setup and the player looks the same
+  (verified element by element). `theme.css` also feeds the player's `--vp-*` variables from your
+  `--sk-*` tokens.
+
+  Behaviour note (why this is a minor on 0.x): the player's utilities are now unlayered, so a
+  conflicting Tailwind class you pass in the player's `className` (e.g. `rounded-none`) no longer
+  overrides the built-in one. Use the `--vp-*` variables or an important modifier (`rounded-none!`).
+  Non-conflicting classes (`max-w-3xl`, margins) work as before.
+
+### Patch Changes
+
+- Updated dependencies [9507a1c]
+  - @sukunagg/video@0.1.0
 
 ## 0.9.2
 

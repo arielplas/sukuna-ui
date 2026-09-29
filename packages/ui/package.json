@@ -1,6 +1,6 @@
 {
   "name": "@sukunagg/ui",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "description": "SSR-safe, accessible React component library — 46 dark-first components built on Base UI and Tailwind v4 design tokens, WCAG AA, zero-runtime styling, RSC-ready, and documented for AI coding agents (llms.txt).",
   "type": "module",
   "license": "MIT",
@@ -106,7 +106,7 @@
     "provenance": true
   },
   "dependencies": {
-    "@sukunagg/video": "^0.0.0",
+    "@sukunagg/video": "^0.1.0",
     "@base-ui/react": "^1.8.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.7.0",

@@ -1,6 +1,6 @@
 {
   "name": "@sukunagg/video",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Standalone, SSR-safe React video player from sukuna-ui — chapters, thumbnails, captions, playlists, HLS — themeable with --vp-* CSS variables, no Tailwind or sukuna-ui required.",
   "type": "module",
   "license": "MIT",
